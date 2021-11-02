@@ -253,15 +253,16 @@
                                         <li class="nav-item">
                                         	<a class="nav-link" href="<c:url value='/analytics/analy_search_list.do'/>"> 선택 조회 </a>
                                         </li>
-                                        <%-- <li class="nav-item">
+                                        <li class="nav-item">
                                         	<a class="nav-link"  href="<c:url value='/analytics/total_sales.do'/>"> 매출 </a>
-                                        </li> --%>
+                                        </li>
                                         <li class="nav-item">
                                         	<a class="nav-link" href="<c:url value='/config/event_msg.do'/>"> 문자 대상 추출 </a>
                                         </li>
                                          <li class="nav-item">
                                         	<a class="nav-link" href="<c:url value='/analytics/local.do'/>"> 지역 통계 </a>
                                         </li>
+                                        
                                         <li class="nav-item">
                                         	<a class="nav-link" href="<c:url value='/analytics/product_sales.do'/>"> 상품명 별 판매 개수 </a>
                                         </li>
@@ -339,6 +340,20 @@
 						                            
 						                            <li class="nav-item">
 						                            	<a class="nav-link" href="<c:url value='/tax/product_info/list.do'/>"> 거래내역서 목록  </a>
+						                            </li>
+					                            </ul>
+				                            </div>
+			                            </li>
+			                            <li class="nav-item">
+				                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#trans_info" aria-controls="trans_info"> 매입(기타)내역서 </a>
+				                            <div id="trans_info" class="collapse submenu" style="">
+					                            <ul class="nav flex-column">
+						                            <li class="nav-item">
+						                            	<a class="nav-link" href="<c:url value='/tax/trans_info/insert.do'/>"> 매입(기타)내역서 추가  </a>
+						                            </li>
+						                            
+						                            <li class="nav-item">
+						                            	<a class="nav-link" href="<c:url value='/tax/trans_info/list.do'/>"> 매입(기타)내역서 목록  </a>
 						                            </li>
 					                            </ul>
 				                            </div>

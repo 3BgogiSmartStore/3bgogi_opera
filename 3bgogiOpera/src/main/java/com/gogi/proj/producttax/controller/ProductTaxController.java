@@ -18,9 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -35,14 +32,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gogi.proj.commission.SmartstoreCommission;
-import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.producttax.model.ProductTaxService;
 import com.gogi.proj.producttax.vo.ProductInfoListVO;
 import com.gogi.proj.producttax.vo.ProductInfoVO;
 import com.gogi.proj.producttax.vo.ResCompanyVO;
 import com.gogi.proj.producttax.vo.TaxTableVO;
+import com.gogi.proj.producttax.vo.TransInfoVO;
 import com.gogi.proj.util.FileuploadUtil;
 import com.gogi.proj.util.PageUtility;
 
@@ -690,7 +686,7 @@ public class ProductTaxController {
 		
 	}
 	
-public String cellTypeReturn(XSSFCell cell) {
+	public String cellTypeReturn(XSSFCell cell) {
 		
 		String value = "";
 		
@@ -728,5 +724,105 @@ public String cellTypeReturn(XSSFCell cell) {
            }
 		 
 		return value;
+	}
+	
+	@RequestMapping(value="/trans_info/insert.do", method=RequestMethod.GET)
+	public String insertTransInfoGet(Model model) {
+		
+		return "tax/trans_info/insert";
+	}
+	
+	@RequestMapping(value="/trans_info/insert.do", method=RequestMethod.POST)
+	public String insertTransInfoPost(@ModelAttribute TransInfoVO tiVO, Model model) {
+		String msg = "";
+		String url = "/tax/trans_info/list.do";
+		
+		int result = ptService.insertTransInfo(tiVO);
+		
+		if( result > 0) {
+			msg = "매입(기타)내역서 입력 완료";
+			
+		}else {
+			msg = "매입내역서 입력 실패";
+			url = "/tax/trans_info/insert.do";
+			
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
+	@RequestMapping(value="/trans_info/update.do", method=RequestMethod.POST)
+	public String updateTransInfoPost(@ModelAttribute TransInfoVO tiVO, Model model) {
+		String msg = "";
+		String url = "/tax/trans_info/list.do";
+		
+		int result = ptService.updateTransInfo(tiVO);
+		
+		if( result > 0) {
+			msg = "매입(기타)내역서 수정 완료";
+			
+		}else {
+			msg = "매입내역서 수정 실패";
+			url = "/tax/trans_info/read.do?tiPk="+tiVO.getTiPk();
+			
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
+	@RequestMapping(value="/trans_info/read.do", method=RequestMethod.GET)
+	public String readTransInfo(@ModelAttribute TransInfoVO tiVo, Model model) {
+		
+		TransInfoVO tiVO = ptService.selectTransInfoByPk(tiVo);
+		
+		model.addAttribute("tiVO", tiVO);
+		
+		return "tax/trans_info/read";
+	}
+	
+	@RequestMapping(value="/trans_info/list.do", method=RequestMethod.GET)
+	public String transInfoList(@ModelAttribute OrderSearchVO osVO, Model model) {
+
+		if(osVO.getDateStart() == null) {
+			
+			Calendar calendar = Calendar.getInstance();
+			Calendar cal = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH, -7);
+			Date sevenDays = calendar.getTime();
+			Date today = cal.getTime();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			osVO.setDateStart(sdf.format(sevenDays));
+			osVO.setDateEnd(sdf.format(today));
+			
+		}
+		
+		int totalRecord = ptService.selectAllTransInfoCounting(osVO);
+		
+		osVO.setTotalRecord(totalRecord);
+		osVO.setBlockSize(10);
+		
+		if(totalRecord <=osVO.getRecordCountPerPage()) {
+			osVO.setCurrentPage(1);
+		}
+		
+		if(osVO.getRecordCountPerPage() == 0) {			
+			osVO.setRecordCountPerPage(PageUtility.RECORD_COUNT_PER_PAGE);
+			
+		}
+		
+		List<TransInfoVO> tiList = ptService.selectAllTransInfoList(osVO);
+		
+		model.addAttribute("tiList", tiList);
+		model.addAttribute("osVO", osVO);
+		
+		return "tax/trans_info/list";
 	}
 }

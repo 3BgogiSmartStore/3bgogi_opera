@@ -38,6 +38,9 @@ import com.gogi.proj.configurations.vo.StoreSectionVO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.product.products.vo.ProductOptionVO;
+import com.gogi.proj.producttax.model.ProductTaxService;
+import com.gogi.proj.producttax.vo.ProductInfoVO;
+import com.gogi.proj.producttax.vo.TransInfoVO;
 import com.gogi.proj.security.AdminVO;
 
 @Controller
@@ -49,6 +52,9 @@ public class AnalyticsController {
 
 	@Autowired
 	private ConfigurationService configService;
+	
+	@Autowired
+	private ProductTaxService ptService;
 
 	@RequestMapping(value = "/sevenday_total_sales_without_commsion.do", method = RequestMethod.GET)
 	@ResponseBody
@@ -360,10 +366,14 @@ public class AnalyticsController {
 			
 		}
 		
+		List<TransInfoVO> tiList = ptService.selectAllTransInfoByDate(osVO);
+		List<ProductInfoVO> piList = ptService.selectProductInfoListByDate(osVO);
 		List<OrdersVO> salesList = analyService.selectTotalSalesByDates(osVO);
 		List<OrdersVO> canlcedList = analyService.selectCancledSalesByDates(osVO);
 		
 		model.addAttribute("osVO", osVO);
+		model.addAttribute("tiList", tiList);
+		model.addAttribute("piList", piList);
 		model.addAttribute("salesList", salesList);
 		model.addAttribute("canlcedList", canlcedList);
 		

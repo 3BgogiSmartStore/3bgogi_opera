@@ -9,7 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,12 +38,13 @@ import com.gogi.proj.util.naverMapApiUtil;
 
 public class EpostSendingUtil {
 
-	//우체국계약고객시스템에서 확인 가능
-	private String epost_api_key = "5b16ea0e917f27fc11575519619605";
+	@Resource(name="apiKeyProperties")
+	private Properties apiKeyProperties;
 	
+	//우체국계약고객시스템에서 확인 가능
 	
 	public String getEpost_api_key() {
-		return epost_api_key;
+		return apiKeyProperties.getProperty("api_key.epost");
 	}
 
 	public String epostEncrypting(String epostParams) {
@@ -49,7 +52,7 @@ public class EpostSendingUtil {
 		SEED128 seed = new SEED128();
 		
 		//우체국계약고객시스템에서 확인 가능
-		String skey = "be171828f08067fa110339";
+		String skey = apiKeyProperties.getProperty("api_key.epost_s_key");
 		
 		String plainStr = epostParams;
 		String encryptStr = "";
@@ -74,7 +77,7 @@ public class EpostSendingUtil {
 		SEED128 seed = new SEED128();
 		
 		//우체국계약고객시스템에서 확인 가능
-		String skey = "be171828f08067fa110339";
+		String skey = apiKeyProperties.getProperty("api_key.epost_s_key");
 
 		String plainStr = seed.getDecryptData(skey, epostParams);
 		plainStr = plainStr.replaceAll("&micro", "&amp;micro");
@@ -85,7 +88,7 @@ public class EpostSendingUtil {
 	
 	public RegDataVO epostSending(String param, String epostUrl) throws Exception {
 		
-        String urlParameters = "key="+epost_api_key
+        String urlParameters = "key="+apiKeyProperties.getProperty("api_key.epost")
                 +"&regData="+param;
         URL obj = new URL(epostUrl);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -217,7 +220,7 @@ public class EpostSendingUtil {
 	
 	public Object selfPrintepostSendingTest(String param, String epostUrl, Object objClass) throws Exception {
 		
-        String urlParameters = "key="+epost_api_key
+        String urlParameters = "key="+apiKeyProperties.getProperty("api_key.epost")
                 +"&regData="+param;
         URL obj = new URL(epostUrl);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();

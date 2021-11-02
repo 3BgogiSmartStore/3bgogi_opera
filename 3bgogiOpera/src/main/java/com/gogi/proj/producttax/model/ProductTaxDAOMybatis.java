@@ -15,12 +15,14 @@ import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.producttax.vo.ProductInfoVO;
 import com.gogi.proj.producttax.vo.ResCompanyVO;
 import com.gogi.proj.producttax.vo.TaxTableVO;
+import com.gogi.proj.producttax.vo.TransInfoVO;
 
 @Repository
 public class ProductTaxDAOMybatis extends SqlSessionDaoSupport implements ProductTaxDAO{
 
 	private String resCompanyNameSpace = "tax.res_company";
 	private String productInfoNameSpace = "tax.product_info";
+	private String transInfoNameSpace = "tax.trans_info";
 	private String taxTable = "tax.tax_table";
 	
 	@Override
@@ -274,6 +276,48 @@ public class ProductTaxDAOMybatis extends SqlSessionDaoSupport implements Produc
         }
         
 		return suc;
+	}
+
+	@Override
+	public TransInfoVO selectTransInfoByPk(TransInfoVO tiVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(transInfoNameSpace+".selectTransInfoByPk", tiVO);
+	}
+
+	@Override
+	public List<TransInfoVO> selectAllTransInfoByDate(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(transInfoNameSpace+".selectAllTransInfoByDate", osVO);
+	}
+
+	@Override
+	public List<TransInfoVO> selectAllTransInfoList(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(transInfoNameSpace+".selectAllTransInfoList", osVO);
+	}
+
+	@Override
+	public int selectAllTransInfoCounting(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(transInfoNameSpace+".selectAllTransInfoCounting", osVO);
+	}
+
+	@Override
+	public int insertTransInfo(TransInfoVO tiVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().insert(transInfoNameSpace+".insertTransInfo", tiVO);
+	}
+
+	@Override
+	public int updateTransInfo(TransInfoVO tiVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().update(transInfoNameSpace+".updateTransInfo", tiVO);
+	}
+
+	@Override
+	public List<ProductInfoVO> selectProductInfoListByDate(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(productInfoNameSpace+".selectProductInfoListByDate", osVO);
 	}
 	
 	

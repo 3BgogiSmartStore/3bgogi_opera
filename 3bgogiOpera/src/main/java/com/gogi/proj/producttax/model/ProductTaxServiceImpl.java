@@ -9,6 +9,7 @@ import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.producttax.vo.ProductInfoVO;
 import com.gogi.proj.producttax.vo.ResCompanyVO;
 import com.gogi.proj.producttax.vo.TaxTableVO;
+import com.gogi.proj.producttax.vo.TransInfoVO;
 
 @Service
 public class ProductTaxServiceImpl implements ProductTaxService{
@@ -156,5 +157,47 @@ public class ProductTaxServiceImpl implements ProductTaxService{
 	public int[] insertTaxTableDataBatch(List<TaxTableVO> ttList) {
 		// TODO Auto-generated method stub
 		return ptDao.insertTaxTableDataBatch(ttList);
+	}
+
+	@Override
+	public TransInfoVO selectTransInfoByPk(TransInfoVO tiVO) {
+		// TODO Auto-generated method stub
+		return ptDao.selectTransInfoByPk(tiVO);
+	}
+
+	@Override
+	public List<TransInfoVO> selectAllTransInfoByDate(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return ptDao.selectAllTransInfoByDate(osVO);
+	}
+
+	@Override
+	public List<TransInfoVO> selectAllTransInfoList(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return ptDao.selectAllTransInfoList(osVO);
+	}
+
+	@Override
+	public int selectAllTransInfoCounting(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return ptDao.selectAllTransInfoCounting(osVO);
+	}
+
+	@Override
+	public int insertTransInfo(TransInfoVO tiVO) {
+		// TODO Auto-generated method stub
+		return ptDao.insertTransInfo(tiVO);
+	}
+
+	@Override
+	public int updateTransInfo(TransInfoVO tiVO) {
+		// TODO Auto-generated method stub
+		return ptDao.updateTransInfo(tiVO);
+	}
+
+	@Override
+	public List<ProductInfoVO> selectProductInfoListByDate(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return ptDao.selectProductInfoListByDate(osVO);
 	}
 }

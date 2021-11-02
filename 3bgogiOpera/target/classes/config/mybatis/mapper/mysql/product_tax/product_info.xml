@@ -65,6 +65,19 @@
 		)
 	</insert>
 	
+	<select id="selectProductInfoListByDate" parameterType="OrderSearchVO" resultType="ProductInfoVO">
+		SELECT
+			*
+		FROM
+			product_info
+		WHERE
+		
+		<![CDATA[
+			pi_input_date >= #{dateStart} 
+			AND pi_input_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+		]]>
+	</select>
+	
 	<select id="selectProductInfoList" parameterType="OrderSearchVO" resultType="ProductInfoVO">
 		SELECT
 			rc.rc_name AS rc_names,

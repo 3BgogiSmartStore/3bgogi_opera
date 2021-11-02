@@ -12,6 +12,9 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import javax.annotation.Resource;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,8 +33,11 @@ import com.gogi.proj.util.JsonToMapUtil;
 
 public class AligoSendingForm {
 
-	private String key = "zfg29xmik8qpil747n40b5iktnynl87b";
-	private String user_id = "wwaudgns";
+	@Resource(name="apiKeyProperties")
+	private Properties apiKeyProperties;
+	
+	private String key = apiKeyProperties.getProperty("api_key.aligo_api_key");;
+	private String user_id = apiKeyProperties.getProperty("api_key.aligo_user_id");;
 
 	final static String encodingType = "utf-8";
 	final static String boundary = "____boundary____";

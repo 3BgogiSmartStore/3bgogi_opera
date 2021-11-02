@@ -70,6 +70,7 @@
                                 </form>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" id="checkboxradio">
+                            	<c:set var="storeTotalSales" value="0"/>
                                 <div class="card">
                                 <h5 class="card-header"> 판매처 별 매출 조회 ( 환불 건은 자동으로 차감되어 계산됨) </h5>
                                 <div class="card-body">
@@ -125,6 +126,7 @@
                                         			</td>
                                         			
                                         			<c:set var="totalSales" value="${(totalPriceCount + delivPriceCount - delivDiscPriceCount)}"/>
+                                        			<c:set var="storeTotalSales" value="${(totalPriceCount + delivPriceCount - delivDiscPriceCount)}"/>
                                         			<td>
                                         				<fmt:formatNumber value="${totalSales}" pattern="#,###"/> 원
                                         			</td>
@@ -202,7 +204,58 @@
                                     </table>
                                 </div>
                             </div>
+                       </div><!-- 판매처별 취소 내역 끝나는 부분 -->
+                       <c:set var="piToTalCost" value="0"/>
+                       <c:forEach var="pilist" items="${piList }">  
+                       		<c:set var="piToTalCost" value="${piToTalCost + pilist.piCost + pilist.piTax }"/>
+                       </c:forEach>
+                       
+                       <c:set var="tiToTalCost" value="0"/>
+                       <c:forEach var="tilist" items="${tiList }">  
+                       		<c:set var="tiToTalCost" value="${tiToTalCost + tilist.tiUseCost - tilist.tiCancledCost}"/>
+                       </c:forEach>
+                       
+                       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" id="checkboxradio">
+                                <div class="card">
+                                <h5 class="card-header"> 총 검색 결과 </h5>
+                                <div class="card-body">
+                                    <table class="table table-hover">
+                                    	<thead>
+											<tr>
+												<th>매출</th>
+												<th>매입(거래내역서)</th>
+												<th>매입(기타)</th>
+												<th>수익</th>
+												<th>비고</th>
+											</tr>
+                                    	</thead>
+                                    	
+                                        <tbody>
+                                        		<tr>
+                                        			<td>
+                                        				
+                                        				<fmt:formatNumber value="${storeTotalSales }" pattern="#,###"/> 원
+                                        			</td>
+                                        			<td>
+                                        				<fmt:formatNumber value="${piToTalCost }" pattern="#,###"/> 원
+                                        			</td>
+                                        			<td>
+                                        				<fmt:formatNumber value="${tiToTalCost }" pattern="#,###"/> 원
+                                        			</td>
+                                        			<td>
+                                        				<fmt:formatNumber value="${storeTotalSales - piToTalCost - tiToTalCost }" pattern="#,###"/> 원
+                                        			</td>
+                                        			
+                                        			<td>
+                                        				-
+                                        			</td>
+                                        			
+                                        		</tr>             	
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+                       </div><!-- 판매처별 취소 내역 끝나는 부분 -->
                     </div>
                 </div>
         <!-- /page content -->

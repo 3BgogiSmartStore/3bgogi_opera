@@ -6,6 +6,7 @@ import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.producttax.vo.ProductInfoVO;
 import com.gogi.proj.producttax.vo.ResCompanyVO;
 import com.gogi.proj.producttax.vo.TaxTableVO;
+import com.gogi.proj.producttax.vo.TransInfoVO;
 
 public interface ProductTaxDAO {
 
@@ -206,4 +207,19 @@ public interface ProductTaxDAO {
 	 * @메소드설명 :
 	 */
 	public int[] insertTaxTableDataBatch(List<TaxTableVO> ttList);
+	
+	public TransInfoVO selectTransInfoByPk(TransInfoVO tiVO);
+	
+	public List<TransInfoVO> selectAllTransInfoByDate(OrderSearchVO osVO);
+	
+	public List<TransInfoVO> selectAllTransInfoList(OrderSearchVO osVO);
+	
+	public int selectAllTransInfoCounting(OrderSearchVO osVO);
+	
+	public int insertTransInfo(TransInfoVO tiVO);
+	
+	public int updateTransInfo(TransInfoVO tiVO);
+	
+	public List<ProductInfoVO> selectProductInfoListByDate(OrderSearchVO osVO);
+	
 }

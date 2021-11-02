@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="tax.trans_info">
+	
+	<select id="selectTransInfoByPk" resultType="TransInfoVO" parameterType="TransInfoVO">
+		SELECT
+			*
+		FROM
+			trans_info
+		WHERE
+			ti_pk = #{tiPk}
+	</select>
+	
+	<select id="selectAllTransInfoByDate" resultType="TransInfoVO" parameterType="OrderSearchVO">
+		SELECT
+			*
+		FROM
+			trans_info
+		WHERE
+			<![CDATA[
+				ti_date >= #{dateStart} 
+				AND ti_date <= #{dateEnd}
+			]]>
+	</select>
+	
+	
+	<select id="selectAllTransInfoList" resultType="TransInfoVO" parameterType="OrderSearchVO">
+		SELECT
+			*
+		FROM
+			trans_info
+		WHERE
+			<![CDATA[
+				ti_date >= #{dateStart} 
+				AND ti_date <= #{dateEnd}
+			]]>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				AND ti_used_place LIKE CONCAT('%',#{searchKeyword},'%') 
+			</if>
+		ORDER BY
+			ti_date DESC
+		LIMIT #{firstRecordIndex}, #{recordCountPerPage}
+		 
+	</select>
+	
+	<select id="selectAllTransInfoCounting" resultType="int" parameterType="OrderSearchVO">
+		SELECT
+			COUNT(*)
+		FROM
+			trans_info
+		WHERE
+			<![CDATA[
+				ti_date >= #{dateStart} 
+				AND ti_date <= #{dateEnd}
+			]]>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				AND ti_used_place LIKE CONCAT('%',#{searchKeyword},'%') 
+			</if>
+		ORDER BY
+			ti_date DESC
+	</select>
+	
+	<insert id="insertTransInfo" parameterType="TransInfoVO">
+		INSERT INTO trans_info
+		(
+		ti_used_place,
+		ti_remark,
+		ti_use_cost,
+		ti_cancled_cost,
+		ti_date
+		)
+		VALUES(
+		#{tiUsedPlace},
+		#{tiRemark},
+		#{tiUseCost},
+		#{tiCancledCost},
+		#{tiDate}
+		)
+	</insert>
+	
+	<update id="updateTransInfo" parameterType="TransInfoVO">
+		UPDATE
+			trans_info
+		SET
+			ti_used_place = #{tiUsedPlace},
+			ti_remark = #{tiRemark},
+			ti_use_cost = #{tiUseCost},
+			ti_cancled_cost #{tiCancledCost},
+			ti_date = #{tiDate}
+		WHERE
+			ti_pk = #{tiPk}
+	</update>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+

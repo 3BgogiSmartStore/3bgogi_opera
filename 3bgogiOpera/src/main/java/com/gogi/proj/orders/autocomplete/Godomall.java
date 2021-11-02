@@ -9,7 +9,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,8 +32,11 @@ public class Godomall {
 
 	private static final Logger logger = LoggerFactory.getLogger(Godomall.class);
 	
-	private String partnerKey = "JUEwJUVBSSVFNyUyQXElODElQUI=";
-	private String key = "JTI1JTFGJTdGJUMxJUQ0JTFDJThFUyUwMlIlN0ZyJUJDJUM0JUYzJUY1JTVCJUYzJUVDVCU1QkElREElOER6JTI2JUYwJTFCOSUxRCU3QyU3RSVBNyUxQiU5NCVGRiVGM0clMDFI";
+	@Resource(name="apiKeyProperties")
+	private Properties apiKeyProperties;
+	
+	private String partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
+	private String key = apiKeyProperties.getProperty("api_key.godomall_key");
 	private DocumentBuilderFactory dbFactory;
 	private DocumentBuilder dBuilder;
 	private Document doc;
