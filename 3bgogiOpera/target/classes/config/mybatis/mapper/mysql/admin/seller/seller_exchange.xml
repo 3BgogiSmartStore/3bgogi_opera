@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="seller.exchange">
+	
+	<resultMap id="sellerExchangeResultMap" type="AdminVO">
+		<id property="adminPk" column="admin_pk" javaType="int"/>
+		<result property="adminName" column="admin_name" javaType="String" />
+		<result property="adminPhone" column="admin_phone" javaType="String" />
+
+		<collection property="sellerExchangeList" ofType="SellerExchangeVO">
+			<id property="sePk" column="se_pk" javaType="int"/>
+			<result property="seExchangePrice" column="se_exchange_price" javaType="int"/>
+			<result property="seExchangeIncreaseCount" column="se_exchange_increase_count" javaType="int"/>
+			<result property="seBankNm" column="se_bank_nm" javaType="String"/>
+			<result property="seBankAccount" column="se_bank_account" javaType="String"/>
+			<result property="seReqDate" column="se_req_date" javaType="String"/>
+			
+		</collection>
+		
+	</resultMap>
+	
+	<select id="exchangePosiv" parameterType="AdminVO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			seller_exchange
+		WHERE
+			se_permit_flag = 0
+			AND admin_fk = #{adminPk}	
+	</select>
+	
+	<select id="holdingExchangePermission" parameterType="AdminVO" resultType="SellerExchangeVO">
+		SELECT
+			se_exchange_increase_count,
+			se_exchange_price,
+			se_bank_nm,
+			se_bank_account,
+			se_req_date
+		FROM
+			seller_exchange
+		WHERE
+			se_permit_flag = 0
+			AND admin_fk = #{adminPk}
+	</select>
+	
+	<select id="selectIncreaseCount" parameterType="AdminVO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			seller_exchange
+		WHERE
+			se_permit_flag = 1
+			AND admin_fk = #{adminPk}
+		ORDER BY
+			se_pk DESC
+		LIMIT 0, 1
+	</select>
+	
+	<select id="exchangePermitHistory" resultType="int">
+		SELECT
+			SUM(se_exchange_price) AS se_exchange_price
+		FROM
+			seller_exchange
+		WHERE
+			se_permit_flag = 1
+			AND admin_fk = #{adminPk}
+	</select>
+	
+	<select id="searchSellerExchangeHistory" parameterType="AdminVO" resultType="SellerExchangeVO">
+		SELECT
+			*
+		FROM
+			seller_exchange
+		WHERE
+			admin_fk = #{adminPk}
+		ORDER BY
+			se_pk DESC
+	</select>
+	
+	<insert id="insertExchange" parameterType="SellerExchangeVO">
+		INSERT INTO
+			seller_exchange
+			(
+				admin_fk,
+				se_exchange_price,
+				se_exchange_increase_count,
+				se_permit_flag,
+				se_bank_nm,
+				se_bank_account
+			)
+			VALUES(
+				#{adminFk},
+				#{seExchangePrice},
+				#{seExchangeIncreaseCount},
+				0,
+				#{seBankNm},
+				#{seBankAccount}	
+			)
+	</insert>
+	
+	
+	<select id="searchDontPermitExchangesCount" parameterType="OrderSearchVO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			admins ad
+			INNER JOIN seller_exchange se	ON	ad.admin_pk		=		se.admin_fk
+		WHERE
+			<![CDATA[			
+				se.se_req_date >= #{dateStart}
+				AND se.se_req_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+				AND se.se_permit_flag = 0
+			]]>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+					AND ad.admin_name LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+	</select>
+	
+	<select id="searchDontPermitExchanges" parameterType="OrderSearchVO" resultMap="sellerExchangeResultMap">
+		SELECT
+			ad.admin_pk,
+			ad.admin_name,
+			ad.admin_phone,
+			se.se_pk,
+			se.se_exchange_price,
+			se.se_exchange_increase_count,
+			se.se_bank_nm,
+			se.se_bank_account,
+			se.se_req_date
+		FROM
+			admins ad
+			INNER JOIN seller_exchange se	ON	ad.admin_pk		=		se.admin_fk
+		WHERE
+			<![CDATA[			
+				se.se_req_date >= #{dateStart}
+				AND se.se_req_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+				
+				AND se.se_permit_flag = 0
+			]]>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+					AND ad.admin_name LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+		LIMIT #{firstRecordIndex}, #{recordCountPerPage} 
+	</select>
+	
+	
+	<update id="permitExchangeReq" parameterType="SellerExchangeVO">
+		UPDATE
+			seller_exchange
+		SET
+			se_permit_flag = 1,
+			se_permit_date = NOW(),
+			se_permit_admin = #{sePermitAdmin}
+		WHERE
+			se_pk = #{sePk}
+	</update>
+	
+	<select id="selectAllSellerExchangeByAdminPk" parameterType="AdminVO" resultType="SellerExchangeVO">
+		SELECT
+			*
+		FROM
+			seller_exchange
+		WHERE
+			admin_fk = #{adminPk}
+		ORDER BY
+			se_pk DESC
+	</select>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+

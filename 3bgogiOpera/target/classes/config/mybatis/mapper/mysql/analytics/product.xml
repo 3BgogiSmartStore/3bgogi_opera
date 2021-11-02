@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="analytics.product">
+
+	<select id="selectTodayDeliveryCount" resultType="map">
+		SELECT
+			COUNT(inne.or_serial_special_number) AS total_counting,
+		    inne.ss_name AS ss_name
+		FROM
+			(
+			SELECT
+				 od.or_serial_special_number,
+			     ss.ss_name
+			FROM
+				orders od
+			    INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
+			WHERE
+				or_sending_deadline = DATE_FORMAT(NOW(), '%Y-%m-%d')
+			GROUP BY
+				od.or_serial_special_number,
+				ss.ss_name
+			) inne
+		GROUP BY
+			inne.ss_name
+	</select>
+	
+	<select id="selectProductSales" parameterType="OrderSearchVO" resultType="OrdersVO">
+		SELECT
+			OUTPUT.eos_seq,
+            CONCAT(OUTPUT.product_name) AS or_product,
+	        SUM(OUTPUT.or_amount * OUTPUT.om_option_amount) AS or_amount
+	    FROM
+	    (
+	        SELECT
+				od.or_pk,
+				eo.eos_seq,
+				od.or_amount,
+				pro.product_name,
+				om.om_option_amount
+			FROM
+				orders od
+				INNER JOIN product_matching pm ON od.pm_fk = pm.pm_pk
+				INNER JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
+				INNER JOIN options op ON om.option_fk = op.option_pk
+				INNER JOIN excel_order_seq eo ON op.eo_fk = eo.eos_pk
+				INNER JOIN products pro ON pro.product_pk = op.product_fk
+			WHERE 
+				od.or_cancled_flag = 0
+				AND od.or_excel_div_flag = 0
+				AND od.or_refunds = 0
+				AND od.or_deposit_flag = 1
+                <![CDATA[							
+					AND od.or_sending_day >= #{dateStart}
+					AND od.or_sending_day < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+				AND od.or_serial_special_number IN (
+						SELECT
+							or_serial_special_number
+						FROM
+							orders
+						WHERE
+							od.or_cancled_flag = 0
+							AND or_excel_div_flag = 0
+							AND or_refunds = 0
+							AND or_deposit_flag = 1
+							<![CDATA[							
+								AND or_sending_day >= #{dateStart}
+								AND or_sending_day < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+							]]>
+						GROUP BY
+							or_serial_special_number
+                    )
+			GROUP BY
+				od.or_pk,
+				eo.eos_seq,
+				od.or_amount,
+				pro.product_name,
+				om.om_option_amount
+
+			) OUTPUT
+        GROUP BY
+        	OUTPUT.eos_seq,
+			OUTPUT.product_name
+		ORDER BY
+			OUTPUT.eos_seq ASC
+	</select>
+	
+	<select id="selectProductSalesTotalPrice" parameterType="OrderSearchVO" resultType="int">
+		SELECT 
+			SUM(or_total_price) AS or_total_price
+		        
+		FROM
+			orders od
+			INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
+		WHERE 			
+			<![CDATA[							
+				or_sending_day >= #{dateStart}
+				AND or_sending_day < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+			AND or_cancled_flag = 0
+            AND or_refunds = 0
+            AND or_excel_div_flag = 0
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

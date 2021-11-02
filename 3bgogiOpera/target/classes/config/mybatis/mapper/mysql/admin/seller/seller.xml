@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="seller">
+	
+	<resultMap id="sellerResultMap" type="AdminVO">
+		<id property="adminPk" column="admin_pk" javaType="int"/>
+		<result property="adminName" column="admin_name" javaType="String" />
+		<result property="adminPhone" column="admin_phone" javaType="String" />
+
+		<collection property="sellerExchangeVO" ofType="SellerExchangeVO">
+			<id property="sePk" column="se_pk" javaType="int"/>
+			<result property="seExchangePrice" column="se_exchange_price" javaType="int"/>
+			<result property="seExchangeIncreaseCount" column="se_exchange_increase_count" javaType="int"/>
+			<result property="seBankNm" column="se_bank_nm" javaType="String"/>
+			<result property="seBankAccount" column="se_bank_account" javaType="String"/>
+			<result property="seReqDate" column="se_req_date" javaType="String"/>
+			<result property="sePermitDate" column="se_permit_date" javaType="String"/>
+		</collection>
+		
+	</resultMap>
+	
+	<select id="selectAllSellerList" resultType="AdminVO" parameterType="OrderSearchVO">
+		SELECT
+			admin_pk,
+			admin_id,
+			admin_name,
+			admin_phone,
+			enabled,
+			seller_flag,
+			seller_prod_list,
+			seller_start_date
+		FROM 
+			admins
+		WHERE 
+			seller_flag = 1
+			
+			<if test="searchKeyword != null and searchKeyword.equals('')">
+				AND admin_name like CONCAT('%',#{searchKeyword},'%')
+			</if>
+			AND enabled = #{searchType}
+			<![CDATA[			
+				AND seller_start_date >= #{dateStart} 
+				AND seller_start_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		ORDER BY
+			admin_pk DESC
+		LIMIT #{firstRecordIndex}, #{recordCountPerPage} 
+			
+	</select>
+	
+	<select id="selectAllSellerListCount" resultType="int" parameterType="OrderSearchVO">
+		SELECT
+			COUNT(*)
+		FROM 
+			admins
+		WHERE 
+			seller_flag = 1
+			
+			<if test="searchKeyword != null and searchKeyword.equals('')">
+				AND admin_name like CONCAT('%',#{searchKeyword},'%')
+			</if>
+			AND enabled = #{searchType}
+			<![CDATA[			
+				AND seller_start_date >= #{dateStart} 
+				AND seller_start_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		ORDER BY
+			admin_pk DESC
+			
+	</select>
+	
+	<select id="selectSellerByAdminPk" resultType="AdminVO" parameterType="AdminVO">
+		SELECT
+			admin_pk,
+			admin_id,
+			admin_name,
+			admin_phone,
+			enabled,
+			seller_flag,
+			seller_prod_list,
+			seller_start_date
+		FROM
+			admins
+		WHERE
+			admin_pk = #{adminPk}
+			AND seller_flag = 1
+	</select>
+	
+	<update id="updateSellerAdminInfo" parameterType="AdminVO">
+		UPDATE
+			admins
+		SET
+			admin_name = #{adminName},
+			admin_phone = #{adminPhone},
+			enabled = #{enabled},
+			seller_prod_list = #{sellerProdList},
+			seller_flag = #{sellerFlag}
+		WHERE
+			admin_pk = #{adminPk}
+	</update>
+	
+	<insert id="createSellerAdminInfo" parameterType="AdminVO">
+		INSERT INTO 
+			admins
+			(
+				admin_id,
+				admin_pass,
+				admin_name,
+				admin_phone,
+				enabled,
+				seller_flag,
+				seller_prod_list
+			)
+		VALUES(
+			#{adminId},
+			#{adminPass},
+			#{adminName},
+			#{adminPhone},
+			1,
+			1
+			#{sellerProdList}
+		)
+	</insert>
+
+	<insert id="insertSellerAuth" parameterType="AdminVO">
+		INSERT INTO
+			admin_role
+			(
+				admin_id,
+				role
+			)
+		VALUES(
+			#{adminId},
+			'ROLE_SELLER'
+		)
+	</insert>
+	
+	
+	<select id="selectSellerSalesVolume" parameterType="AdminVO" resultType="OrdersVO">
+	
+		SELECT
+			inne.or_sending_day AS res_date,
+	        inne.or_product,
+	        SUM(or_amount) AS or_amount,
+	        SUM(or_total_price) AS or_total_price,
+	        inne.or_product_number
+		FROM
+			(SELECT
+				DATE_FORMAT(or_sending_day, '%Y-%m') AS or_sending_day,
+				or_product,
+				SUM(or_amount) AS or_amount,
+				SUM(or_total_price + or_payment_commision + or_another_payment_commision) AS or_total_price,
+				or_product_number
+			FROM
+				orders
+			WHERE
+				or_product_number IN
+					<foreach collection="sellerProdArrayList" item="prod" open="(" close=")" separator=",">
+						#{prod}
+					</foreach>
+				<![CDATA[
+					AND or_sending_day >= #{sellerStartDate}
+				]]>
+				AND or_refunds = 0
+				AND or_cancled_flag = 0
+				AND or_excel_div_flag = 0
+				AND or_delivery_invoice_number IS NOT NULL
+			GROUP BY
+				or_sending_day,
+				or_product,
+				or_product_number
+			ORDER BY
+				or_sending_day DESC
+			) inne
+		GROUP BY
+			res_date,
+		    inne.or_product,
+		    inne.or_product_number
+	</select>
+	
+	<select id="selectSellerInfoByAdminId" parameterType="String" resultType="AdminVO">
+		SELECT
+			admin_pk,
+			admin_pass,
+			admin_name,
+			admin_phone,
+			admin_id,
+			seller_prod_list,
+			seller_start_date
+		FROM
+			admins
+		WHERE
+			admin_id = #{adminId}
+	</select>
+	
+	<update id="updateSellerInfo" parameterType="AdminVO">
+		UPDATE
+			admins
+		SET
+			admin_pass = #{adminPass},
+			admin_name = #{adminName},
+			admin_phone = #{adminPhone}
+		WHERE
+			admin_pk = #{adminPk}
+	</update>
+	
+	<select id="selectSellerSalesSum" resultType="int" >
+		SELECT
+			SUM(or_total_price + or_payment_commision + or_another_payment_commision) AS or_total_price
+		FROM
+			orders
+		WHERE
+			or_product_number = #{sellerProdList}
+			<![CDATA[
+				AND or_sending_day >= #{sellerStartDate}
+			]]>
+			AND or_refunds = 0
+			AND or_cancled_flag = 0
+			AND or_excel_div_flag = 0
+			AND or_delivery_invoice_number IS NOT NULL
+			
+	</select>
+	
+	<select id="selectAuthNumBySellerId" parameterType="AdminVO" resultType="String">
+		SELECT
+			seller_auth_num
+		FROM
+			admins
+		WHERE
+			admin_id = #{username}
+	</select>
+	
+	<update id="updateSellerAuthNum" parameterType="AdminVO">
+		UPDATE
+			admins
+		SET
+			seller_auth_num = #{sellerAuthNum}
+		WHERE
+			admin_id = #{adminId}
+	</update>
+	
+	<select id="sellerPermitExchangeCount" resultMap="sellerResultMap" parameterType="OrderSearchVO">
+		SELECT
+			ad.admin_name,
+			ad.admin_phone,
+			se.se_pk,
+			se.se_exchange_price,
+			se.se_permit_date
+		FROM
+			admins ad
+			INNER JOIN	seller_exchange	se	ON	ad.admin_pk	=	se.admin_fk
+		WHERE
+			se.se_permit_flag = 1
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				AND ad.admin_name LIKE CONCAT('%',#{searchKeyword },'%')
+			</if>
+			<![CDATA[			
+				AND se.se_req_date >= #{dateStart}
+				AND se.se_req_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		ORDER BY
+			se.se_pk DESC
+		LIMIT #{firstRecordIndex}, #{recordCountPerPage}
+	</select>
+	
+	<select id="sellerPermitExchangePagingCount" resultType="int" parameterType="OrderSearchVO">
+		SELECT
+			COUNT(*)
+		FROM
+			admins ad
+			INNER JOIN	seller_exchange	se	ON	ad.admin_pk	=	se.admin_fk
+		WHERE
+			se.se_permit_flag = 1
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				AND ad.admin_name LIKE CONCAT('%',#{searchKeyword },'%')
+			</if>
+			<![CDATA[			
+				AND se.se_req_date >= #{dateStart}
+				AND se.se_req_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		ORDER BY
+			se.se_pk DESC
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

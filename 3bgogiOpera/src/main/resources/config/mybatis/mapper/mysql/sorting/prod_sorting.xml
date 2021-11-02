@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prod.sorting">
+	
+	<select id="se">
+		SELECT
+			datas.or_serial_special_number,
+			IF(
+				<![CDATA[				
+					datas.cf_order LIKE '0,3' AND datas.prot_count <= 2,
+					datas.prod_order - 1,
+					IF(
+						datas.cf_order LIKE '3' AND datas.prot_count >= 2,
+						datas.prod_order + 1,
+						datas.prod_order
+					)
+				]]>
+			) AS new_order,
+			datas.prot_count,
+			datas.prod_order,
+			datas.cf_order,
+			datas.prod,
+			datas.prod_count,
+			datas.qty
+		FROM
+			(
+			SELECT
+				INNE.or_serial_special_number,
+				IF(
+					cf_order LIKE '0',
+					0,
+						IF(
+							cf_order LIKE '1',
+							1,
+							 IF(
+								cf_order LIKE '0,1',
+								2,
+								IF(
+									cf_order LIKE '2',
+									3,
+									IF(
+										cf_order LIKE '1,2' OR cf_order LIKE '0,2',
+										4,
+										IF(
+											cf_order LIKE '0,1,2',
+											5,
+											IF(
+												cf_order LIKE '3',
+												6,
+												IF(
+													cf_order LIKE '0,3',
+													7,
+													8
+												)
+											)
+										)
+									)
+								)
+							 )
+						)
+				) AS prod_order,
+				cf_order,
+				GROUP_CONCAT( DISTINCT  prod.products ) prod,
+				COUNT(prod.products ) prod_count,
+				SUM(prod.qty) AS qty,
+				prot_count
+			FROM
+				(
+				SELECT
+					od.or_serial_special_number,
+					GROUP_CONCAT( DISTINCT 
+					IF(
+						cf.cf_Pk IN (1, 4, 5, 7, 9, 13), 
+						3,
+						 IF(
+							cf.cf_Pk IN (2, 6, 9, 10, 11, 12, 14),
+							2,
+							IF( cf.cf_pk IN ( 16, 19, 20, 23, 24, 26 )
+								1,
+								0 
+							)
+						) 
+					)
+					 SEPARATOR ',') AS cf_order,
+					 COUNT(
+					IF(
+						cf.cf_Pk IN (1, 4, 5, 7, 9, 13), 
+						1,
+						0
+					)
+					)AS prot_count
+				FROM
+					orders od 
+					INNER JOIN product_matching	pm		ON		pm.pm_pk		= od.pm_fk 
+					INNER JOIN option_matching	om		ON		pm.pm_pk		= om.pm_fk AND od.or_product_option = om.om_store_option_name 
+					INNER JOIN options			op		ON		op.option_pk	= om.option_fk 
+					INNER JOIN products			pro		ON		pro.product_pk	= op.product_fk 
+					INNER JOIN classification	cf		ON		cf.cf_pk		= pro.cf_fk
+				WHERE
+					od.or_sending_deadline = '2021-09-01'
+	                AND od.or_cancled_flag = 0
+	                AND od.or_refunds = 0
+	                AND od.or_excel_div_flag = 0
+				GROUP BY
+					od.or_serial_special_number
+				) INNE,
+				
+				(
+					SELECT
+					od.or_serial_special_number,
+					CONCAT(pro.product_name, ' [ ', op.option_name, ']') AS products,
+					( od.or_amount * om.om_option_amount ) AS qty
+				FROM
+					orders od 
+					INNER JOIN product_matching	pm		ON		pm.pm_pk		= od.pm_fk 
+					INNER JOIN option_matching	om		ON		pm.pm_pk		= om.pm_fk AND od.or_product_option = om.om_store_option_name 
+					INNER JOIN options			op		ON		op.option_pk	= om.option_fk 
+					INNER JOIN products			pro		ON		pro.product_pk	= op.product_fk 
+					INNER JOIN classification	cf		ON		cf.cf_pk		= pro.cf_fk
+				WHERE
+					od.or_sending_deadline = '2021-09-01'
+	                AND od.or_cancled_flag = 0
+	                AND od.or_refunds = 0
+	                AND od.or_excel_div_flag = 0
+				) prod
+			WHERE
+				INNE.or_serial_special_number = prod.or_serial_special_number
+			GROUP BY
+				INNE.or_serial_special_number,
+				prod_order
+			ORDER BY 
+				prod_order ASC,
+				prod_count ASC,
+				prod ASC,
+				qty ASC
+			) datas
+		ORDER BY
+			new_order ASC,
+			prod ASC,
+			prod_count ASC,
+			datas.prod ASC,
+			datas.qty ASC
+	
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
