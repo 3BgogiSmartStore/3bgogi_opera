@@ -448,8 +448,10 @@ public class CostController {
 
 	        try {
 	        	
-				doc = dBuilder.parse(urlBuilder.toString());		 
+	        	doc = dBuilder.parse(urlBuilder.toString());		 
 				 
+				logger.info("doc = {}",doc.toString());
+				
 			} catch (SAXException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -462,6 +464,7 @@ public class CostController {
 	        	Element root = doc.getDocumentElement();
 
 	 			NodeList nList = doc.getElementsByTagName("item");
+	 			
 	 			
 	 			
 	 			for (int j = 0; j < nList.getLength(); j++) {

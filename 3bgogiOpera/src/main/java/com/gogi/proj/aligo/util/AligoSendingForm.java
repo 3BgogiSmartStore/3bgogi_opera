@@ -36,14 +36,27 @@ public class AligoSendingForm {
 	@Resource(name="apiKeyProperties")
 	private Properties apiKeyProperties;
 	
-	private String key = apiKeyProperties.getProperty("api_key.aligo_api_key");;
-	private String user_id = apiKeyProperties.getProperty("api_key.aligo_user_id");;
+	private String key;
+	private String user_id;
 
 	final static String encodingType = "utf-8";
 	final static String boundary = "____boundary____";
 	
+	
+	/**
+	 * 
+	 * @MethodName : smsMsg
+	 * @date : 2021. 11. 3.
+	 * @author : Jeon KiChan
+	 * @param aligo
+	 * @return
+	 * @메소드설명 : receiver는 고객 번호, destination은 %고객명% 치환용 입력
+	 */
 	public String smsMsg(AligoVO aligo) {
 		
+		key = apiKeyProperties.getProperty("api_key.aligo_api_key");
+		user_id = apiKeyProperties.getProperty("api_key.aligo_user_id");
+				
         String apiURL = "https://apis.aligo.in/send/";    // json 결과
 
         Map<String, String> requestHeaders = new HashMap<>();
@@ -183,7 +196,11 @@ public class AligoSendingForm {
 	
 	public Map<String, Object> aligoRemain() {
 		
+		key = apiKeyProperties.getProperty("api_key.aligo_api_key");
+		user_id = apiKeyProperties.getProperty("api_key.aligo_user_id");
+		
 		Map<String, Object> remainResult = null;
+		
 		try{
 
 			/**************** 최근 전송 목록 ******************/

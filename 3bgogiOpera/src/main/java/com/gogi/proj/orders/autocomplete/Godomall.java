@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,14 +36,15 @@ public class Godomall {
 	@Resource(name="apiKeyProperties")
 	private Properties apiKeyProperties;
 	
-	private String partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
-	private String key = apiKeyProperties.getProperty("api_key.godomall_key");
+	private String partnerKey;
+	private String key;
 	private DocumentBuilderFactory dbFactory;
 	private DocumentBuilder dBuilder;
 	private Document doc;
 	
 	public Godomall() {
 		// TODO Auto-generated constructor stub
+		
 		dbFactory = DocumentBuilderFactory.newInstance();
 		
 		try {
@@ -74,6 +76,9 @@ public class Godomall {
 		String result = "";
 		String orderStatus = "d1";
 
+		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
+		key = apiKeyProperties.getProperty("api_key.godomall_key");
+		
 		/*List<OrdersVO> list = new ArrayList<>();
 		
 		OrdersVO orVO = new OrdersVO();
@@ -138,6 +143,9 @@ public class Godomall {
 	 * @메소드설명 : 고도몰 자동화
 	 */
 	public List<OrdersVO> getGodomallOrders(int ssFk){
+		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
+		key = apiKeyProperties.getProperty("api_key.godomall_key");
+		
 		boolean failCheck = false;
 		List<OrdersVO> orList = new ArrayList<>();
 		OrdersVO orVO = null;
@@ -308,6 +316,9 @@ public class Godomall {
 	
 	
 	public OrdersVOList getGodomallCancledOrders(int ssFk){
+		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
+		key = apiKeyProperties.getProperty("api_key.godomall_key");
+		
 		boolean failCheck = false;
 		OrdersVOList orderVO = new OrdersVOList();
 		

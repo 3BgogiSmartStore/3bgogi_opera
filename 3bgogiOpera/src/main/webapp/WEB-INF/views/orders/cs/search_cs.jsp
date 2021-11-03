@@ -771,8 +771,7 @@
 																		
 																	</c:forEach>
 																</c:if>
-															>송장 ${invoiceCountNum} 차 ${invoiceNumList.orDeliveryCompany} ${invoiceNumList.orInvoiceNumDate }</option>
-															
+															>송장 ${invoiceCountNum} 차 ( ${invoiceNumList.totalOrderCount } 장 ) ${invoiceNumList.orDeliveryCompany} ${invoiceNumList.orInvoiceNumDate } </option>
 															<c:set  var="invoiceCountNum" value="${invoiceCountNum + 1 }"/>
 														</c:forEach>
 									                </c:if>
@@ -845,7 +844,7 @@
 								                    	<c:if test="${osVO.searchAddKind == 'matchingOption' }">
 															 selected="selected"
 														</c:if>
-								                    >옵션 옵션명</option>
+								                    >매칭 옵션명</option>
 								                    <option value="storeProduct"
 								                    	<c:if test="${osVO.searchAddKind == 'storeProduct' }">
 															 selected="selected"

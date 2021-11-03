@@ -213,6 +213,9 @@
 							 AND od.or_cancled_flag = 0
 							 AND od.or_excel_div_flag = 0
 						]]>
+						<if test="delivMsgFlag == 1">
+						 	AND ( (od.or_user_column4 IS NOT NULL AND od.or_user_column4 != '') OR (od.or_delivery_message IS NOT NULL AND or_delivery_message != ''))
+						 </if>
 					</trim>
 				GROUP BY
 					od.or_serial_special_number
@@ -360,6 +363,9 @@
 						AND od.or_cancled_flag = 0
 						AND od.or_excel_div_flag = 0
 					 ]]>
+					 <if test="delivMsgFlag == 1">
+					 	AND ( (od.or_user_column4 IS NOT NULL AND od.or_user_column4 != '') OR (od.or_delivery_message IS NOT NULL AND or_delivery_message != ''))
+					 </if>
 				</trim>
 				GROUP BY
 					od.or_serial_special_number
@@ -458,7 +464,6 @@
 		            <![CDATA[
 						AND od.or_cancled_flag = 0
 						AND od.or_excel_div_flag = 0
-						/** AND ( (od.or_user_column4 IS NOT NULL AND od.or_user_column4 != '') OR (od.or_delivery_message IS NOT NULL AND or_delivery_message != '')) **/
 					 ]]>
 				</trim>
 				GROUP BY

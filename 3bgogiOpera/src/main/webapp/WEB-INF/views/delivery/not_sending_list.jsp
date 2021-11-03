@@ -525,7 +525,8 @@
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="card" style="background-color: #efeff6;">
 								<div class="card-body">
-									<h4> 주문서 진행 단계 </h4>
+									<h4> 주문서 진행 단계  </h4>
+									
 									<a href="<c:url value='/orders/order_page.do'/>" class="btn btn-success"> 주문서 입력</a>
 									<a href="<c:url value='/order/config/search_except_addr_order.do'/>" class="btn btn-success"> 특수 지역 체크  </a>
 									<a href="<c:url value="/order/matching/products_matching.do"/>" class="btn btn-success"> 상품 매칭 </a> 
@@ -634,6 +635,22 @@
 												</select>
 				                            </div>
 				                            
+				                            <c:if test="${OrderSearchVO.edtFk == 5 }">
+												<div class="btn-group">
+					                                <select class="form-control" name="delivMsgFlag">
+														<option value="0"
+															<c:if test="${OrderSearchVO.delivMsgFlag == 0 }">
+																selected="selected"
+															</c:if>
+														> 배송메세지 및 문앞 전부 표기 </option>
+														<option value="1"
+															<c:if test="${OrderSearchVO.delivMsgFlag == 1 }">
+																selected="selected"
+															</c:if>
+														> 배송메세지 혹은 현관 비밀번호 있는 건만 </option>
+													</select>
+					                            </div>		
+											</c:if>
 				                            <div class="btn-group">
 				                            	<select class="form-control" name="edtFk">
 				                            		<option value="5"
