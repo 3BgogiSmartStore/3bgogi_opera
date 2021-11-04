@@ -33,6 +33,9 @@ public class AligoController {
 	private FileuploadUtil fileUploadUtil;
 	
 	@Autowired
+	private AligoExcelUitl aeu;
+	
+	@Autowired
 	private AligoService aligoService;
 	
 	
@@ -85,8 +88,6 @@ public class AligoController {
 	@ResponseBody
 	public List<AligoVO> aligoExcelFileRead(HttpServletRequest request){
 		
-		AligoExcelUitl aeu = new AligoExcelUitl();
-		
 		String fileName = "";
 		
 		try {
@@ -100,7 +101,10 @@ public class AligoController {
 		List<AligoVO> results = null;
 		
 		try {
-			results = aeu.saxParsing(fileName, "C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\");
+			
+			String upPath = fileUploadUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
+			
+			results = aeu.saxParsing(fileName, upPath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

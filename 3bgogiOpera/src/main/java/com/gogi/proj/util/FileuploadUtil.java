@@ -38,11 +38,7 @@ public class FileuploadUtil {
 	
 	public String fileupload(HttpServletRequest request, int uploadGb) 
 			throws IllegalStateException, IOException {
-		
-		if(fileProperties == null) {
-			System.out.println("fileProperties 비엇음");
-		}
-		
+
 		String fileoName = "";
 		//파일 업로드 처리
 		MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest)request;
@@ -235,6 +231,73 @@ public class FileuploadUtil {
 			//실제 물리적인 경로 구하기
 			upPath=request.getSession().getServletContext().getRealPath(upPath);
 		}
+		return upPath;		
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : getUploadPath
+	 * @date : 2021. 11. 4.
+	 * @author : Jeon KiChan
+	 * @param uploadGb
+	 * @param createDir
+	 * @return
+	 * @메소드설명 : 저장 경로 구하기, createDir == true 일 경우 경로에 날짜로 이뤄진 하위 디렉토리를 만들어냄
+	 */
+	public String getUploadPath(int uploadGb, boolean createDir) {
+		String upPath="";
+		
+		String type=fileProperties.getProperty("file.upload.type");
+		if(type.equals("test")) {
+			//테스트시 경로
+			if(uploadGb==UPLOAD_FILE) {
+				upPath=fileProperties.getProperty("file.upload.upload_file.path.test");				
+			}else if(uploadGb==ORDER_EXCEL) {
+				upPath=fileProperties.getProperty("file.upload.order_excel.path.test");				
+			}else if(uploadGb==IMAGE_UPLOAD) {
+				upPath=fileProperties.getProperty("imageFile.upload.path.test");				
+			}else if(uploadGb==UPLOAD_IMAGE) {
+				upPath=fileProperties.getProperty("file.upload.upload_image.path.test");				
+			}else if(uploadGb == STOCK_STATEMENT_IMG) {
+				upPath=fileProperties.getProperty("file.upload.stock_statement_img.path.test");
+			}else if(uploadGb == CARCASS_FILE) {
+				upPath=fileProperties.getProperty("file.upload.carcass_file.path.test");
+			}else if(uploadGb == TAX_FILE) {
+				upPath=fileProperties.getProperty("file.upload.tax_file.path.test");
+			}
+			
+		}else {
+			//배포시 경로
+			if(uploadGb==UPLOAD_FILE) {
+				upPath=fileProperties.getProperty("file.upload.upload_file.path");
+			}else if(uploadGb==ORDER_EXCEL) {
+				upPath=fileProperties.getProperty("file.upload.order_excel.path");
+				
+			}else if(uploadGb==IMAGE_UPLOAD) {
+				upPath=fileProperties.getProperty("imageFile.upload.path");				
+			}else if(uploadGb==UPLOAD_IMAGE) {
+				upPath=fileProperties.getProperty("file.upload.upload_image.path");				
+			}else if(uploadGb == STOCK_STATEMENT_IMG) {
+				upPath=fileProperties.getProperty("file.upload.stock_statement_img.path");
+			}else if(uploadGb == CARCASS_FILE) {
+				upPath=fileProperties.getProperty("file.upload.carcass_file.path");
+
+			}else if(uploadGb == TAX_FILE) {
+				upPath=fileProperties.getProperty("file.upload.tax_file.path");
+
+			}
+			
+			
+			//실제 물리적인 경로 구하기
+			/*upPath=request.getSession().getServletContext().getRealPath(upPath);*/
+		}
+		
+		// 날짜로 이뤄진 하위 디렉토리 생성 여부
+		if(createDir)  upPath=existFileDirectoryByDateAndReturnPath(upPath);
+		
+		
+		
 		return upPath;		
 	}
 

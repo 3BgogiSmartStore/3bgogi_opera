@@ -566,11 +566,11 @@ public class ProductTaxController {
 		
 		List<TaxTableVO> taxList = new ArrayList<TaxTableVO>();
 		
-		FileuploadUtil fu = new FileuploadUtil();
+		String upPath = fileUploadUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
 		
 		try {
 	
-			FileInputStream fis= new FileInputStream("C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\"+fileName);
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 			
 			// 엑셀파일 확장자가 xlsx 일 경우
 			// 분기별로 처리해서 해야함

@@ -17,17 +17,22 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.gogi.proj.excel.ReadOrderExcel;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.util.FileuploadUtil;
 
+@Component
 public class DataCheckExcelUtil {
 
+	@Autowired
+	private FileuploadUtil fu;
+	
 	public OrderSearchVO readGiftSetExcelFile(String fileName, OrderSearchVO osVO) throws POIXMLException{
 		ReadOrderExcel roe = new ReadOrderExcel();
-		
-		FileuploadUtil fu = new FileuploadUtil();
+
 		List<String> buyerCntList = null;
 		
 		String ext = fu.getExtType(fileName);

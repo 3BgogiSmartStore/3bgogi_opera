@@ -33,6 +33,9 @@ public class DataCheckController {
 	@Autowired
 	private FileuploadUtil fileUploadUtil;
 	
+	@Autowired
+	private DataCheckExcelUtil dc;
+	
 	@RequestMapping(value="/data/excel_search.do", method=RequestMethod.GET)
 	public String excelDataMatchingGet(HttpServletRequest request, Model model) {
 		
@@ -60,8 +63,6 @@ public class DataCheckController {
 		String fileName = "";
 		String msg = "";
 		String url ="";
-		
-		DataCheckExcelUtil dc = new DataCheckExcelUtil();
 		
 		try {
 			

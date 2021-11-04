@@ -8,6 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
+
+import javax.annotation.Resource;
 
 import org.apache.poi.POIXMLException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -21,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,8 +39,13 @@ import com.gogi.proj.util.FileuploadUtil;
 public class ReadOrderExcel {
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	@Autowired
+	private FileuploadUtil fileUtil;
 	
 	public List<OrdersVO> readOrderExcelDataToXLS(String fileName, int ssFk, boolean sendingDeadlineFlag) throws POIXMLException{
+		
+			
 		
 		List<OrdersVO> orderList = new ArrayList<OrdersVO>();
 		
@@ -46,9 +55,11 @@ public class ReadOrderExcel {
 		
 		Timestamp ts = new Timestamp(cal.getTimeInMillis());
 
+		String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
+		
 		try {
 
-			FileInputStream fis= new FileInputStream("C:\\Users\\\uBA85\uD6C8\uD30D\\Desktop\\server_file\\"+fileName);
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 			
 			XSSFWorkbook workbook=new XSSFWorkbook(fis);
 			
@@ -564,9 +575,12 @@ public class ReadOrderExcel {
 		List<OrdersVO> orderList = new ArrayList<OrdersVO>();
 		
 		Calendar cal = Calendar.getInstance();
+		
+		String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
+		
 		try {
 
-			FileInputStream fis= new FileInputStream("C:\\Users\\\uBA85\uD6C8\uD30D\\Desktop\\server_file\\"+fileName);
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 			
 			XSSFWorkbook workbook=new XSSFWorkbook(fis);
 			
@@ -667,7 +681,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 	
 	SmartstoreCommission sc = new SmartstoreCommission();
 	
-	FileuploadUtil fu = new FileuploadUtil();
+	
 	
 	Calendar cal = Calendar.getInstance();
 	
@@ -676,12 +690,15 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	SimpleDateFormat sdfWithoutTime = new SimpleDateFormat("yyyy-MM-dd");
 	
-	String ext = fu.getExtType(fileName);
+	String ext = fileUtil.getExtType(fileName);
+	
+	String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
 	
 	try {
 
 		
-		FileInputStream fis= new FileInputStream("C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\"+fileName);
+		
+		FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 
 		XSSFWorkbook workbook=new XSSFWorkbook(fis);
 		XSSFSheet sheet=workbook.getSheetAt(0);
@@ -1227,9 +1244,9 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		
 		List<OrdersVO> orderList = new ArrayList<OrdersVO>();
 		
-		FileuploadUtil fu = new FileuploadUtil();
 		
-		String ext = fu.getExtType(fileName);
+		
+		String ext = fileUtil.getExtType(fileName);
 		
 		SmartstoreCommission sc = new SmartstoreCommission();
 		
@@ -1241,9 +1258,11 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		
 		int orderCounting = 0;
 		
+		String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
+		
 		try {
 	
-			FileInputStream fis= new FileInputStream("C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\"+fileName);
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 			
 			// 엑셀파일 확장자가 xlsx 일 경우
 			// 분기별로 처리해서 해야함
@@ -1662,9 +1681,9 @@ public String cellTypeReturnSXSS(SXSSFCell cell) {
 		
 		List<OrdersVO> orderList = new ArrayList<OrdersVO>();
 		
-		FileuploadUtil fu = new FileuploadUtil();
 		
-		String ext = fu.getExtType(fileName);
+		
+		String ext = fileUtil.getExtType(fileName);
 		
 		Calendar cal = Calendar.getInstance();
 		
@@ -1673,11 +1692,12 @@ public String cellTypeReturnSXSS(SXSSFCell cell) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		int orderCounting = 0;
-
+		
+		String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
 		
 		try {
 	
-			FileInputStream fis= new FileInputStream("C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\"+fileName);
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 			
 			// 엑셀파일 확장자가 xlsx 일 경우
 			// 분기별로 처리해서 해야함
@@ -1829,7 +1849,7 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 		
 		SmartstoreCommission sc = new SmartstoreCommission();
 		
-		FileuploadUtil fu = new FileuploadUtil();
+		
 		
 		Calendar cal = Calendar.getInstance();
 		
@@ -1838,11 +1858,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat sdfWithoutTime = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String ext = fu.getExtType(fileName);
+		String ext = fileUtil.getExtType(fileName);
+		
+		String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
 		
 		try {
 	
-			FileInputStream fis= new FileInputStream("C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\"+fileName);
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 			
 			// 엑셀파일 확장자가 xlsx 일 경우
 			// 분기별로 처리해서 해야함
@@ -2959,18 +2981,20 @@ public List<OrdersVO> readInvoice(String fileName, int ssFk, StoreExcelDataSorti
 	
 	List<OrdersVO> invoiceList = new ArrayList<OrdersVO>();
 	
-	FileuploadUtil fu = new FileuploadUtil();
+	
 	
 	Calendar cal = Calendar.getInstance();
 	
 	Timestamp ts = new Timestamp(cal.getTimeInMillis());
 	
 	
-	String ext = fu.getExtType(fileName);
+	String ext = fileUtil.getExtType(fileName);
+	
+	String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
 	
 	try {
 
-		FileInputStream fis= new FileInputStream("C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\"+fileName);
+		FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 		
 		// 엑셀파일 확장자가 xlsx 일 경우
 		// 분기별로 처리해서 해야함

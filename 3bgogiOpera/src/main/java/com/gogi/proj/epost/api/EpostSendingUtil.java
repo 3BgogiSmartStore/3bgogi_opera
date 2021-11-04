@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -12,25 +11,13 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.Resource;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathException;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.json.JSONObject;
 import org.json.XML;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.gogi.proj.epost.vo.RegDataVO;
@@ -43,11 +30,6 @@ public class EpostSendingUtil {
 	@Resource(name="apiKeyProperties")
 	private Properties apiKeyProperties;
 	
-	
-	@Resource(name="fileUploadProperties")
-	private Properties fileProperties;
-	
-	
 	private String skey;
 	
 	//우체국계약고객시스템에서 확인 가능
@@ -57,15 +39,7 @@ public class EpostSendingUtil {
 	}
 
 	public String epostEncrypting(String epostParams) {
-		
-		if(fileProperties == null) {
-			System.out.println("fileProperties 비엇음");
-		}
-		
-		if(apiKeyProperties == null) {
-			System.out.println("apiKeyProperties 비엇음");
-		}
-		
+
 		SEED128 seed = new SEED128();
 		
 		//우체국계약고객시스템에서 확인 가능
@@ -94,7 +68,7 @@ public class EpostSendingUtil {
 		SEED128 seed = new SEED128();
 		
 		//우체국계약고객시스템에서 확인 가능
-		String skey = apiKeyProperties.getProperty("api_key.epost_s_key");
+		skey = apiKeyProperties.getProperty("api_key.epost_s_key");
 
 		String plainStr = seed.getDecryptData(skey, epostParams);
 		plainStr = plainStr.replaceAll("&micro", "&amp;micro");

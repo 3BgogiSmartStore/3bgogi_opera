@@ -38,6 +38,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -49,22 +51,26 @@ import com.gogi.proj.excel.SheetListHandler;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.util.FileuploadUtil;
 
+@Component
 public class AligoExcelUitl {
 
+	@Autowired
+	private ReadOrderExcel roe;
+	
+	@Autowired
+	private FileuploadUtil fu;
 	
 	public List<AligoVO> aligoExcelFileRead(String fileName) throws POIXMLException{
 		
-		ReadOrderExcel roe = new ReadOrderExcel();
-		
 		List<AligoVO> aligoList = new ArrayList<AligoVO>();
-		
-		FileuploadUtil fu = new FileuploadUtil();
 		
 		String ext = fu.getExtType(fileName);
 		
+		String upPath = fu.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
+		
 		try {
 	
-			FileInputStream fis= new FileInputStream("C:\\Users\\3bgogi\\Desktop\\server_file\\order_excel\\"+fileName);
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
 			
 			// 엑셀파일 확장자가 xlsx 일 경우
 			// 분기별로 처리해서 해야함
