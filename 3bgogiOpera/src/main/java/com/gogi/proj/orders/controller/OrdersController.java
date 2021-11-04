@@ -8,16 +8,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.fileupload.FileUpload;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,21 +27,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.xml.sax.SAXException;
 
 import com.gogi.proj.aligo.util.AligoSendingForm;
 import com.gogi.proj.aligo.util.AligoVO;
 import com.gogi.proj.classification.code.model.AllClassificationCodeService;
 import com.gogi.proj.classification.code.vo.ClassificationVO;
-import com.gogi.proj.classification.code.vo.CostCodeVO;
 import com.gogi.proj.configurations.model.ConfigurationService;
-import com.gogi.proj.configurations.vo.StoreMergeVO;
 import com.gogi.proj.configurations.vo.StoreSectionVO;
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
-import com.gogi.proj.epost.model.EpostService;
 import com.gogi.proj.excel.ReadOrderExcel;
 import com.gogi.proj.excel.xlsxWriter;
 import com.gogi.proj.matching.model.MatchingService;
@@ -54,23 +44,19 @@ import com.gogi.proj.orders.autocomplete.Godomall;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.config.model.OrderConfigService;
 import com.gogi.proj.orders.config.model.StoreExcelDataSortingService;
-import com.gogi.proj.orders.config.vo.ExceptAddressKeywordVO;
 import com.gogi.proj.orders.config.vo.ReqFilterKeywordVO;
 import com.gogi.proj.orders.config.vo.StoreCancleExcelDataSortingVO;
 import com.gogi.proj.orders.config.vo.StoreExcelDataSortingVO;
 import com.gogi.proj.orders.model.OrdersService;
-import com.gogi.proj.orders.util.OrderUtilityClass;
 import com.gogi.proj.orders.vo.AdminOrderRecordVO;
 import com.gogi.proj.orders.vo.IrregularOrderVO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
-import com.gogi.proj.product.options.vo.OptionsVO;
 import com.gogi.proj.security.AdminVO;
 import com.gogi.proj.stock.model.StockService;
 import com.gogi.proj.util.FileuploadUtil;
 import com.gogi.proj.util.PageUtility;
-import com.gogi.proj.util.StringReplaceUtil;
 import com.gogi.proj.util.naverMapApiUtil;
 
 @Controller
@@ -92,9 +78,6 @@ public class OrdersController {
 	private MatchingService matchingService;
 	
 	@Autowired
-	private StringReplaceUtil srUtil;
-	
-	@Autowired
 	private ConfigurationService configService;
 	
 	@Autowired
@@ -113,10 +96,10 @@ public class OrdersController {
 	private DeliveryConfigService dcService;
 	
 	@Autowired
-	private EpostService epostService;
+	private CjdeliveryService cjService;
 	
 	@Autowired
-	private CjdeliveryService cjService;
+	private Godomall gm;
 	
 	private final int PROCESS_ORDER_INSERT = 1;
 	private final int PROCESS_PRODUCT_MATCHING = 2;
@@ -195,8 +178,6 @@ public class OrdersController {
 				orderList = readOrderExcel.readOrderExcelDataToXLS(fileName, sedsVO.getSsFk(), sendingDeadlineFlag);
 				
 			}else if(sedsVO.getSsFk() == 14) {
-				Godomall gm = new Godomall();
-
 				orderList = gm.getGodomallOrders(sedsVO.getSsFk());
 
 			}else {
@@ -1097,7 +1078,6 @@ public class OrdersController {
 	 * @메소드설명 : 주문서 고객 체크사항 추가하기 페이지
 	 */
 	@RequestMapping(value="/irregular/add.do", method=RequestMethod.GET)
-	@Transactional
 	public String irregularOrdersAdd(Model model){
 		
 		//등록된 판매처 정보
@@ -1117,7 +1097,6 @@ public class OrdersController {
 	 * @메소드설명 : 고객 필터링 추가하기 기능 - post
 	 */
 	@RequestMapping(value="/irregular/add.do", method=RequestMethod.POST)
-	@Transactional
 	public String irregularOrdersAddPost(@ModelAttribute IrregularOrderVO iroVO, Model model) {
 		
 		String msg = "";
@@ -1374,7 +1353,6 @@ public class OrdersController {
 			cancledOrderList = sedsService.cancledOrderSearch(orVO);
 			
 		}else {
-			Godomall gm = new Godomall();
 			OrdersVOList orList = gm.getGodomallCancledOrders(ssVO.getSsPk());
 			
 			if(orList.getOrVoList().size() != 0) {				

@@ -29,6 +29,7 @@ import com.gogi.proj.orders.controller.OrdersController;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
 
+@Component
 public class Godomall {
 
 	private static final Logger logger = LoggerFactory.getLogger(Godomall.class);
@@ -145,6 +146,10 @@ public class Godomall {
 	public List<OrdersVO> getGodomallOrders(int ssFk){
 		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
 		key = apiKeyProperties.getProperty("api_key.godomall_key");
+		
+		System.out.println("partnerKey = "+partnerKey);
+		System.out.println("key = "+key);
+		
 		
 		boolean failCheck = false;
 		List<OrdersVO> orList = new ArrayList<>();

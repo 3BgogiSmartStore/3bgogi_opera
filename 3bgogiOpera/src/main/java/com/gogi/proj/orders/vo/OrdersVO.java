@@ -137,7 +137,7 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 	private String arrCnpoNm;					//도착집중국명
 	private String delivPoNm;					//배달우체국명
 	private String delivAreaCd;					//배달구구분코드
-	private int courseNo;
+	private String courseNo;
 	private int ddayDelivFee;	
 	private int insuFee;
 	private String refineZip;
@@ -359,11 +359,11 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		this.insuFee = insuFee;
 	}
 
-	public int getCourseNo() {
+	public String getCourseNo() {
 		return courseNo;
 	}
 
-	public void setCourseNo(int courseNo) {
+	public void setCourseNo(String courseNo) {
 		this.courseNo = courseNo;
 	}
 

@@ -39,6 +39,10 @@ public class FileuploadUtil {
 	public String fileupload(HttpServletRequest request, int uploadGb) 
 			throws IllegalStateException, IOException {
 		
+		if(fileProperties == null) {
+			System.out.println("fileProperties 비엇음");
+		}
+		
 		String fileoName = "";
 		//파일 업로드 처리
 		MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest)request;

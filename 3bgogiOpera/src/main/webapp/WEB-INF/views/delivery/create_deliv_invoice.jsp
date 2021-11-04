@@ -147,6 +147,9 @@
 						<h3 class='deliv-styles deliv-po-nm'>${orlist.delivPoNm }</h3>
 						<h3 class='deliv-styles deliv-po-nm-before'>${fn:substring(orlist.delivAreaCd, 5, 7) }</h3>
 						<h3 class='deliv-styles deliv-po-nm-after'>${fn:substring(orlist.delivAreaCd, 7, 9) }</h3>
+						<h3 class='deliv-styles deliv-course-num'> - ${orlist.courseNo} - </h3>
+						
+						
 					</c:if>
 					
 					<h3 class='deliv-styles deliv-sender-addr'>인천광역시 계양구 효서로 388 (작전동) 3층 삼형제고기</h3>

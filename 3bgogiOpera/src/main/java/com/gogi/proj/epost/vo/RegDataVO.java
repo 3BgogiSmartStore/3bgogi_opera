@@ -67,6 +67,7 @@ public class RegDataVO {
 	private String reqno;
 	private String error_code;
 	private String message;
+	private String courseNo;
 	
 	private String canceledYn;
 	private String cancelRegiNo;
@@ -133,7 +134,15 @@ public class RegDataVO {
 		this.delivAreaCd = delivAreaCd;
 		this.ediPk = ediPk;
 	}
-	
+
+	public String getCourseNo() {
+		return courseNo;
+	}
+
+	public void setCourseNo(String courseNo) {
+		this.courseNo = courseNo;
+	}
+
 	public int getEdtFk() {
 		return edtFk;
 	}

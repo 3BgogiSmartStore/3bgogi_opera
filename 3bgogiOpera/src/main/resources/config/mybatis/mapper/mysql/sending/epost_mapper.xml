@@ -247,6 +247,7 @@
 		<result property="orDelivEnter" column="or_deliv_enter" javaType="String"/>
 		<result property="reqNo" column="req_no" javaType="String"/>
 		<result property="resNo" column="res_no" javaType="String"/>
+		<result property="courseNo" column="course_no" javaType="String"/>
 		<result property="regiNo" column="regi_no" javaType="String"/>
 		<result property="regiPoNm" column="regi_po_nm" javaType="String"/>
 		<result property="resDate" column="res_date" javaType="String"/>
@@ -707,6 +708,7 @@
 			regi_po_nm = #{regiPoNm},
 			res_date = #{resDate},
 			price = #{price},
+			course_no = #{courseNo},
 			v_tel_no = #{vTelNo},
 			arr_cnpo_nm = #{arrCnpoNm},
 			deliv_po_nm = #{delivPoNm},
@@ -729,6 +731,7 @@
 			regi_po_nm = null,
 			res_date = null,
 			price = null,
+			course_no = null,
 			v_tel_no = null,
 			arr_cnpo_nm = null,
 			deliv_po_nm = null,
@@ -762,6 +765,7 @@
 		    GROUP_CONCAT(DISTINCT regi_no SEPARATOR ',') AS regi_no,
 		    GROUP_CONCAT(DISTINCT regi_po_nm SEPARATOR ',') AS regi_po_nm,
 		    GROUP_CONCAT(DISTINCT res_date SEPARATOR ',') AS res_date,
+		    GROUP_CONCAT(DISTINCT course_no SEPARATOR ',') AS course_no,
 		    GROUP_CONCAT(DISTINCT v_tel_no SEPARATOR ',') AS v_tel_no,
 		    GROUP_CONCAT(DISTINCT  arr_cnpo_nm SEPARATOR ',') AS arr_cnpo_nm,
 		    GROUP_CONCAT(DISTINCT deliv_po_nm SEPARATOR ',') AS deliv_po_nm,
@@ -930,6 +934,7 @@
 			regi_po_nm = #{regiPoNm},
 			res_date = #{resDate},
 			price = #{price},
+			course_no = #{courseNo},
 			v_tel_no = #{vTelNo},
 			arr_cnpo_nm = #{arrCnpoNm},
 			deliv_po_nm = #{delivPoNm},
@@ -989,6 +994,7 @@
                 INNE.regi_no,
                 INNE.regi_po_nm,
                 INNE.res_date,
+                INNE.course_no,
                 INNE.price,
                 INNE.v_tel_no,
                 INNE.arr_cnpo_nm,
@@ -1032,6 +1038,7 @@
                     od.req_no, 
                     od.res_no,
                     od.regi_no,
+                    od.course_no,
                     od.regi_po_nm,
                     od.res_date,
                     od.price,
@@ -1094,6 +1101,7 @@
                     od.req_no, 
                     od.res_no,
                     od.regi_no,
+                    od.course_no,
                     od.regi_po_nm,
                     od.res_date,
                     od.price,
@@ -1132,6 +1140,7 @@
             INNE.req_no, 
             INNE.res_no,
             INNE.regi_no,
+            INNE.course_no,
             INNE.regi_po_nm,
             INNE.res_date,
             INNE.price,
@@ -1348,6 +1357,7 @@
 			regi_po_nm = null,
 			res_date = null,
 			price = null,
+			course_no = null,
 			v_tel_no = null,
 			arr_cnpo_nm = null,
 			deliv_po_nm = null,

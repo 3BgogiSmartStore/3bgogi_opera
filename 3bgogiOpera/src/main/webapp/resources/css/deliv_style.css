@@ -129,18 +129,28 @@
 	position: absolute;
 	top: 16.4px;
 	left:545px;
-	font-size: 40px;
+	font-size: 34px;
 	color: black;
 	
 }
 .deliv-po-nm-after{
 	position: absolute;
 	top: 16.4px;
-	left:610px;
-	font-size: 40px;
+	left:602px;
+	font-size: 34px;
 	color: black;
 	
 }
+
+.deliv-course-num{
+	position: absolute;
+	top: 48.4px;
+	left:563px;
+	font-size: 23px;
+	color: black;
+	
+}
+
 .deliv-sender{
 	position: absolute;
 	top: 110px;

@@ -83,7 +83,8 @@ public class EpostServiceImpl implements EpostService {
 	//송장삭제
 	static final String EPOST_DELIV_DELETE = "http://ship.epost.go.kr/api.GetResCancelCmd.jparcel";
 	
-	private static EpostSendingUtil esu = new EpostSendingUtil();
+	@Autowired
+	private EpostSendingUtil esu;
 	
 	@Resource(name="fileUploadProperties")
 	private Properties fileProperties;
@@ -127,8 +128,6 @@ public class EpostServiceImpl implements EpostService {
 		Date today = new Date();
 		
 		String dates = sdf.format(today);
-		
-		EpostSendingUtil esu = new EpostSendingUtil();
 		
 		int result = 0 ;
 		int errorResult = 0;

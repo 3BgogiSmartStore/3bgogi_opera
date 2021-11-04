@@ -25,6 +25,7 @@ import javax.xml.xpath.XPathFactory;
 import org.json.JSONObject;
 import org.json.XML;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,10 +37,18 @@ import com.gogi.proj.epost.vo.RegDataVO;
 import com.gogi.proj.util.JsonToMapUtil;
 import com.gogi.proj.util.naverMapApiUtil;
 
+@Component
 public class EpostSendingUtil {
 
 	@Resource(name="apiKeyProperties")
 	private Properties apiKeyProperties;
+	
+	
+	@Resource(name="fileUploadProperties")
+	private Properties fileProperties;
+	
+	
+	private String skey;
 	
 	//우체국계약고객시스템에서 확인 가능
 	
@@ -49,10 +58,18 @@ public class EpostSendingUtil {
 
 	public String epostEncrypting(String epostParams) {
 		
+		if(fileProperties == null) {
+			System.out.println("fileProperties 비엇음");
+		}
+		
+		if(apiKeyProperties == null) {
+			System.out.println("apiKeyProperties 비엇음");
+		}
+		
 		SEED128 seed = new SEED128();
 		
 		//우체국계약고객시스템에서 확인 가능
-		String skey = apiKeyProperties.getProperty("api_key.epost_s_key");
+		skey = apiKeyProperties.getProperty("api_key.epost_s_key");
 		
 		String plainStr = epostParams;
 		String encryptStr = "";
