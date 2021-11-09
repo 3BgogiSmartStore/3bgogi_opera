@@ -274,7 +274,7 @@
                 AND od.or_inv_flag = 0
                 AND od.or_refunds = 0
                 <![CDATA[
-	                AND DATE_FORMAT(od.or_regdate, '%Y-%m-%d') >= #{dateStart}
+	                AND od.or_regdate >= #{dateStart}
                 ]]>
 			GROUP BY
 				od.or_pk,

@@ -52,7 +52,10 @@
 				var totalPath = piFilePath+piFileUniqName;
 				var source = totalPath.split("resources");
 				
-				$("#piImg").attr("src","/resources/"+source[1] ).load();
+				const enFilePath = encodeURIComponent(piFilePath);
+				const enFileName = encodeURIComponent(piFileUniqName);
+				// $("#piImg").attr("src","/resources/"+source[1] ).load();
+				$("#piImg").attr("src","/files.do?filePath="+enFilePath+"&fileName="+enFileName ).load();
 				
     		});
     		

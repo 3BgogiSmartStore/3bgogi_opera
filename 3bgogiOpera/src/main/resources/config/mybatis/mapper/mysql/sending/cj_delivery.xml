@@ -543,8 +543,13 @@
 			od.or_user_column4,
 			od.or_receiver_name,
 			od.or_receiver_contract_number1,
-			CONCAT(od.or_shipping_address, ' ', od.or_shipping_address_detail) AS or_shipping_address,
-			CONCAT(pro.product_name, ' [ ', op.option_name, ' ] ', (od.or_amount * om.om_option_amount), ' 개') AS product_name,
+			CONCAT(od.or_shipping_address, ' ', od.or_shipping_address_detail)  AS or_shipping_address,
+            
+            IF(
+				or_request IS NOT NULL AND or_request != '',
+                CONCAT('[ 요청사항 : ',od.or_request, ' ] ', pro.product_name, ' [ ', op.option_name, ' ] ', (od.or_amount * om.om_option_amount), ' 개'),
+                CONCAT(pro.product_name, ' [ ', op.option_name, ' ] ', (od.or_amount * om.om_option_amount), ' 개')
+            )  AS product_name,
 			od.or_delivery_message AS or_user_column5,
 			'1',
 			od.or_serial_special_number,
@@ -567,7 +572,5 @@
 		ORDER BY
 			od.or_serial_special_number ASC,
             od.or_delivery_message DESC
-			
-		
 	</select>
 </mapper>
