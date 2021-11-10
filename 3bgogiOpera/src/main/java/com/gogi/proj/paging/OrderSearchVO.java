@@ -66,6 +66,9 @@ public class OrderSearchVO {
 	
 	private int edtFk; //배송타입 설정
 	private int receiveType; //상품 수령 방식 설정
+	private int minPrice;
+	private int maxPrice;
+	private int delivMsg;
 	
 	//원육 출고 관리 
 	private int ccPk;
@@ -85,7 +88,30 @@ public class OrderSearchVO {
 	private String exSerachKeyword; //제외 검색어
 	private List<String> exSearchKeywordList; //제외 검색어 리스트값
 
-	
+	public int getDelivMsg() {
+		return delivMsg;
+	}
+
+	public void setDelivMsg(int delivMsg) {
+		this.delivMsg = delivMsg;
+	}
+
+	public int getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public int getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(int maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+
 	public List<String> getCreateRegdateList() {
 		return createRegdateList;
 	}

@@ -97,6 +97,7 @@ public class CjdeliveryDAOMybatis extends SqlSessionDaoSupport implements Cjdeli
 			+"edt_fk = 5 "
 		+"WHERE "
 			+"or_serial_special_number = ? "
+			+"AND or_delivery_invoice_number = '입력전' "
 				+"AND or_sending_deadline >= DATE_FORMAT(DATE_ADD(NOW() , INTERVAL -21 DAY), '%Y-%m-%d') ";
 
         try {
@@ -176,5 +177,11 @@ public class CjdeliveryDAOMybatis extends SqlSessionDaoSupport implements Cjdeli
 		
 		
 		return suc;
+	}
+
+	@Override
+	public List<OrdersVO> selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum(String orSerialSpecialNumber) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(namespace+".selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum", orSerialSpecialNumber);
 	}
 }

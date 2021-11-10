@@ -42,13 +42,24 @@ jQuery(document).ready(function($) {
 		    	
 		    	if(data[0].orDeliveryInvoiceNumber == null){
 		    		dataChangeFlag=true;
+		    		
 		    	}else{
 		    		dataChangeFlag=false;
+		    		
 		    	}
 		    	
 		    	//택배수령
 		    	if(data[0].orRecType == 0){
-		    		$("#orderDetailRecType, #orderDetailRecMemo, #orderDetailRecStoragePlace").hide();
+		    		
+		    		if(data[0].orDeliveryInvoiceNumber != ''){
+		    			$("#orderDetailRecMemo").show();
+			    		$("#orderDetailRecMemo").text(' 송장번호 : '+ (data[0].orDeliveryInvoiceNumber == '입력전' ? 'cj택배 송장 입력 대기중'  : data[0].orDeliveryInvoiceNumber ));
+			    		
+		    		}else {
+		    			$("#orderDetailRecType, #orderDetailRecMemo, #orderDetailRecStoragePlace").hide();
+		    			
+		    		}
+		    		
 		    		
 		    	//택배수령이 아닐 경우
 		    	}else if(data[0].orRecType == 1){
@@ -1242,6 +1253,29 @@ jQuery(document).ready(function($) {
 				}
 				
 			});
+			
+		}
+		
+	});
+	
+	
+	if( $("#priceRange").is(":checked") == true){
+		$("#minPrice, #maxPrice").removeAttr("readonly");
+		
+	}else{
+		$("#minPrice, #maxPrice").attr("readonly","readonly");
+		
+	}
+	
+	$("#priceRange").click(function(){
+		
+		if( $("#priceRange").is(":checked") == true){
+			$("#minPrice, #maxPrice").removeAttr("readonly");
+			console.log("체크됨 = "+$("#priceRange").val());
+		}else{
+			$("#minPrice, #maxPrice").attr("readonly","readonly");
+			console.log("체크풀림 = "+$("#priceRange").val());
+			
 			
 		}
 		

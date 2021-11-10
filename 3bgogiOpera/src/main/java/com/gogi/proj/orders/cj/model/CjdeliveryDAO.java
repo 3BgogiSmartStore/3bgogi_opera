@@ -103,4 +103,16 @@ public interface CjdeliveryDAO {
 	 * @메소드설명 : 송장정보과 묶음번호값을 batch update
 	 */
 	public int [] grantCjDeliveryInvoiceNumByBatchUpdate(List<OrdersVO> orderList);
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum
+	 * @date : 2021. 11. 9.
+	 * @author : Jeon KiChan
+	 * @param orSerialSpecialNumber
+	 * @return
+	 * @메소드설명 : 업무페이지 묶음고유값으로 cj 송장에 필요한 정보 나열
+	 */
+	public List<OrdersVO> selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum(String orSerialSpecialNumber);
 }

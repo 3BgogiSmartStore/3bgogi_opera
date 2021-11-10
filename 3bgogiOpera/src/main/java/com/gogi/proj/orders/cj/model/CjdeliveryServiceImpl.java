@@ -80,6 +80,9 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
         	if(checkingList.get(i).getOrShippingAddress().split(" ")[0].indexOf("서울") != -1 ) {
         		targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         		
+        	}else if(checkingList.get(i).getOrShippingAddress().indexOf("시흥시") != -1 ) {
+        		targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
+        		
         	}else {        		
         		
         		
@@ -173,7 +176,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 		
 		for( OrdersVO orVO : delivTarget) {
 			
-			orList = orderDao.selectOrdersPkByOrSerialSpecialNumber(orVO.getOrSerialSpecialNumber());
+			orList = cjDao.selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum(orVO.getOrSerialSpecialNumber());
 			
 			for(int i = 0; i < orList.size(); i++) {
 				
@@ -402,7 +405,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 		
 		for(OrdersVO orVO : orderList) {
 			
-			List<OrdersVO> orList = orderDao.selectOrdersPkByOrSerialSpecialNumber(orVO.getOrSerialSpecialNumber());
+			List<OrdersVO> orList = cjDao.selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum(orVO.getOrSerialSpecialNumber());
 			
 			for(int i = 0; i < orList.size(); i++) {
 				

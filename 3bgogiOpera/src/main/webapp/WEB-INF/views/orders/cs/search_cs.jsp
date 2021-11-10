@@ -545,11 +545,9 @@
 													<option value="1">우체국택배</option>
 													<!-- <option value="3">새벽배송(프레시솔루션)</option> -->
 													<option value="5">CJ새벽배송</option>
-													
 												</select>
                                         	</div>
                                         </div>
-                                        
                                     	<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
                                         	<label for="" style="font-size: 13px;"> 주문서 상태 </label>
                                         	<div class="form-inline">
@@ -660,9 +658,7 @@
 				                            			selected-values
 				                            				
 				                            		</c:if>
-				                            	" name="specialRegionFlag"
-				                            		
-				                            	>
+				                            	" name="specialRegionFlag">
 				                            		<option value="0"
 				                            			<c:if test="${osVO.specialRegionFlag == 0 }">
 				                            				selected="selected"
@@ -705,6 +701,23 @@
 				                            				selected="selected"
 				                            			</c:if>
 				                            		>냉동</option>
+				                            	</select>&nbsp;
+				                            	
+				                            	<select class="form-control form-control-sm mb-2
+				                            		<c:if test="${osVO.delivMsg != 0 }">
+				                            			selected-values
+				                            		</c:if>
+				                            	" name="delivMsg" >
+				                            		<option value="0"
+				                            			<c:if test="${osVO.delivMsg == 0 }">
+				                            				selected="selected"
+				                            			</c:if>
+				                            		>배송메세지</option>
+				                            		<option value="1"
+				                            			<c:if test="${osVO.delivMsg == 1 }">
+				                            				selected="selected"
+				                            			</c:if>
+				                            		>배송메세지 있는 건</option>
 				                            	</select>
 				                    
                                         	</div>
@@ -864,6 +877,27 @@
 							                    <input class="form-control form-control-sm" id="searchAddKeyword" name="searchAddKeyword" type="text"  placeholder="추가 검색어 입력" value="${osVO.searchAddKeyword }">                                     
                                         	</div>                                       
                                         </div>
+                                    </div>
+                                    <div class="row" id="moreSearchOption">
+                                    	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+	                                    	<label for="" style="font-size: 13px;"> 금액대 검색  </label>
+                                    		<div class="form-inline">
+	                                    		<div class="form-group">
+	                                    			<div class="input-group input-group-sm mb-3">
+		                                                <div class="input-group-prepend">
+		                                                    <div class="input-group-text">
+		                                                        <label class="custom-control custom-checkbox">
+		                                                            <input type="checkbox" id="priceRange" class="custom-control-input" name="priceRange" value="priceRange">
+		                                                            <span class="custom-control-label"></span>
+		                                                        </label>
+		                                                    </div>
+		                                                </div>
+		                                                <input type="text" id="minPrice" class="form-control" placeholder="최소 금액" name="minPrice" value="${osVO.minPrice }">
+		                                                <input type="text" id="maxPrice" class="form-control" placeholder="최대 금액" name="maxPrice" value="${osVO.maxPrice }">
+		                                            </div>
+	                                    		</div>
+                                    		</div>
+                                    	</div>
                                     </div>
                             	</div>
                             	<div class="card-body" style="padding-top: 0px;">

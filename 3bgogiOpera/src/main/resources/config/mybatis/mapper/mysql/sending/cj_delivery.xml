@@ -502,6 +502,7 @@
 			or_delivery_invoice_number IS NULL
 			AND or_cancled_flag = 0
 			AND or_refunds = 0
+			AND or_delivery_invoice_number = '입력전'
 			AND	or_pk IN 
 			<foreach collection="productOptionList" item="items"  open="(" close=")"  separator=",">
 					#{items.anotherOptionPk}
@@ -572,5 +573,24 @@
 		ORDER BY
 			od.or_serial_special_number ASC,
             od.or_delivery_message DESC
+	</select>
+	
+	<select id="selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum" parameterType="String" resultType="OrdersVO">
+		SELECT 
+			or_pk,
+			or_order_number,
+			or_product_order_number,
+			or_product,
+			or_product_option,
+			or_amount,
+			or_sending_deadline
+		FROM
+			orders
+		WHERE
+			or_serial_special_number = #{orSerialSpecialNumber}
+			AND or_delivery_invoice_number = '입력전'
+			<![CDATA[
+				AND or_sending_deadline >= DATE_FORMAT(DATE_ADD(NOW() , INTERVAL -15 DAY), '%Y-%m-%d')
+			]]>
 	</select>
 </mapper>
