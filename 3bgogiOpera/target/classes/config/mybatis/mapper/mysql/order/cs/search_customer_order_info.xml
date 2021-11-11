@@ -300,159 +300,175 @@
 	<!-- 기존 검색 조건 사항 -->
 	<sql id="innerSearchList">
 		SELECT
-			od.or_serial_special_number,
-			COUNT(od.or_serial_special_number) AS serial_count,
-			SUM(od.or_inv_flag) AS total_flag,
-    		GROUP_CONCAT(DISTINCT or_delivery_message, '||') deliv_msg
+			inner_search.or_serial_special_number
 		FROM
-			orders od
-			LEFT JOIN product_matching pm ON od.pm_fk = pm.pm_pk
-			LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
-			LEFT JOIN options op ON om.option_fk = op.option_pk
-			LEFT JOIN products pro ON pro.product_pk = op.product_fk
-				<trim prefix="WHERE" prefixOverrides="AND |OR ">
-					
-					<include refid="commonSearch"></include>
-					<if test="searchKeyword != null and !searchKeyword.equals('')">
-						<if test="searchType == 'orderNames'">
-							AND (
-								<foreach collection="searchKeywordList" item="specialNumber" separator="or">
-									 or_buyer_name LIKE CONCAT('%',#{specialNumber},'%') 
-									OR or_receiver_name LIKE CONCAT('%',#{specialNumber},'%') 
-								</foreach>
-							)
-						</if>					
-						<if test="searchType == 'buyerName'">
-							AND or_buyer_name LIKE CONCAT('%',#{searchKeyword},'%')
+			(
+			SELECT
+				od.or_serial_special_number,
+				COUNT(od.or_serial_special_number) AS serial_count,
+				SUM(od.or_inv_flag) AS total_flag,
+	    		GROUP_CONCAT(DISTINCT or_delivery_message, '||') deliv_msg
+			FROM
+				orders od
+				LEFT JOIN product_matching pm ON od.pm_fk = pm.pm_pk
+				LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
+				LEFT JOIN options op ON om.option_fk = op.option_pk
+				LEFT JOIN products pro ON pro.product_pk = op.product_fk
+					<trim prefix="WHERE" prefixOverrides="AND |OR ">
+						
+						<include refid="commonSearch"></include>
+						<if test="searchKeyword != null and !searchKeyword.equals('')">
+							<if test="searchType == 'orderNames'">
+								AND (
+									<foreach collection="searchKeywordList" item="specialNumber" separator="or">
+										 or_buyer_name LIKE CONCAT('%',#{specialNumber},'%') 
+										OR or_receiver_name LIKE CONCAT('%',#{specialNumber},'%') 
+									</foreach>
+								)
+							</if>					
+							<if test="searchType == 'buyerName'">
+								AND or_buyer_name LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'anotherName'">
+								AND or_buyer_another_name LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'receiverName'">
+								AND or_receiver_name LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'buyerNum'">
+								AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'receiverNum'">
+								AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'orderNum'">
+								AND (
+									<foreach collection="searchKeywordList" item="specialNumber" separator="or">
+										or_order_number = #{specialNumber}
+									</foreach>
+								)
+							</if>
+							<if test="searchType == 'invoiceNum'">
+								AND or_delivery_invoice_number LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'invoiceNum2'">
+								AND or_delivery_invoice_number NOT LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'orOutPutDate'">
+								AND or_output_date LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'receiverAddress'">
+								AND (or_shipping_address_detail LIKE CONCAT('%',#{searchKeyword},'%') OR or_shipping_address LIKE CONCAT('%',#{searchKeyword},'%') )
+							</if>
+							<if test="searchType == 'deliveryMessage'">
+								AND or_delivery_message LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'orderProductNum'">
+								AND or_product_order_number LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'storeProduct'">
+								AND ( or_product LIKE CONCAT('%',#{searchKeyword},'%') OR or_product_option LIKE CONCAT('%',#{searchKeyword},'%') )
+							</if>
+							<if test="searchType == 'matchingProduct'">
+								AND pro.product_name LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
+							<if test="searchType == 'matchingOption'">
+								AND op.option_name LIKE CONCAT('%',#{searchKeyword},'%')
+							</if>
 						</if>
-						<if test="searchType == 'anotherName'">
-							AND or_buyer_another_name LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'receiverName'">
-							AND or_receiver_name LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'buyerNum'">
-							AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'receiverNum'">
-							AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'orderNum'">
-							AND (
-								<foreach collection="searchKeywordList" item="specialNumber" separator="or">
-									or_order_number = #{specialNumber}
-								</foreach>
-							)
-						</if>
-						<if test="searchType == 'invoiceNum'">
-							AND or_delivery_invoice_number LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'invoiceNum2'">
-							AND or_delivery_invoice_number NOT LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'orOutPutDate'">
-							AND or_output_date LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'receiverAddress'">
-							AND (or_shipping_address_detail LIKE CONCAT('%',#{searchKeyword},'%') OR or_shipping_address LIKE CONCAT('%',#{searchKeyword},'%') )
-						</if>
-						<if test="searchType == 'deliveryMessage'">
-							AND or_delivery_message LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'orderProductNum'">
-							AND or_product_order_number LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'storeProduct'">
-							AND ( or_product LIKE CONCAT('%',#{searchKeyword},'%') OR or_product_option LIKE CONCAT('%',#{searchKeyword},'%') )
-						</if>
-						<if test="searchType == 'matchingProduct'">
-							AND pro.product_name LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-						<if test="searchType == 'matchingOption'">
-							AND op.option_name LIKE CONCAT('%',#{searchKeyword},'%')
-						</if>
-					</if>
-				</trim>
+					</trim>
+			GROUP BY
+				od.or_serial_special_number
+			<if test="delivMsg == 1">
+				HAVING
+					<![CDATA[
+						LENGTH(deliv_msg) - LENGTH(REPLACE(deliv_msg, '||', '')) > 1
+					    AND deliv_msg != ''
+					]]>
+			</if>
+			
+			) inner_search
 		GROUP BY
-			od.or_serial_special_number
-		<if test="delivMsg == 1">
-			HAVING
-				<![CDATA[
-					LENGTH(deliv_msg) - LENGTH(REPLACE(deliv_msg, '||', '')) > 1
-				    AND deliv_msg != ''
-				]]>
-		</if>
+			inner_search.or_serial_special_number
 	</sql>
 	
 	<!-- 제외사항 -->
 	<sql id="exceptOutterList">
 		SELECT
-			od.or_serial_special_number,
-    		GROUP_CONCAT(DISTINCT or_delivery_message, '||') deliv_msg
+			more_search.or_serial_special_number
 		FROM
-			orders od
-			LEFT JOIN product_matching pm ON od.pm_fk = pm.pm_pk
-			LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
-			LEFT JOIN options op ON om.option_fk = op.option_pk
-			LEFT JOIN products pro ON pro.product_pk = op.product_fk
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<include refid="commonSearch"></include>
-			<!-- 추가적으로 검색 -->
-			<if test="searchAddKeyword != null and !searchAddKeyword.equals('')">
-				<if test="searchAddKind == 'orderNames'">
-					AND (
-							or_buyer_name LIKE CONCAT('%',#{searchAddKeyword},'%') 
-							OR or_receiver_name LIKE CONCAT('%',#{searchAddKeyword},'%') 
-						)
-				</if>						
-				<if test="searchAddKind == 'buyerName'">
-					AND or_buyer_name LIKE CONCAT('%',#{searchAddKeyword},'%')
+			(
+			SELECT
+				od.or_serial_special_number,
+	    		GROUP_CONCAT(DISTINCT or_delivery_message, '||') deliv_msg
+			FROM
+				orders od
+				LEFT JOIN product_matching pm ON od.pm_fk = pm.pm_pk
+				LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
+				LEFT JOIN options op ON om.option_fk = op.option_pk
+				LEFT JOIN products pro ON pro.product_pk = op.product_fk
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<include refid="commonSearch"></include>
+				<!-- 추가적으로 검색 -->
+				<if test="searchAddKeyword != null and !searchAddKeyword.equals('')">
+					<if test="searchAddKind == 'orderNames'">
+						AND (
+								or_buyer_name LIKE CONCAT('%',#{searchAddKeyword},'%') 
+								OR or_receiver_name LIKE CONCAT('%',#{searchAddKeyword},'%') 
+							)
+					</if>						
+					<if test="searchAddKind == 'buyerName'">
+						AND or_buyer_name LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'receiverName'">
+						AND or_receiver_name LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'buyerNum'">
+						AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'receiverNum'">
+						AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'orderNum'">
+						AND or_order_number LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'invoiceNum'">
+						AND or_delivery_invoice_number LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'receiverAddress'">
+						AND (or_shipping_address_detail LIKE CONCAT('%',#{searchAddKeyword},'%') OR or_shipping_address LIKE CONCAT('%',#{searchAddKeyword},'%') )
+					</if>
+					<if test="searchAddKind == 'deliveryMessage'">
+						AND or_delivery_message LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'orderProductNum'">
+						AND or_product_order_number LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'storeProduct'">
+						AND ( or_product LIKE CONCAT('%',#{searchAddKeyword},'%') OR or_product_option LIKE CONCAT('%',#{searchAddKeyword},'%') )
+					</if>
+					<if test="searchAddKind == 'matchingProduct'">
+						AND pro.product_name LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
+					<if test="searchAddKind == 'matchingOption'">
+						AND op.option_name LIKE CONCAT('%',#{searchAddKeyword},'%')
+					</if>
 				</if>
-				<if test="searchAddKind == 'receiverName'">
-					AND or_receiver_name LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'buyerNum'">
-					AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'receiverNum'">
-					AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'orderNum'">
-					AND or_order_number LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'invoiceNum'">
-					AND or_delivery_invoice_number LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'receiverAddress'">
-					AND (or_shipping_address_detail LIKE CONCAT('%',#{searchAddKeyword},'%') OR or_shipping_address LIKE CONCAT('%',#{searchAddKeyword},'%') )
-				</if>
-				<if test="searchAddKind == 'deliveryMessage'">
-					AND or_delivery_message LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'orderProductNum'">
-					AND or_product_order_number LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'storeProduct'">
-					AND ( or_product LIKE CONCAT('%',#{searchAddKeyword},'%') OR or_product_option LIKE CONCAT('%',#{searchAddKeyword},'%') )
-				</if>
-				<if test="searchAddKind == 'matchingProduct'">
-					AND pro.product_name LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
-				<if test="searchAddKind == 'matchingOption'">
-					AND op.option_name LIKE CONCAT('%',#{searchAddKeyword},'%')
-				</if>
+			</trim>
+			GROUP BY
+				od.or_serial_special_number
+			<if test="delivMsg == 1">
+				HAVING
+					<![CDATA[
+						LENGTH(deliv_msg) - LENGTH(REPLACE(deliv_msg, '||', '')) > 1
+					    AND deliv_msg != ''
+					]]>
 			</if>
-		</trim>
+			
+			
+			) more_search
 		GROUP BY
-			od.or_serial_special_number
-		<if test="delivMsg == 1">
-			HAVING
-				<![CDATA[
-					LENGTH(deliv_msg) - LENGTH(REPLACE(deliv_msg, '||', '')) > 1
-				    AND deliv_msg != ''
-				]]>
-		</if>
-		
+			more_search.or_serial_special_number
 	</sql>
 	
 	<!-- cs쪽 검색하는 기능 -->
