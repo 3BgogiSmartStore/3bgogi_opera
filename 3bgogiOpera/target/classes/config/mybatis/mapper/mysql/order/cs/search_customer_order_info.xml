@@ -295,6 +295,10 @@
 				AND (od.or_delivery_price = 0 OR od.or_delivery_discount_price > 0 )
 			]]>
 		</if>
+		<if test="sendingReq == 1">
+			AND sr.sr_check_flag = 0
+			AND sr.sr_sending_flag = 0
+		</if>
 	</sql>
 	
 	<!-- 기존 검색 조건 사항 -->
