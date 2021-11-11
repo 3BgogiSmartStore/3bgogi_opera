@@ -299,6 +299,10 @@
 			AND sr.sr_check_flag = 0
 			AND sr.sr_sending_flag = 0
 		</if>
+		<if test="sendingReq == 2">
+			AND sr.sr_check_flag = 1
+			AND sr.sr_sending_flag = 1
+		</if>
 	</sql>
 	
 	<!-- 기존 검색 조건 사항 -->
@@ -318,7 +322,7 @@
 				LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
 				LEFT JOIN options op ON om.option_fk = op.option_pk
 				LEFT JOIN products pro ON pro.product_pk = op.product_fk
-			<if test="sendingReq == 1">
+			<if test="sendingReq != 0">
 				INNER JOIN sending_request sr ON od.or_delivery_invoice_number = sr_invoice_num
 			</if>
 					<trim prefix="WHERE" prefixOverrides="AND |OR ">
@@ -414,7 +418,7 @@
 				LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
 				LEFT JOIN options op ON om.option_fk = op.option_pk
 				LEFT JOIN products pro ON pro.product_pk = op.product_fk
-			<if test="sendingReq == 1">
+			<if test="sendingReq != 0">
 				INNER JOIN sending_request sr ON od.or_delivery_invoice_number = sr_invoice_num
 			</if>
 			<trim prefix="WHERE" prefixOverrides="AND |OR ">
