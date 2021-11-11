@@ -69,6 +69,7 @@ public class OrderSearchVO {
 	private int minPrice;
 	private int maxPrice;
 	private int delivMsg;
+	private int sendingReq;
 	
 	//원육 출고 관리 
 	private int ccPk;
@@ -87,6 +88,14 @@ public class OrderSearchVO {
 	private String exSearchType; //제외 검색어 타입
 	private String exSerachKeyword; //제외 검색어
 	private List<String> exSearchKeywordList; //제외 검색어 리스트값
+	
+	public int getSendingReq() {
+		return sendingReq;
+	}
+
+	public void setSendingReq(int sendingReq) {
+		this.sendingReq = sendingReq;
+	}
 
 	public int getDelivMsg() {
 		return delivMsg;

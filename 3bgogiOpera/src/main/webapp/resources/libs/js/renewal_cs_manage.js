@@ -1280,6 +1280,14 @@ jQuery(document).ready(function($) {
 		}
 		
 	});
+	
+	$("#minPrice, #maxPrice").click(function(){
+		$("#minPrice, #maxPrice").removeAttr("readonly");
+		
+		$("#priceRange").prop("checked","checked");
+		
+		
+	});
 
 	
 }); // AND OF JQUERY

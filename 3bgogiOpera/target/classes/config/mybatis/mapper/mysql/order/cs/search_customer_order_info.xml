@@ -314,6 +314,9 @@
 				LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
 				LEFT JOIN options op ON om.option_fk = op.option_pk
 				LEFT JOIN products pro ON pro.product_pk = op.product_fk
+			<if test="sendingReq == 1">
+				INNER JOIN sending_request sr ON od.or_delivery_invoice_number = sr_invoice_num
+			</if>
 					<trim prefix="WHERE" prefixOverrides="AND |OR ">
 						
 						<include refid="commonSearch"></include>
@@ -407,6 +410,9 @@
 				LEFT JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
 				LEFT JOIN options op ON om.option_fk = op.option_pk
 				LEFT JOIN products pro ON pro.product_pk = op.product_fk
+			<if test="sendingReq == 1">
+				INNER JOIN sending_request sr ON od.or_delivery_invoice_number = sr_invoice_num
+			</if>
 			<trim prefix="WHERE" prefixOverrides="AND |OR ">
 				<include refid="commonSearch"></include>
 				<!-- 추가적으로 검색 -->

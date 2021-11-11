@@ -275,7 +275,6 @@
 												                    	</c:if>
 												                    > ${sslist.ssName }</option>
 											                    </c:forEach>
-											                    <option value="-1">개인주문</option>
 										                    </select>
 			                        					</div>
 			                        					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -545,6 +544,23 @@
 													<option value="1">우체국택배</option>
 													<!-- <option value="3">새벽배송(프레시솔루션)</option> -->
 													<option value="5">CJ새벽배송</option>
+												</select>&nbsp;
+												<select class="form-control form-control-sm mb-2 
+						                        	<c:if test="${osVO.sendingReq != 0 }">
+				                            			selected-values
+				                            				
+				                            		</c:if>
+						                        " name="sendingReq"  >
+							                        <option value="0"
+							                        	<c:if test="${osVO.sendingReq == 0}">
+															selected="selected"
+														</c:if>
+							                        > 강제출고요청 </option>
+													<option value="1"
+														<c:if test="${osVO.sendingReq == 1}">
+															selected="selected"
+														</c:if>
+													> 요청 있는 건</option>
 												</select>
                                         	</div>
                                         </div>
