@@ -17,6 +17,8 @@ import javax.xml.xpath.XPathExpressionException;
 import org.json.JSONObject;
 import org.json.XML;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
@@ -27,6 +29,8 @@ import com.gogi.proj.util.naverMapApiUtil;
 @Component
 public class EpostSendingUtil {
 
+	private static final Logger logger = LoggerFactory.getLogger(EpostSendingUtil.class);
+	
 	@Resource(name="apiKeyProperties")
 	private Properties apiKeyProperties;
 	
@@ -201,6 +205,8 @@ public class EpostSendingUtil {
 	public Object epostXMLParsingDelivByObjectClass(String xmlData, Object objClass) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, ParseException {
 		JSONObject xmlJSONObj = XML.toJSONObject(xmlData);
 		String objString = xmlJSONObj.toString();
+		
+		logger.info("우체국 택배 송장생성 내역 = {}"+objString);
 		
 		Map<String, Object> results = naverMapApiUtil.returnJson(objString);
 		

@@ -138,15 +138,9 @@ public class EpostServiceImpl implements EpostService {
 		String regData = "";
 		String encryptStr = "";
 		
-		TodayPickupController tc  = new TodayPickupController();
+		TodayPickupController tc = null;
+		Map<String, String> requestHeaders = null;
 		
-		String auth = tc.getTodayPickupAuthorizations();
-		
-		Map<String, String> requestHeaders = new HashMap<>();
-
-        requestHeaders.put("Authorization", auth);
-        requestHeaders.put("Accept", "application/json");
-        requestHeaders.put("Content-Type", "application/json");
         
 		for(int i=0; i < orSerialSpecialNumberList.size(); i++) {
 			regVO = epostDao.selectEpostInfoByOrserialspecialnumber(orSerialSpecialNumberList.get(i));
@@ -160,6 +154,15 @@ public class EpostServiceImpl implements EpostService {
 			}else {				
 				
 				if(regVO.getEdtFk() == 6) {
+					tc  = new TodayPickupController();
+					
+					String auth = tc.getTodayPickupAuthorizations();
+					
+					requestHeaders = new HashMap<>();
+					requestHeaders.put("Authorization", auth);
+			        requestHeaders.put("Accept", "application/json");
+			        requestHeaders.put("Content-Type", "application/json");
+			        
 					result += todayPickupService.deleteTodayPickupDelivInvoice(regVO.getRegiNo(), requestHeaders);
 					epostDao.deleteDelivInfo(orSerialSpecialNumberList.get(i));
 					results.append(""+orSerialSpecialNumberList.get(i)+" => 오늘의 픽업 삭제 <br>");

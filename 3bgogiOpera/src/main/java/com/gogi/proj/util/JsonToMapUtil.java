@@ -81,25 +81,30 @@ public class JsonToMapUtil {
 					field.setAccessible(true);
 					
 					if(isNumber((String)resultMap.getValue())) {
-						field.set(object, Integer.parseInt((String)resultMap.getValue()));
+						if(resultMap.getKey().equals("courseNo")) {
+							field.set(object, resultMap.getValue());
+						}else {
+							
+							field.set(object, Integer.parseInt((String)resultMap.getValue()));
+						}
 					}else {
 						
 						field.set(object, resultMap.getValue());
 					}
 				} catch (NoSuchFieldException e) {
 					// TODO Auto-generated catch block
-					System.out.println("필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
+					System.out.println("필드값을 찾을 수 없습니다 필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
 					throw new RuntimeException("필드값을 찾을 수 없습니다", e);
 				} catch (SecurityException e) {
 					// TODO Auto-generated catch block
-					System.out.println("필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
+					System.out.println("보안 에러 필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
 					throw new RuntimeException("보안 에러", e);
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
-					System.out.println("필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
+					System.out.println("잘못된  필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
 				} catch (IllegalAccessException e) {
 					// TODO Auto-generated catch block
-					System.out.println("필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
+					System.out.println("필드값을 참조할 수 없습니다 필드값 = "+resultMap.getKey()+", "+(String)resultMap.getValue());
 					throw new RuntimeException(" 필드값을 참조할 수 없습니다", e);
 				}
     		}

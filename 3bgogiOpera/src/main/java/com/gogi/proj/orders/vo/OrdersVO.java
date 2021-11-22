@@ -311,6 +311,7 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		this.productOptionList = productOptionList;
 	}
 	
+
 	public String getRefineZip() {
 		return refineZip;
 	}

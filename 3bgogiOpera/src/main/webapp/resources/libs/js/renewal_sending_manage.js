@@ -55,6 +55,7 @@ jQuery(document).ready(function($) {
 		
 		$.ajax({
 			type       : 'POST',
+			async	   : false,
 			data       : sendingReqFormData,
 			url        : '/delivery/sending_req.do',
 			success    : function(data){		
@@ -290,6 +291,9 @@ jQuery(document).ready(function($) {
 									    		url        : '/delivery/non_picking_count.do',
 									    		success    : function(data){		
 									    			$("#nonePickingCount").text(data);
+									    			
+									    		},error		: function(){
+									    			alert(" 서버 에러 : 다시 한 번 피킹해주세요 ");
 									    			
 									    		}
 									    		
