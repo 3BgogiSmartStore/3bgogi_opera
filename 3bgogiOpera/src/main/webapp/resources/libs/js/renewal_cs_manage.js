@@ -1303,14 +1303,15 @@ jQuery(document).ready(function($) {
 		}
 
 		if(confirm("우체국택배로 고정하시겠습니까?")){
-			
-			orSerialSpecialNumber = $("input[name=orSerialSpecialNumberList]:checked").val();
-			
+			for(var i=0; i<orSize; i++){
+				orSerialSpecialNumberList[i]=$("input[data-deliv-weiting='1']:checked")[i].value;
+				
+			}
 			
 			$.ajax({
 				type       : 'GET',
 				data       : {
-					"orSerialSpecialNumber":orSerialSpecialNumber
+					"orSerialSpecialNumber":orSerialSpecialNumberList
 					
 				},
 				url        : '/orders/abs_epost_deliv.do',
