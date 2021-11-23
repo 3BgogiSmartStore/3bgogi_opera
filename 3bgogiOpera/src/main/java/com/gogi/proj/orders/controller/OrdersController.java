@@ -194,18 +194,6 @@ public class OrdersController {
 			
 		}
 		
-		if(orderList != null ) {
-			
-			if(orderList.get(0).getSsFk() == 17) {
-				for(int i = 0; i<orderList.size(); i++) {
-					
-					
-					orderList.get(i).setOrTotalPrice((orderList.get(i).getOrProductPrice()+orderList.get(i).getOrProductOptionPrice())*orderList.get(i).getOrAmount());
-					orderList.get(i).setOrProductOrderNumber(orderList.get(i).getOrOrderNumber()+"-"+i);
-				}
-			}
-		}
-		
 		int [] result = ordersService.insertOrderData(orderList, sedsVO.getSsFk());
 		
 		//고객 필터링 데이터

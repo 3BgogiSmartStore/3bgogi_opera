@@ -142,7 +142,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 	@Override
 	public File cjDeliveryExcelInfo(OrderSearchVO osVO, String ip, String adminId) {
 		// TODO Auto-generated method stub
-
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date today = new Date();
 		
@@ -163,10 +163,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 		}
 		
 		int result = cjDao.updateCjDeliveryTargetBeforeGrantInvoiceNum(delivTarget);
-		
-		// 가입력된 주문서가 없을 경우 null 처리
-		if(result == 0) return null;
-		
+
 		OrderHistoryVO ohVO = null;
 		
 		int temp = 0;
@@ -178,28 +175,29 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 			
 			orList = cjDao.selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum(orVO.getOrSerialSpecialNumber());
 			
-			for(int i = 0; i < orList.size(); i++) {
-				
-				if( temp == orList.get(i).getOrPk()) {
-					continue;
+			if(orList != null) {				
+				for(int i = 0; i < orList.size(); i++) {
 					
-				}else {
-					ohVO = new OrderHistoryVO();
-					ohVO.setOrFk(orList.get(i).getOrPk());
-					ohVO.setOhIp(ip);
-					ohVO.setOhAdmin(adminId);
-					ohVO.setOhRegdate(dates);
-					ohVO.setOhEndPoint("cj 새벽배송 생성");
-					ohVO.setOhDetail("cj 새벽배송 가송장 생성 완료");
-					
-					logService.insertOrderHistory(ohVO);
-					temp = orList.get(i).getOrPk();
-					
+					if( temp == orList.get(i).getOrPk()) {
+						continue;
+						
+					}else {
+						ohVO = new OrderHistoryVO();
+						ohVO.setOrFk(orList.get(i).getOrPk());
+						ohVO.setOhIp(ip);
+						ohVO.setOhAdmin(adminId);
+						ohVO.setOhRegdate(dates);
+						ohVO.setOhEndPoint("cj 새벽배송 생성");
+						ohVO.setOhDetail("cj 새벽배송 가송장 생성 완료");
+						
+						int results = logService.insertOrderHistory(ohVO);
+						temp = orList.get(i).getOrPk();
+						
+					}
 				}
 			}
+			
 		}
-		
-		
 		
 		List<String> header = new ArrayList<String>();
 		
@@ -331,15 +329,16 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 			
 			
 		}
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String fileName = "cj_delivery_upload_file["+sdf.format(new Date())+"].xlsx";
 		
 		File file = new File(fileProperties.getProperty("file.upload.order_excel.path.test"), fileName);
 		
 		FileOutputStream fos = null;
-		
+
 		try {
+			
             fos = new FileOutputStream(file);
             workbook.write(fos);
             
