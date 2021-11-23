@@ -1924,4 +1924,23 @@ public class OrdersController {
 		return result;
 	}
 	
+	
+	/**
+	 * 
+	 * @MethodName : absEpostDeliv
+	 * @date : 2021. 11. 23.
+	 * @author : Jeon KiChan
+	 * @param orSerialSpecialNumber
+	 * @return
+	 * @메소드설명 : 우체국택배로만 나갈 수 있게 고정
+	 */
+	@RequestMapping(value="/abs_epost_deliv.do", method=RequestMethod.GET)
+	@ResponseBody
+	public int absEpostDeliv(@RequestParam List<String> orSerialSpecialNumber) {
+		
+		int result = ordersService.absEpostDeliv(orSerialSpecialNumber);
+		
+		return result; 
+	}
+	
 }

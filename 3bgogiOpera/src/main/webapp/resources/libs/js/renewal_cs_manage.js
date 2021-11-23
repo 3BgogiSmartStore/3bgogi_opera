@@ -1288,6 +1288,50 @@ jQuery(document).ready(function($) {
 		
 		
 	});
+	
+	$("#absEpostDeliv").click(function(){
+		
+		var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
+		
+		
+		var orSerialSpecialNumberList = new Array(orSize);
+		
+		if(orSize == 0){
+			alert("선택된 주문서가 존재하지 않습니다"); 
+			return false;
+			
+		}
+
+		if(confirm("우체국택배로 고정하시겠습니까?")){
+			
+			orSerialSpecialNumber = $("input[name=orSerialSpecialNumberList]:checked").val();
+			
+			
+			$.ajax({
+				type       : 'GET',
+				data       : {
+					"orSerialSpecialNumber":orSerialSpecialNumber
+					
+				},
+				url        : '/orders/abs_epost_deliv.do',
+				success    : (data) => {		
+					if(data > 0){
+						alert("고정 완료");
+						location.reload();
+					}else{
+						alert("고정 실패");
+						location.reload();
+					}
+					
+				},error	: (log) => {
+					alert("서버 에러 발생. " + log);
+				}
+				
+			});
+			
+		}
+		
+	});
 
 	
 }); // AND OF JQUERY

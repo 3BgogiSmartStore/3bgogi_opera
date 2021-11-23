@@ -147,10 +147,6 @@ public class Godomall {
 		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
 		key = apiKeyProperties.getProperty("api_key.godomall_key");
 		
-		System.out.println("partnerKey = "+partnerKey);
-		System.out.println("key = "+key);
-		
-		
 		boolean failCheck = false;
 		List<OrdersVO> orList = new ArrayList<>();
 		OrdersVO orVO = null;
@@ -178,6 +174,9 @@ public class Godomall {
 		Document doc = null;
 		try {
 			doc = dBuilder.parse(url + urlParameters);
+			
+			System.out.println("doc = "+dBuilder.parse(url + urlParameters));
+			
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,10 +185,11 @@ public class Godomall {
 			e.printStackTrace();
 		}
 
+		
 		Element root = doc.getDocumentElement();
 
 		NodeList nList = doc.getElementsByTagName("order_data");
-
+		
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node node = nList.item(i);
 

@@ -90,7 +90,7 @@ body {
 											<td>
 												<label class="custom-control custom-radio custom-control-inline">
 													<input type="radio" name="changeOrderInfo" class="custom-control-input"
-													data-buyer-id="${orders.OrBuyerId }"
+													data-buyer-id="${orders.orBuyerId }"
 													data-settlement-day="${orders.orSettlementDay }"
 													data-serial-special-number="${orders.orSerialSpecialNumber }"
 													data-buyer-name="${orders.orBuyerName }"

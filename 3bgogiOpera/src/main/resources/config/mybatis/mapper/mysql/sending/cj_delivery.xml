@@ -184,6 +184,7 @@
 					
 					<trim prefix="WHERE" prefixOverrides="AND |OR ">
 						 od.or_refunds = 0
+						 AND od.or_abs_deliv_type = 0
 						 AND od.or_delivery_invoice_number IS NULL
 						<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
 							AND od.or_serial_special_number IN 
@@ -287,6 +288,7 @@
 					
 				]]>
 				AND od.or_delivery_invoice_number IS  NULL
+				AND od.or_abs_deliv_type = 0
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
@@ -332,6 +334,7 @@
 					orders od
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_refunds = 0
+					AND or_abs_deliv_type = 0
 					AND od.or_delivery_invoice_number IS NULL
 					<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
 						AND od.or_serial_special_number IN 
@@ -419,6 +422,7 @@
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
+				AND od.or_abs_deliv_type = 0
 			GROUP BY
 				od.or_serial_special_number,
 				od.or_user_column1,
@@ -442,6 +446,7 @@
 					orders od
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_refunds = 0
+					AND od.or_abs_deliv_type = 0
 					AND od.or_delivery_invoice_number IS NULL
 					<![CDATA[
 						AND od.or_sending_deadline >= #{dateStart} AND od.or_sending_deadline <= #{dateEnd}

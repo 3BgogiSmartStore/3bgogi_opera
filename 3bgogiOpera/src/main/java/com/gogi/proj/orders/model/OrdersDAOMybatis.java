@@ -586,6 +586,12 @@ public class OrdersDAOMybatis extends SqlSessionDaoSupport implements OrdersDAO{
 		// TODO Auto-generated method stub
 		return getSqlSession().insert(orderCsNameSpace+".insertOrderCopyInfo", orVO);
 	}
+
+	@Override
+	public int absEpostDeliv(List<String> orSerialSpecialNumberList) {
+		// TODO Auto-generated method stub
+		return getSqlSession().update(orderCsNameSpace+".absEpostDeliv", orSerialSpecialNumberList);
+	}
 	
 //	public List<OrdersVO> outPutDatefilter(OrderSearchVO osVO){
 //		

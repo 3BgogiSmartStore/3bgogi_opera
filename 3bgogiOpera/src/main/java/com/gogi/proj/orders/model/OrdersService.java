@@ -381,5 +381,17 @@ public interface OrdersService {
 	 */
 	public int createNewOrderByOldOrder(OrdersVO orVO);
 	
+	
+	/**
+	 * 
+	 * @MethodName : or_abs_deliv_type
+	 * @date : 2021. 11. 23.
+	 * @author : Jeon KiChan
+	 * @param orSerialSpecialNumberList
+	 * @return
+	 * @메소드설명 : 배송회사 고정시키기
+	 */
+	public int absEpostDeliv(List<String> orSerialSpecialNumberList);
+	
 //	public List<OrdersVO> outPutDatefilter(OrderSearchVO osVO);
 }
