@@ -1293,7 +1293,6 @@ jQuery(document).ready(function($) {
 		
 		var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
 		
-		
 		var orSerialSpecialNumberList = new Array(orSize);
 		
 		if(orSize == 0){
@@ -1304,7 +1303,7 @@ jQuery(document).ready(function($) {
 
 		if(confirm("우체국택배로 고정하시겠습니까?")){
 			for(var i=0; i<orSize; i++){
-				orSerialSpecialNumberList[i]=$("input[data-deliv-weiting='1']:checked")[i].value;
+				orSerialSpecialNumberList[i]=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
 				
 			}
 			
