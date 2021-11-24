@@ -139,10 +139,10 @@
 		SET
 			or_sending_day = NULL
 		WHERE
-			od.or_output_date = #{dateEnd}
+			or_output_date = #{dateEnd}
 			<![CDATA[
-				AND od.or_sending_day >= #{dateStart}
-				AND od.or_sending_day < DATE_FORMAT(DATE_ADD(#{dateStart}, INTERVAL 1 DAY), '%Y-%m-%d')
+				AND or_sending_day >= #{dateStart}
+				AND or_sending_day < DATE_FORMAT(DATE_ADD(#{dateStart}, INTERVAL 1 DAY), '%Y-%m-%d')
 			]]>
 	</update>
 	

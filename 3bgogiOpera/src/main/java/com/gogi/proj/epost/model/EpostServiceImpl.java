@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -37,17 +36,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
-import com.gogi.proj.delivery.config.vo.EarlyDelivCommonImposVO;
 import com.gogi.proj.delivery.model.DeliveryDAO;
-import com.gogi.proj.delivery.model.DeliveryService;
 import com.gogi.proj.epost.api.EpostSendingUtil;
-import com.gogi.proj.epost.controller.EpostController;
 import com.gogi.proj.epost.vo.RegDataVO;
 import com.gogi.proj.log.model.LogService;
 import com.gogi.proj.log.vo.OrderHistoryVO;
 import com.gogi.proj.orders.model.OrdersDAO;
 import com.gogi.proj.orders.vo.OrdersVO;
-import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.todayPickup.controller.TodayPickupController;
 import com.gogi.proj.todayPickup.model.TodayPickupService;
@@ -526,7 +521,6 @@ public class EpostServiceImpl implements EpostService {
 		List<OrdersVO> delivTarget = new ArrayList<>();
 		List<OrdersVO> delivImpos = new ArrayList<>();
 		osVO.setEdtFk(3);
-		List<EarlyDelivCommonImposVO> imposList = dcService.selectEarlyDelivCommonImposList(osVO);
 		
 		List<OrdersVO> selectedOrder = null;
 		
@@ -539,15 +533,6 @@ public class EpostServiceImpl implements EpostService {
 				for(int j = 0; j < selectedOrder.size(); j++) {
 					
 					boolean match = false;
-					
-					for(int imposCount = 0; imposCount < imposList.size(); imposCount++) {						
-						if(selectedOrder.get(j).getOrShippingAddressDetail().matches(".*"+imposList.get(imposCount).getEdciKeyword()+".*")) {
-							selectedOrder.get(j).setOrUserColumn5(imposList.get(imposCount).getEdciKeyword());
-							match = true;
-							break;	
-						}
-							
-					}
 					
 					if(match == true) {
 						delivImpos.add(selectedOrder.get(j));

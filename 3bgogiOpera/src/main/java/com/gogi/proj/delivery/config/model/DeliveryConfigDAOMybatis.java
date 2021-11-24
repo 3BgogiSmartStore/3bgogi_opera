@@ -5,9 +5,7 @@ import java.util.List;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.gogi.proj.delivery.config.vo.DelivImposVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
-import com.gogi.proj.delivery.config.vo.EarlyDelivCommonImposVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
@@ -19,63 +17,39 @@ public class DeliveryConfigDAOMybatis extends SqlSessionDaoSupport implements De
 	private String deliveryCheck = "delivery.check";
 
 	@Override
-	public List<EarlyDelivTypeVO> earlyDelivType() {
-		// TODO Auto-generated method stub
-		return getSqlSession().selectList(namespace+".earlyDelivType");
-	}
-
-	@Override
 	public List<OrdersVO> selectDelivNumCheckTarget(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
 		return getSqlSession().selectList(deliveryCheck+".selectDelivNumCheckTarget", osVO);
 	}
 
 	@Override
-	public int delivAreaCount(OrderSearchVO osVO) {
+	public List<EarlyDelivTypeVO> earlyDelivType() {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectOne(namespace+".delivAreaCount", osVO);
+		return getSqlSession().selectList(namespace+".earlyDelivType");
 	}
 
 	@Override
-	public List<EarlyDelivTypeVO> delivArea(OrderSearchVO osVO) {
+	public int insertEarlyDelivArea(EarlyDelivAreaVO edaVO) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectList(namespace+".delivArea", osVO);
+		return getSqlSession().insert(namespace+".insertEarlyDelivArea", edaVO);
 	}
 
 	@Override
-	public boolean earlyAreaZipcodeDupliCheck(EarlyDelivAreaVO eda) {
+	public List<EarlyDelivTypeVO> selectEarlyDelivArea(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectOne(namespace+".earlyAreaZipcodeDupliCheck", eda);
+		return getSqlSession().selectList(namespace+".selectEarlyDelivArea", osVO);
 	}
 
 	@Override
-	public int insertEarlyAreaZipcCode(EarlyDelivAreaVO eda) {
+	public int earlyDelivAreaCount(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
-		return getSqlSession().insert(namespace+".insertEarlyAreaZipcCode", eda);
+		return getSqlSession().selectOne(namespace+".earlyDelivAreaCount", osVO);
 	}
 
 	@Override
-	public List<EarlyDelivAreaVO> selectDelivPosArea(EarlyDelivAreaVO eda) {
+	public List<EarlyDelivAreaVO> allEarlyDelivArea(int companyNum) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectList(namespace+".selectDelivPosArea", eda);
-	}
-
-	@Override
-	public int insertDelivImposKeyword(DelivImposVO diVO) {
-		// TODO Auto-generated method stub
-		return getSqlSession().insert(namespace+".insertDelivImposKeyword", diVO);
-	}
-
-	@Override
-	public int deleteDelivImpos(DelivImposVO diVO) {
-		// TODO Auto-generated method stub
-		return getSqlSession().delete(namespace+".deleteDelivImpos", diVO);
-	}
-
-	@Override
-	public List<EarlyDelivCommonImposVO> selectEarlyDelivCommonImposList(OrderSearchVO osVO) {
-		// TODO Auto-generated method stub
-		return getSqlSession().selectList(namespace+".selectEarlyDelivCommonImposList", osVO);
+		return getSqlSession().selectList(namespace+".allEarlyDelivArea", companyNum);
 	}
 
 	@Override
@@ -83,6 +57,5 @@ public class DeliveryConfigDAOMybatis extends SqlSessionDaoSupport implements De
 		// TODO Auto-generated method stub
 		return getSqlSession().delete(namespace+".deleteEarlyDelivArea", edaVO);
 	}
-	
 	
 }

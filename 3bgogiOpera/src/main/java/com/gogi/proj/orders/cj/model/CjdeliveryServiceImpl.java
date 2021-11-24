@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gogi.proj.delivery.config.model.DeliveryConfigService;
 import com.gogi.proj.log.model.LogService;
 import com.gogi.proj.log.vo.OrderHistoryVO;
 import com.gogi.proj.orders.cj.util.CjDeliveryArea;
@@ -56,6 +57,9 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 	@Autowired
 	private LogService logService;
 	
+	@Autowired
+	private DeliveryConfigService dcService;
+	
 	@Override
 	public OrderSearchVO selectCjDeliveryTargetChecking(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
@@ -76,41 +80,45 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
   
         
         for(int i = 0; i < checkingList.size(); i++) {
+        	String addr = checkingList.get(i).getOrShippingAddress()+" "+checkingList.get(i).getOrShippingAddressDetail();
         	
-        	if(checkingList.get(i).getOrShippingAddress().split(" ")[0].indexOf("서울") != -1 ) {
-        		targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
+        	if(dcService.isEarlyDelivArea(addr, 5)) {
         		
-        	}else if(checkingList.get(i).getOrShippingAddress().indexOf("시흥시") != -1 ) {
-        		targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        		
-        	}else {        		
-        		
-        		
-        			//전국 단위별 배송 가능 지역 확인
-        		if( CjDeliveryArea.findDelivPosivArea(checkingList.get(i).getOrShippingAddress()) == CjDeliveryArea.POSIV) {
-        			String addr = checkingList.get(i).getOrShippingAddress()+" "+checkingList.get(i).getOrShippingAddressDetail();
+        		if(checkingList.get(i).getOrShippingAddress().split(" ")[0].indexOf("서울") != -1 ) {
+        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         			
-        			//지역 별 배송 불가 지역 확인
-        			if(CjDetailDeliveryAreaCheck.hasAreaName(addr) == true) {
+        		}else if(checkingList.get(i).getOrShippingAddress().indexOf("시흥시") != -1 ) {
+        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
+        			
+        		}else {        		
+        			
+        			
+        			//전국 단위별 배송 가능 지역 확인
+        			if( CjDeliveryArea.findDelivPosivArea(checkingList.get(i).getOrShippingAddress()) == CjDeliveryArea.POSIV) {
         				
-        				try {
-                			
-                			parsingString = uUtil.getCoordiante("https://www.cjthemarket.com/common/address/chkDawnDeliveryAvailable.json?addr="+URLEncoder.encode(checkingList.get(i).getOrShippingAddress(), "UTF-8")+"&zipCd="+URLEncoder.encode(checkingList.get(i).getOrShippingAddressNumber(),"UTF-8"), requestHeaders, "POST", null);
-                			
-                		} catch (IOException e) {
-                			// TODO Auto-generated catch block
-                			throw new RuntimeException("입출력 에러", e);
-                			
-                		}
-                		
-                		CjResultMessage cjMsg = ocjd.stringToCjResultMsg(parsingString);
-                		
-                		if(cjMsg.getIsDawnAble() == true) {
-                			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-                		}
+        				//지역 별 배송 불가 지역 확인
+        				if(CjDetailDeliveryAreaCheck.hasAreaName(addr) == true) {
+        					
+        					try {
+        						
+        						parsingString = uUtil.getCoordiante("https://www.cjthemarket.com/common/address/chkDawnDeliveryAvailable.json?addr="+URLEncoder.encode(checkingList.get(i).getOrShippingAddress(), "UTF-8")+"&zipCd="+URLEncoder.encode(checkingList.get(i).getOrShippingAddressNumber(),"UTF-8"), requestHeaders, "POST", null);
+        						
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						throw new RuntimeException("입출력 에러", e);
+        						
+        					}
+        					
+        					CjResultMessage cjMsg = ocjd.stringToCjResultMsg(parsingString);
+        					
+        					if(cjMsg.getIsDawnAble() == true) {
+        						targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
+        					}
+        					
+        				}
         				
         			}
-        				
+        			
         		}
         		
         	}

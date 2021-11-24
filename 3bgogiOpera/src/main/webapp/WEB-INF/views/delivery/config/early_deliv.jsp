@@ -5,46 +5,30 @@
     <script type="text/javascript">
     	
     	$(function(){
-    		$("button[name=delivImposBtn]").click(function(){
-    			edaPk = $(this).val();
-    			
-    			window.open("<c:url value='/delivery/config/early_deliv/impos.do?edaPk="+edaPk+"'/>", "배송불가지역" , "width=900, height=800, top=100, left=300, scrollbars=no");
-    			
-    		});
+
     		
     		$("#insertEarlyAreaZipCodeForm").submit(function(){
     			const edaZipCode = $("#edaZipCode").val();
     			
     			if(edaZipCode == ''){
-    				alert("우편번호를 입력해주세요");
+    				alert("배송 불가 지역을 입력해주세요");
     				$("#edaZipCode").focus();
     				
     				event.preventDefault();
     				return false;
     			}
     			
+    			
     		});
     		
-    		regexFunction('keyup','#edaZipCode');
+    		//regexFunction('keyup','#edaZipCode');
     		
-    		$("#edaZipCode").keyup(function(){
-    			if($(this).val().length > 5){
-    				
-    				alert("우편번호는 5자리까지만 입력할 수 있습니다");
-    				const edaZipCode = $(this).val();
-    				
-    				$(this).val(edaZipCode.substring(0,5));
-    				
-    				
-    			}
-    		});
-    		
+
     		$("#zipcodeDelBtn").click(function(){
     			const edaPk = $("input[name=edaPk]:checked").val();
     			
-    			if(confirm("해당 우편번호를 정말 삭제하시겠습니까?")){
+    			if(confirm("해당 지역을 정말 삭제하시겠습니까?")){
     				location.href='/delivery/config/early_deliv_del.do?edaPk='+edaPk;
-	    			
     			}
     			
     			
@@ -91,12 +75,12 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title"> 배송 방법 설정 </h2>
+                            <h2 class="pageheader-title"> 배송 불가 지역 설정 </h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="javascript:void(0);" class="breadcrumb-link"> 설정 </a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);" class="breadcrumb-link"> 배송방법설정 </a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);" class="breadcrumb-link"> 배송 불가 지역 설정 </a></li>
                                         
                                     </ol>
                                 </nav>
@@ -160,77 +144,75 @@
                                 <h5 class="card-header"> 배송 구분 설정 </h5>
                                 <div class="card-body">
                                 	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
-										<button class="btn btn-danger btn-xs mb-2" type="button" id="zipcodeDelBtn"> 우편 번호 삭제 </button>
+										<button class="btn btn-danger btn-xs mb-2" type="button" id="zipcodeDelBtn"> 주소 키워드 삭제 </button>
 									</div>
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
-                                                <th scope="col">배송가능여부</th>
-                                                <th scope="col">배송구분</th>
-                                                <th scope="col">우편번호</th>
-                                                <th scope="col">불가지역 등록 개수</th>
-                                                <th scope="col"> 관리 </th>
+                                                <th scope="col">배송 회사</th>
+                                                <th scope="col">배송 불가 타입</th>
+                                                <th scope="col">배송 불가 주소</th>
+                                                <th scope="col">등록일</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        	<c:if test="${!empty searchList }">
-                                            	<c:forEach var="delivTypeList" items="${searchList }">
-                                            		<c:forEach var="searchlist" items="${delivTypeList.edtList }">
-			                                            <tr>
-			                                                <th scope="row">
-											                    <label class="custom-control custom-radio">
-					                                                <input type="radio" name="edaPk" value="${searchlist.edaPk }" class="custom-control-input"><span class="custom-control-label"></span>
-					                                            </label>
-			                                                </th>
-			                                                
-			                                                <td>
-			                                                	<label class="custom-control custom-checkbox be-select-all">
-											                    	<input class="custom-control-input chk_all" type="checkbox" name="edaPosFlag" 
-											                    		<c:if test="${searchlist.edaPosFlag == true}">
-											                    			checked="checked"
-											                    		</c:if>
-											                    		<c:if test="${searchlist.edaPosFlag == false}">
-											                    			
-											                    		</c:if>
-											                    	value="${searchlist.edaPosFlag }"><span class="custom-control-label"></span>
-											                    </label>
-											                </td>
-											                <td>
-			                                                	${delivTypeList.edtType }
-			                                                </td>
-			                                                <td>
-			                                                	${searchlist.edaZipCode }
-			                                                </td>
-			                                                <td>
-			                                                	${searchlist.delivCount }건
-			                                                </td>
-			                                                <td>
-			                                                	<button class="fas fa-cogs" name="delivImposBtn" value="${searchlist.edaPk }"></button>
-			                                                </td>
-			                                            </tr>
+                                        	<c:if test="${!empty edaList }">
+                                            	<c:forEach var="edtlist" items="${edaList }">
+                                            		<c:forEach var="edalist" items="${edtlist.edtList }">                                            		
+	                                            		<tr>
+	                                            			<td>
+	                                            				<label class="custom-control custom-radio">
+						                                        	<input type="radio" name="edaPk" value="${edalist.edaPk }" class="custom-control-input"><span class="custom-control-label"></span>
+						                                        </label>
+	                                            			</td>
+	                                            			<td>
+	                                            				${edtlist.edtType }
+	                                            			</td>
+	                                            			<td>
+	                                            				<c:if test="${edalist.edaSearchTypeFlag == true}">
+	                                            					포함
+	                                            				</c:if>
+	                                            				<c:if test="${edalist.edaSearchTypeFlag == false}">
+	                                            					전체
+	                                            				</c:if>
+	                                            			</td>
+	                                            			<td>
+	                                            				${edalist.edaAddr }
+	                                            			</td>
+	                                            			<td>
+	                                            				${edalist.edaRegdate }
+	                                            			</td>
+	                                            		</tr>
                                             		</c:forEach>
                                             	</c:forEach>
-                                        	
                                         	</c:if>
-
+											<c:if test="${empty edaList }">
+												<tr>
+													<td colspan="5">등록된 배송 불가 주소가 없습니다</td>
+												</tr>
+												
+											</c:if>
                                         </tbody>
                                     </table>
                                 </div>
+                                
                                 <nav aria-label="Page navigation example" style="text-align: center;">
 									<ul class="pagination" style="display: -webkit-inline-box;">
-										<c:if test='${osVO.firstPage>1 }'>
-											<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="pageFunc(${osVO.firstPage-1})">«</a></li>
-										</c:if>
-										<c:forEach var="i" step="1" end="${osVO.lastPage}" begin="${osVO.firstPage }">
-											<li class="page-item 
-												<c:if test='${osVO.currentPage == i }'>
-													active
-												</c:if>
-											"><a class="page-link" href="javascript:void(0)" onclick="pageFunc(${i})">${i }</a></li>
-										</c:forEach>
-										<c:if test='${osVO.lastPage < osVO.totalPage}'>
-											<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="pageFunc(${osVO.lastPage+1})">»</a></li>
+										<c:if test="${osVO.totalRecord > 0 }">										
+											<c:if test='${osVO.firstPage>1 }'>
+												<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="pageFunc(${osVO.firstPage-1})">«</a></li>
+											</c:if>
+											<c:forEach var="i" step="1" end="${osVO.lastPage}" begin="${osVO.firstPage }">
+												<li class="page-item 
+													<c:if test='${osVO.currentPage == i }'>
+														active
+													</c:if>
+												"><a class="page-link" href="javascript:void(0)" onclick="pageFunc(${i})">${i }</a></li>
+											</c:forEach>
+											<c:if test='${osVO.lastPage < osVO.totalPage}'>
+												<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="pageFunc(${osVO.lastPage+1})">»</a></li>
+											</c:if>
 										</c:if>
 									</ul>
 								</nav>
@@ -254,20 +236,18 @@
 									</div>
 									
 									<div class="card-body">
-										<h3 class="font-16"> 우편번호 </h3>
-										<input type="text" class="form-control mb-2" id="edaZipCode" name="edaZipCode" placeholder="우편번호 입력" value="">
-										<input type="text" class="form-control mb-2" id="edaZipCodeAdd" name="edaZipCodeAdd" placeholder="~ 우편번호" value="" style="display: none;">
-										<button class="btn btn-primary btn-block" id="zipcodeAddBtn"> 추가하기 </button>										
+										<h3 class="font-16"> 불가 주소 키워드 </h3>
+										<input type="text" class="form-control mb-2" id="edaZipCode" name="edaAddr" placeholder="주소 입력" value="">								
 									</div>
 									<div class="card-body border-top">
-										<h3 class="font-16"> 배송 여부 </h3>
+										<h3 class="font-16"> 주소 비교 타입 </h3>
 										<div class="custom-control custom-checkbox">
-											<input type="radio" value="1" class="custom-control-input" name="edaPosFlag" id="delivTrue" checked="checked">
-											<label class="custom-control-label" for="delivTrue"> 배송가능 </label>
+											<input type="radio" value="0" class="custom-control-input" name="edaSearchTypeFlag" id="edaSearchTypeFlagTrue" checked="checked">
+											<label class="custom-control-label" for="edaSearchTypeFlagTrue"> 전체 같음 </label>
 										</div>
 										<div class="custom-control custom-checkbox">
-											<input type="radio" value="0" class="custom-control-input" name="edaPosFlag" id="delivFalse">
-											<label class="custom-control-label" for="delivFalse"> 배송불가 </label>
+											<input type="radio" value="1" class="custom-control-input" name="edaSearchTypeFlag" id="edaSearchTypeFlagFalse">
+											<label class="custom-control-label" for="edaSearchTypeFlagFalse"> 포함 </label>
 										</div>
 									</div>
 									<div class="card-body border-top">
