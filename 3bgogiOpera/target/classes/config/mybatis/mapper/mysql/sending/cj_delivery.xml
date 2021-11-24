@@ -507,7 +507,6 @@
 			or_delivery_invoice_number IS NULL
 			AND or_cancled_flag = 0
 			AND or_refunds = 0
-			AND or_delivery_invoice_number = '입력전'
 			AND	or_pk IN 
 			<foreach collection="productOptionList" item="items"  open="(" close=")"  separator=",">
 					#{items.anotherOptionPk}
