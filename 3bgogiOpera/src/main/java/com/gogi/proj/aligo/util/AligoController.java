@@ -38,6 +38,8 @@ public class AligoController {
 	@Autowired
 	private AligoService aligoService;
 	
+	@Autowired
+	private AligoSendingForm asf;
 	
 	/**
 	 * 
@@ -52,7 +54,6 @@ public class AligoController {
 	@RequestMapping(value="/view.do", method=RequestMethod.GET)
 	public String aligoMsgGet(@ModelAttribute AligoVOList aligoList, Model model) {
 		
-		AligoSendingForm asf = new AligoSendingForm();
 		List<AligoSendingFormVO> asfList = aligoService.selectAligoSendingFormList();
 		
 		Map<String, Object> aligoRemain = asf.aligoRemain();
@@ -69,7 +70,6 @@ public class AligoController {
 	@RequestMapping(value="/view.do", method=RequestMethod.POST)
 	public String aligoMsgPost(@ModelAttribute AligoVOList aligoList, Model model) {
 		
-		AligoSendingForm asf = new AligoSendingForm();
 		List<AligoSendingFormVO> asfList = aligoService.selectAligoSendingFormList();
 		
 		Map<String, Object> aligoRemain = asf.aligoRemain();
@@ -128,8 +128,6 @@ public class AligoController {
 	@RequestMapping(value="/sending.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String aligoMsgPost(@ModelAttribute OrdersVOList orList, @ModelAttribute AligoVO aligoVO, Model model) {
-		
-		AligoSendingForm asf = new AligoSendingForm();
 		
 		String msg = asf.smsMsg(aligoVO);
 		

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
 import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
@@ -119,6 +120,38 @@ public class DeliveryConfigController {
 		model.addAttribute("url", url);
 		
 		return "common/message";
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : earlyDelivAreaDelete
+	 * @date : 2021. 11. 25.
+	 * @author : Jeon KiChan
+	 * @param edaVO
+	 * @param model
+	 * @return
+	 * @메소드설명 : 배송 불가 지역 삭제하기
+	 */
+	@RequestMapping(value="/early_deliv_del.do", method=RequestMethod.GET)
+	public String earlyDelivAreaDelete(@ModelAttribute EarlyDelivAreaVO edaVO, Model model) {
+		
+		String msg = "";
+		String url = "/delivery/config/early_deliv.do";
+		
+		int result = dcService.deleteEarlyDelivArea(edaVO);
+		
+		if(result > 0) {
+			msg = "배송 불가 지역 삭제 완료";
+		}else {
+			msg = "배송 불가 지역 삭제 완료 실패";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+		
 	}
 	
 }

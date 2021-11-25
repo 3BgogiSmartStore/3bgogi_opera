@@ -307,7 +307,7 @@
 			                                </div>
 			                           </li>
 			                           <li class="nav-item">
-                                            <a class="nav-link" href="<c:url value='/delivery/config/early_deliv.do'/>"> 배송 방법 설정 </a>
+                                            <a class="nav-link" href="<c:url value='/delivery/config/early_deliv.do'/>"> 배송 불가 지역 설정 </a>
                                         </li>
                                     </ul>
                                 </div>

@@ -34,21 +34,6 @@
     			
     		});
     		
-    		/* $("#zipcodeAddBtn").click(function(){
-    			
-    			if($(this).hasClass("open")){
-    				$("#zipCodeAdd").hide();
-    				$(this).removeClass("open");
-    				$(this).text("일괄 입력");
-    			}else{
-    				$("#zipCodeAdd").show();
-    				$(this).addClass("open");
-    				$(this).text("일괄 입력 닫기");
-    				
-    			}
-    			
-    		}); */
-    		
     	});
     	
     	function pageFunc(index){
@@ -91,17 +76,17 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h5 class="card-header"> 배송 구분 검색 </h5>
+                                <h5 class="card-header"> 배송 불가 지역 검색 </h5>
                                 <div class="card-body">
                                     <form class="needs-validation" id="delivSearchForm" action="<c:url value='/delivery/config/early_deliv.do'/>" method="GET">
                                     	<input type="hidden" name="currentPage" value="${osVO.currentPage}">
                                         <div class="form-row">
                                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                                <label for="validationCustom03">배송구분</label>
-                                                <select class="form-control" name="edtFk">
+                                                <label for="edtFk"> 배송 회사 </label>
+                                                <select class="form-control" id="edtFk" name="edtFk">
                                                 
                                                 	<c:if test="${empty edtList }">
-														<option> 등록된 배송 방법이 없습니다</option>
+														<option> 등록된 배송 회사가 없습니다</option>
 													</c:if>
 													
 													<c:if test="${!empty edtList }">		
@@ -118,8 +103,8 @@
                                                 </select>
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
-                                                <label for="validationCustom04">배송지역</label>
-                                                <input type="text" class="form-control" id="searchKeyword" name="searchKeyword" placeholder="우편번호만 검색, 미입력시 전체 검색"
+                                                <label for="searchKeyword"> 배송 불가 지역 검색 </label>
+                                                <input type="text" class="form-control" id="searchKeyword" name="searchKeyword" placeholder="주소를 입력해주세요"
                                                 	<c:if test="${!empty osVO.searchKeyword and !empty osVO.searchAddKeyword}">
                                                 		value="${osVO.searchKeyword }~${osVO.searchAddKeyword }"
                                                 	</c:if>

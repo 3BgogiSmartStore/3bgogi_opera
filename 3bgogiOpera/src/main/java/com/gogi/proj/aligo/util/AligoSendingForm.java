@@ -27,10 +27,12 @@ import org.apache.http.impl.client.HttpClients;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Component;
 
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.util.JsonToMapUtil;
 
+@Component
 public class AligoSendingForm {
 
 	@Resource(name="apiKeyProperties")

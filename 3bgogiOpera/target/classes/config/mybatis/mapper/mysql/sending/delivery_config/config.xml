@@ -54,6 +54,16 @@
 		FROM
 			early_deliv_area eda
 			INNER JOIN early_deliv_type edt ON eda.edt_fk = edt.edt_pk
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				eda.eda_addr LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+			<if test="edtFk != 0">
+				AND edt_fk = #{edtFk}
+			</if>
+		</trim>
+			
+			
 		LIMIT 
 			#{firstRecordIndex}, #{recordCountPerPage} 
 	</select>
@@ -65,6 +75,14 @@
 		FROM
 			early_deliv_area eda
 			INNER JOIN early_deliv_type edt ON eda.edt_fk = edt.edt_pk
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				eda.eda_addr LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+			<if test="edtFk != 0">
+				AND edt_fk = #{edtFk}
+			</if>
+		</trim>
 	</select>
 	
 	
@@ -79,7 +97,7 @@
 	</select>
 	
 	<!-- 배송 불가 지역 삭제하기 -->
-	<delete id="deleteEarlyDelivArea" parameterType="EarlyDelivTypeVO">
+	<delete id="deleteEarlyDelivArea" parameterType="EarlyDelivAreaVO">
 		DELETE FROM 
 			early_deliv_area
 		WHERE
