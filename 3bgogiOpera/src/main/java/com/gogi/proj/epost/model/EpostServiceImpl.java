@@ -417,7 +417,6 @@ public class EpostServiceImpl implements EpostService {
 		List<OrdersVO> orList = epostDao.selectDeliveryInvoiceNumberByDate(osVO);
 		
 		List<Map<String, Object>> deliveryInfoList = new ArrayList<>();
-		EpostSendingUtil esu = new EpostSendingUtil();
 		naverMapApiUtil nmu = new naverMapApiUtil();
 		
 		for(OrdersVO orVO : orList) {
