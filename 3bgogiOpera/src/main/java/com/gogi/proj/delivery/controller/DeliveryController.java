@@ -84,6 +84,9 @@ public class DeliveryController{
 	
 	private CellsStyle cs = new CellsStyle();
 	
+	@Autowired
+	private Godomall gm;
+	
 	@Resource(name="fileUploadProperties")
 	private Properties fileProperties;
 	
@@ -238,8 +241,7 @@ public class DeliveryController{
 	 */
 	@RequestMapping(value="/godomall_sending.do", method=RequestMethod.GET)
 	public String godomallAutoSending(@ModelAttribute StoreSectionVO ssVO) {
-		Godomall gm = new Godomall();
-		
+
 		List<OrdersVO> orList = deliService.godomallAutoSendingTarget(ssVO);
 		
 		String result = gm.godomallAutoSend(orList);
