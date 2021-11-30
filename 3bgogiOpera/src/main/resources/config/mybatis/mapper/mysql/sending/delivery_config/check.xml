@@ -25,6 +25,25 @@
 			or_delivery_invoice_number
 	</select>
 	
+	
+	<!-- 출입방법에 관한 쿼리 -->
+	<insert id="insertDoorPassMsg" parameterType="DoorPassVO">
+		INSERT INTO
+			door_pass
+				(
+					dp_buyer_cnt,
+					dp_receiver_cnt;
+					dp_addr,
+					dp_msg
+				)
+			VALUES(
+					#{dpBuyerCnt},
+					#{dpReceiverCnt},
+					#{dpAddr},
+					#{dpMsg}
+			)
+	</insert>
+	
 </mapper>
 
 

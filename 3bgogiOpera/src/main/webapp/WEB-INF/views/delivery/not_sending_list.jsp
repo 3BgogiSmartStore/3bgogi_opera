@@ -774,6 +774,7 @@
 	                                        	<c:set var="backgroundBoolean" value="1"/>
 	                                        	
 	                                        	<c:forEach var="orlist" items="${orderList }">
+	                                        		
 	                                        		<c:set var="totalProductQty" value="0" />
 	                                        		<c:set var="rowSpans" value="${fn:length(orlist.orVoList)}"/>
 	                                        		<c:forEach var="stocklist" items="${orlist.orVoList }">
@@ -851,8 +852,7 @@
 		                                        	<c:set var="rowCounting" value="1"/>
 		                                        	<c:set var="numCounting" value="${numCounting + 1 }"/>
 		                                        	<c:set var="tableCountings" value="${tableCountings + 1 }"/>
-		                                        	<c:set var="totalProductQty" value="0"/>
-		                                        	
+		                                        	<c:set var="totalProductQty" value="0"/>	                                        		
 	                                        	</c:forEach>
 	                                        	<tr>
 	                                        		<td colspan="9">  
