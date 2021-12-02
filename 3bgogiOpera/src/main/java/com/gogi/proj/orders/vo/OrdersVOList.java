@@ -18,6 +18,7 @@ public class OrdersVOList {
 	private String orShippingAddressDetail;
 	private String orOrderNumber;
 	private String orDelivEnter;
+	private boolean orDelivEnterFlag;
 	private String ssName;
 	
 	private List<OrdersVO> orVoList;
@@ -30,8 +31,8 @@ public class OrdersVOList {
 	public OrdersVOList(String orSerialSpecialNumber, String orBuyerId, String orBuyerName, String orBuyerAnotherName,
 			String orBuyerContractNumber1, String orBuyerContractNumber2, String orReceiverName,
 			String orReceiverContractNumber1, String orReceiverContractNumber2, String orDeliveryInvoiceNumber,
-			String orShippingAddress, String orShippingAddressDetail, String orOrderNumber, String ssName,
-			List<OrdersVO> orVoList) {
+			String orShippingAddress, String orShippingAddressDetail, String orOrderNumber, String orDelivEnter,
+			boolean orDelivEnterFlag, String ssName, List<OrdersVO> orVoList) {
 		super();
 		this.orSerialSpecialNumber = orSerialSpecialNumber;
 		this.orBuyerId = orBuyerId;
@@ -46,16 +47,10 @@ public class OrdersVOList {
 		this.orShippingAddress = orShippingAddress;
 		this.orShippingAddressDetail = orShippingAddressDetail;
 		this.orOrderNumber = orOrderNumber;
+		this.orDelivEnter = orDelivEnter;
+		this.orDelivEnterFlag = orDelivEnterFlag;
 		this.ssName = ssName;
 		this.orVoList = orVoList;
-	}
-	
-	public String getOrDelivEnter() {
-		return orDelivEnter;
-	}
-
-	public void setOrDelivEnter(String orDelivEnter) {
-		this.orDelivEnter = orDelivEnter;
 	}
 
 	public String getOrSerialSpecialNumber() {
@@ -162,6 +157,22 @@ public class OrdersVOList {
 		this.orOrderNumber = orOrderNumber;
 	}
 
+	public String getOrDelivEnter() {
+		return orDelivEnter;
+	}
+
+	public void setOrDelivEnter(String orDelivEnter) {
+		this.orDelivEnter = orDelivEnter;
+	}
+
+	public boolean isOrDelivEnterFlag() {
+		return orDelivEnterFlag;
+	}
+
+	public void setOrDelivEnterFlag(boolean orDelivEnterFlag) {
+		this.orDelivEnterFlag = orDelivEnterFlag;
+	}
+
 	public String getSsName() {
 		return ssName;
 	}
@@ -187,7 +198,8 @@ public class OrdersVOList {
 				+ orReceiverContractNumber1 + ", orReceiverContractNumber2=" + orReceiverContractNumber2
 				+ ", orDeliveryInvoiceNumber=" + orDeliveryInvoiceNumber + ", orShippingAddress=" + orShippingAddress
 				+ ", orShippingAddressDetail=" + orShippingAddressDetail + ", orOrderNumber=" + orOrderNumber
-				+ ", ssName=" + ssName + ", orVoList=" + orVoList + "]";
+				+ ", orDelivEnter=" + orDelivEnter + ", orDelivEnterFlag=" + orDelivEnterFlag + ", ssName=" + ssName
+				+ ", orVoList=" + orVoList + "]";
 	}
 	
 }

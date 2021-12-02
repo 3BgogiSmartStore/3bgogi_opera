@@ -32,7 +32,7 @@
 			door_pass
 				(
 					dp_buyer_cnt,
-					dp_receiver_cnt;
+					dp_receiver_cnt,
 					dp_addr,
 					dp_msg
 				)
@@ -43,6 +43,66 @@
 					#{dpMsg}
 			)
 	</insert>
+	
+	<select id="selectDoorPassMsgByOrderInfo" parameterType="OrdersVOList" resultType="DoorPassVO">
+		SELECT
+			*
+		FROM
+			door_pass
+		WHERE
+			dp_buyer_cnt = #{orBuyerContractNumber1}
+			AND dp_receiver_cnt = #{orReceiverContractNumber1}
+			AND dp_addr = CONCAT(#{orShippingAddress},' ', #{orShippingAddressDetail})
+		ORDER BY
+			dp_regdate DESC
+		LIMIT 1
+	</select>
+	
+	<update id="updateOrderDoorPassByOrSerialSpecialNumber" parameterType="OrdersVOList">
+		UPDATE
+			orders
+		SET
+			or_user_column4 = #{orDelivEnter}
+		WHERE
+			or_serial_special_number = #{orSerialSpecialNumber}
+			
+	</update>
+	
+	<select id="selectOrderInfoForDoorPass" parameterType="String" resultType="OrdersVO">
+		SELECT
+			or_buyer_contract_number1,
+			or_receiver_contract_number1,
+			or_shipping_address,
+			or_shipping_address_detail
+		FROM
+			orders
+		WHERE
+			or_serial_special_number = #{orSerialSpecialNumber}
+		GROUP BY
+			or_buyer_contract_number1,
+			or_receiver_contract_number1,
+			or_shipping_address,
+			or_shipping_address_detail
+	</select>
+	
+	<select id="selectCjDelivDoorPassMsgTarget" parameterType="OrderSearchVO" resultType="OrdersVO">
+		SELECT
+			or_buyer_name,
+			or_buyer_contract_number1
+		FROM
+			orders
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size != 0">			
+				AND or_serial_special_number IN
+				<foreach collection="orSerialSpecialNumberList" item="serialNum" open="(" close=")" separator=",">
+						#{serialNum}
+				</foreach>
+			</if>
+		</trim>
+		GROUP BY
+			or_buyer_name,
+			or_buyer_contract_number1
+	</select>
 	
 </mapper>
 

@@ -5,9 +5,12 @@ import java.util.List;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.gogi.proj.delivery.config.vo.DoorPassKeywordVO;
+import com.gogi.proj.delivery.config.vo.DoorPassVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
 import com.gogi.proj.orders.vo.OrdersVO;
+import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 
 @Repository
@@ -15,6 +18,7 @@ public class DeliveryConfigDAOMybatis extends SqlSessionDaoSupport implements De
 
 	private String namespace = "delivery.config";
 	private String deliveryCheck = "delivery.check";
+	private String doorPassKeyword = "delivery.config.door_pass_keyword";
 
 	@Override
 	public List<OrdersVO> selectDelivNumCheckTarget(OrderSearchVO osVO) {
@@ -56,6 +60,54 @@ public class DeliveryConfigDAOMybatis extends SqlSessionDaoSupport implements De
 	public int deleteEarlyDelivArea(EarlyDelivAreaVO edaVO) {
 		// TODO Auto-generated method stub
 		return getSqlSession().delete(namespace+".deleteEarlyDelivArea", edaVO);
+	}
+
+	@Override
+	public int insertDoorPassKeyword(DoorPassKeywordVO dpkVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().insert(doorPassKeyword+".insertDoorPassKeyword", dpkVO);
+	}
+
+	@Override
+	public List<DoorPassKeywordVO> selectAllDoorPassKeyword() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(doorPassKeyword+".selectAllDoorPassKeyword");
+	}
+
+	@Override
+	public int deleteDoorPassKeyword(DoorPassKeywordVO dpkVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().delete(doorPassKeyword+".deleteDoorPassKeyword", dpkVO);
+	}
+
+	@Override
+	public DoorPassVO selectDoorPassMsgByOrderInfo(OrdersVOList orVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(deliveryCheck+".selectDoorPassMsgByOrderInfo", orVO);
+	}
+
+	@Override
+	public int updateOrderDoorPassByOrSerialSpecialNumber(OrdersVOList orVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().update(deliveryCheck+".updateOrderDoorPassByOrSerialSpecialNumber", orVO);
+	}
+
+	@Override
+	public int insertDoorPassMsg(DoorPassVO dpVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().insert(deliveryCheck+".insertDoorPassMsg", dpVO);
+	}
+
+	@Override
+	public OrdersVO selectOrderInfoForDoorPass(String orSerialSpecialNumber) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(deliveryCheck+".selectOrderInfoForDoorPass", orSerialSpecialNumber);
+	}
+
+	@Override
+	public List<OrdersVO> selectCjDelivDoorPassMsgTarget(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(deliveryCheck+".selectCjDelivDoorPassMsgTarget", osVO);
 	}
 	
 }

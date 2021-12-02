@@ -70,6 +70,7 @@
 		<result property="orRecType" column="or_rec_type" javaType="int"/>
 		<result property="orRecMemo" column="or_rec_memo" javaType="String"/>
 		<result property="orRecStoragePlace" column="or_rec_storage_place" javaType="String"/>
+		<result property="orAbsDelivType" column="or_abs_deliv_type" javaType="int"/>
 		
 		<!-- 상품명 매칭 -->
 		<collection property="productMatchingVOList" ofType="ProductMatchingVO">
@@ -1113,6 +1114,7 @@
 		    or_shipping_address_detail,
 		    or_shipping_address_number,
 		    or_sending_deadline,
+		    or_abs_deliv_type,
 		    or_regdate
 		FROM
 			orders
@@ -1136,6 +1138,7 @@
 		    or_shipping_address_detail,
 		    or_shipping_address_number,
 		    or_sending_deadline,
+		    or_abs_deliv_type,
 		    or_regdate
 	</select>
 	
@@ -1705,6 +1708,7 @@
 		    or_tax_flag,
 		    or_devide_flag,
 		    or_refunds,
+		    or_abs_deliv_type,
 		    16 AS ss_fk,
 		    '재발송' AS or_delivery_charge_payment_type,
 		    or_user_column1,
@@ -1772,7 +1776,8 @@
 		    or_cancled_flag,
 		    edt_fk,
 		    or_deposit_flag,
-		    or_regdate
+		    or_regdate,
+		    or_abs_deliv_type
 		)
 		VALUES(
 			#{orBuyerId},
@@ -1820,7 +1825,8 @@
 			#{orCancledFlag},
 			#{edtFk},
 			#{orDepositFlag},
-			#{orRegdate}
+			#{orRegdate},
+			#{orAbsDelivType}
 		)
 	</insert>
 	

@@ -40,6 +40,8 @@ import com.gogi.proj.classification.code.vo.ExcelOrderSeqVO;
 import com.gogi.proj.configurations.model.ConfigurationService;
 import com.gogi.proj.configurations.vo.StoreSectionVO;
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
+import com.gogi.proj.delivery.config.vo.DoorPassKeywordVO;
+import com.gogi.proj.delivery.config.vo.DoorPassVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
 import com.gogi.proj.epost.api.EpostSendingUtil;
 import com.gogi.proj.epost.model.EpostService;
@@ -189,7 +191,7 @@ public class EpostController {
 			
 			int checkingCount = 0;
 			
-			List<OrdersVO> checkingResultList = null;
+			List<OrdersVOList> checkingResultList = null;
 			
 			if(orderSearchVO.getOrSerialSpecialNumberList() == null) {
 				orderSearchVO.setTotalRecord(checkingCount);
@@ -202,6 +204,46 @@ public class EpostController {
 				checkingResultList = cjService.selectDontGrantCjDelivOrderListInMonth(orderSearchVO);
 			}
 			
+			List<DoorPassKeywordVO> doorList = dcService.selectAllDoorPassKeyword();
+			
+			if(checkingResultList != null ) {				
+				for( OrdersVOList buyerInfo :  checkingResultList) {
+					
+					if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+						buyerInfo.setOrDelivEnterFlag(true);
+						
+					}else {					
+						for( OrdersVO orderInfo : buyerInfo.getOrVoList()) {
+							
+							if(orderInfo.getOrDeliveryMessage() != null && !orderInfo.getOrDeliveryMessage().equals("")) {
+								
+								for(DoorPassKeywordVO dpk : doorList) {
+									
+									if(orderInfo.getOrDeliveryMessage().indexOf(dpk.getDpkWord()) != -1) {
+										buyerInfo.setOrDelivEnterFlag(true);
+										break;
+									}
+									
+								}
+								
+								buyerInfo = dcService.doorPassCheck(buyerInfo);
+								
+								if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+									buyerInfo.setOrDelivEnterFlag(true);
+								}
+								
+							}else {
+								buyerInfo = dcService.doorPassCheck(buyerInfo);
+								
+								if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+									buyerInfo.setOrDelivEnterFlag(true);
+								}
+							}
+							
+						}
+					}
+				}
+			}
 			
 			model.addAttribute("storeSectionList",storeSectionList);
 			model.addAttribute("insertStoreOrderList", insertStoreOrderList);

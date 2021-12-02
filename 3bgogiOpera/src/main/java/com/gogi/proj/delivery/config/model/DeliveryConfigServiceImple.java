@@ -7,9 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gogi.proj.delivery.config.vo.DoorPassKeywordVO;
+import com.gogi.proj.delivery.config.vo.DoorPassVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
 import com.gogi.proj.orders.vo.OrdersVO;
+import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 
 @Service
@@ -77,6 +80,63 @@ public class DeliveryConfigServiceImple implements DeliveryConfigService{
 	public int deleteEarlyDelivArea(EarlyDelivAreaVO edaVO) {
 		// TODO Auto-generated method stub
 		return dcDao.deleteEarlyDelivArea(edaVO);
+	}
+
+	@Override
+	public int insertDoorPassKeyword(DoorPassKeywordVO dpkVO) {
+		// TODO Auto-generated method stub
+		return dcDao.insertDoorPassKeyword(dpkVO);
+	}
+
+	@Override
+	public List<DoorPassKeywordVO> selectAllDoorPassKeyword() {
+		// TODO Auto-generated method stub
+		return dcDao.selectAllDoorPassKeyword();
+	}
+
+	@Override
+	public int deleteDoorPassKeyword(DoorPassKeywordVO dpkVO) {
+		// TODO Auto-generated method stub
+		return dcDao.deleteDoorPassKeyword(dpkVO);
+	}
+
+	@Override
+	public OrdersVOList doorPassCheck(OrdersVOList orVO) {
+		// TODO Auto-generated method stub
+		
+		DoorPassVO dpVO = dcDao.selectDoorPassMsgByOrderInfo(orVO);
+		
+		if(dpVO != null ){
+			orVO.setOrDelivEnter(dpVO.getDpMsg());
+			
+			dcDao.updateOrderDoorPassByOrSerialSpecialNumber(orVO);
+		}
+		
+		return orVO;
+	}
+
+	@Override
+	public int insertDoorPassMsg(DoorPassVO dpVO) {
+		// TODO Auto-generated method stub
+		return dcDao.insertDoorPassMsg(dpVO);
+	}
+
+	@Override
+	public OrdersVO selectOrderInfoForDoorPass(String orSerialSpecialNumber) {
+		// TODO Auto-generated method stub
+		return dcDao.selectOrderInfoForDoorPass(orSerialSpecialNumber);
+	}
+
+	@Override
+	public DoorPassVO selectDoorPassMsgByOrderInfo(OrdersVOList orVO) {
+		// TODO Auto-generated method stub
+		return dcDao.selectDoorPassMsgByOrderInfo(orVO);
+	}
+
+	@Override
+	public List<OrdersVO> selectCjDelivDoorPassMsgTarget(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return dcDao.selectCjDelivDoorPassMsgTarget(osVO);
 	}
 	
 }

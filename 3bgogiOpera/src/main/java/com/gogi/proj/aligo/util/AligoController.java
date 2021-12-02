@@ -62,8 +62,6 @@ public class AligoController {
 		model.addAttribute("asfList",asfList);
 		model.addAttribute("aligoList", aligoList);
 		
-		System.out.println(aligoRemain.toString());
-		
 		return "aligo_msg/view";
 	}
 	
@@ -77,8 +75,6 @@ public class AligoController {
 		model.addAttribute("aligoRemain", aligoRemain);
 		model.addAttribute("asfList",asfList);
 		model.addAttribute("aligoList", aligoList);
-		
-		System.out.println(aligoRemain.toString());
 		
 		return "aligo_msg/view";
 	}

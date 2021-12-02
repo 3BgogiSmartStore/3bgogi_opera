@@ -55,7 +55,8 @@ public class CostController {
 	@Autowired
 	private CostIoService costIoService;
 	
-	
+	@Autowired
+	private Godomall gm;
 	/**
 	 * @MethodName : insertCostDetailGet
 	 * @date : 2019. 1. 23.
@@ -418,7 +419,6 @@ public class CostController {
 		}
 		
 		Document doc = null;
-		Godomall gm = new Godomall();
 		WebScraper ws = new WebScraper();
 		String temp = "";
 		String abattTemp = "";

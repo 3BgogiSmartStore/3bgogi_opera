@@ -13,6 +13,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.gogi.proj.orders.vo.OrdersVO;
+import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 
 @Repository
@@ -61,7 +62,7 @@ public class CjdeliveryDAOMybatis extends SqlSessionDaoSupport implements Cjdeli
 	}
 
 	@Override
-	public List<OrdersVO> selectDontGrantCjDelivOrderListInMonth(OrderSearchVO osVO) {
+	public List<OrdersVOList> selectDontGrantCjDelivOrderListInMonth(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
 		return getSqlSession().selectList(namespace+".selectDontGrantCjDelivOrderListInMonth", osVO);
 	}

@@ -3,6 +3,7 @@ package com.gogi.proj.orders.cj.model;
 import java.util.List;
 
 import com.gogi.proj.orders.vo.OrdersVO;
+import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 
 public interface CjdeliveryDAO {
@@ -41,7 +42,7 @@ public interface CjdeliveryDAO {
 	 * @return
 	 * @메소드설명 : 현관 택배로 필터링, cjcookit으로 주소가 필터링 된 목록의 주문서를 가져옴
 	 */
-	public List<OrdersVO> selectDontGrantCjDelivOrderListInMonth(OrderSearchVO osVO);
+	public List<OrdersVOList> selectDontGrantCjDelivOrderListInMonth(OrderSearchVO osVO);
 	
 	
 	/**

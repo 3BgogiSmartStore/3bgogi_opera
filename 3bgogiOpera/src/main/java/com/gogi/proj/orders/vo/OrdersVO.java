@@ -161,6 +161,8 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 	private String ip;
 	private String adminId;
 
+	private int orAbsDelivType;
+	
 	// 우체국 발송용
 	private List<ProductOptionVO> productOptionList;
 	
@@ -193,15 +195,18 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 			String orUserColumn3, String orUserColumn4, String orUserColumn5, String orUserColumn6,
 			String orUserColumn7, String orMerge, List<String> orMergeList, boolean orOutputFlag,
 			Timestamp orOutputDate, boolean orOutputPosibFlag, boolean orInvFlag, int orCancledQty,
-			boolean orRequestCombFlag, boolean orExcelDivFlag, int orFk, String orInvoiceNumDate,
+			boolean orRequestCombFlag, boolean orExcelDivFlag, int orFk, String orInvoiceNumDate, int edtFk,
+			String orDelivCount, int orTotalExcelDiv, String orDelivEnter, int orExcelDivCount, boolean orDepositFlag,
 			String hidingSpecialNumber, boolean specialNumberType, int totalOrderCount, String ssName,
 			boolean productMatchingChecking, boolean optionMatchingChecking,
-			List<ProductMatchingVO> productMatchingVOList, List<Integer> orAmountList, List<String> orProductList,
-			List<String> orProductOptionList, List<Integer> orTotalPriceList, String reqNo, String resNo, String regiNo,
-			String regiPoNm, String resDate, int price, String vTelNo, String arrCnpoNm, String delivPoNm,
-			String delivAreaCd, int ediPk, String cancelregino, String cancelDate, String canceledyn,
-			String notcancelReason, String resno2, String reqno2, String error_code, String message,
-			List<ProductOptionVO> productOptionList) {
+			List<ProductMatchingVO> productMatchingVOList, int orRecType, String orRecMemo, String orRecStoragePlace,
+			List<Integer> orAmountList, List<String> orProductList, List<String> orProductOptionList,
+			List<Integer> orTotalPriceList, String reqNo, String resNo, String regiNo, String regiPoNm, String resDate,
+			int price, String vTelNo, String arrCnpoNm, String delivPoNm, String delivAreaCd, String courseNo,
+			int ddayDelivFee, int insuFee, String refineZip, String refineAddr, String printAreaCd, String notifyMsg,
+			String noticeCont, int ediPk, String cancelregino, String cancelDate, String canceledyn,
+			String notcancelReason, String resno2, String reqno2, String error_code, String message, String ip,
+			String adminId, int orAbsDelivType, List<ProductOptionVO> productOptionList) {
 		super();
 		this.orPk = orPk;
 		this.pmFk = pmFk;
@@ -278,6 +283,12 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		this.orExcelDivFlag = orExcelDivFlag;
 		this.orFk = orFk;
 		this.orInvoiceNumDate = orInvoiceNumDate;
+		this.edtFk = edtFk;
+		this.orDelivCount = orDelivCount;
+		this.orTotalExcelDiv = orTotalExcelDiv;
+		this.orDelivEnter = orDelivEnter;
+		this.orExcelDivCount = orExcelDivCount;
+		this.orDepositFlag = orDepositFlag;
 		this.hidingSpecialNumber = hidingSpecialNumber;
 		this.specialNumberType = specialNumberType;
 		this.totalOrderCount = totalOrderCount;
@@ -285,6 +296,9 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		this.productMatchingChecking = productMatchingChecking;
 		this.optionMatchingChecking = optionMatchingChecking;
 		this.productMatchingVOList = productMatchingVOList;
+		this.orRecType = orRecType;
+		this.orRecMemo = orRecMemo;
+		this.orRecStoragePlace = orRecStoragePlace;
 		this.orAmountList = orAmountList;
 		this.orProductList = orProductList;
 		this.orProductOptionList = orProductOptionList;
@@ -299,6 +313,14 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		this.arrCnpoNm = arrCnpoNm;
 		this.delivPoNm = delivPoNm;
 		this.delivAreaCd = delivAreaCd;
+		this.courseNo = courseNo;
+		this.ddayDelivFee = ddayDelivFee;
+		this.insuFee = insuFee;
+		this.refineZip = refineZip;
+		this.refineAddr = refineAddr;
+		this.printAreaCd = printAreaCd;
+		this.notifyMsg = notifyMsg;
+		this.noticeCont = noticeCont;
 		this.ediPk = ediPk;
 		this.cancelregino = cancelregino;
 		this.cancelDate = cancelDate;
@@ -308,9 +330,19 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		reqno = reqno2;
 		this.error_code = error_code;
 		this.message = message;
+		this.ip = ip;
+		this.adminId = adminId;
+		this.orAbsDelivType = orAbsDelivType;
 		this.productOptionList = productOptionList;
 	}
-	
+
+	public int getOrAbsDelivType() {
+		return orAbsDelivType;
+	}
+
+	public void setOrAbsDelivType(int orAbsDelivType) {
+		this.orAbsDelivType = orAbsDelivType;
+	}
 
 	public String getRefineZip() {
 		return refineZip;

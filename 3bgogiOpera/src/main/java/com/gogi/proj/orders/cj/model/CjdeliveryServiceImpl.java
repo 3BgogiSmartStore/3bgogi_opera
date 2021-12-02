@@ -36,6 +36,7 @@ import com.gogi.proj.orders.cj.util.CjResultMessage;
 import com.gogi.proj.orders.cj.util.OrderInfoToCjdelivery;
 import com.gogi.proj.orders.model.OrdersDAO;
 import com.gogi.proj.orders.vo.OrdersVO;
+import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.product.products.vo.ProductOptionVO;
 import com.gogi.proj.todayPickup.util.URLUtil;
@@ -141,7 +142,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 	}
 
 	@Override
-	public List<OrdersVO> selectDontGrantCjDelivOrderListInMonth(OrderSearchVO osVO) {
+	public List<OrdersVOList> selectDontGrantCjDelivOrderListInMonth(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
 		return cjDao.selectDontGrantCjDelivOrderListInMonth(osVO);
 	}

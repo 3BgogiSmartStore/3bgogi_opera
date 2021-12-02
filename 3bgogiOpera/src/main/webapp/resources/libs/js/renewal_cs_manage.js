@@ -1332,6 +1332,27 @@ jQuery(document).ready(function($) {
 		}
 		
 	});
+	
+	$("#doorPassButton").click(function(){
+		orSize = $("input[name='orSerialSpecialNumberList']:checked").length;
+		
+		if(orSize > 1){
+			alert("공동현관 비밀번호를 두 개 이상의 주문서에 동시 입력할 수 없습니다"); 
+			return false;
+		}
+		
+		orSerialSpecialNumber = $("input[name='orSerialSpecialNumberList']:checked").val();
+		
+		if( orSerialSpecialNumber == undefined){
+			orSerialSpecialNumber = "";
+			
+		}
+		
+		window.open('/delivery/config/door_pass.do?orSerialSpecialNumber='+orSerialSpecialNumber, "공동현관 비밀번호 입력" , "width=700, height=900, top=100, left=100, scrollbars=no");
+		
+		
+		
+	});
 
 	
 }); // AND OF JQUERY

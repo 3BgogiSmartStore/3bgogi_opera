@@ -79,6 +79,14 @@ public class AligoSendingForm {
 		return responseBody;
 		
 	}
+	
+	public String aligoCjDelivDoorPassMsg() {
+		
+		return "[삼형제고기 알림]\n"
+				+"%고객명% 님의 공동현관 출입방법 혹은 출입방법이 기재되지 않았습니다!\n"
+				+"전화 또는 네이버 톡톡으로 문의주시면 송장에 기재하여 발송해드리겠습니다 ^^";
+				
+	}
 
 	public AligoVO aligoSendingForm(List<OrdersVO> orList) {
 		AligoVO aligoVO = new AligoVO();

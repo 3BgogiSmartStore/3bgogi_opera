@@ -281,13 +281,6 @@
     			}
     			
     			if(confirm(orSize+" 개의 주문서에 Cj 새벽배송 임시송장을 부여하시겠습니까?")){
-    				
-    				doubleSubmitCheck();
-        			
-        			if(doubleSubmitFlag == false){
-        				
-        				return false;
-        			}
         			
         			$("#cjDelivButton").removeClass("btn btn-warning");
         			
@@ -326,6 +319,53 @@
     			
     			
     		}); 
+    		
+    		
+    		$("#cjDelivDoorMsgButton").click(function(){
+    			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
+    			
+    			if(orSize == 0){
+    				alert("공동현관 비밀번호 문자를 보내기 위한 주문서가 선택되지 않았습니다");
+    				return false;
+    			}
+    			
+    			if(confirm(orSize+" 개의 주문서에 공동현관 비밀번호 요청 문자를 보내시겠습니까?")){
+    				
+    				doubleSubmitCheck();
+        			
+        			if(doubleSubmitFlag == false){
+        				
+        				return false;
+        			}
+				
+	    			var orSerialSpecialNumberList = new Array(orSize);
+	    			
+	    			
+	    			for(var i=0; i<orSize; i++){
+	    				orSerialSpecialNumberList[i]=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
+	    				
+	    			}
+
+	    			$.ajax({
+	    				type       : 'POST',
+	    				data       : {
+	    					"orSerialSpecialNumberList":orSerialSpecialNumberList
+	    					
+	    				},
+	    				url        : '/delivery/config/cj_door_msg.do',
+	    				success    : (data) => {		
+	    					alert(data);
+	    					
+	    				},error	: (log) => {
+	    					alert("서버 에러 발생. " + log);
+	    				}
+	    				
+	    			});	
+	    			
+    			}
+    			
+    			
+    		});
     		
 
     		$("#orSeiralSpecialNumberAllSelect").click(function(){
@@ -722,6 +762,7 @@
 												<button type="button" class="btn btn-primary" id="orderIO">  주문서 출력  </button>
 												<!-- <button type="button" class="btn btn-primary" id="labelIO">  라벨지 출력  </button> -->				
 												<c:if test="${OrderSearchVO.edtFk == 5 }">
+													<button class="btn btn-danger" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button>
 													<button class="btn btn-warning" id="cjDelivButton"> cj 새벽배송 임시송장 부여 </button>
 												</c:if>								
 												
@@ -782,7 +823,6 @@
 	                                        			<c:if test="${backgroundBoolean % 2 == 0}">
 			                                        		style="background-color:#edeef4;"
 			                                        	</c:if>
-			                                        	
 	                                        			>
 	                                        			<c:if test="${rowCounting == 1 }">
 	                                        				<td rowspan="${rowSpans }" class="customerInfo" style="width:50px; text-align: center;" data-table-info="${tableCountings }">
@@ -790,7 +830,12 @@
 								                            </td>
 	                                        				<td rowspan="${rowSpans }" style="width:20px; text-align: center;" data-table-info="${tableCountings }">
 	                                        					<label class="custom-control custom-checkbox be-select-all">
-												             	   <input class="custom-control-input chk_all" value="${orlist.orSerialSpecialNumber }" type="checkbox" name="orSerialSpecialNumberList"><span class="custom-control-label"></span>
+												             	   <input class="custom-control-input chk_all" value="${orlist.orSerialSpecialNumber }" type="checkbox" name="orSerialSpecialNumberList"
+												             	   	<c:if test="${orlist.orDelivEnterFlag == false }">
+							                                        	checked="checked";
+							                                        </c:if>
+												             	   >
+												             	   <span class="custom-control-label"></span>
 												                </label>
 								                            </td>
 			                                        		<td rowspan="${rowSpans }" style="width:260px; text-align: center;" data-table-info="${tableCountings }">

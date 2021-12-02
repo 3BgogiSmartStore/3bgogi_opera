@@ -954,6 +954,7 @@
 	                                		<button class="btn btn-success btn-xs mb-2 createNewOrder" type="button" id="createNewOrder"> 새주문생성 </button>
 	                                		<button class="btn btn-success btn-xs mb-2 createOrderByOrderInfo" type="button" id="createOrderByOrderInfo"> 기존정보로 새주문생성</button>
 	                                		<button class="btn btn-success btn-xs mb-2 createOrderByOrderInfo" type="button" id="createOrderByOldOrder"> 기존주문서로 주문재생성</button>
+	                                		<button class="btn btn btn-brand btn-xs mb-2" type="button" id="doorPassButton">공동현관 비밀번호 입력</button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="addProductButton"> 상품추가 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="aligoSmsBtn"> 문자 보내기 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="changeSendingDeadlineBtn"> 발송일 변경 </button>

@@ -43,18 +43,6 @@ public class Godomall {
 	private DocumentBuilder dBuilder;
 	private Document doc;
 	
-	public Godomall() {
-		// TODO Auto-generated constructor stub
-		
-		dbFactory = DocumentBuilderFactory.newInstance();
-		
-		try {
-			dBuilder = dbFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException("객체 생성 오류");
-		}
-	}
 	
 	/**
 	 * 
@@ -77,6 +65,15 @@ public class Godomall {
 		String result = "";
 		String orderStatus = "d1";
 
+		dbFactory = DocumentBuilderFactory.newInstance();
+		
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("객체 생성 오류");
+		}
+		
 		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
 		key = apiKeyProperties.getProperty("api_key.godomall_key");
 		
@@ -146,6 +143,15 @@ public class Godomall {
 	public List<OrdersVO> getGodomallOrders(int ssFk){
 		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
 		key = apiKeyProperties.getProperty("api_key.godomall_key");
+		
+		dbFactory = DocumentBuilderFactory.newInstance();
+		
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("객체 생성 오류");
+		}
 		
 		boolean failCheck = false;
 		List<OrdersVO> orList = new ArrayList<>();
@@ -292,6 +298,13 @@ public class Godomall {
 						orVO.setOrAmount(Integer.parseInt(getTagValue("goodsCnt", prodEle)));
 						orVO.setOrProduct(getTagValue("goodsNm", prodEle));
 						orVO.setOrProductNumber(getTagValue("goodsNo", prodEle));
+						String deliveryMethodFl = getTagValue("deliveryMethodFl", prodEle);
+						
+						if(deliveryMethodFl.equals("delivery")) {
+							orVO.setOrAbsDelivType(1);
+						}else {
+							orVO.setOrAbsDelivType(0);
+						}
 						
 						int dcPrice = (int)Double.parseDouble(getTagValue("goodsDcPrice", prodEle));
 						int memberDcPrice = (int)Double.parseDouble(getTagValue("memberDcPrice", prodEle));
@@ -323,6 +336,15 @@ public class Godomall {
 	public OrdersVOList getGodomallCancledOrders(int ssFk){
 		partnerKey = apiKeyProperties.getProperty("api_key.godomall_partner_key");
 		key = apiKeyProperties.getProperty("api_key.godomall_key");
+		
+		dbFactory = DocumentBuilderFactory.newInstance();
+		
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("객체 생성 오류");
+		}
 		
 		boolean failCheck = false;
 		OrdersVOList orderVO = new OrdersVOList();
