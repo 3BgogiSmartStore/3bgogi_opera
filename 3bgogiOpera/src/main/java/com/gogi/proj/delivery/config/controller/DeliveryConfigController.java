@@ -188,6 +188,7 @@ public class DeliveryConfigController {
 			
 			model.addAttribute("dpVO", dpVO);
 			model.addAttribute("orVO", orVO);
+			model.addAttribute("orSerialSpecialNumber",orSerialSpecialNumber);
 		}
 		
 		return "delivery/config/insert_door_pass";
@@ -205,7 +206,7 @@ public class DeliveryConfigController {
 	 * @메소드설명 : 공동현관 출입방법 입력하기
 	 */
 	@RequestMapping(value="/door_pass.do", method=RequestMethod.POST)
-	public String insertDoorPassPost(@ModelAttribute OrdersVO orVO, Model model) {
+	public String insertDoorPassPost(@ModelAttribute OrdersVOList orVO, @RequestParam String orSerialSpecialNumber, Model model) {
 		
 		String msg = "";
 		String url = "/delivery/config/door_pass.do";
@@ -220,7 +221,16 @@ public class DeliveryConfigController {
 		int result = dcService.insertDoorPassMsg(dpVO);
 		
 		if(result > 0) {
+
+			if(orSerialSpecialNumber != null && !orSerialSpecialNumber.equals("")) {
+				orVO.setOrDelivEnter("");
+								
+				orVO = dcService.doorPassCheck(orVO);
+
+			}
+			
 			msg = "입력 완료";
+			
 			model.addAttribute("closing", true);
 		}else {
 			msg = "입력 실패";

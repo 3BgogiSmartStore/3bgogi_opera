@@ -109,5 +109,11 @@ public class DeliveryConfigDAOMybatis extends SqlSessionDaoSupport implements De
 		// TODO Auto-generated method stub
 		return getSqlSession().selectList(deliveryCheck+".selectCjDelivDoorPassMsgTarget", osVO);
 	}
+
+	@Override
+	public DoorPassVO selectDoorPassMsgByOrderInfoNotList(OrdersVO orVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(deliveryCheck+".selectDoorPassMsgByOrderInfoNotList", orVO);
+	}
 	
 }

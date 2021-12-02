@@ -138,5 +138,11 @@ public class DeliveryConfigServiceImple implements DeliveryConfigService{
 		// TODO Auto-generated method stub
 		return dcDao.selectCjDelivDoorPassMsgTarget(osVO);
 	}
+
+	@Override
+	public DoorPassVO selectDoorPassMsgByOrderInfoNotList(OrdersVO orVO) {
+		// TODO Auto-generated method stub
+		return dcDao.selectDoorPassMsgByOrderInfoNotList(orVO);
+	}
 	
 }

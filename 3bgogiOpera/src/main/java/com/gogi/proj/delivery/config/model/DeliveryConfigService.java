@@ -185,4 +185,16 @@ public interface DeliveryConfigService {
 	 * @메소드설명 : cj 공동현관 출입방법 문자 대상자 정보 조회 
 	 */
 	public List<OrdersVO> selectCjDelivDoorPassMsgTarget(OrderSearchVO osVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectDoorPassMsgByOrderInfoNotList
+	 * @date : 2021. 12. 2.
+	 * @author : Jeon KiChan
+	 * @param orVO
+	 * @return
+	 * @메소드설명 : OrdersVOList가 아닌 OrdersVO의 정보로 공동현관 출입방법 가져오기
+	 */
+	public DoorPassVO selectDoorPassMsgByOrderInfoNotList(OrdersVO orVO);
 }

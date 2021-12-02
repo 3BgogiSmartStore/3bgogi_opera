@@ -49,6 +49,7 @@
 	<div class="row">
 		<div class="offset-xl-1 col-xl-10 col-lg-12 col-md-12 col-sm-12 col-12">
 			<form class="row" id="insertDoorPassMsgForm" action="<c:url value='/delivery/config/door_pass.do'/>" method="POST">
+				<input type="hidden" id="orSerialSpecialNumber" value="${orSerialSpecialNumber }" name="orSerialSpecialNumber">
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
