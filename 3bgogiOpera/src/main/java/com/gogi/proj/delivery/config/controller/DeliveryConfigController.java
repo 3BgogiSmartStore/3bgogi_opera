@@ -264,6 +264,9 @@ public class DeliveryConfigController {
 				receiver.append(","+orVO.getOrBuyerContractNumber1());
 				destination.append(","+orVO.getOrBuyerContractNumber1()+"|"+orVO.getOrBuyerName());
 			}
+			
+			count++;
+			
 		}
 		
 		aligoVO.setReceiver(receiver.toString());
