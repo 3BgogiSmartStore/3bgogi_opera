@@ -493,7 +493,7 @@ public class ReadOrderExcel {
 			            		orderVO.setOrPaymentCommision(sc.matchingPaymentCommission(orderVO.getOrPaymentType(), orderVO.getOrTotalPrice()));
 			            		//네이버 쇼핑 매출연동 수수료
 			            	}else if(columnindex==45) {
-			            		orderVO.setOrAnotherPaymentCommision((int)cell.getNumericCellValue());
+			            		//orderVO.setOrAnotherPaymentCommision((int)cell.getNumericCellValue());
 			            		//정산예정금액
 			            	}else if(columnindex==46) {
 			            		

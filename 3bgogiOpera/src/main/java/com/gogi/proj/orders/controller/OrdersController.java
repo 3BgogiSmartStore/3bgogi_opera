@@ -176,7 +176,7 @@ public class OrdersController {
 		
 		
 		try {
-			if(sedsVO.getSsFk() == 3 || sedsVO.getSsFk() == 20) {				
+			if(sedsVO.getSsFk() == 3) {				
 				orderList = readOrderExcel.readOrderExcelDataToXLS(fileName, sedsVO.getSsFk(), sendingDeadlineFlag);
 				
 			}else if(sedsVO.getSsFk() == 14) {

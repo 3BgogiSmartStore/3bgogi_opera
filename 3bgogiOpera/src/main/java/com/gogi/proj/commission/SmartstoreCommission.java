@@ -26,7 +26,7 @@ public class SmartstoreCommission {
 	public int matchingPaymentCommission(String payType, int totalPrice) {
 		int result = 0;
 		
-		if(totalPrice != 0 ) return totalPrice;
+		if(totalPrice == 0 ) return totalPrice;
 		
 		if(payType.equals("신용카드") || payType.equals("신용카드 간편결제")) {
 			result = -((int)(totalPrice * CREDIT_CARD / 100));
@@ -51,7 +51,7 @@ public class SmartstoreCommission {
 	public int matchingInflowCommission(String inflowType, int totalPrice) {
 		int result = 0;
 		
-		if(totalPrice != 0 ) return totalPrice;
+		if(totalPrice == 0 ) return totalPrice;
 		
 		if(inflowType.equals("네이버쇼핑 외") || inflowType.equals("검색>쇼핑검색(네이버쇼핑 외)") || inflowType.equals("광고>쇼핑검색광고") || inflowType.equals("광고>쇼핑검색광고>쇼핑몰상품형") ||
 				inflowType.equals("쇼핑MY>장바구니(네이버쇼핑)") || inflowType.equals("쇼핑MY>최근본상품(네이버쇼핑)") || inflowType.equals("톡톡>스토어팜 주문서(톡톡)") || inflowType.equals("알림>상품문의답변") ||
