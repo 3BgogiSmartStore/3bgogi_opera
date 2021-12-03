@@ -423,6 +423,11 @@
 
     		});
     		
+			$("#doorPassKeywordListBtn").click(function(){    			
+    			window.open("/delivery/config/door_pass_keyword.do", "공동현관 출입방법 키워드 목록" , "width=500px, height=620px, top=50px, left=50px, scrollbars=no");
+    			
+    		});
+    		
     		
     		$("#orderIO").click(function(){
     			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
@@ -762,7 +767,6 @@
 												<button type="button" class="btn btn-primary" id="orderIO">  주문서 출력  </button>
 												<!-- <button type="button" class="btn btn-primary" id="labelIO">  라벨지 출력  </button> -->				
 												<c:if test="${OrderSearchVO.edtFk == 5 }">
-													<button class="btn btn-danger" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button>
 													<button class="btn btn-warning" id="cjDelivButton"> cj 새벽배송 임시송장 부여 </button>
 												</c:if>								
 												
@@ -784,6 +788,12 @@
                     	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
                                 <h5 class="card-header"> 미부여송장 목록 ( <fmt:formatNumber value="${OrderSearchVO.totalRecord }" pattern="#,###" /> 개) </h5>
+                                <div class="card-body" style="padding-bottom: 0;">
+                                	<button class="btn btn-primary btn-xs" id="doorPassKeywordListBtn"> 공동현관 키워드 목록 확인 </button>
+                                	<c:if test="${OrderSearchVO.edtFk == 5 }">
+										<button class="btn btn-danger btn-xs" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button>
+									</c:if>
+                                </div>
                                 <div class="card-body">
                                     <table class="table table-bordered">
                                         <thead>
@@ -831,8 +841,9 @@
 	                                        				<td rowspan="${rowSpans }" style="width:20px; text-align: center;" data-table-info="${tableCountings }">
 	                                        					<label class="custom-control custom-checkbox be-select-all">
 												             	   <input class="custom-control-input chk_all" value="${orlist.orSerialSpecialNumber }" type="checkbox" name="orSerialSpecialNumberList"
-												             	   	<c:if test="${orlist.orDelivEnterFlag == false }">
+												             	   	<c:if test="${orlist.orDelivEnterFlag == false and OrderSearchVO.edtFk == 5}">
 							                                        	checked="checked";
+							                                        	
 							                                        </c:if>
 												             	   >
 												             	   <span class="custom-control-label"></span>

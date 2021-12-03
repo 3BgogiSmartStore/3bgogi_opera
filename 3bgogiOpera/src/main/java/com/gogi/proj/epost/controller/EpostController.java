@@ -213,34 +213,32 @@ public class EpostController {
 						buyerInfo.setOrDelivEnterFlag(true);
 						
 					}else {					
-						for( OrdersVO orderInfo : buyerInfo.getOrVoList()) {
+						buyerInfo = dcService.doorPassCheck(buyerInfo);
+						
+						if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+							buyerInfo.setOrDelivEnterFlag(true);
 							
-							if(orderInfo.getOrDeliveryMessage() != null && !orderInfo.getOrDeliveryMessage().equals("")) {
+						}else {
+							
+							for( OrdersVO orderInfo : buyerInfo.getOrVoList()) {
 								
-								for(DoorPassKeywordVO dpk : doorList) {
+								if(orderInfo.getOrDeliveryMessage() != null && !orderInfo.getOrDeliveryMessage().equals("")) {
 									
-									if(orderInfo.getOrDeliveryMessage().indexOf(dpk.getDpkWord()) != -1) {
-										buyerInfo.setOrDelivEnterFlag(true);
-										break;
+									for(DoorPassKeywordVO dpk : doorList) {
+										
+										if(orderInfo.getOrDeliveryMessage().indexOf(dpk.getDpkWord()) != -1) {
+											buyerInfo.setOrDelivEnterFlag(true);
+											break;
+										}
+										
 									}
 									
+									
 								}
 								
-								buyerInfo = dcService.doorPassCheck(buyerInfo);
-								
-								if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
-									buyerInfo.setOrDelivEnterFlag(true);
-								}
-								
-							}else {
-								buyerInfo = dcService.doorPassCheck(buyerInfo);
-								
-								if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
-									buyerInfo.setOrDelivEnterFlag(true);
-								}
 							}
-							
 						}
+						
 					}
 				}
 			}

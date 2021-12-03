@@ -23,7 +23,7 @@
 	</select>
 	
 	<delete id="deleteDoorPassKeyword" parameterType="DoorPassKeywordVO">
-		DELTE FROM door_pass_keyword
+		DELETE FROM door_pass_keyword
 		WHERE
 			dpk_pk = #{dpkPk}
 	</delete>

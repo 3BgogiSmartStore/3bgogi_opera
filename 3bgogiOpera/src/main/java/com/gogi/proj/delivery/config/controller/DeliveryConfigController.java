@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gogi.proj.aligo.util.AligoSendingForm;
 import com.gogi.proj.aligo.util.AligoVO;
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
+import com.gogi.proj.delivery.config.vo.DoorPassKeywordVO;
 import com.gogi.proj.delivery.config.vo.DoorPassVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
@@ -288,5 +289,89 @@ public class DeliveryConfigController {
 		return result;
 	}
 	
+	
+	/**
+	 * 
+	 * @MethodName : doorPassKeywordGet
+	 * @date : 2021. 12. 3.
+	 * @author : Jeon KiChan
+	 * @param model
+	 * @return
+	 * @메소드설명 : 배송메세지에서 공동현관 출입방법 키워드 추출 단어 확인 및 추가 페이지 
+	 */
+	@RequestMapping(value="/door_pass_keyword.do", method=RequestMethod.GET)
+	public String doorPassKeywordGet(Model model) {
+		
+		List<DoorPassKeywordVO> dpkList = dcService.selectAllDoorPassKeyword();
+		
+		model.addAttribute("dpkList", dpkList);
+		
+		return "delivery/config/door_pass_keyword";
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @MethodName : doorPassKeywordPost
+	 * @date : 2021. 12. 3.
+	 * @author : Jeon KiChan
+	 * @param dpkVO
+	 * @param model
+	 * @return
+	 * @메소드설명 : 배송메세지에서 공동현관 출입방법 키워드 추출 단어 추가
+	 */
+	@RequestMapping(value="/door_pass_keyword.do", method=RequestMethod.POST)
+	public String doorPassKeywordPost(@ModelAttribute DoorPassKeywordVO dpkVO, Model model) {
+		
+		String msg = "";
+		String url = "/delivery/config/door_pass_keyword.do";
+		
+		int result = dcService.insertDoorPassKeyword(dpkVO);
+		
+		if(result > 0) {
+			msg = "공동현관 출입방법 키워드 추가 완료";
+		}else {
+			msg = "공동현관 출입방법 키워드 추가 실패";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : doorPassKeywordDelete
+	 * @date : 2021. 12. 3.
+	 * @author : Jeon KiChan
+	 * @param dpkVO
+	 * @param model
+	 * @return
+	 * @메소드설명 : 배송메세지에서 공동현관 출입방법 키워드 추출 단어 삭제하기
+	 */
+	@RequestMapping(value="/door_pass_keyword_del.do", method=RequestMethod.GET)
+	public String doorPassKeywordDelete(@ModelAttribute DoorPassKeywordVO dpkVO, Model model) {
+		
+		String msg = "";
+		String url = "/delivery/config/door_pass_keyword.do";
+		
+		int result = dcService.deleteDoorPassKeyword(dpkVO);
+		
+		if(result > 0) {
+			msg = "키워드 삭제 완료";
+		}else {
+			msg = "키워드 삭제 실패";
+		}
+		
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+		
+	}
 }
 
