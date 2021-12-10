@@ -17,6 +17,9 @@ public class SmartstoreCommission {
 	//휴대폰결제
 	private static final double DEPOSIT_WITH_CELLPHONE = 3.85;
 	
+	//통합
+	private static final double TOTAL_COMMISSION = 3.63;
+	
 	//보조결제
 	private static final double ANOTHER_PAYMENT = 3.71;
 	
@@ -28,7 +31,7 @@ public class SmartstoreCommission {
 		
 		if(totalPrice == 0 ) return totalPrice;
 		
-		if(payType.equals("신용카드") || payType.equals("신용카드 간편결제")) {
+		/*if(payType.equals("신용카드") || payType.equals("신용카드 간편결제")) {
 			result = -((int)(totalPrice * CREDIT_CARD / 100));
 			
 		}else if(payType.equals("포인트결제")) {
@@ -43,7 +46,9 @@ public class SmartstoreCommission {
 		}else if(payType.equals("휴대폰") || payType.equals("휴대폰 간편결제")) {
 			result = -((int)(totalPrice * DEPOSIT_WITH_CELLPHONE / 100));
 			
-		}
+		}*/
+		
+		result = -((int)(totalPrice * TOTAL_COMMISSION / 100));
 		
 		return result;
 	}

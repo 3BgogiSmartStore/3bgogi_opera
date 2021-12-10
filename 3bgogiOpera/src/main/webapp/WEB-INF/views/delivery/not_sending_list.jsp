@@ -354,7 +354,9 @@
 	    				},
 	    				url        : '/delivery/config/cj_door_msg.do',
 	    				success    : (data) => {		
-	    					alert(data);
+	    					alert(decodeURI(data));
+	    					
+	    					
 	    					
 	    				},error	: (log) => {
 	    					alert("서버 에러 발생. " + log);
@@ -364,6 +366,23 @@
 	    			
     			}
     			
+    			
+    		});
+    		
+    		$("#cjDelivDoorMsgKakaoButton").click(function(){
+    			
+    			
+    			$.ajax({
+    				type       : 'GET',
+    				url        : '/delivery/config/cj_door_msg_kakao.do',
+    				success    : (data) => {		
+    					alert(data);
+    					
+    				},error	: (log) => {
+    					alert("서버 에러 발생. " + log);
+    				}
+    				
+    			});	
     			
     		});
     		
@@ -792,6 +811,8 @@
                                 	<button class="btn btn-primary btn-xs" id="doorPassKeywordListBtn"> 공동현관 키워드 목록 확인 </button>
                                 	<c:if test="${OrderSearchVO.edtFk == 5 }">
 										<button class="btn btn-danger btn-xs" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button>
+										
+										<!-- <button class="btn btn-danger btn-xs" id="cjDelivDoorMsgKakaoButton"> 공동현관 비밀번호 알림톡 테스트 </button> -->
 									</c:if>
                                 </div>
                                 <div class="card-body">

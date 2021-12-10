@@ -1,5 +1,6 @@
 package com.gogi.proj.delivery.config.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gogi.proj.aligo.kakao.AligoKaKaoTempletList;
+import com.gogi.proj.aligo.kakao.AligoKakaoAPI;
+import com.gogi.proj.aligo.kakao.AligoKakaoResultDTO;
+import com.gogi.proj.aligo.util.AligoResultDTO;
 import com.gogi.proj.aligo.util.AligoSendingForm;
 import com.gogi.proj.aligo.util.AligoVO;
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
@@ -41,6 +46,9 @@ public class DeliveryConfigController {
 	
 	@Autowired
 	private AligoSendingForm adf;
+	
+	@Autowired
+	private AligoKakaoAPI aligoKakaoApi;
 	
 	/**
 	 * 
@@ -286,7 +294,10 @@ public class DeliveryConfigController {
 		
 		String result = adf.smsMsg(aligoVO);
 		
-		return result;
+		AligoResultDTO aligoDto = adf.stringToAligoResultDTO(result);
+		
+		
+		return aligoDto.toString();
 	}
 	
 	
@@ -372,6 +383,39 @@ public class DeliveryConfigController {
 		
 		return "common/message";
 		
+	}
+	
+	
+	@RequestMapping(value="/cj_door_msg_kakao.do", method=RequestMethod.GET, produces="application/text; charset=utf8")
+	@ResponseBody
+	public String cjDoorMsgKakao() {
+
+		OrdersVO orVO = new OrdersVO();
+		OrdersVO orVO1 = new OrdersVO();
+		
+		orVO.setOrBuyerName("갓기찬");
+		orVO.setOrBuyerContractNumber1("010-9350-3632");
+		orVO.setOrDeliveryInvoiceNumber("입력전");
+		
+		orVO1.setOrBuyerName("갓기찬123");
+		orVO1.setOrBuyerContractNumber1("010-9350-3632");
+		orVO1.setOrDeliveryInvoiceNumber("입력전123");
+		
+		List<OrdersVO> list = new ArrayList<OrdersVO>();
+		list.add(orVO);
+		list.add(orVO1);
+		
+		AligoKakaoResultDTO aligoKakaoDto = aligoKakaoApi.getAligoKakaoToken("https://kakaoapi.aligo.in/akv10/token/create/30/s/");
+
+		AligoKaKaoTempletList ak = aligoKakaoApi.getAlioKakaoTemplt("https://kakaoapi.aligo.in/akv10/template/list/", aligoKakaoDto);
+		
+		String result = aligoKakaoApi.aligoKakaoSending("https://kakaoapi.aligo.in/akv10/alimtalk/send/", aligoKakaoDto, list, ak.getTempltName(), ak.getTempltContent(), ak.getTempltCode());
+		
+		
+		
+		System.out.println("result = "+result);
+		
+		return result;
 	}
 }
 

@@ -168,4 +168,82 @@ public interface AnalyticsDAO {
 	 * @메소드설명 : 메인페이지 우체국, 그외 택배사 피킹 결과
 	 */
 	public Map<String, Object> mainDeliveryTypeResult();
+	
+	
+	/**
+	 * 
+	 * @MethodName : notMatchingOrder
+	 * @date : 2021. 12. 8.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 매칭되지 않은 주문 개수
+	 */
+	public int notMatchingOrder();
+	
+	
+	/**
+	 * 
+	 * @MethodName : dontGrantInvoiceOrder
+	 * @date : 2021. 12. 8.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 송장미부여 주문 개수
+	 */
+	public int dontGrantInvoiceOrder();
+	
+	
+	/**
+	 * 
+	 * @MethodName : notInvenOrder
+	 * @date : 2021. 12. 8.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 재고할당이 되지 않은 주문 개수
+	 */
+	public int notInvenOrder();
+	
+	
+	/**
+	 * 
+	 * @MethodName : sendingWeitOrder
+	 * @date : 2021. 12. 8.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 발송되지 않은 주문 개수
+	 */
+	public int sendingWeitOrder();
+	
+	
+	/**
+	 * 
+	 * @MethodName : sendingFinishOrder
+	 * @date : 2021. 12. 8.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 발송 완료된 주문 개수
+	 */
+	public int sendingFinishOrder();
+	
+	
+	/**
+	 * 
+	 * @MethodName : depositOrder
+	 * @date : 2021. 12. 8.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 입금처리가 되지 않은 주문서
+	 */
+	public int depositOrder();
+	
+	
+	/**
+	 * 
+	 * @MethodName : insertOrderCountBySendingDeadline
+	 * @date : 2021. 12. 8.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 입력된 주문서 일주일간의 개수 나타내기 (발송기한 기준으로)
+	 */
+	public List<OrdersVO> insertOrderCountBySendingDeadline();
+	
 }

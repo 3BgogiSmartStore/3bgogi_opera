@@ -574,6 +574,10 @@
 					#{item}
 				</foreach>
 			</if>
+			AND od.or_delivery_invoice_number IS NULL
+			AND od.or_excel_div_flag = 0
+			AND od.or_cancled_flag = 0
+			AND od.or_refunds = 0
 		ORDER BY
 			od.or_serial_special_number ASC,
             od.or_delivery_message DESC

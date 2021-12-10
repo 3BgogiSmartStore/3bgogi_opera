@@ -140,5 +140,47 @@ public class AnalyticsDAOMybatis extends SqlSessionDaoSupport implements Analyti
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne(mainNameSpace+".mainDeliveryTypeResult");
 	}
+
+	@Override
+	public int notMatchingOrder() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(mainNameSpace+".notMatchingOrder");
+	}
+
+	@Override
+	public int dontGrantInvoiceOrder() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(mainNameSpace+".dontGrantInvoiceOrder");
+	}
+
+	@Override
+	public int notInvenOrder() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(mainNameSpace+".notInvenOrder");
+	}
+
+	@Override
+	public int sendingWeitOrder() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(mainNameSpace+".sendingWeitOrder");
+	}
+
+	@Override
+	public int sendingFinishOrder() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(mainNameSpace+".sendingFinishOrder");
+	}
+
+	@Override
+	public int depositOrder() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(mainNameSpace+".depositOrder");
+	}
+
+	@Override
+	public List<OrdersVO> insertOrderCountBySendingDeadline() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(mainNameSpace+".insertOrderCountBySendingDeadline");
+	}
 	
 }

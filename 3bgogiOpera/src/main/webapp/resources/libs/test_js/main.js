@@ -35,6 +35,7 @@
 	  return dataSets;
   }
   
+  
   function sevenDaysDateAndData(orderList){
 	  var dateList = new Array();
 	  var stringDateList = new Array();
@@ -51,58 +52,6 @@
 	  return sevenDays;
   }
   
-  $.ajax({
-	    type       : 'GET',
-	    url        : '/analytics/sevenday_sending_out.do',
-	    success    : function(data){
-	    	console.log(data);
-	    	orderCountDataList = devideDateAndData(data);
-	    	console.log(orderCountDataList);
-	    	
-	    	 var ctx = document.getElementById("widgetChart1");
-	    	    if (ctx) {
-	    	      ctx.height = 130;
-	    	      var myChart = new Chart(ctx, {
-	    	        type: 'bar',
-	    	        data: {
-	    	          labels: orderCountDataList[0],
-	    	          type: 'line',
-	    	          datasets: [{
-	    	            data: orderCountDataList[2],
-	    	            label: '입력 건 수',
-	    	            backgroundColor: 'rgba(255,255,255,.1)',
-	    	            borderWidth: "0",
-	    	            borderColor: 'rgba(255,255,255,.55)',
-	    	          },]
-	    	        },
-	    	        options: {
-	    		          maintainAspectRatio: true,
-	    		          legend: {
-	    		            display: false
-	    		          },
-	    		          scales: {
-	    		            xAxes: [{
-	    		              display: false,
-	    		              categoryPercentage: 1,
-	    		              barPercentage: 0.8
-	    		            }],
-	    		            yAxes: [{
-	    			              display: false,
-	    			              barPercentage: 0.2,
-	    			              ticks: {
-	    			                  suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
-	    			                  // OR //
-	    			                  beginAtZero: true   // minimum value will be 0.
-	    			              }
-	    			            }]
-	    		          }
-	    		        }
-	    	      });
-	    	    }
-	    }
-	    
-	});
-  
   window.chartColors = {
 			red: 'rgb(255, 99, 132)',
 			orange: 'rgb(255, 159, 64)',
@@ -112,6 +61,7 @@
 			purple: 'rgb(153, 102, 255)',
 			grey: 'rgb(201, 203, 207)'
 		};
+  
   
 /*  var barChartData = {
 			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -143,7 +93,7 @@
 
   $.ajax({
 	    type       : 'GET',
-	    url        : '/analytics/seven_days_pro_qty.do',
+	    url        : '/main/inserting_orders.do',
 	    success    : function(data){
 	    	sevenDaysDateAndDataLIst = sevenDaysDateAndData(data);
 	    	
@@ -157,7 +107,7 @@
 	              type: 'line',
 	              datasets: [{
 	                data: sevenDaysDateAndDataLIst.qty,
-	                label: '판매 물량',
+	                label: '발송 주문서',
 	                backgroundColor: 'transparent',
 	                borderColor: 'rgba(255,255,255,.55)',
 	              },]

@@ -138,4 +138,46 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 		return analyDAO.mainDeliveryTypeResult();
 	}
 
+	@Override
+	public int notMatchingOrder() {
+		// TODO Auto-generated method stub
+		return analyDAO.notMatchingOrder();
+	}
+
+	@Override
+	public int dontGrantInvoiceOrder() {
+		// TODO Auto-generated method stub
+		return analyDAO.dontGrantInvoiceOrder();
+	}
+
+	@Override
+	public int notInvenOrder() {
+		// TODO Auto-generated method stub
+		return analyDAO.notInvenOrder();
+	}
+
+	@Override
+	public int sendingWeitOrder() {
+		// TODO Auto-generated method stub
+		return analyDAO.sendingWeitOrder();
+	}
+
+	@Override
+	public int sendingFinishOrder() {
+		// TODO Auto-generated method stub
+		return analyDAO.sendingFinishOrder();
+	}
+
+	@Override
+	public int depositOrder() {
+		// TODO Auto-generated method stub
+		return analyDAO.depositOrder();
+	}
+
+	@Override
+	public List<OrdersVO> insertOrderCountBySendingDeadline() {
+		// TODO Auto-generated method stub
+		return analyDAO.insertOrderCountBySendingDeadline();
+	}
+
 }

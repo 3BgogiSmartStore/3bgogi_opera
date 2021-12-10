@@ -102,7 +102,8 @@
 	<select id="selectCjDelivDoorPassMsgTarget" parameterType="OrderSearchVO" resultType="OrdersVO">
 		SELECT
 			or_buyer_name,
-			or_buyer_contract_number1
+			or_buyer_contract_number1,
+			GROUP_CONCAT(DISTINCT or_order_number SEPARATOR ',') AS or_order_number
 		FROM
 			orders
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">

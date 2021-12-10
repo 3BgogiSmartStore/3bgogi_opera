@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -29,6 +31,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gogi.proj.aligo.kakao.AligoKakaoResultDTO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.util.JsonToMapUtil;
 
@@ -43,6 +50,7 @@ public class AligoSendingForm {
 
 	final static String encodingType = "utf-8";
 	final static String boundary = "____boundary____";
+	final static String templetNum = "TG_7721";
 	
 	
 	/**
@@ -65,7 +73,7 @@ public class AligoSendingForm {
         
         requestHeaders.put("key",key);
         requestHeaders.put("user_id",user_id);
-        requestHeaders.put("sender","032-715-6690");
+        requestHeaders.put("sender","070-4169-3167");
         requestHeaders.put("receiver",aligo.getReceiver());
         requestHeaders.put("destination", aligo.getDestination() == null ? "":aligo.getDestination());
         requestHeaders.put("msg",aligo.getMsg());
@@ -75,7 +83,7 @@ public class AligoSendingForm {
         requestHeaders.put("testmode_yn", "N");
         
         String responseBody = get(apiURL,requestHeaders,"POST");
-		
+        
 		return responseBody;
 		
 	}
@@ -280,4 +288,31 @@ public class AligoSendingForm {
 	
 		return remainResult;
 	}
+	
+	
+	public AligoResultDTO stringToAligoResultDTO(String jsonString) {
+		
+		ObjectMapper obj = new ObjectMapper();
+		obj.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		AligoResultDTO aligoDto =  null;
+		
+		try {
+			aligoDto = obj.readValue(jsonString, AligoResultDTO.class);
+			
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("Json 데이터 파싱 실패", e);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("Json 데이터 매핑 실패", e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("입출력 에러", e);
+		}
+		
+		return aligoDto;
+		
+	}
+
 }

@@ -308,9 +308,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 				
 				cell = (SXSSFCell) row.createCell(3);
 				cell.setCellValue(delivTarget.get(i).getOrShippingAddress());	
-				
-				sheet.setColumnWidth(3, ( ( delivTarget.get(i).getOrShippingAddress().length() * 380 ) + 512));
-				
+
 				cell = (SXSSFCell) row.createCell(4);
 				cell.setCellValue(poVO.getProductName());
 				sheet.autoSizeColumn(4);

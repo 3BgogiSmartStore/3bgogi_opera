@@ -64,8 +64,8 @@ public class OrderUtilityClass {
 				ordersVO.setOrDeliveryPrice(0);
 				ordersVO.setOrTotalPrice( Math.abs(ordersVO.getOrTotalPrice()/productQuantity * devideValue) );
 				ordersVO.setOrTotalCost( Math.abs(ordersVO.getOrTotalCost()/productQuantity * devideValue) );
-				ordersVO.setOrPaymentCommision( Math.abs(ordersVO.getOrPaymentCommision()/productQuantity * devideValue) );
-				ordersVO.setOrAnotherPaymentCommision( Math.abs(ordersVO.getOrAnotherPaymentCommision()/productQuantity * devideValue) );
+				ordersVO.setOrPaymentCommision( -Math.abs(ordersVO.getOrPaymentCommision()/productQuantity * devideValue) );
+				ordersVO.setOrAnotherPaymentCommision( -Math.abs(ordersVO.getOrAnotherPaymentCommision()/productQuantity * devideValue) );
 				ordersVO.setOrDevideFlag(true);
 				ordersVO.setOrInvFlag(false);
 			}
