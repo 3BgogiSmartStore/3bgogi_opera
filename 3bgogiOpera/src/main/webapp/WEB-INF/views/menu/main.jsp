@@ -2,11 +2,20 @@
     pageEncoding="UTF-8"%>
     <%@ include file="../inc/top.jsp" %>
     <%@ include file="../inc/top_nav.jsp" %>
+
+
+<link rel="stylesheet" href="${resourcePath}/resources/libs/morris-bundle/morris.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/css/animsition.min.css" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+
+<script src="${resourcePath}/resources/libs/morris-bundle/morris.js"></script>
+<script src="${resourcePath}/resources/libs/morris-bundle/Morrisjs.js"></script>
+<script src="${resourcePath}/resources/libs/morris-bundle/raphael.min.js"></script>
+
 <script type="text/javascript">
 	$(function(){
 		
@@ -170,20 +179,19 @@
                         </div>
                         <div class="row">
                         	<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="overview-item overview-item--c2">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="zmdi zmdi-shopping-cart"></i>
-                                            </div>
-                                            <div class="text">
-                                                <span> 발송 주문서 </span>
-                                                <h4> 최근 7일 </h4>
-                                            </div>
-                                        </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart2"></canvas>
-                                        </div>
+                        	
+                        		<div class="card">
+                                    <h5 class="card-header"> 주문서 발송 개수</h5>
+                                    <div class="card-body p-0">
+                                    	<div id="sendingList"></div>
+	                                    <div class="text-center">
+	                                        <span class="legend-item mr-3">
+	                                                <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
+	                                        <span class="legend-text"> 발송기한 별 주문서 개수</span>
+	                                        </span>
+	                                        <p></p>
+	                                    </div>
+	                                    
                                     </div>
                                 </div>
                             </div>
