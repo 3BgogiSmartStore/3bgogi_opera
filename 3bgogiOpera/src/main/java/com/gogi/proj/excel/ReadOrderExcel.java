@@ -192,8 +192,11 @@ public class ReadOrderExcel {
 			            		//배송메세지
 			            	}else if(columnindex==7) {
 			            		if(cell != null) {
+			            			
 			            			String delivMsg = cell.getStringCellValue()+"";
-			            			int firstIndex = delivMsg.lastIndexOf("[");
+			            			
+			            			orderVO.setOrDeliveryMessage(delivMsg);
+			            			/*int firstIndex = delivMsg.lastIndexOf("[");
 			            			int lastIndex = delivMsg.lastIndexOf("]");
 			            			
 			            			// [   ] 형식으로 된 출입방법이 적혀 있을 있을 경우
@@ -205,7 +208,7 @@ public class ReadOrderExcel {
 			            			}else {
 			            				orderVO.setOrDeliveryMessage(delivMsg);
 			            			}
-			            			
+			            			*/
 			            		}else {
 			            			orderVO.setOrDeliveryMessage("");
 			            		}
@@ -1320,7 +1323,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 											
 									}if(columnindex==2) {
 										
-										String value = cellTypeReturn(cell);
+										String value = cellTypeReturn(cell)+"";
 										
 										if(value.length() < 5) {
 											value = "0"+value;
@@ -1365,13 +1368,48 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 										orderVO.setOrProduct(value);
 											
 									}if(columnindex==8) {
-										String value = cellTypeReturn(cell);
-										
-										orderVO.setOrProductOption(value);
+										String value = "";
+					            		
+					            		if(cell == null ) {
+					            			orderVO.setOrProductOption("단일상품");
+					            			
+					            		}else {
+					            			
+					            			switch (cell.getCellType()){
+				                            case HSSFCell.CELL_TYPE_FORMULA:
+				                                value=cell.getCellFormula();
+				                                break;
+				                            case HSSFCell.CELL_TYPE_NUMERIC:
+				                                value=(int)cell.getNumericCellValue()+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_STRING:
+				                                value=cell.getStringCellValue()+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_BLANK:
+				                                value=cell.getBooleanCellValue()+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_ERROR:
+				                                value=cell.getErrorCellValue()+"";
+				                                break;
+				                            }
+					            			
+					            			int firstIndex = value.lastIndexOf("[");
+					            			int lastIndex = value.lastIndexOf("]");
+					            			
+					            			if(firstIndex != -1 && lastIndex != -1 && value.length() != 0) {
+					            				lastIndex = lastIndex+1;
+
+					            				orderVO.setOrProductOption("배송메세지에"+value.substring(lastIndex, value.length()));
+					            				
+					            			}else {
+					            				orderVO.setOrProductOption(value);
+					            			}
+					            			
+					            		}
 											
 									}if(columnindex==9) {
 										
-										String value = cellTypeReturn(cell);
+										String value = cell.getStringCellValue()+"";
 										
 										orderVO.setOrDeliveryMessage(value);
 										
@@ -1459,7 +1497,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 										
 								}if(columnindex==2) {
 									
-									String value = cellTypeReturnHSS(cell);
+									String value = cellTypeReturnHSS(cell)+"";
 									
 									if(value.length() < 5) {
 										value = "0"+value;
@@ -1505,12 +1543,47 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 									orderVO.setOrProduct(value);
 										
 								}if(columnindex==8) {
-									String value = cellTypeReturnHSS(cell);
-									
-									orderVO.setOrProductOption(value);
+									String value = "";
+				            		
+				            		if(cell == null ) {
+				            			orderVO.setOrProductOption("단일상품");
+				            			
+				            		}else {
+				            			
+				            			switch (cell.getCellType()){
+			                            case HSSFCell.CELL_TYPE_FORMULA:
+			                                value=cell.getCellFormula();
+			                                break;
+			                            case HSSFCell.CELL_TYPE_NUMERIC:
+			                                value=(int)cell.getNumericCellValue()+"";
+			                                break;
+			                            case HSSFCell.CELL_TYPE_STRING:
+			                                value=cell.getStringCellValue()+"";
+			                                break;
+			                            case HSSFCell.CELL_TYPE_BLANK:
+			                                value=cell.getBooleanCellValue()+"";
+			                                break;
+			                            case HSSFCell.CELL_TYPE_ERROR:
+			                                value=cell.getErrorCellValue()+"";
+			                                break;
+			                            }
+				            			
+				            			int firstIndex = value.lastIndexOf("[");
+				            			int lastIndex = value.lastIndexOf("]");
+				            			
+				            			if(firstIndex != -1 && lastIndex != -1 && value.length() != 0) {
+				            				lastIndex = lastIndex+1;
+
+				            				orderVO.setOrProductOption("배송메세지에"+value.substring(lastIndex, value.length()));
+				            				
+				            			}else {
+				            				orderVO.setOrProductOption(value);
+				            			}
+				            			
+				            		}
 										
 								}if(columnindex==9) {
-									String value = cellTypeReturnHSS(cell);
+									String value = cell.getStringCellValue()+"";
 									
 									orderVO.setOrDeliveryMessage(value);
 								}
