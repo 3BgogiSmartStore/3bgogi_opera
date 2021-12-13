@@ -123,16 +123,20 @@ public class AligoKakaoAPI {
         
         for(OrdersVO orVO : orderList) {
         	String msg = "";
+        	String phoneMsg = "";
         	
         	if(orVO.getOrOrderNumber().length() > 37) {
         		String [] orderNum = orVO.getOrOrderNumber().split(",");        		
         		msg = message.replaceAll("#\\{고객명\\}", orVO.getOrBuyerName()).replaceAll("#\\{주문번호\\}", orderNum[0] +" 외 " +(orderNum.length - 1));
+        		phoneMsg = phoneMsg().replaceAll("#\\{고객명\\}", orVO.getOrBuyerName()).replaceAll("#\\{주문번호\\}", orderNum[0] +" 외 " +(orderNum.length - 1));
 
         	}else {
         		msg = message.replaceAll("#\\{고객명\\}", orVO.getOrBuyerName()).replaceAll("#\\{주문번호\\}", orVO.getOrOrderNumber());
+        		phoneMsg = phoneMsg().replaceAll("#\\{고객명\\}", orVO.getOrBuyerName()).replaceAll("#\\{주문번호\\}", orVO.getOrOrderNumber());
         	}
         	
-        	String phoneMsg = phoneMsg().replaceAll("#\\{고객명\\}", orVO.getOrBuyerName());
+        	System.out.println("phoneMsg = "+phoneMsg);
+        	
         	
         	requestHeaders.put("receiver_"+count, orVO.getOrBuyerContractNumber1());
             requestHeaders.put("recvname_"+count, orVO.getOrBuyerName());
@@ -140,6 +144,7 @@ public class AligoKakaoAPI {
             requestHeaders.put("message_"+count, msg);
             requestHeaders.put("button_"+count, button);
             
+            requestHeaders.put("failover", "Y");
             requestHeaders.put("fsubject_"+count, subject);
             requestHeaders.put("fmessage_"+count, phoneMsg);
             
@@ -182,10 +187,12 @@ public class AligoKakaoAPI {
 	
 	private String phoneMsg() {
 		return "#{고객명}님!\n" + 
+				"□ 주문번호 : #{주문번호}\n" + 
+				"\r\n" + 
 				"새벽배송으로 발송될 예정입니다.\n" + 
-				"그러나 공동현관 출입번호가 기재되지 않아 ★1층 공동현관 앞에 배송될 수 있어 연락드립니다★\r\n" + 
+				"그러나 공동현관 출입번호가 기재되지 않아 ★1층 공동현관 앞에 배송될 수 있어 연락드립니다★\n" + 
 				"\n" + 
-				"하단에 네이버 톡톡 링크@ 클릭해서\n" + 
+				"하단에 네이버 톡톡 링크@ 클릭 해서\n" + 
 				"공동현관 비밀번호 말씀해 주시면 됩니다!\n" + 
 				"\n" + 
 				"[네이버톡톡] 17:30분 까지만\n" + 

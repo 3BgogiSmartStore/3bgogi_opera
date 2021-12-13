@@ -396,14 +396,10 @@ public class DeliveryConfigController {
 		orVO.setOrBuyerName("갓기찬");
 		orVO.setOrBuyerContractNumber1("010-9350-3632");
 		orVO.setOrDeliveryInvoiceNumber("입력전");
-		
-		orVO1.setOrBuyerName("갓기찬123");
-		orVO1.setOrBuyerContractNumber1("010-9350-3632");
-		orVO1.setOrDeliveryInvoiceNumber("입력전123");
+		orVO.setOrOrderNumber("12341234");
 		
 		List<OrdersVO> list = new ArrayList<OrdersVO>();
 		list.add(orVO);
-		list.add(orVO1);
 		
 		AligoKakaoResultDTO aligoKakaoDto = aligoKakaoApi.getAligoKakaoToken("https://kakaoapi.aligo.in/akv10/token/create/30/s/");
 
