@@ -386,7 +386,7 @@ public class DeliveryConfigController {
 	}
 	
 	
-	@RequestMapping(value="/cj_door_msg.do", method=RequestMethod.GET, produces="application/text; charset=utf8")
+	@RequestMapping(value="/cj_door_msg.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
 	@ResponseBody
 	public String cjDoorMsgKakao(@ModelAttribute OrderSearchVO osVO) {
 		List<OrdersVO> targetList = dcService.selectCjDelivDoorPassMsgTarget(osVO);
