@@ -853,7 +853,7 @@
                                 	<c:if test="${OrderSearchVO.edtFk == 5 }">
 										<button class="btn btn-success btn-xs" id="cjDelivDoorCheckBtn">공동현관 자동체크</button>
 										<!-- <button class="btn btn-danger btn-xs" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button> -->
-										<button class="btn btn-danger btn-xs" id="cjDelivDoorMsgKakaoButton"> 공동현관 비밀번호 알림톡 테스트 </button>
+										<button class="btn btn-danger btn-xs" id="cjDelivDoorMsgKakaoButton"> 공동현관 비밀번호 알림톡 </button>
 									</c:if>
                                 </div>
                                 <div class="card-body">
