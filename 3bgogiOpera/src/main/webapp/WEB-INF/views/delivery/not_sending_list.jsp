@@ -370,19 +370,49 @@
     		});
     		
     		$("#cjDelivDoorMsgKakaoButton").click(function(){
+
+    			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
     			
+    			if(orSize == 0){
+    				alert("공동현관 비밀번호 알림톡을 보내기 위한 주문서가 선택되지 않았습니다");
+    				return false;
+    			}
     			
-    			$.ajax({
-    				type       : 'GET',
-    				url        : '/delivery/config/cj_door_msg_kakao.do',
-    				success    : (data) => {		
-    					alert(data);
-    					
-    				},error	: (log) => {
-    					alert("서버 에러 발생. " + log);
-    				}
+    			if(confirm(orSize+" 개의 주문서에 공동현관 비밀번호 요청 알림톡을 보내시겠습니까?")){
     				
-    			});	
+    				doubleSubmitCheck();
+        			
+        			if(doubleSubmitFlag == false){
+        				
+        				return false;
+        			}
+				
+	    			var orSerialSpecialNumberList = new Array(orSize);
+	    			
+	    			
+	    			for(var i=0; i<orSize; i++){
+	    				orSerialSpecialNumberList[i]=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
+	    				
+	    			}
+
+	    			$.ajax({
+	    				type       : 'POST',
+	    				data       : {
+	    					"orSerialSpecialNumberList":orSerialSpecialNumberList
+	    				},
+	    				url        : '/delivery/config/cj_door_msg_kakao.do',
+	    				success    : (data) => {		
+	    					alert(data);
+
+	    					
+	    				},error	: (log) => {
+	    					alert("서버 에러 발생. " + log);
+	    				}
+	    				
+	    			});	
+	    			
+    			}
+
     			
     		});
     		
@@ -519,6 +549,17 @@
     	    			
     	    		}
     			}
+    		});
+    		
+    		$("#cjDelivDoorCheckBtn").click(function(){
+    			
+    			$("input[data-deliv-enter-flag='false']").each(function(){
+    				$(this).prop("checked","checked");
+    				
+    			});
+    			
+    			
+    			
     		});
     		
     		$(".editCustomerInfoBtn").click(function(){
@@ -810,9 +851,9 @@
                                 <div class="card-body" style="padding-bottom: 0;">
                                 	<button class="btn btn-primary btn-xs" id="doorPassKeywordListBtn"> 공동현관 키워드 목록 확인 </button>
                                 	<c:if test="${OrderSearchVO.edtFk == 5 }">
-										<button class="btn btn-danger btn-xs" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button>
-										
-										<!-- <button class="btn btn-danger btn-xs" id="cjDelivDoorMsgKakaoButton"> 공동현관 비밀번호 알림톡 테스트 </button> -->
+										<button class="btn btn-success btn-xs" id="cjDelivDoorCheckBtn">공동현관 자동체크</button>
+										<!-- <button class="btn btn-danger btn-xs" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button> -->
+										<button class="btn btn-danger btn-xs" id="cjDelivDoorMsgKakaoButton"> 공동현관 비밀번호 알림톡 테스트 </button>
 									</c:if>
                                 </div>
                                 <div class="card-body">
@@ -861,11 +902,9 @@
 								                            </td>
 	                                        				<td rowspan="${rowSpans }" style="width:20px; text-align: center;" data-table-info="${tableCountings }">
 	                                        					<label class="custom-control custom-checkbox be-select-all">
-												             	   <input class="custom-control-input chk_all" value="${orlist.orSerialSpecialNumber }" type="checkbox" name="orSerialSpecialNumberList"
-												             	   	<c:if test="${orlist.orDelivEnterFlag == false and OrderSearchVO.edtFk == 5}">
-							                                        	checked="checked";
-							                                        	
-							                                        </c:if>
+												             	   <input class="custom-control-input chk_all" value="${orlist.orSerialSpecialNumber }" 
+												             	   data-deliv-enter-flag="${orlist.orDelivEnterFlag }"
+												             	   type="checkbox" name="orSerialSpecialNumberList"
 												             	   >
 												             	   <span class="custom-control-label"></span>
 												                </label>

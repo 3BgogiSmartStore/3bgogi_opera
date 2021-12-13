@@ -135,9 +135,6 @@ public class AligoKakaoAPI {
         		phoneMsg = phoneMsg().replaceAll("#\\{고객명\\}", orVO.getOrBuyerName()).replaceAll("#\\{주문번호\\}", orVO.getOrOrderNumber());
         	}
         	
-        	System.out.println("phoneMsg = "+phoneMsg);
-        	
-        	
         	requestHeaders.put("receiver_"+count, orVO.getOrBuyerContractNumber1());
             requestHeaders.put("recvname_"+count, orVO.getOrBuyerName());
             requestHeaders.put("subject_"+count, subject);
@@ -163,9 +160,8 @@ public class AligoKakaoAPI {
 		result = asf.get(url, requestHeaders, "POST");
 		
 		AligoKakaoResultDTO dto = stringToAligoKakaoResultDTO(result);
-
 		
-		return result;
+		return dto.getMessage();
 	}
 	
 	private String buttonJsonData() {
