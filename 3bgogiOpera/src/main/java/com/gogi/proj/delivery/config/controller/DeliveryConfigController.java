@@ -262,7 +262,7 @@ public class DeliveryConfigController {
 	 * @return
 	 * @메소드설명 : cj새벽배송 공동현관 비밀번호 요청 문자 보내기
 	 */
-	@RequestMapping(value="/cj_door_msg_not_used.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
+	@RequestMapping(value="/cj_door_msg.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
 	@ResponseBody
 	public String cjDelivDoorMsgSend(@ModelAttribute OrderSearchVO osVO ) {
 		
@@ -386,7 +386,7 @@ public class DeliveryConfigController {
 	}
 	
 	
-	@RequestMapping(value="/cj_door_msg.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
+	@RequestMapping(value="/cj_door_msg_not_use.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
 	@ResponseBody
 	public String cjDoorMsgKakao(@ModelAttribute OrderSearchVO osVO) {
 		List<OrdersVO> targetList = dcService.selectCjDelivDoorPassMsgTarget(osVO);
