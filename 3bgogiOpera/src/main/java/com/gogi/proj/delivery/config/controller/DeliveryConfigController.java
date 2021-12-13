@@ -262,7 +262,7 @@ public class DeliveryConfigController {
 	 * @return
 	 * @메소드설명 : cj새벽배송 공동현관 비밀번호 요청 문자 보내기
 	 */
-	@RequestMapping(value="/cj_door_msg.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
+	@RequestMapping(value="/cj_door_msg_not_used.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
 	@ResponseBody
 	public String cjDelivDoorMsgSend(@ModelAttribute OrderSearchVO osVO ) {
 		
@@ -386,30 +386,16 @@ public class DeliveryConfigController {
 	}
 	
 	
-	@RequestMapping(value="/cj_door_msg_kakao.do", method=RequestMethod.GET, produces="application/text; charset=utf8")
+	@RequestMapping(value="/cj_door_msg.do", method=RequestMethod.GET, produces="application/text; charset=utf8")
 	@ResponseBody
-	public String cjDoorMsgKakao() {
-
-		OrdersVO orVO = new OrdersVO();
-		OrdersVO orVO1 = new OrdersVO();
-		
-		orVO.setOrBuyerName("갓기찬");
-		orVO.setOrBuyerContractNumber1("010-9350-3632");
-		orVO.setOrDeliveryInvoiceNumber("입력전");
-		orVO.setOrOrderNumber("12341234");
-		
-		List<OrdersVO> list = new ArrayList<OrdersVO>();
-		list.add(orVO);
+	public String cjDoorMsgKakao(@ModelAttribute OrderSearchVO osVO) {
+		List<OrdersVO> targetList = dcService.selectCjDelivDoorPassMsgTarget(osVO);
 		
 		AligoKakaoResultDTO aligoKakaoDto = aligoKakaoApi.getAligoKakaoToken("https://kakaoapi.aligo.in/akv10/token/create/30/s/");
 
 		AligoKaKaoTempletList ak = aligoKakaoApi.getAlioKakaoTemplt("https://kakaoapi.aligo.in/akv10/template/list/", aligoKakaoDto);
 		
-		String result = aligoKakaoApi.aligoKakaoSending("https://kakaoapi.aligo.in/akv10/alimtalk/send/", aligoKakaoDto, list, ak.getTempltName(), ak.getTempltContent(), ak.getTempltCode());
-		
-		
-		
-		System.out.println("result = "+result);
+		String result = aligoKakaoApi.aligoKakaoSending("https://kakaoapi.aligo.in/akv10/alimtalk/send/", aligoKakaoDto, targetList, ak.getTempltName(), ak.getTempltContent(), ak.getTempltCode());
 		
 		return result;
 	}
