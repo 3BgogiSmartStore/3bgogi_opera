@@ -147,8 +147,7 @@ jQuery(document).ready(function($) {
 			    	for(var i=firstDay.getDay();i<firstDay.getDay()+lastDay.getDate();i++){
 			    		for(var j = 0; j< data.length; j++){	
 
-	            			if(i == data[j].date_end.split('-')[2]*1){
-	            				
+	            			if(i - 1 == data[j].date_end.split('-')[2]*1){
 	            				
 	            				insertHTML = "&nbsp;&nbsp;예약된 상품 개수  : "+data[j].max_num+"<br>";
 	            				

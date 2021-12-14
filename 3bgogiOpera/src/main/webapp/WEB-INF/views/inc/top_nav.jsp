@@ -91,9 +91,9 @@
                                	 관리 메뉴
                             </li>
                             
-                            <%-- <li class="nav-item">
+                            <li class="nav-item">
                             	<a class="nav-link" href="<c:url value='/analytics/reserv_product_qty.do'/>"><i class="fas fa-calendar-alt"></i> 예약 상품 확인 </a>
-                            </li> --%>
+                            </li>
                             
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#sending" aria-controls="sending"><i class="fas fa-fw fa-shipping-fast"></i> 발송 및 출고  </a>

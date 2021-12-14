@@ -1409,7 +1409,25 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 											
 									}if(columnindex==9) {
 										
-										String value = cell.getStringCellValue()+"";
+										String value = "";
+										
+										switch (cell.getCellType()){
+			                            case HSSFCell.CELL_TYPE_FORMULA:
+			                                value=cell.getCellFormula();
+			                                break;
+			                            case HSSFCell.CELL_TYPE_NUMERIC:
+			                                value=(int)cell.getNumericCellValue()+"";
+			                                break;
+			                            case HSSFCell.CELL_TYPE_STRING:
+			                                value=cell.getStringCellValue()+"";
+			                                break;
+			                            case HSSFCell.CELL_TYPE_BLANK:
+			                                value="";
+			                                break;
+			                            case HSSFCell.CELL_TYPE_ERROR:
+			                                value=cell.getErrorCellValue()+"";
+			                                break;
+			                            }
 										
 										orderVO.setOrDeliveryMessage(value);
 										
@@ -1583,7 +1601,25 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 				            		}
 										
 								}if(columnindex==9) {
-									String value = cell.getStringCellValue()+"";
+									String value = "";
+									
+									switch (cell.getCellType()){
+		                            case HSSFCell.CELL_TYPE_FORMULA:
+		                                value=cell.getCellFormula();
+		                                break;
+		                            case HSSFCell.CELL_TYPE_NUMERIC:
+		                                value=(int)cell.getNumericCellValue()+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_STRING:
+		                                value=cell.getStringCellValue()+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_BLANK:
+		                                value="";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_ERROR:
+		                                value=cell.getErrorCellValue()+"";
+		                                break;
+		                            }
 									
 									orderVO.setOrDeliveryMessage(value);
 								}
