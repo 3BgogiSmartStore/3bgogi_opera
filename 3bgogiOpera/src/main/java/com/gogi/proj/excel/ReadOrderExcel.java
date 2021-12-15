@@ -1290,7 +1290,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 						
 						orderVO = new OrdersVO();
 						
-						if(row !=null){
+						if(row !=null && !row.getCell(0).getStringCellValue().equals("false") && !row.getCell(0).getStringCellValue().equals("")){
 							boolean nullCount = false;
 							orderVO = originalOrVO.copy();
 							
@@ -1463,7 +1463,12 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 			                                break;
 			                            }
 										
-										orderVO.setOrDeliveryMessage(value);
+										if(!value.equals("false") && !value.equals("")) {
+											orderVO.setOrDeliveryMessage(value);
+											
+										}else {
+											orderVO.setOrDeliveryMessage("");
+										}
 										
 											
 									}
@@ -1517,7 +1522,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 					
 					orderVO = new OrdersVO();
 					
-					if(row !=null){
+					if(row !=null && !row.getCell(0).getStringCellValue().equals("false") && !row.getCell(0).getStringCellValue().equals("")){
 						boolean nullCount = false;
 						orderVO = originalOrVO.copy();
 						
@@ -1691,7 +1696,12 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		                                break;
 		                            }
 									
-									orderVO.setOrDeliveryMessage(value);
+									if(!value.equals("false") && !value.equals("")) {
+										orderVO.setOrDeliveryMessage(value);
+										
+									}else {
+										orderVO.setOrDeliveryMessage("");
+									}
 								}
 							}
 							
