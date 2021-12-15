@@ -106,7 +106,7 @@
 		};
   
   
-$.ajax({
+  $.ajax({
 	    type       : 'GET',
 	    async	   : false,
 	    url        : '/main/inserting_orders.do',
@@ -116,9 +116,7 @@ $.ajax({
 	    	
 	    	Morris.Bar({
 	            element: 'sendingList',
-	            data: saleList
-	            ,
-	            
+	            data: saleList, 
 	            xkey: 'x',
 	            ykeys: ['y'],
 	            labels: ['주문서 개수'],
@@ -129,6 +127,28 @@ $.ajax({
 	    }
  
   });
+  
+  $.ajax({
+	    type       : 'GET',
+	    async	   : false,
+	    url        : '/main/inserting_reserv_orders.do',
+	    success    : function(data){
+	    	
+	    	reservList = jsonData(data);
+	    	
+	    	Morris.Bar({
+	            element: 'sendingReservList',
+	            data: reservList,
+	            xkey: 'x',
+	            ykeys: ['y'],
+	            labels: ['주문서 개수'],
+	            barColors: ['#ff407b']
+
+	        });
+	        
+	    }
+
+});
   
 
 })(jQuery);

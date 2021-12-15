@@ -182,5 +182,11 @@ public class AnalyticsDAOMybatis extends SqlSessionDaoSupport implements Analyti
 		// TODO Auto-generated method stub
 		return getSqlSession().selectList(mainNameSpace+".insertOrderCountBySendingDeadline");
 	}
+
+	@Override
+	public List<OrdersVO> insertReservOrderCountBySendingDeadline() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(mainNameSpace+".insertReservOrderCountBySendingDeadline");
+	}
 	
 }

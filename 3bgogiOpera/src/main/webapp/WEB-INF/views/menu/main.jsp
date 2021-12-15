@@ -195,7 +195,24 @@
                                     </div>
                                 </div>
                             </div>
-                        	<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        	
+                        		<div class="card">
+                                    <h5 class="card-header"> 예약된 주문서 개수</h5>
+                                    <div class="card-body p-0">
+                                    	<div id="sendingReservList"></div>
+	                                    <div class="text-center">
+	                                        <span class="legend-item mr-3">
+	                                                <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
+	                                        <span class="legend-text"> 발송기한 별 예약 주문서 개수</span>
+	                                        </span>
+	                                        <p></p>
+	                                    </div>
+	                                    
+                                    </div>
+                                </div>
+                            </div>
+                        	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
                                     <h5 class="card-header"> 입고된 상품 내역 </h5>
                                     <div class="card-body p-0">

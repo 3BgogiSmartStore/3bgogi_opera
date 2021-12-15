@@ -459,7 +459,10 @@
 								INNER JOIN options op ON om.option_fk = op.option_pk
 								INNER JOIN products pro ON pro.product_pk = op.product_fk
 							WHERE
-								or_sending_deadline > NOW()
+								<![CDATA[
+									or_sending_deadline > NOW()
+								]]>
+								AND op.eo_fk IN (1,3,6)
                                 AND DATE_FORMAT(or_sending_deadline, '%Y-%m') = CONCAT(#{formatYear}, '-',#{formatMonth}) 
 							GROUP BY
 								od.or_serial_special_number,

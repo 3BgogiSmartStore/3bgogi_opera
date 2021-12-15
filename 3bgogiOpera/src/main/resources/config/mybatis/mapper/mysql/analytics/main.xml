@@ -470,6 +470,42 @@
 			or_sending_deadline
  	</select>
  	
+ 	<select id="insertReservOrderCountBySendingDeadline" resultType="OrdersVO">
+ 		SELECT
+			DATE_FORMAT(dc.dc_date,'%Y-%m-%d') AS or_sending_deadline,
+		    COUNT(or_serial_special_number) AS or_amount
+		FROM
+			(
+			SELECT
+				DATE_FORMAT(od.or_sending_deadline, '%Y-%m-%d') AS dates,
+				or_serial_special_number
+			FROM
+				orders od
+			WHERE
+				<![CDATA[				
+					od.or_sending_deadline > DATE_FORMAT(NOW(), '%Y-%m-%d')
+					AND od.or_sending_deadline < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 8 DAY), '%Y-%m-%d')
+				]]>
+				AND od.or_cancled_flag = 0
+				AND od.or_excel_div_flag = 0
+				AND od.or_refunds = 0
+			GROUP BY
+				dates,
+		        or_serial_special_number
+			) INNE
+			<![CDATA[
+				RIGHT JOIN dummy_calendar dc	ON	dc.dc_date = INNE.dates AND dc.dc_date > DATE_FORMAT(NOW(), '%Y-%m-%d')
+			]]>
+		WHERE
+			<![CDATA[
+				dc.dc_date > DATE_FORMAT(NOW(), '%Y-%m-%d')
+				AND dc.dc_date < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 8 DAY), '%Y-%m-%d')
+			]]>
+		GROUP BY
+			or_sending_deadline
+		ORDER BY
+			or_sending_deadline
+ 	</select>
  	
 </mapper>
 

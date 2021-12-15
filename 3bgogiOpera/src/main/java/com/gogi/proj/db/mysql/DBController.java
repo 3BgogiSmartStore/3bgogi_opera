@@ -101,8 +101,6 @@ public class DBController {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnCnt = rsmd.getColumnCount(); // 컬럼의 수
 
-				System.out.println("columnCnt = " + columnCnt);
-
 				boolean firstHeader = true;
 				boolean headerCount = false;
 				while (rs.next() && tableName.equals("orders")) {
@@ -169,8 +167,6 @@ public class DBController {
 						String result_table_name = schemeResultSet.getString(1);
 
 						String result_create_scheme = schemeResultSet.getString(2);
-
-						System.out.println("\n" + result_table_name + " : " + result_create_scheme + "\n");
 
 						File f = new File("c:\\mysql_dump\\" + result_table_name + "_schema.sql");
 

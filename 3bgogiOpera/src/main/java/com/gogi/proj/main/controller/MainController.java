@@ -96,4 +96,19 @@ public class MainController {
 		return analyService.insertOrderCountBySendingDeadline();
 	}
 	
+	/**
+	 * 
+	 * @MethodName : insertReservOrderCountBySendingDeadlineMainPage
+	 * @date : 2021. 12. 15.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 예약된 주문서 일주일간의 개수 나타내기 (발송기한 기준으로)
+	 */
+	@RequestMapping(value = "/inserting_reserv_orders.do", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OrdersVO> insertReservOrderCountBySendingDeadlineMainPage() {
+
+		return analyService.insertReservOrderCountBySendingDeadline();
+	}
+	
 }

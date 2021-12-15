@@ -180,4 +180,10 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 		return analyDAO.insertOrderCountBySendingDeadline();
 	}
 
+	@Override
+	public List<OrdersVO> insertReservOrderCountBySendingDeadline() {
+		// TODO Auto-generated method stub
+		return analyDAO.insertReservOrderCountBySendingDeadline();
+	}
+
 }
