@@ -1294,17 +1294,51 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 							boolean nullCount = false;
 							orderVO = originalOrVO.copy();
 							
-							for(columnindex=0;columnindex<10;columnindex++){
+							for(columnindex=0;columnindex<11;columnindex++){
 								
 								XSSFCell cell=row.getCell(columnindex);
 								// 판매처별로 엑셀 열을 읽어서 씀
 								//구매자명
-								if(cell==null) {
+								if(cell==null && columnindex != 10) {
 									if(columnindex == 1) {
 										nullCount = true;
 										break;
 									}
 									continue;
+									
+								}else if(cell !=null && columnindex == 10){
+									switch (cell.getCellType()){
+		                            case HSSFCell.CELL_TYPE_NUMERIC:
+		                            	
+		                            	if(HSSFDateUtil.isCellDateFormatted(cell)) {
+		                	           		
+		                	           		Date userDate = new Date(cell.getDateCellValue().getTime());
+		    								Calendar minoDate = Calendar.getInstance();
+		    								minoDate.setTime(userDate);
+		    								
+		    								minoDate.add(Calendar.DATE, -1);
+		    								
+		    								orderVO.setOrSendingDeadline(new Date(minoDate.getTimeInMillis()));
+		    								
+		                	           	}
+		                            	
+		                                break;
+		                            default :
+		                                
+		                            	String value = cell.getStringCellValue()+"";
+		                            	
+		                            	if(!value.equals("false") && !value.equals("")) {	                            		
+		                            		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		                            		Date userDate = new Date(df.parse(value).getTime());
+		                            		Calendar minoDate = Calendar.getInstance();
+		                            		cal.setTime(userDate);
+		                            		
+		                            		cal.add(Calendar.DATE, -1);
+		                            		
+		                            		orderVO.setOrSendingDeadline(new Date(minoDate.getTimeInMillis()));
+		                            	}
+		                            }			
+									
 									
 								}else {
 									
@@ -1434,6 +1468,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 											
 									}
 								}
+									
 								
 							}//for
 							orderVO.setOrOrderNumber(originalOrVO.getOrOrderNumber()+"-"+orderCounting);
@@ -1486,18 +1521,55 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 						boolean nullCount = false;
 						orderVO = originalOrVO.copy();
 						
-						for(columnindex=0;columnindex<10;columnindex++){
+						for(columnindex=0;columnindex<11;columnindex++){
 							
 							HSSFCell cell=row.getCell(columnindex);
 							// 판매처별로 엑셀 열을 읽어서 씀
+							
 							//구매자명
-							if(cell==null) {
+							if(cell==null && columnindex != 10) {
+								
 								if(columnindex == 1) {
 									nullCount = true;
 									break;
 								}
 								continue;
+								
+							}else if(cell !=null && columnindex == 10){
+								switch (cell.getCellType()){
+	                            case HSSFCell.CELL_TYPE_NUMERIC:
+	                            	
+	                            	if(HSSFDateUtil.isCellDateFormatted(cell)) {
+	                	           		
+	                	           		Date userDate = new Date(cell.getDateCellValue().getTime());
+	    								Calendar minoDate = Calendar.getInstance();
+	    								minoDate.setTime(userDate);
+	    								
+	    								minoDate.add(Calendar.DATE, -1);
+	    								
+	    								orderVO.setOrSendingDeadline(new Date(minoDate.getTimeInMillis()));
+	    								
+	                	           	}
+	                            	
+	                                break;
+	                            default :
+	                                
+	                            	String value = cell.getStringCellValue()+"";
 
+	                            	if(!value.equals("false") && !value.equals("")) {	                             		
+	                            		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	                            		Date userDate = new Date(df.parse(value).getTime());
+	                            		Calendar minoDate = Calendar.getInstance();
+	                            		cal.setTime(userDate);
+	                            		
+	                            		cal.add(Calendar.DATE, -1);
+	                            		
+	                            		orderVO.setOrSendingDeadline(new Date(minoDate.getTimeInMillis()));
+	                            	}
+	                            }			
+								
+								
+								
 							}else {
 
 								if(columnindex==0) {
@@ -1551,9 +1623,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 									
 									orderVO.setOrReceiverContractNumber2(value);
 								}if(columnindex==6) {
-									String value = cellTypeReturnHSS(cell);
-									
-									orderVO.setOrAmount((int) Double.parseDouble(value));
+									orderVO.setOrAmount((int)cell.getNumericCellValue());
 										
 								}if(columnindex==7) {
 									String value = cellTypeReturnHSS(cell);

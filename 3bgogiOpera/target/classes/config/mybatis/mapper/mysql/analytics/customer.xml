@@ -368,6 +368,7 @@
 								<foreach item="item" collection="searchKeywordList" open="(" separator="," close=")">
 								    #{item}
 								</foreach>
+								AND op.eo_fk IN (1,3,6)
 								AND od.or_excel_div_flag = 0
 								AND od.or_cancled_flag = 0
 								
@@ -462,7 +463,6 @@
 								<![CDATA[
 									or_sending_deadline > NOW()
 								]]>
-								AND op.eo_fk IN (1,3,6)
                                 AND DATE_FORMAT(or_sending_deadline, '%Y-%m') = CONCAT(#{formatYear}, '-',#{formatMonth}) 
 							GROUP BY
 								od.or_serial_special_number,

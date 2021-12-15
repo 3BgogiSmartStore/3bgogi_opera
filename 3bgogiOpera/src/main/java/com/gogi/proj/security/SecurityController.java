@@ -170,11 +170,13 @@ public class SecurityController {
 		   adminVO.setAdminPass(passEncoder.encode(adminVO.getAdminPass()));
 		   adminService.insertAdminSignup(adminVO);
 		   
-		   AdminRolesVO arVO = new AdminRolesVO();
+		   /*AdminRolesVO arVO = new AdminRolesVO();
 		   
 		   arVO.setAdminId(adminVO.getAdminId());
 		   arVO.setRole("ROLE_USER");
-		   adminService.addAdminAuthRole(arVO);
+		   adminService.addAdminAuthRole(arVO);*/
+		   
+		   
 		   msg="회원가입 완료.";
 		   
 		   
