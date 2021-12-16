@@ -692,7 +692,8 @@
 					SUM(datas.or_deposit_flag) IS NULL,
 					0,
 	                1
-	            ) AS or_deposit_flag
+	            ) AS or_deposit_flag,
+            SUM(datas.inv_sum) AS data_inv_sum
 			FROM
 	            (
 	            SELECT
@@ -732,7 +733,14 @@
 					WHEN od.or_deposit_flag = 0
 					THEN
 						SUM(od.or_amount)
-				END AS or_deposit_flag
+				END AS or_deposit_flag,
+				SUM(
+					IF(
+						od.or_inv_flag = 0,
+						1,
+						0					
+					)
+				) AS inv_sum
 				FROM
 					orders od
 					INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
@@ -812,7 +820,12 @@
 						AND or_total_price <= #{maxPrice}
 					]]>
 				</if>
-				
+				<if test="invenFlag == 1">
+					<![CDATA[
+						AND data_inv_sum >= 1
+					]]>
+					AND SUM(datas.or_cancled_qty) IS NULL
+				</if>
 			</trim>
 			) inne
 	</select>
