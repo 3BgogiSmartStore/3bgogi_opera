@@ -34,12 +34,16 @@ import com.gogi.proj.orders.config.vo.StoreExcelDataSortingVO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.util.EmptyCheckUtil;
 import com.gogi.proj.util.FileuploadUtil;
+import com.gogi.proj.util.PhoneNumberUtil;
 
 @Component
 public class ReadOrderExcel {
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	@Autowired
+	private PhoneNumberUtil pnUtil;
+	
 	@Autowired
 	private FileuploadUtil fileUtil;
 	
@@ -1352,7 +1356,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 											
 									}if(columnindex==1) {
 										String value = cellTypeReturn(cell);
-										
+
 										orderVO.setOrReceiverName(value);
 											
 									}if(columnindex==2) {
@@ -1386,10 +1390,22 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 									}if(columnindex==4) {
 										String value = cellTypeReturn(cell);
 										
+										value = pnUtil.phoneNumberHyphenAdd(value, "N");
+										
+										if(value.substring(0, 2).equals("10")) {
+											value = "0"+value;
+										}
+										
 										orderVO.setOrReceiverContractNumber1(value);
 											
 									}if(columnindex==5) {
 										String value = cellTypeReturn(cell);
+										
+										if(value.substring(0, 2).equals("10")) {
+											value = "0"+value;
+										}
+										
+										value = pnUtil.phoneNumberHyphenAdd(value, "N");
 										
 										orderVO.setOrReceiverContractNumber2(value);
 									}if(columnindex==6) {
@@ -1621,12 +1637,24 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 								}if(columnindex==4) {
 									String value = cellTypeReturnHSS(cell);
 									
+									if(value.substring(0, 2).equals("10")) {
+										value = "0"+value;
+									}
+									value = pnUtil.phoneNumberHyphenAdd(value, "N");
+									
 									orderVO.setOrReceiverContractNumber1(value);
 										
 								}if(columnindex==5) {
 									String value = cellTypeReturnHSS(cell);
 									
+									if(value.substring(0, 2).equals("10")) {
+										value = "0"+value;
+									}
+									
+									value = pnUtil.phoneNumberHyphenAdd(value, "N");
+									
 									orderVO.setOrReceiverContractNumber2(value);
+									
 								}if(columnindex==6) {
 									orderVO.setOrAmount((int)cell.getNumericCellValue());
 										

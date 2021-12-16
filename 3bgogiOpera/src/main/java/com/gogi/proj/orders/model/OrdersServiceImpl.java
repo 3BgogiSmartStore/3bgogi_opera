@@ -309,7 +309,7 @@ public class OrdersServiceImpl implements OrdersService{
 		int result = 0;
 		for(OrdersVO orVO:  orList) {
 			result += ordersDAO.updateOrderDeliveryInvoiceNumber(orVO);
-			System.out.println("orVO = > "+orVO.getOrOrderNumber()+" , "+result+" 번째");
+
 		}
 		
 		return result;
@@ -851,15 +851,13 @@ public class OrdersServiceImpl implements OrdersService{
 		OrdersVO  originalOrVO = ordersDAO.selectOrdersByPk(orVO.getOrPk());
 		
 		orderList = readOrderExcel.readGiftSetExcelFile(fileName, originalOrVO);
-		System.out.println(orderList);
-		System.out.println("orList = > "+orderList.size()+", originalOrder = > "+originalOrVO.getOrAmount());
-		System.out.println(orderList.size()+", "+originalOrVO.getOrAmount());
+
 		if(originalOrVO.getOrAmount() != orderList.size()) {
 			return null;
 		}
 		
 		int [] result = insertOrderData(orderList, originalOrVO.getSsFk());
-		System.out.println("result = " + result);
+
 		ordersDAO.updateExcelDivOrders(originalOrVO);
 		
 		return result;
