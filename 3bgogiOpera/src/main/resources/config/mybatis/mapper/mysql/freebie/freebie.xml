@@ -274,7 +274,8 @@
 				ori_od.or_output_flag,
 				ori_od.or_output_posib_flag,
 				ori_od.or_regdate,
-				ori_od.or_special_region_check_flag
+				ori_od.or_special_region_check_flag,
+				ori_od.or_abs_deliv_type
 			FROM
 				orders ori_od
 			    INNER JOIN ( 
@@ -305,6 +306,7 @@
 						AND ${fbRegType} < #{fbMaxDate}
 						AND od.or_devide_flag = 0
 						AND od.or_output_flag = 0
+						AND od.or_cancled_flag = 0
 						AND od.or_excel_div_flag = 0
 						AND (od.or_delivery_invoice_number IS NULL OR od.or_delivery_invoice_number = '' )
 						AND od.or_sending_day IS NULL
@@ -504,6 +506,7 @@
 									AND od.or_devide_flag = 0
 									AND od.or_output_flag = 0
 									AND od.or_excel_div_flag = 0
+									AND od.or_cancled_flag = 0
 									AND (od.or_delivery_invoice_number IS NULL OR od.or_delivery_invoice_number = '' )
 									AND od.or_sending_day IS NULL
 									]]>
@@ -607,6 +610,7 @@
 										AND ${fbRegType} < #{fbMaxDate}
 										AND od.or_devide_flag = 0
 										AND od.or_excel_div_flag = 0
+										AND od.or_cancled_flag = 0
 										AND od.or_output_flag = 0
 										AND (od.or_delivery_invoice_number IS NULL OR od.or_delivery_invoice_number = '' )
 									AND od.or_sending_day IS NULL
@@ -725,7 +729,8 @@
 				ori_od.or_output_flag,
 				ori_od.or_output_posib_flag,
 				ori_od.or_regdate,
-				ori_od.or_special_region_check_flag
+				ori_od.or_special_region_check_flag,
+				ori_od.or_abs_deliv_type
 			<trim prefix="HAVING" prefixOverrides="AND |OR ">
 				<if test="fbAddType != 3">
 					<![CDATA[
