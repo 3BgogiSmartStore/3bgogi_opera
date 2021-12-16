@@ -593,6 +593,27 @@
 														</c:if>
 				                            		> 입금 대기</option>
 				                            	</select>&nbsp;
+				                            	<select class="form-control form-control-sm mb-2 
+				                            		<c:if test="${osVO.invenFlag != 0 }">
+				                            			selected-values
+				                            		</c:if>
+				                            	" name="invenFlag" >
+				                            		<option value="0"
+				                            			<c:if test="${osVO.invenFlag == 0 }">
+															selected="selected"
+														</c:if>
+				                            		> 재고 할당 여부 </option>
+				                            		<option value="1"
+				                            			<c:if test="${osVO.invenFlag == 1 }">
+															selected="selected"
+														</c:if>
+				                            		> 재고 미할당</option>
+				                            		<option value="2"
+				                            			<c:if test="${osVO.invenFlag == 2 }">
+															selected="selected"
+														</c:if>
+				                            		> 재고 할당 완료 </option>
+				                            	</select>&nbsp;
 				                            	<select class="form-control form-control-sm mb-2
 				                            		<c:if test="${osVO.refundFlag != 0 }">
 				                            			selected-values

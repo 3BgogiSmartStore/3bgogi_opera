@@ -207,6 +207,14 @@
 				AND od.or_sending_deadline <= DATE_FORMAT(NOW(), '%Y-%m-%d')
 			]]>
 		</if>
+		
+		<if test="invenFlag == 1">
+			AND od.or_inv_flag = 0
+		</if>
+		<if test="invenFlag == 2">
+			AND od.or_inv_flag = 1
+		</if>
+		
 		<if test="specialReq == 1">
 			AND od.or_request = ''
 		</if>

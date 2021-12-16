@@ -27,6 +27,11 @@
 		
 		dateEnd = formatDate(settingDate);
 		
+		$("#notInvenedOrder").click(function(){
+			location.href='/orders/search/customer_orders.do?dateType=or_sending_deadline&datePeriod=2&dateStart='+dateStart+'&dateEnd='+dateEnd+'&invenFlag=1&deliveryInvoiceFlag=2&cancledFlag=1&excelFlag=4&reservationType=0&refundFlag=2';
+			
+		});
+		
 		$("#delivWeiting").click(function(){
 			location.href='/orders/search/customer_orders.do?dateType=or_sending_deadline&datePeriod=2&dateStart='+dateStart+'&dateEnd='+dateEnd+'&outputPosiv=1&deliveryInvoiceFlag=2&cancledFlag=1&excelFlag=4&reservationType=0&refundFlag=2';
 			
@@ -89,7 +94,7 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                                 <div class="card border-3 border-top border-top-primary">
                                     <div class="card-body">
-                                        <h5 class="text-muted"> 재고 미할당 (상품 미매칭 ) </h5>
+                                        <h5 class="text-muted" id="notInvenedOrder" style="cursor: pointer;"> 재고 미할당 (상품 미매칭 ) </h5>
                                         <div class="metric-value d-inline-block">
                                             <h1 class="mb-1">${matching_fail } 건</h1>
                                         </div>
