@@ -163,9 +163,9 @@ jQuery(document).ready(function($) {
 														
 														for(var pp = 0; pp<orderList[i].productMatchingVOList[0].optionMatchingVOList.length; pp++){
 															
-															
 															if(orderList[i].productMatchingVOList[j].optionMatchingVOList.length > 0){
 																for(var omCounting = 0; omCounting < orderList[i].productMatchingVOList[j].optionMatchingVOList[pp].productOptionList.length; omCounting++ ){
+																	
 																	
 																	orderProductDetailList +='<p style="margin: 0px 0px 5px 0px;"> '
 																		
@@ -180,6 +180,7 @@ jQuery(document).ready(function($) {
 																	+'</span> <span class="m-r-20 d-inline-block">'; 
 																	
 																	if(orderList[i].productMatchingVOList[j].optionMatchingVOList[pp].productOptionList[omCounting].optionName != null){
+																		
 																		orderProductDetailList +='<span class="m-l-10 text-secondary"';
 																		
 																		if(orderList[i].orInvFlag == false){
@@ -194,6 +195,8 @@ jQuery(document).ready(function($) {
 																		}
 																		orderProductDetailList +='</p>';
 																	}else{
+																		
+																		
 																		orderProductDetailList +='<span class="m-l-10 text-secondary">  [ 옵션 매칭이 되지 않았습니다  ]</span>';
 																		
 																		if(orderList[i].orInvFlag == false){
