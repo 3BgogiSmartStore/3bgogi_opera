@@ -234,8 +234,9 @@ jQuery(document).ready(function($) {
 	    	$.ajax({
 				type       : 'GET',
 				data       : {
-					"omStoreOptionName":optName,
-					"pmStoreProductName":prodName
+					"orProductOption":optName,
+					"orProduct":prodName
+					
 				},
 				url        : '/order/matching/store_matching_prod.do',
 				success    : function(data){
