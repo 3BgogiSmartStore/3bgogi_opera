@@ -1361,7 +1361,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 											
 									}if(columnindex==2) {
 										
-										String value = cellTypeReturn(cell)+"";
+										String value = (cellTypeReturn(cell)+"").replaceAll(" ", "");
 										
 										if(value.length() < 5) {
 											value = "0"+value;
@@ -1608,7 +1608,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 										
 								}if(columnindex==2) {
 									
-									String value = cellTypeReturnHSS(cell)+"";
+									String value = (cellTypeReturnHSS(cell)+"").replaceAll(" ", "");
 									
 									if(value.length() < 5) {
 										value = "0"+value;

@@ -310,11 +310,7 @@ public class AnalyticsController {
 			datesVO.setFormatMonth(month);
 		}
 		
-		System.out.println(datesVO.toString());
-		
 		List<Map<String, Object>> lists = analyService.selectReservProductQtyInMonth(datesVO);
-		
-		System.out.println(lists.size());
 		
 		return lists;
 	}
@@ -332,9 +328,14 @@ public class AnalyticsController {
 	 */
 	@RequestMapping(value="/reserv_product_qty.do", method=RequestMethod.POST)
 	@ResponseBody
-	public List<Map<String, Object>> reservProductPost(@ModelAttribute OrderSearchVO osVO) {
+	public Map<String, Object> reservProductPost(@ModelAttribute OrderSearchVO osVO) {
 		
-		return analyService.selectReservProductQty(osVO);
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("normalProd", analyService.selectReservProductQty(osVO));
+		map.put("giftProd", analyService.selectReservProductQtyInGiftSet(osVO));
+		
+		return map;
 	}
 	
 	

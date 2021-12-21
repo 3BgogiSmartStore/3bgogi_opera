@@ -195,10 +195,10 @@ jQuery(document).ready(function($) {
 						console.log(data);
 						
 						var prodHTML = "";
-						if(data.length == 0){
+						if(data.normalProd.length == 0){
 							prodHTML+="<tr><td colspan='2'>검색 결과가 존재하지 않습니다</td></tr>";
 						}else{							
-							$.each(data, function(){
+							$.each(data.normalProd, function(){
 								prodHTML+=	'<tr data-cf-code="'+this.cf_code+'">'                                        	
 								+'<th>'+this.product_name+' ['+this.option_name+'] </th>'
 								+'<th>'+this.qty+'개</th>'
@@ -207,6 +207,20 @@ jQuery(document).ready(function($) {
 						}
 						
 						$("#checkProd").html(prodHTML);
+						
+						var checkGiftProdHTML = "";
+						if(data.giftProd.length == 0){
+							checkGiftProdHTML+="<tr><td colspan='2'>검색 결과가 존재하지 않습니다</td></tr>";
+						}else{							
+							$.each(data.giftProd, function(){
+								checkGiftProdHTML+=	'<tr>'                                        	
+								+'<th>'+this.or_product+' ['+this.or_product_option+'] </th>'
+								+'<th>'+this.qty+'개</th>'
+								+'</tr>';
+							});
+						}
+						
+						$("#checkGiftProd").html(checkGiftProdHTML);
 					}
 					
 				});

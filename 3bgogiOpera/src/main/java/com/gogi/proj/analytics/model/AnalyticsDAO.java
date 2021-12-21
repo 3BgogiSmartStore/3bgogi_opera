@@ -257,4 +257,16 @@ public interface AnalyticsDAO {
 	 */
 	public List<OrdersVO> insertReservOrderCountBySendingDeadline();
 	
+	
+	/**
+	 * 
+	 * @MethodName : selectReservProductQty
+	 * @date : 2021. 12. 21.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @return
+	 * @메소드설명 : 예약된 물품 개수 보기 선물세트만
+	 */
+	public List<Map<String, Object>> selectReservProductQtyInGiftSet(OrderSearchVO osVO);
+	
 }

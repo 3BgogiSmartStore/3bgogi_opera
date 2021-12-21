@@ -138,6 +138,26 @@
                     <div class="row">
                     	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
+                                <h5 class="card-header"> 선물세트 목록 </h5>
+                                <div class="card-body">
+                                    <table class="table table-hover">
+                                    	<thead>
+                                    		<tr>
+												<th>상품명</th>
+												<th>개수</th>
+                                    		</tr>
+                                    	</thead>
+                                        <tbody id="checkGiftProd">
+                                        	
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card">
                                 <h5 class="card-header"> 조회 목록 </h5>
                                 <div class="card-body">
                                     <table class="table table-hover">

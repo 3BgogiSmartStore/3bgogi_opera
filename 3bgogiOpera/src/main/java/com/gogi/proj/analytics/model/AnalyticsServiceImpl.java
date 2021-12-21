@@ -186,4 +186,10 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 		return analyDAO.insertReservOrderCountBySendingDeadline();
 	}
 
+	@Override
+	public List<Map<String, Object>> selectReservProductQtyInGiftSet(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return analyDAO.selectReservProductQtyInGiftSet(osVO);
+	}
+
 }
