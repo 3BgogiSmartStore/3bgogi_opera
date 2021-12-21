@@ -17,6 +17,7 @@ import com.gogi.proj.matching.vo.ProductMatchingVO;
 import com.gogi.proj.orders.model.OrdersDAO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
+import com.gogi.proj.product.products.vo.ProductOptionVO;
 
 @Service
 public class MatchingServiceImpl implements MatchingService{
@@ -192,6 +193,12 @@ public class MatchingServiceImpl implements MatchingService{
 	public int selectOrderMatchingIncMeatCounting(OrdersVO orVO) {
 		// TODO Auto-generated method stub
 		return matchingDAO.selectOrderMatchingIncMeatCounting(orVO);
+	}
+
+	@Override
+	public List<ProductOptionVO> selectStoreProductMatching(OrdersVO orVO) {
+		// TODO Auto-generated method stub
+		return matchingDAO.selectStoreProductMatching(orVO);
 	}
 
 }

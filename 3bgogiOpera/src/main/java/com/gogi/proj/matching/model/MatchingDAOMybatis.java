@@ -9,6 +9,7 @@ import com.gogi.proj.matching.vo.OptionMatchingVO;
 import com.gogi.proj.matching.vo.ProductMatchingVO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
+import com.gogi.proj.product.products.vo.ProductOptionVO;
 
 @Repository
 public class MatchingDAOMybatis extends SqlSessionDaoSupport implements MatchingDAO{
@@ -103,6 +104,12 @@ public class MatchingDAOMybatis extends SqlSessionDaoSupport implements Matching
 	public int selectOrderMatchingIncMeatCounting(OrdersVO orVO) {
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne(namespace+".selectOrderMatchingIncMeatCounting", orVO);
+	}
+
+	@Override
+	public List<ProductOptionVO> selectStoreProductMatching(OrdersVO orVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(namespace+".selectStoreProductMatching", orVO);
 	}
 	
 }

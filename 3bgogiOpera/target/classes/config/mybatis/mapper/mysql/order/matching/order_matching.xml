@@ -617,6 +617,24 @@
 			
 	</select>
 	
+	<select id="selectStoreProductMatching" parameterType="OrdersVO" resultType="ProductOptionVO">
+		SELECT
+			pro.product_name,
+		    op.option_name,
+		    om.om_option_amount AS another_option_qty
+		FROM
+			product_matching pm 
+			INNER JOIN option_matching om ON om.pm_fk = pm.pm_pk AND om.om_store_option_name = #{orProductOption}
+			INNER JOIN options op ON om.option_fk = op.option_pk
+			INNER JOIN products pro ON pro.product_pk = op.product_fk
+		WHERE
+			pm.pm_store_product_name = #{orProduct}
+		GROUP BY
+			pro.product_name,
+		    op.option_name,
+		    om.om_option_amount
+	</select>
+	
 </mapper>
 
 

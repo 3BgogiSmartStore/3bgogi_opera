@@ -192,15 +192,13 @@ jQuery(document).ready(function($) {
 					},
 					url        : '/analytics/reserv_product_qty.do',
 					success    : function(data){
-						console.log(data);
-						
 						var prodHTML = "";
 						if(data.normalProd.length == 0){
 							prodHTML+="<tr><td colspan='2'>검색 결과가 존재하지 않습니다</td></tr>";
 						}else{							
 							$.each(data.normalProd, function(){
 								prodHTML+=	'<tr data-cf-code="'+this.cf_code+'">'                                        	
-								+'<th>'+this.product_name+' ['+this.option_name+'] </th>'
+								+'<th>'+this.product_name+' ['+this.option_name+' ] </th>'
 								+'<th>'+this.qty+'개</th>'
 								+'</tr>';
 							});
@@ -213,8 +211,8 @@ jQuery(document).ready(function($) {
 							checkGiftProdHTML+="<tr><td colspan='2'>검색 결과가 존재하지 않습니다</td></tr>";
 						}else{							
 							$.each(data.giftProd, function(){
-								checkGiftProdHTML+=	'<tr>'                                        	
-								+'<th>'+this.or_product+' ['+this.or_product_option+'] </th>'
+								checkGiftProdHTML+=	'<tr class="matchigProdCheck" data-prod="'+this.or_product+'" data-opt="'+this.or_product_option+'">'                                        	
+								+'<th>'+this.or_product+' [ '+this.or_product_option+' ] </th>'
 								+'<th>'+this.qty+'개</th>'
 								+'</tr>';
 							});
@@ -227,6 +225,40 @@ jQuery(document).ready(function($) {
 			}
 			
 		});
+	    
+	    $(document).on("click", ".matchigProdCheck", function(){
+	    	
+	    	prodName = $(this).data("prod");
+	    	optName = $(this).data("opt");
+	    	
+	    	$.ajax({
+				type       : 'GET',
+				data       : {
+					"omStoreOptionName":optName,
+					"pmStoreProductName":prodName
+				},
+				url        : '/order/matching/store_matching_prod.do',
+				success    : function(data){
+					if(data.length != 0){
+						prodListHTML = "매칭된 상품";
+						
+						$.each(data, function(){
+							prodListHTML+=	this.productName+" [ "+this.optionName+" ] "+this.anotherOptionQty+" 개\n";
+						});
+						
+						alert(prodListHTML);
+						
+						
+					}else{
+						alert("상품이 매칭되지 않았습니다");
+						
+					}
+				}
+				
+			});
+	    	
+	    	
+	    });
 	   
 	    $("#checkAll").click(function(){
 	    	$("input[name=orSendingDeadline").each(function(){

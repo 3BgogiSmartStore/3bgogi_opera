@@ -6,6 +6,7 @@ import com.gogi.proj.matching.vo.OptionMatchingVO;
 import com.gogi.proj.matching.vo.ProductMatchingVO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
+import com.gogi.proj.product.products.vo.ProductOptionVO;
 
 public interface MatchingDAO {
 
@@ -108,4 +109,16 @@ public interface MatchingDAO {
 	 * @메소드설명 : 매칭된 옵션 중 합포가 가능한 주문서 개수 파악
 	 */
 	public int selectOrderMatchingIncMeatCounting(OrdersVO orVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectStoreProductMatching
+	 * @date : 2021. 12. 21.
+	 * @author : Jeon KiChan
+	 * @param orVO
+	 * @return
+	 * @메소드설명 : 판매처 상품명, 옵션명으로 매칭된 상품 목록 가져오기
+	 */
+	public List<ProductOptionVO> selectStoreProductMatching(OrdersVO orVO);
 }

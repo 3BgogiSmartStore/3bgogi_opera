@@ -31,6 +31,7 @@ import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.product.products.model.ProductsService;
+import com.gogi.proj.product.products.vo.ProductOptionVO;
 import com.gogi.proj.product.products.vo.ProductsVO;
 import com.gogi.proj.security.AdminVO;
 import com.gogi.proj.util.PageUtility;
@@ -362,4 +363,22 @@ public class MatchingController {
 		
 		return result;
 	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : checkStoreProdMatchingProductList
+	 * @date : 2021. 12. 21.
+	 * @author : Jeon KiChan
+	 * @param orVO
+	 * @return
+	 * @메소드설명 : 판매처 상품명, 옵션명으로 매칭된 상품 목록 가져오기
+	 */
+	@RequestMapping(value="/store_matching_prod.do", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ProductOptionVO> checkStoreProdMatchingProductList(@ModelAttribute OrdersVO orVO){
+		
+		return matchingService.selectStoreProductMatching(orVO);
+	}
+	
 }
