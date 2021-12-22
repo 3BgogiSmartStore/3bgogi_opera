@@ -1459,7 +1459,10 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 											
 									}if(columnindex==9) {
 										
+										
 										String value = cellTypeReturn(cell)+"";
+										
+										System.out.println(" value = ["+value+"]");
 										
 										if(!value.equals("false") && !value.equals("")) {
 											orderVO.setOrDeliveryMessage(value);
