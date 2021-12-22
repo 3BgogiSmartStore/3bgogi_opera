@@ -1307,12 +1307,11 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 									if(columnindex == 1) {
 										nullCount = true;
 										break;
+									}else if(columnindex == 9) {
+										orderVO.setOrDeliveryMessage("");
 									}
+									
 									continue;
-									
-								}else if(cell==null && columnindex == 9){
-									
-									orderVO.setOrDeliveryMessage("");
 									
 								}else  if(cell !=null && columnindex == 10){
 									switch (cell.getCellType()){
@@ -1538,11 +1537,11 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 								if(columnindex == 1) {
 									nullCount = true;
 									break;
+								}else if(columnindex == 9) {
+									orderVO.setOrDeliveryMessage("");
 								}
-								continue;
 								
-							}else if(cell==null && columnindex == 9){
-								orderVO.setOrDeliveryMessage("");
+								continue;
 								
 							}else if(cell !=null && columnindex == 10){
 								switch (cell.getCellType()){
