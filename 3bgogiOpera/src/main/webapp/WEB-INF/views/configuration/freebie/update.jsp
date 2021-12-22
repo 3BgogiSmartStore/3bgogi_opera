@@ -219,19 +219,27 @@
 	                                            </div>
 	                                        </div>
 	                                        <div class="form-group row">
-	                                            <label class="col-12 col-sm-3 col-form-label text-sm-right"> 사은품 합포 기준 </label>
+	                                            <label class="col-12 col-sm-3 col-form-label text-sm-right"> 사은품 합포 기준(수정 불가) </label>
 	                                            <div class="col-9 col-sm-7 col-lg-9">
 	                                            	<label class="custom-control custom-radio custom-control-inline">
 		                                                <input type="radio" value="0" name="fbType" class="custom-control-input"
+		                                                
 		                                                	<c:if test="${fbVO.fbType == 0 }">
 		                                                		checked="checked"
 		                                                	</c:if>
+		                                                	<c:if test="${fbVO.fbType != 0 }">
+		                                                		disabled="disabled"
+		                                                	</c:if>
+		                                                	
 		                                                ><span class="custom-control-label"> 묶음정리기준 </span>
 		                                            </label>
 	                                                <label class="custom-control custom-radio custom-control-inline">
 	                                                	<input type="radio" value="1" name="fbType" class="custom-control-input"
 	                                                		<c:if test="${fbVO.fbType == 1 }">
 		                                                		checked="checked"
+		                                                	</c:if>
+		                                                	<c:if test="${fbVO.fbType != 1 }">
+		                                                		disabled="disabled"
 		                                                	</c:if>
 	                                                	><span class="custom-control-label"> 주문번호 기준 </span>
 		                                            </label>
@@ -240,12 +248,18 @@
 	                                                		<c:if test="${fbVO.fbType == 2 }">
 		                                                		checked="checked"
 		                                                	</c:if>
+		                                                	<c:if test="${fbVO.fbType != 2 }">
+		                                                		disabled="disabled"
+		                                                	</c:if>
 	                                                	><span class="custom-control-label"> 수령자 번호 기준 </span>
 		                                            </label>
 		                                            <label class="custom-control custom-radio custom-control-inline">
 	                                                	<input type="radio" value="3" name="fbType" class="custom-control-input"
 	                                                		<c:if test="${fbVO.fbType == 3 }">
 		                                                		checked="checked"
+		                                                	</c:if>
+		                                                	<c:if test="${fbVO.fbType != 3 }">
+		                                                		disabled="disabled"
 		                                                	</c:if>
 	                                                	><span class="custom-control-label"> 구매자 번호 기준 </span>
 		                                            </label>
@@ -307,14 +321,14 @@
 	                                                		<c:if test="${fbVO.fbAddType == 0 }">
 	                                                			checked="checked"
 	                                                		</c:if>
-	                                                	name="fbAddType" class="custom-control-input"><span class="custom-control-label"> 주문개수 </span>
+	                                                	name="fbAddType" class="custom-control-input"><span class="custom-control-label"> 주문개수만큼 </span>
 		                                            </label>
 		                                            <label class="custom-control custom-radio custom-control-inline">
 		                                                <input type="radio" value="1" 
 		                                                	<c:if test="${fbVO.fbAddType == 1 }">
 	                                                			checked="checked"
 	                                                		</c:if>
-		                                                name="fbAddType" class="custom-control-input"><span class="custom-control-label"> 임의정의 </span>
+		                                                name="fbAddType" class="custom-control-input"><span class="custom-control-label"> 수량 지정 </span>
 		                                            </label>
 		                                            <label class="custom-control custom-radio custom-control-inline">
 		                                                <input type="radio" value="2" 

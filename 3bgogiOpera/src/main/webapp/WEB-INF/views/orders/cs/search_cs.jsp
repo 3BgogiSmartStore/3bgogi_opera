@@ -171,7 +171,7 @@
                     <!-- ============================================================== -->
                     <!-- content -->
                     <!-- ============================================================== -->
-                    	<form class="row" id="searchCustomerInfo" action="<c:url value='/orders/search/customer_orders.do'/>" method="get">
+                    	<form class="row" id="searchCustomerInfo" action="<c:url value='/orders/search/customer_orders.do'/>" method="POST">
                     		<input type="hidden" name="searchCondition" >
                         	<input type="hidden" name="currentPage" value="${osVO.currentPage}">
                         	<input type="hidden" name="excelOrFk" value="0">

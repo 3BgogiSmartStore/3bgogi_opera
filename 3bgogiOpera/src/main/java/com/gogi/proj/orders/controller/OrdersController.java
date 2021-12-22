@@ -354,7 +354,7 @@ public class OrdersController {
 	 * @author : Jeon KiChan
 	 * @메소드설명 : 고객 검색 페이지 들어가기
 	 */
-	@RequestMapping(value="/search/customer_orders.do", method=RequestMethod.GET)
+	@RequestMapping(value="/search/customer_orders.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String searchCustomerOrders(@ModelAttribute OrderSearchVO osVO, OrdersVO orVO, Model model){
 
 		if(osVO.getDateType() == null) {
