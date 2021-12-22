@@ -1310,7 +1310,11 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 									}
 									continue;
 									
-								}else if(cell !=null && columnindex == 10){
+								}else if(cell==null && columnindex == 9){
+									
+									orderVO.setOrDeliveryMessage("");
+									
+								}else  if(cell !=null && columnindex == 10){
 									switch (cell.getCellType()){
 		                            case HSSFCell.CELL_TYPE_NUMERIC:
 		                            	
@@ -1458,11 +1462,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 					            		}
 											
 									}if(columnindex==9) {
-										
-										
 										String value = cellTypeReturn(cell)+"";
-										
-										System.out.println(" value = ["+value+"]");
 										
 										if(!value.equals("false") && !value.equals("")) {
 											orderVO.setOrDeliveryMessage(value);
@@ -1540,6 +1540,9 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 									break;
 								}
 								continue;
+								
+							}else if(cell==null && columnindex == 9){
+								orderVO.setOrDeliveryMessage("");
 								
 							}else if(cell !=null && columnindex == 10){
 								switch (cell.getCellType()){
