@@ -279,7 +279,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 				doorPass = doorPass.substring(0, 120);
 			}
 			
-			for( OrdersVO or : delivTarget) {
+			/*for( OrdersVO or : delivTarget) {
 				if(or.getProductOptionList().get(0).getProdSorting() == 0 && or.getProductOptionList().size() > 1) {				
 					for( int delivCount = 1; delivCount < or.getProductOptionList().size(); i++) {
 						if( or.getProductOptionList().get(delivCount).getProdSorting() == 0 ) {
@@ -290,7 +290,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 				}
 			}
 			
-			Collections.sort(delivTarget);
+			Collections.sort(delivTarget);*/
 			
 			for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
 				
