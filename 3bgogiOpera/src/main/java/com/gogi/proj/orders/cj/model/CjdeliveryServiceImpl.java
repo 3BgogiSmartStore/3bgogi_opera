@@ -244,8 +244,6 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 
 		CellStyle cs = workbook.createCellStyle();
 
-		
-		
 		for (int i = 0; i < delivTarget.size(); i++) {
 			String delivMsg = "";
 			String delivMsgTemp = "";
@@ -255,7 +253,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 			for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
 				
 				if(poVO.getOptionMemo2() != null) {					
-					if(delivMsgTemp.equals(poVO.getOptionMemo2())) {
+					if(delivMsgTemp.indexOf(poVO.getOptionMemo2()) != -1 || poVO.getOptionMemo2().equals("")) {
 						continue;
 					}else {
 						delivMsg+= poVO.getOptionMemo2();
@@ -264,7 +262,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 				}
 				
 				if(poVO.getOptionMemo1() != null) {						
-					if(doorPassTemp.equals(poVO.getOptionMemo1())) {
+					if(doorPassTemp.indexOf(poVO.getOptionMemo1()) != -1 || poVO.getOptionMemo1().equals("")) {
 						continue;
 					}else {
 						doorPass+= poVO.getOptionMemo1();
@@ -293,7 +291,6 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 			}
 			
 			Collections.sort(delivTarget);
-			
 			
 			for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
 				
