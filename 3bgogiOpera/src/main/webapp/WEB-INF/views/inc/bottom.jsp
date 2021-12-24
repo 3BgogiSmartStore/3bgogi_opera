@@ -1,3 +1,5 @@
+<%@page import="java.net.UnknownHostException"%>
+<%@page import="java.net.InetAddress"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
             <!-- ============================================================== -->
@@ -312,6 +314,15 @@
     <script src="${pageContext.request.contextPath}/resources/vendor/datepicker/jquery.datetimepicker.full.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/multi-select/js/jquery.multi-select.js"></script>
     <script src="${pageContext.request.contextPath}/resources/libs/js/renewal_project.js"></script>
+    <%
+    String ipResult = null;
+	    try {
+	    	ipResult = InetAddress.getLocalHost().getHostAddress();
+	    } catch (UnknownHostException e) {
+	    	ipResult = "";
+	    }
+	    
+    %>
 	<script type="text/javascript">
 		$(function() {
 			fileDropDown();
@@ -404,7 +415,9 @@
 	            }
 
 	            //웹소켓 객체 만드는 코드
-	            ws=new WebSocket("ws://220.79.1.99:8081/broadcasting.do");
+	            ws=new WebSocket("ws://<%=ipResult %>:8080/broadcasting.do");
+	            
+	            
 	            
 	            ws.onopen=function(event){
 	                if(event.data===undefined) return;
@@ -465,8 +478,9 @@
 	                return;
 	            }
 
+	            
 	            //웹소켓 객체 만드는 코드
-	            ccWs=new WebSocket("ws://220.79.1.99:8081/ccsocket.do");
+	            ccWs=new WebSocket("ws://<%=ipResult %>:8080/ccsocket.do");
 	            
 	            ccWs.onopen=function(event){
 	                if(event.data===undefined) return;
