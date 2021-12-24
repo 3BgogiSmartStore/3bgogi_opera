@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -279,6 +280,20 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 			}if(doorPass.length() > 120) {
 				doorPass = doorPass.substring(0, 120);
 			}
+			
+			for( OrdersVO or : delivTarget) {
+				if(or.getProductOptionList().get(0).getProdSorting() == 0 && or.getProductOptionList().size() > 1) {				
+					for( int delivCount = 1; delivCount < or.getProductOptionList().size(); i++) {
+						if( or.getProductOptionList().get(delivCount).getProdSorting() == 0 ) {
+							or.getProductOptionList().get(0).setProdSorting(1);
+							break;
+						}
+					}
+				}
+			}
+			
+			Collections.sort(delivTarget);
+			
 			
 			for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
 				

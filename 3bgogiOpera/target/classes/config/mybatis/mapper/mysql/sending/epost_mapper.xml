@@ -741,19 +741,7 @@
 			or_deliv_count = null,
 			edt_fk = 0
 		WHERE
-			or_pk IN (
-				SELECT
-					inne.or_pk
-				FROM
-                (
-					SELECT 
-						or_pk 
-					FROM
-						orders
-					WHERE
-						or_serial_special_number = #{orSerialSpecialNumber}
-                ) inne
-            )
+			or_serial_special_number = #{orSerialSpecialNumber}
 	</update>
 	
 	<!-- 부여받은 송장의 자세한 정보  -->

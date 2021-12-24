@@ -544,12 +544,15 @@
 	<!-- cj 엑셀 파일로 만들기 위한 정보 나열 -->
 	<select id="selectCjDeliveryExcelTarget" parameterType="OrderSearchVO" resultMap="renewalDeliveryInfoResultMap">
 		SELECT
+			eos.eos_deliv_seq,
 			od.or_pk,
 			od.or_user_column4,
 			od.or_receiver_name,
 			od.or_receiver_contract_number1,
-			CONCAT(od.or_shipping_address, ' ', od.or_shipping_address_detail)  AS or_shipping_address,
-            
+			IF(od.or_shipping_address_detail IS NULL OR od.or_shipping_address_detail = '',
+				or_shipping_address,
+                CONCAT(od.or_shipping_address, ' ', od.or_shipping_address_detail)
+            ) AS or_shipping_address,
             IF(
 				or_request IS NOT NULL AND or_request != '',
                 CONCAT('[ 요청사항 : ',od.or_request, ' ] ', pro.product_name, ' [ ', op.option_name, ' ] ', (od.or_amount * om.om_option_amount), ' 개'),
@@ -566,6 +569,7 @@
 			INNER JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
 			INNER JOIN options op ON om.option_fk = op.option_pk
 			INNER JOIN products pro ON pro.product_pk = op.product_fk
+			INNER JOIN excel_order_seq eos ON op.eo_fk = eos.eos_pk
 			
 		WHERE
 			<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
@@ -580,6 +584,7 @@
 			AND od.or_refunds = 0
 		ORDER BY
 			od.or_serial_special_number ASC,
+			eos.eos_deliv_seq ASC,
             od.or_delivery_message DESC
 	</select>
 	
