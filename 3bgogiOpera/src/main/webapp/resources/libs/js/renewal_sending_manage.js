@@ -108,7 +108,8 @@ jQuery(document).ready(function($) {
 	emptyProduct.src = "/resources/libs/sending_sound/empty_products.wav";
 	finished.src = "/resources/libs/sending_sound/finished.wav";
 	nonExistsInvoiceNum.src = "/resources/libs/sending_sound/non_exists_invoice_num.wav";
-	nonExistsProduct.src = "/resources/libs/sending_sound/non_exists_product.mp3";
+	nonExistsProduct.src = "/resources/libs/sending_sound/non_exists_product2.MP3";
+	
 	productOneFinished.src = "/resources/libs/sending_sound/product_one_finished.mp3";
 	checkingProductOneMore.src = "/resources/libs/sending_sound/cheking_product_one_more.wav";
 	startSending.src = "/resources/libs/sending_sound/start_sending.wav";

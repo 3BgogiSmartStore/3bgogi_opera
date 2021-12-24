@@ -415,7 +415,7 @@
 	            }
 
 	            //웹소켓 객체 만드는 코드
-	            ws=new WebSocket("ws://<%=ipResult %>:8080/broadcasting.do");
+	            ws=new WebSocket("ws://112.159.87.235:8080/broadcasting.do");
 	            
 	            
 	            
@@ -480,7 +480,7 @@
 
 	            
 	            //웹소켓 객체 만드는 코드
-	            ccWs=new WebSocket("ws://<%=ipResult %>:8080/ccsocket.do");
+	            ccWs=new WebSocket("ws://112.159.87.235:8080/ccsocket.do");
 	            
 	            ccWs.onopen=function(event){
 	                if(event.data===undefined) return;
