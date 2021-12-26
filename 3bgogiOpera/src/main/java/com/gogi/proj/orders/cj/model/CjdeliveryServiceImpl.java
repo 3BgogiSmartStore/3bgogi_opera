@@ -244,6 +244,19 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 
 		CellStyle cs = workbook.createCellStyle();
 
+		for( OrdersVO sortingOrder : delivTarget) {
+			if(sortingOrder.getProductOptionList().get(0).getProdSorting() == 0 && sortingOrder.getProductOptionList().size() > 1) {				
+				for( int delivCount = 1; delivCount < sortingOrder.getProductOptionList().size(); delivCount++) {
+					if( sortingOrder.getProductOptionList().get(delivCount).getProdSorting() == 0 ) {
+						sortingOrder.getProductOptionList().get(0).setProdSorting(1);
+						break;
+					}
+				}
+			}
+		}
+		
+		Collections.sort(delivTarget);
+		
 		for (int i = 0; i < delivTarget.size(); i++) {
 			String delivMsg = "";
 			String delivMsgTemp = "";
@@ -278,19 +291,6 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 			}if(doorPass.length() > 120) {
 				doorPass = doorPass.substring(0, 120);
 			}
-			
-			/*for( OrdersVO or : delivTarget) {
-				if(or.getProductOptionList().get(0).getProdSorting() == 0 && or.getProductOptionList().size() > 1) {				
-					for( int delivCount = 1; delivCount < or.getProductOptionList().size(); i++) {
-						if( or.getProductOptionList().get(delivCount).getProdSorting() == 0 ) {
-							or.getProductOptionList().get(0).setProdSorting(1);
-							break;
-						}
-					}
-				}
-			}
-			
-			Collections.sort(delivTarget);*/
 			
 			for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
 				
