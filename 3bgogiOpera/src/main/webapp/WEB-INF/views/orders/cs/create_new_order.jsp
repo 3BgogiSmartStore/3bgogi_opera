@@ -64,6 +64,49 @@
     			});*/
     		});
     		
+    		$("#isCjDelivAreaBtn").click(function(){
+    			
+    			let orShippingAddress = $("#orShippingAddress").val();
+    			let orShippingAddressDetail = $("#orShippingAddressDetail").val();
+    			let orShippingAddressNumber = $("#orShippingAddressNumber").val();
+    			
+    			if(orShippingAddress == ''){
+    				alert("주소를 입력해주세요");
+    				return false;
+    				
+    			}if(orShippingAddressDetail == ''){
+    				alert("상세주소를 입력해주세요");
+    				return false;
+    				
+    			}if(orShippingAddressNumber == ''){
+    				alert("우편번호를 입력해주세요");
+    				return false;
+    				
+    			}
+    			
+    			$.ajax({
+					type       : 'GET',
+					data       : {
+						"orShippingAddress":orShippingAddress,
+						"orShippingAddressDetail":orShippingAddressDetail,
+						"orShippingAddressNumber":orShippingAddressNumber,
+					},
+					url        : '/delivery/config/cj_delivery_area_check.do',
+					success    : function(data){
+						if(data == true){		
+							alert("새벽배송 가능지역입니다");
+							
+						}else{
+							alert("새벽배송 불가능지역입니다");
+							
+						}
+						
+					}
+					
+				});
+    			
+    		});
+    		
     		$("#smsSend").click(function(){
     			if($(this).is(":checked") == true){
 
@@ -110,7 +153,6 @@
     				
     			}
     			
-    			
     		});
     		
     		$(document).on("click", ".deleteCreateOrderProduct", function(){
@@ -131,9 +173,9 @@
     			}
     			
     		});
+    		
     	});
-    	
-    	
+
     </script>
 </head>
 <style type="text/css">
@@ -178,7 +220,6 @@
 									<div class="col-md-3 mb-1">
 										<label for="orSendingDeadline" class="text-muted"> 발송일</label> 
 										<input type="text" class="form-control form-control-sm" id="orSendingDeadline" name="orSendingDeadline">
-										
 									</div>
 									<div class="col-md-3 mb-1">
 										<label for="ssFk" class="text-muted"> 판매처 </label> 
@@ -241,7 +282,7 @@
 		                                    <input type="text" class="form-control form-control-sm" id="orShippingAddressNumber" name="orShippingAddressNumber" value="${addressInfo.orShippingAddressNumber }" readonly="readonly" required>
 		                                    <div class="input-group-append">
 		                                    	<button type="button" class="btn btn-primary btn-sm" id="searchAddressBtn"> 검색 </button>
-		                                    </div>
+		                                    </div>            
 	                                    </div>
 									</div>
 									<div class="col-md-8">
@@ -252,10 +293,14 @@
 								<div class="row mb-2">
 									<div class="col-md-12">
 										<label for="orShippingAddressDetail"> 상세 주소 </label> 
-										<input type="text" class="form-control form-control-sm" id="orShippingAddressDetail" name="orShippingAddressDetail" value="${addressInfo.orShippingAddressDetail }"  placeholder="">
+										<div class="input-group mb-1" >
+		                                    <input type="text" class="form-control form-control-sm" id="orShippingAddressDetail" name="orShippingAddressDetail" value="${addressInfo.orShippingAddressDetail }"  placeholder="">
+		                                    <div class="input-group-append">
+		                                    	<button type="button" class="btn btn-danger btn-sm" id="isCjDelivAreaBtn"> 새벽배송체크 </button>
+		                                    </div>            
+	                                    </div>
 									</div>
 								</div>
-								
 								<div class="row mb-2">
 									<div class="col-md-8">
 										<label for="orShippingAddressDetail"> 배송메세지 </label> 

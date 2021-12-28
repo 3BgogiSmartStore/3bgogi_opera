@@ -29,6 +29,6 @@ public enum CjDeliveryArea {
 	public boolean hasAreaName(String area) {
 		
 		return areaList.stream()
-				.anyMatch( areas -> area.split(" ")[0].indexOf(areas)  == -1 ? false : true);
+				.anyMatch( areas -> area.split(" ")[0].contains(areas) == false ? false : true);
 	}
 }

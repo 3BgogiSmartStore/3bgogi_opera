@@ -44,7 +44,7 @@ public enum CjDetailDeliveryAreaCheck {
 				
 				
 		for( String dongName : dongLists) {
-			if( dong.indexOf(dongName) != -1) {
+			if( dong.contains(dongName)) {
 				
 				return false;
 			}
@@ -65,7 +65,7 @@ public enum CjDetailDeliveryAreaCheck {
 	public static boolean hasAreaName(String area) {
 
 		for( CjDetailDeliveryAreaCheck guType : CjDetailDeliveryAreaCheck.values() ) {
-			if(area.indexOf(guType.areas) != -1 ) {
+			if(area.contains(guType.areas)) {
 				
 				
 				return hasDongName(area, guType.dongList);

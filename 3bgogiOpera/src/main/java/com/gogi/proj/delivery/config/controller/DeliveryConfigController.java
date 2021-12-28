@@ -25,6 +25,7 @@ import com.gogi.proj.delivery.config.vo.DoorPassKeywordVO;
 import com.gogi.proj.delivery.config.vo.DoorPassVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
+import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
@@ -49,6 +50,9 @@ public class DeliveryConfigController {
 	
 	@Autowired
 	private AligoKakaoAPI aligoKakaoApi;
+	
+	@Autowired
+	private CjdeliveryService cjDeliveryService;
 	
 	/**
 	 * 
@@ -398,6 +402,24 @@ public class DeliveryConfigController {
 		String result = aligoKakaoApi.aligoKakaoSending("https://kakaoapi.aligo.in/akv10/alimtalk/send/", aligoKakaoDto, targetList, ak.getTempltName(), ak.getTempltContent(), ak.getTempltCode());
 		
 		return result;
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : cjDeliveryAreaCheck
+	 * @date : 2021. 12. 28.
+	 * @author : Jeon KiChan
+	 * @param orVO
+	 * @return
+	 * @메소드설명 : cj 새벽배송 가능 지역 체크
+	 */
+	@RequestMapping(value="/cj_delivery_area_check.do", method=RequestMethod.GET)
+	@ResponseBody
+	public boolean cjDeliveryAreaCheck(@ModelAttribute OrdersVO orVO) {
+		
+		return cjDeliveryService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail());
+		
 	}
 }
 

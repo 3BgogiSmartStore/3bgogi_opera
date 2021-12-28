@@ -62,6 +62,69 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 	@Autowired
 	private DeliveryConfigService dcService;
 	
+	
+	/**
+	 * method : 새벽배송 가능 지역 확인
+	 * 
+	 */
+	public boolean isCjDeliveryArea(String zipCode, String addr, String addrDetail) {
+		
+		URLUtil uUtil = new URLUtil();
+		
+		OrderInfoToCjdelivery ocjd = new OrderInfoToCjdelivery();
+		
+		Map<String, String> requestHeaders = new HashMap<>();
+
+        requestHeaders.put("Accept", "*/*");
+		
+        String parsingString = "";
+        
+        String address = addr+" "+addrDetail;
+        
+        if(dcService.isEarlyDelivArea(address, 5)) {
+        	
+        	if(addr.split(" ")[0].contains("서울") ) {
+    			return true;
+    			
+    		}else if(addr.contains("시흥시")) {
+    			return true;
+    			
+    		}else {        		
+    			
+    			
+    			//전국 단위별 배송 가능 지역 확인
+    			if( CjDeliveryArea.findDelivPosivArea(addr) == CjDeliveryArea.POSIV) {
+    				
+    				//지역 별 배송 불가 지역 확인
+    				if(CjDetailDeliveryAreaCheck.hasAreaName(address) == true) {
+    					
+    					try {
+    						
+    						parsingString = uUtil.getCoordiante("https://www.cjthemarket.com/common/address/chkDawnDeliveryAvailable.json?addr="+URLEncoder.encode(addr, "UTF-8")+"&zipCd="+URLEncoder.encode(zipCode,"UTF-8"), requestHeaders, "POST", null);
+    						
+    					} catch (IOException e) {
+    						// TODO Auto-generated catch block
+    						throw new RuntimeException("입출력 에러", e);
+    						
+    					}
+    					
+    					CjResultMessage cjMsg = ocjd.stringToCjResultMsg(parsingString);
+    					
+    					if(cjMsg.getIsDawnAble() == true) {
+    						return true;
+    					}
+    					
+    				}
+    				
+    			}
+    			
+    		}
+        	
+        }
+        
+		return false;
+	}
+	
 	@Override
 	public OrderSearchVO selectCjDeliveryTargetChecking(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
@@ -80,16 +143,16 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 		
         String parsingString = "";
   
-        
-        for(int i = 0; i < checkingList.size(); i++) {
+        int checkingListSize = checkingList.size();
+        for(int i = 0; i < checkingListSize; i++) {
         	String addr = checkingList.get(i).getOrShippingAddress()+" "+checkingList.get(i).getOrShippingAddressDetail();
         	
         	if(dcService.isEarlyDelivArea(addr, 5)) {
         		
-        		if(checkingList.get(i).getOrShippingAddress().split(" ")[0].indexOf("서울") != -1 ) {
+        		if(checkingList.get(i).getOrShippingAddress().split(" ")[0].contains("서울") ) {
         			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         			
-        		}else if(checkingList.get(i).getOrShippingAddress().indexOf("시흥시") != -1 ) {
+        		}else if(checkingList.get(i).getOrShippingAddress().contains("시흥시")) {
         			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         			
         		}else {        		

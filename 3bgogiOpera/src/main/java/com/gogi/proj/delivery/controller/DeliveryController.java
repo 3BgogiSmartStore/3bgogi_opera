@@ -688,7 +688,6 @@ public class DeliveryController{
 	@RequestMapping(value="/cj_config/select_invoice_num.do", method=RequestMethod.POST)
 	public ModelAndView cjDelivInvoiceNumResult(@ModelAttribute OrderSearchVO osVO) {
 		
-		System.out.println(osVO.getCreateInvoiceNumList().size());
 		List<OrdersVO> orderList = deliService.selectCjDeliveryInvoiceNum(osVO);
 		
 		xlsxWriter xw = new xlsxWriter();

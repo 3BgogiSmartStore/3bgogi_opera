@@ -9,6 +9,21 @@ import com.gogi.proj.paging.OrderSearchVO;
 
 public interface CjdeliveryService {
 
+	
+	/**
+	 * 
+	 * @MethodName : isCjDeliveryArea
+	 * @date : 2021. 12. 28.
+	 * @author : Jeon KiChan
+	 * @param zipCode
+	 * @param addr
+	 * @param addrDetail
+	 * @return
+	 * @메소드설명 : cj 새벽배송 가능 지역 체크
+	 */
+	public boolean isCjDeliveryArea(String zipCode, String addr, String addrDetail);
+	
+	
 	/**
 	 * 
 	 * @MethodName : selectCjDeliveryTargetChecking

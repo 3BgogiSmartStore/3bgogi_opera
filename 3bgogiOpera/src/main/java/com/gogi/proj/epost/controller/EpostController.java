@@ -226,9 +226,10 @@ public class EpostController {
 									
 									for(DoorPassKeywordVO dpk : doorList) {
 										
-										if(orderInfo.getOrDeliveryMessage().indexOf(dpk.getDpkWord()) != -1) {
+										if(orderInfo.getOrDeliveryMessage().contains(dpk.getDpkWord())) {
 											buyerInfo.setOrDelivEnterFlag(true);
 											break;
+											
 										}
 										
 									}
