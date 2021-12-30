@@ -472,6 +472,7 @@
 
     		});
     		
+    		
 			$("#doorPassKeywordListBtn").click(function(){    			
     			window.open("/delivery/config/door_pass_keyword.do", "공동현관 출입방법 키워드 목록" , "width=500px, height=620px, top=50px, left=50px, scrollbars=no");
     			

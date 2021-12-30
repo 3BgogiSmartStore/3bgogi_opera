@@ -50,6 +50,7 @@ public class OrderSearchVO {
 	private int excelOrFk;
 	private int depositFlag;				// 입금 여부
 	private int invenFlag;					//재고할당여부
+	private int freebieFlag;				//사은품 여부
 	
 	private List<BlockSendingListVO> bslList;
 	private List<String> createInvoiceNumList;
@@ -90,6 +91,14 @@ public class OrderSearchVO {
 	private String exSerachKeyword; //제외 검색어
 	private List<String> exSearchKeywordList; //제외 검색어 리스트값
 	
+	public int getFreebieFlag() {
+		return freebieFlag;
+	}
+
+	public void setFreebieFlag(int freebieFlag) {
+		this.freebieFlag = freebieFlag;
+	}
+
 	public int getInvenFlag() {
 		return invenFlag;
 	}

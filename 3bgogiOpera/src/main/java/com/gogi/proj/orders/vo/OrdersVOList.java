@@ -1,5 +1,6 @@
 package com.gogi.proj.orders.vo;
 
+import java.sql.Date;
 import java.util.List;
 
 public class OrdersVOList {
@@ -14,12 +15,15 @@ public class OrdersVOList {
 	private String orReceiverContractNumber1; //수취인 연락처1
 	private String orReceiverContractNumber2; //수취인 연락처2
 	private String orDeliveryInvoiceNumber; // 송장번호
+	private String orDeliveryCompany;
 	private String orShippingAddress;
 	private String orShippingAddressDetail;
 	private String orOrderNumber;
 	private String orDelivEnter;
 	private boolean orDelivEnterFlag;
 	private String ssName;
+	private Date orSendingDay;
+	private Date orSendingDeadline;
 	
 	private List<OrdersVO> orVoList;
 
@@ -31,8 +35,9 @@ public class OrdersVOList {
 	public OrdersVOList(String orSerialSpecialNumber, String orBuyerId, String orBuyerName, String orBuyerAnotherName,
 			String orBuyerContractNumber1, String orBuyerContractNumber2, String orReceiverName,
 			String orReceiverContractNumber1, String orReceiverContractNumber2, String orDeliveryInvoiceNumber,
-			String orShippingAddress, String orShippingAddressDetail, String orOrderNumber, String orDelivEnter,
-			boolean orDelivEnterFlag, String ssName, List<OrdersVO> orVoList) {
+			String orDeliveryCompany, String orShippingAddress, String orShippingAddressDetail, String orOrderNumber,
+			String orDelivEnter, boolean orDelivEnterFlag, String ssName, Date orSendingDay, Date orSendingDeadline,
+			List<OrdersVO> orVoList) {
 		super();
 		this.orSerialSpecialNumber = orSerialSpecialNumber;
 		this.orBuyerId = orBuyerId;
@@ -44,12 +49,15 @@ public class OrdersVOList {
 		this.orReceiverContractNumber1 = orReceiverContractNumber1;
 		this.orReceiverContractNumber2 = orReceiverContractNumber2;
 		this.orDeliveryInvoiceNumber = orDeliveryInvoiceNumber;
+		this.orDeliveryCompany = orDeliveryCompany;
 		this.orShippingAddress = orShippingAddress;
 		this.orShippingAddressDetail = orShippingAddressDetail;
 		this.orOrderNumber = orOrderNumber;
 		this.orDelivEnter = orDelivEnter;
 		this.orDelivEnterFlag = orDelivEnterFlag;
 		this.ssName = ssName;
+		this.orSendingDay = orSendingDay;
+		this.orSendingDeadline = orSendingDeadline;
 		this.orVoList = orVoList;
 	}
 
@@ -133,6 +141,14 @@ public class OrdersVOList {
 		this.orDeliveryInvoiceNumber = orDeliveryInvoiceNumber;
 	}
 
+	public String getOrDeliveryCompany() {
+		return orDeliveryCompany;
+	}
+
+	public void setOrDeliveryCompany(String orDeliveryCompany) {
+		this.orDeliveryCompany = orDeliveryCompany;
+	}
+
 	public String getOrShippingAddress() {
 		return orShippingAddress;
 	}
@@ -181,6 +197,22 @@ public class OrdersVOList {
 		this.ssName = ssName;
 	}
 
+	public Date getOrSendingDay() {
+		return orSendingDay;
+	}
+
+	public void setOrSendingDay(Date orSendingDay) {
+		this.orSendingDay = orSendingDay;
+	}
+
+	public Date getOrSendingDeadline() {
+		return orSendingDeadline;
+	}
+
+	public void setOrSendingDeadline(Date orSendingDeadline) {
+		this.orSendingDeadline = orSendingDeadline;
+	}
+
 	public List<OrdersVO> getOrVoList() {
 		return orVoList;
 	}
@@ -196,10 +228,11 @@ public class OrdersVOList {
 				+ ", orBuyerContractNumber1=" + orBuyerContractNumber1 + ", orBuyerContractNumber2="
 				+ orBuyerContractNumber2 + ", orReceiverName=" + orReceiverName + ", orReceiverContractNumber1="
 				+ orReceiverContractNumber1 + ", orReceiverContractNumber2=" + orReceiverContractNumber2
-				+ ", orDeliveryInvoiceNumber=" + orDeliveryInvoiceNumber + ", orShippingAddress=" + orShippingAddress
-				+ ", orShippingAddressDetail=" + orShippingAddressDetail + ", orOrderNumber=" + orOrderNumber
-				+ ", orDelivEnter=" + orDelivEnter + ", orDelivEnterFlag=" + orDelivEnterFlag + ", ssName=" + ssName
-				+ ", orVoList=" + orVoList + "]";
+				+ ", orDeliveryInvoiceNumber=" + orDeliveryInvoiceNumber + ", orDeliveryCompany=" + orDeliveryCompany
+				+ ", orShippingAddress=" + orShippingAddress + ", orShippingAddressDetail=" + orShippingAddressDetail
+				+ ", orOrderNumber=" + orOrderNumber + ", orDelivEnter=" + orDelivEnter + ", orDelivEnterFlag="
+				+ orDelivEnterFlag + ", ssName=" + ssName + ", orSendingDay=" + orSendingDay + ", orSendingDeadline="
+				+ orSendingDeadline + ", orVoList=" + orVoList + "]";
 	}
 	
 }

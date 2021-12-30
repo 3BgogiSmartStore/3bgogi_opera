@@ -510,7 +510,7 @@
 </select>
 	
 	<select id="selectDontGrantDelivOrderListInMonth" parameterType="OrderSearchVO" resultMap="deliveryInfoResultMap">
-			SELECT
+		SELECT
 			datas.*
 		FROM
             (

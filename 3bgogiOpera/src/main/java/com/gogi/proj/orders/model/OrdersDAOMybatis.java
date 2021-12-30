@@ -593,9 +593,5 @@ public class OrdersDAOMybatis extends SqlSessionDaoSupport implements OrdersDAO{
 		return getSqlSession().update(orderCsNameSpace+".absEpostDeliv", orSerialSpecialNumberList);
 	}
 	
-//	public List<OrdersVO> outPutDatefilter(OrderSearchVO osVO){
-//		
-//		return getSqlSession().selectList(adminOrderRecordNameSpace+".outPutDatefilter", osVO);
-//	}
 }
  
