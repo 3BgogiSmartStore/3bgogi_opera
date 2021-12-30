@@ -120,6 +120,9 @@
                                             <a class="nav-link" href="<c:url value='/orders/search/customer_orders.do'/>"> 고객 검색  </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" href="<c:url value='/order_detail/order_search.do'/>"> 고객 주문서 개별 조회  </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" href="<c:url value='/delivery/config/deliv_num_check.do'/>"> 송장 체크 </a>
                                         </li>
                                         
