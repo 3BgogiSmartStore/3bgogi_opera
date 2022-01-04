@@ -190,7 +190,7 @@
                                     		<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                                                 <label for="piInputDate">거래처</label>
                                                 
-                                                <select class="form-control"  id="resCompany" name="resCompany">
+                                                <select class="form-control"  id="resCompany" name="resCompany" data-live-search="true" data-size="8">
                                                 
                                                 	<c:forEach var="res" items="${rcList }">
                                                 		<option value="${res.rcPk }">${res.rcName }</option>
@@ -318,6 +318,8 @@
     				
     			});
 
+				$("#resCompany").selectpicker();
+				
 			});
 		</script>
         <!-- /page content -->

@@ -218,8 +218,7 @@
 	                                            	<th >거래처</th>
 	                                                <th >상품 (명세서)</th>
 	                                                <th >상품타입</th>
-	                                                <th >단위</th>
-	                                                <th >수량</th>
+	                                                <th >수량 / 중량</th>
 	                                                <th >공급가</th>
 	                                                <th >세액</th>
 	                                                <th >합계</th>
@@ -228,7 +227,6 @@
 	                                        </thead>
 	                                        <tbody>
 	                                        	<c:if test="${!empty piList}">
-	                                        		<c:set var="totalAmount" value="0"></c:set>
 		                                        	<c:set var="totalCost" value="0"></c:set>
 		                                        	<c:set var="totalTax" value="0"></c:set>
 		                                        	<c:set var="totalPrice" value="0"></c:set>
@@ -257,10 +255,8 @@
 			                                        			</c:if>
 		                                        			</td>
 		                                        			<td>${pilist.piType }</td>
-		                                        			<td>${pilist.piMeasure }</td>
 		                                        			<td>
-		                                        				<fmt:formatNumber value="${pilist.piQty }" pattern="#,###"/>
-		                                        				<c:set var="totalAmount" value="${totalAmount + pilist.piQty}"></c:set>
+		                                        				<fmt:formatNumber value="${pilist.piQty }" pattern="#,###"/> ${pilist.piMeasure }
 		                                        			</td>
 		                                        			<td>
 		                                        				<fmt:formatNumber value="${pilist.piCost }" pattern="#,###"/>
@@ -278,12 +274,8 @@
 		                                        			<td>${pilist.piInputDate }</td>
 		                                        		</tr>
 		                                        	</c:forEach>
-		                                        	
 	                                        		<tr>
 	                                        			<td colspan="5"> 총 합</td>
-		                                                <td >
-		                                                	<fmt:formatNumber value="${totalAmount }" pattern="#,###" />
-		                                                </td>
 		                                                <td >
 		                                                	<fmt:formatNumber value="${totalCost }" pattern="#,###" />
 		                                                </td>
