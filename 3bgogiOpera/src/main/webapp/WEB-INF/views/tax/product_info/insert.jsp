@@ -74,8 +74,11 @@
     			                +'</td>'
     			                
     			                +'<td>'
-	                            	+'<select class="form-control" name="piList[0].piType" data-live-search="true" data-size="8">'
+	                            	+'<select class="form-control" name="piList['+piCount+'].piType" data-live-search="true" data-size="8">'
 										+'<option value="">타입없음</option>'
+										+'<option value="간편">간편</option>'
+										+'<option value="소스">소스</option>'
+										+'<option value="광고비">광고비</option>'
 										+'<option value="비품">비품</option>';
 										
 										
@@ -244,6 +247,9 @@
 		                                            <td>
 		                                            	<select class="form-control" name="piList[0].piType" data-live-search="true" data-size="8">
 															<option value="">타입없음</option>
+															<option value="간편">간편</option>
+															<option value="소스">소스</option>
+															<option value="광고비">광고비</option>
 															<option value="비품">비품</option>
 															<c:forEach var="costDetaillist" items="${costDetailList }">
 																<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">																
@@ -261,7 +267,7 @@
 		                                            	<select class="form-control" name="piList[0].piMeasure" >
 															<option value=""> 단위 선택</option>
 															<option value="박스"> 박스</option>
-															<option value="kg"> kg</option>
+															<option value="g"> g</option>
 															<option value="개"> 개</option>
 															<option value="리터"> 리터</option>
 														</select>

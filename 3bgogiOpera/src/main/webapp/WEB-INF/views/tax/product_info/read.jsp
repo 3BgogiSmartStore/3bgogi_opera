@@ -127,6 +127,9 @@
                                             <div class="col-12 col-sm-8 col-lg-6">
                                                 <select class="form-control" id="piType" name="piType" data-live-search="true" data-size="8">
 													<option value="">타입없음</option>
+													<option value="간편">간편</option>
+													<option value="소스">소스</option>
+													<option value="광고비">광고비</option>
 													<option value="비품"
 														<c:if test="${piVO.piType == '비품'}">
 															selected="selected"
@@ -163,11 +166,11 @@
 															selected="selected"
 														</c:if>
 													> 박스</option>
-													<option value="kg"
-														<c:if test="${piVO.piMeasure == 'kg'}">
+													<option value="g"
+														<c:if test="${piVO.piMeasure == 'g'}">
 															selected="selected"
 														</c:if>
-													> kg</option>
+													> g</option>
 													<option value="개"
 														<c:if test="${piVO.piMeasure == '개'}">
 															selected="selected"
