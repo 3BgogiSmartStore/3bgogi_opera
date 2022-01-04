@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gogi.proj.paging.OrderSearchVO;
+import com.gogi.proj.product.cost.model.CostDetailService;
+import com.gogi.proj.product.cost.vo.CostDetailVO;
 import com.gogi.proj.producttax.model.ProductTaxService;
 import com.gogi.proj.producttax.vo.ProductInfoListVO;
 import com.gogi.proj.producttax.vo.ProductInfoVO;
@@ -55,6 +57,8 @@ public class ProductTaxController {
 	@Resource(name="fileUploadProperties")
 	private Properties fileProperties;
 	
+	@Autowired
+	private CostDetailService costDetailService;
 	
 	/**
 	 * 
@@ -228,7 +232,10 @@ public class ProductTaxController {
 		
 		List<ResCompanyVO> rcList = ptService.selectRecCompany(osVO);
 		
+		List<CostDetailVO> costDetailList = costDetailService.selectAllCostDetailJoinCostCodeListInMeat();
+		
 		model.addAttribute("rcList", rcList);
+		model.addAttribute("costDetailList", costDetailList);
 		
 		return "tax/product_info/insert";
 	}
@@ -348,6 +355,9 @@ public class ProductTaxController {
 		
 		List<ResCompanyVO> rcList = ptService.selectRecCompany(osVO);
 		
+		List<CostDetailVO> costDetailList = costDetailService.selectAllCostDetailJoinCostCodeListInMeat();
+		
+		model.addAttribute("costDetailList", costDetailList);
 		model.addAttribute("rcList", rcList);
 		model.addAttribute("osVO", osVO);
 		model.addAttribute("piList", piList);
@@ -455,7 +465,10 @@ public class ProductTaxController {
 		
 		ProductInfoVO read = ptService.selectProductInfoByPiPk(piVO);
 		
+		List<CostDetailVO> costDetailList = costDetailService.selectAllCostDetailJoinCostCodeListInMeat();
+		
 		model.addAttribute("piVO", read);
+		model.addAttribute("costDetailList", costDetailList);
 		
 		return "tax/product_info/read";
 	}

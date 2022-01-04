@@ -182,4 +182,15 @@ public interface CostDetailDAO {
 	 * @메소드설명 : 원윱 입출고 카테고리 가져오기
 	 */
 	public List<CostDetailVO> selsectCarcassCostCategoryCounting(OrderSearchVO osVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectAllCostDetailJoinCostCodeListInMeat
+	 * @date : 2022. 1. 4.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 고기 계열 카테고리 전부 가져오기
+	 */
+	public List<CostDetailVO> selectAllCostDetailJoinCostCodeListInMeat();
 }

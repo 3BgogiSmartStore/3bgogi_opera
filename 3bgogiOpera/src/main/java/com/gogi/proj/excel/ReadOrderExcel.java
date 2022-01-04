@@ -609,14 +609,14 @@ public class ReadOrderExcel {
 			    
 			    if(row !=null){
 			        
-			        for(columnindex=0; columnindex < 21; columnindex++){
+			        for(columnindex=0; columnindex < 23; columnindex++){
 
 			            XSSFCell cell=row.getCell(columnindex);
 			            if(cell==null) {
 			            	continue;
 			            }else {
 			            	//주문번호
-			            	if(columnindex==20) {
+			            	if(columnindex==22) {
 			            		String value = "";
 			            		 switch (cell.getCellType()){
 		                            case HSSFCell.CELL_TYPE_FORMULA:

@@ -277,208 +277,181 @@
 	
 	<!-- 페이징처리 + 주문서 중 상품명만 매칭되고 옵션명 매칭이 안된 데이터 가져오기 -->
 	<select id="selectOrdersOptionNotMatchinged" parameterType="OrderSearchVO" resultMap="optionMatchingResultMap">
-					SELECT
-						od.or_pk,
-						ss.ss_name,
-						od.or_buyer_name,
-						od.or_buyer_contract_number1,
-						od.or_receiver_name,
-						od.or_product,
-						od.or_product_option,
-						od.or_amount,
-						od.or_order_number,
-						od.or_product_order_number,
-						od.or_total_price,
-						od.or_sending_deadline,
-						pm.pm_pk,
-						pm.pm_store_product_name,
-						pre_pro.product_name AS pm_product_name,
-						om.om_pk,
-						om.om_option_amount,
-						op.option_pk,
-						op.option_name,
-						pro.product_pk,
-						pro.product_name
-					FROM
-						orders od
-						INNER JOIN store_section ss 	ON ss.ss_pk = od.ss_fk
-						INNER JOIN product_matching pm  ON od.pm_fk = pm.pm_pk 
-						INNER JOIN products pre_pro		ON pre_pro.product_pk = pm.product_fk
-                        LEFT JOIN  option_matching om 	ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
-                        LEFT JOIN  options op			ON op.option_pk = om.option_fk
-                        LEFT JOIN  products pro			ON pro.product_pk = op.product_fk 
-					WHERE
-						od.or_pk IN (
-							SELECT
-								inne.or_pk
-							FROM
-								(
-									SELECT
-										od.or_pk
-									FROM
-										orders od
-										INNER JOIN store_section ss 	ON ss.ss_pk = od.ss_fk
-										INNER JOIN product_matching pm  ON od.pm_fk = pm.pm_pk 
-										INNER JOIN products pre_pro		ON pre_pro.product_pk = pm.product_fk
-										LEFT JOIN  option_matching om 	ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
-										LEFT JOIN  options op			ON op.option_pk = om.option_fk
-										LEFT JOIN  products pro			ON pro.product_pk = op.product_fk
-										<trim prefix="WHERE" prefixOverrides="AND |OR ">
-											<if test="datePeriod == 0">
-												<![CDATA[
-													AND ${dateType} >= DATE_FORMAT(NOW(), '%Y-%m-%d')
-													AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
-												]]>
-											</if>
-											<if test="datePeriod == 1">
-												<![CDATA[
-													AND ${dateType} >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -7 DAY), '%Y-%m-%d')
-													AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
-												]]>
-											</if>
-											<if test="datePeriod == 2">
-												<![CDATA[
-													AND ${dateType} >= #{dateStart} 
-													AND ${dateType} < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
-												]]>
-											</if>
-											<if test="searchKeyword != null and !searchKeyword.equals('')">
-												<if test="searchType == 'buyerName'">
-													AND or_buyer_name LIKE CONCAT('%',#{searchKeyword},'%')
-												</if>
-												<if test="searchType == 'receiverName'">
-													AND or_receiver_name LIKE CONCAT('%',#{searchKeyword},'%')
-												</if>
-												<if test="searchType == 'buyerNum'">
-													AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
-												</if>
-												<if test="searchType == 'receiverNum'">
-													AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
-												</if>
-												<if test="searchType == 'orderNum'">
-													AND or_order_number LIKE CONCAT('%',#{searchKeyword},'%')
-												</if>
-												<if test="searchType == 'orderProductNum'">
-													AND or_product_order_number LIKE CONCAT('%',#{searchKeyword},'%')
-												</if>
-												<if test="searchType == 'storeProduct'">
-													AND or_product LIKE CONCAT('%',#{searchKeyword},'%') 
-												</if>
-												<if test="searchType == 'matchingProduct'">
-													AND pre_pro.product_name LIKE CONCAT('%',#{searchKeyword},'%')
-												</if>
-											</if>
-											<if test="matchingFlag == 0">					
-												AND om.om_pk IS NULL
-											</if>
-											<if test="matchingFlag == 1">
-												AND om.om_pk IS NOT NULL
-											</if>
-										</trim>
-
-									GROUP BY
-										od.or_pk
-									ORDER BY
-										od.or_settlement_day DESC
-									LIMIT #{firstRecordIndex}, #{recordCountPerPage} 
-                                ) inne
-                        )
-					GROUP BY
-						od.or_pk,
-						ss.ss_name,
-						od.or_buyer_name,
-						od.or_buyer_contract_number1,
-						od.or_receiver_name,
-						od.or_product,
-						od.or_product_option,
-						od.or_amount,
-						od.or_order_number,
-						od.or_product_order_number,
-						od.or_total_price,
-						od.or_sending_deadline,
-						pm.pm_pk,
-						pm.pm_store_product_name,
-						pm_product_name,
-						om.om_pk,
-						om.om_option_amount,
-						op.option_pk,
-						op.option_name,
-						pro.product_pk,
-						pro.product_name
-					ORDER BY
-						od.or_settlement_day DESC
+		SELECT
+			od.or_pk,
+			ss.ss_name,
+			od.or_buyer_name,
+			od.or_buyer_contract_number1,
+			od.or_receiver_name,
+			od.or_product,
+			od.or_product_option,
+			od.or_amount,
+			od.or_order_number,
+			od.or_product_order_number,
+			od.or_total_price,
+			od.or_sending_deadline,
+			pm.pm_pk,
+			pm.pm_store_product_name,
+			pre_pro.product_name AS pm_product_name,
+			om.om_pk,
+			om.om_option_amount,
+			op.option_pk,
+			op.option_name,
+			pro.product_pk,
+			pro.product_name
+		FROM
+			orders od
+			INNER JOIN store_section ss 	ON ss.ss_pk = od.ss_fk
+			INNER JOIN product_matching pm  ON od.pm_fk = pm.pm_pk 
+			INNER JOIN products pre_pro		ON pre_pro.product_pk = pm.product_fk
+            LEFT JOIN  option_matching om 	ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
+            LEFT JOIN  options op			ON op.option_pk = om.option_fk
+            LEFT JOIN  products pro			ON pro.product_pk = op.product_fk 
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="datePeriod == 0">
+				<![CDATA[
+					AND ${dateType} >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+					AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+			</if>
+			<if test="datePeriod == 1">
+				<![CDATA[
+				AND ${dateType} >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -7 DAY), '%Y-%m-%d')
+				AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+			</if>
+			<if test="datePeriod == 2">
+				<![CDATA[
+					AND ${dateType} >= #{dateStart} 
+					AND ${dateType} < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+			</if>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">						
+				<if test="searchType == 'buyerName'">
+					AND or_buyer_name LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'receiverName'">
+					AND or_receiver_name LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'buyerNum'">
+					AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'receiverNum'">
+					AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'orderNum'">
+					AND or_order_number LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'orderProductNum'">
+					AND or_product_order_number LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'storeProduct'">
+					AND or_product LIKE CONCAT('%',#{searchKeyword},'%') 
+				</if>
+				<if test="searchType == 'matchingProduct'">
+					AND pre_pro.product_name LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+			</if>
+			<if test="matchingFlag == 0">					
+				AND om.om_pk IS NULL
+			</if>
+			<if test="matchingFlag == 1">
+				AND om.om_pk IS NOT NULL
+			</if>
+		</trim>
+		GROUP BY
+			od.or_pk,
+			ss.ss_name,
+			od.or_buyer_name,
+			od.or_buyer_contract_number1,
+			od.or_receiver_name,
+			od.or_product,
+			od.or_product_option,
+			od.or_amount,
+			od.or_order_number,
+			od.or_product_order_number,
+			od.or_total_price,
+			od.or_sending_deadline,
+			pm.pm_pk,
+			pm.pm_store_product_name,
+			pm_product_name,
+			om.om_pk,
+			om.om_option_amount,
+			op.option_pk,
+			op.option_name,
+			pro.product_pk,
+			pro.product_name
+		ORDER BY
+			od.or_settlement_day DESC
+		LIMIT #{firstRecordIndex}, #{recordCountPerPage} 
 	</select>
 	
 	<!-- 페이징처리 + 주문서 중 상품명만 매칭되고 옵션명 매칭이 안된 데이터의 총 합산값 가져오기 -->
 	<select id="countingNotOptionMatchingedOrders" resultType="int" parameterType="OrderSearchVO">
-				SELECT
-					COUNT(search_orders.or_pk)
-				FROM 
-					(SELECT
-						od.or_pk
-					FROM
-						orders od
-						INNER JOIN store_section ss 	ON ss.ss_pk = od.ss_fk
-						INNER JOIN product_matching pm  ON od.pm_fk = pm.pm_pk 
-						INNER JOIN products pre_pro		ON pre_pro.product_pk = pm.product_fk
-                        LEFT JOIN  option_matching om 	ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
-                        LEFT JOIN  options op			ON op.option_pk = om.option_fk
-                        LEFT JOIN  products pro			ON pro.product_pk = op.product_fk
-					<trim prefix="WHERE" prefixOverrides="AND |OR ">
-						<if test="datePeriod == 0">
-							<![CDATA[
-								AND ${dateType} >= DATE_FORMAT(NOW(), '%Y-%m-%d')
-								AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
-							]]>
-						</if>
-						<if test="datePeriod == 1">
-							<![CDATA[
-								AND ${dateType} >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -7 DAY), '%Y-%m-%d')
-								AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
-							]]>
-						</if>
-						<if test="datePeriod == 2">
-							<![CDATA[
-								AND ${dateType} >= #{dateStart} 
-								AND ${dateType} < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
-							]]>
-						</if>
-						<if test="searchKeyword != null and !searchKeyword.equals('')">						
-							<if test="searchType == 'buyerName'">
-								AND or_buyer_name LIKE CONCAT('%',#{searchKeyword},'%')
-							</if>
-							<if test="searchType == 'receiverName'">
-								AND or_receiver_name LIKE CONCAT('%',#{searchKeyword},'%')
-							</if>
-							<if test="searchType == 'buyerNum'">
-								AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
-							</if>
-							<if test="searchType == 'receiverNum'">
-								AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
-							</if>
-							<if test="searchType == 'orderNum'">
-								AND or_order_number LIKE CONCAT('%',#{searchKeyword},'%')
-							</if>
-							<if test="searchType == 'orderProductNum'">
-								AND or_product_order_number LIKE CONCAT('%',#{searchKeyword},'%')
-							</if>
-							<if test="searchType == 'storeProduct'">
-								AND or_product LIKE CONCAT('%',#{searchKeyword},'%') 
-							</if>
-							<if test="searchType == 'matchingProduct'">
-								AND pre_pro.product_name LIKE CONCAT('%',#{searchKeyword},'%')
-							</if>
-						</if>
-						<if test="matchingFlag == 0">					
-							AND om.om_pk IS NULL
-						</if>
-						<if test="matchingFlag == 1">
-							AND om.om_pk IS NOT NULL
-						</if>
-					</trim>
-				GROUP BY
-					od.or_pk
-					) search_orders
+		SELECT
+			od.or_pk
+		FROM
+			orders od
+			INNER JOIN store_section ss 	ON ss.ss_pk = od.ss_fk
+			INNER JOIN product_matching pm  ON od.pm_fk = pm.pm_pk 
+			INNER JOIN products pre_pro		ON pre_pro.product_pk = pm.product_fk
+            LEFT JOIN  option_matching om 	ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
+            LEFT JOIN  options op			ON op.option_pk = om.option_fk
+            LEFT JOIN  products pro			ON pro.product_pk = op.product_fk
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="datePeriod == 0">
+				<![CDATA[
+					AND ${dateType} >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+					AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+			</if>
+			<if test="datePeriod == 1">
+				<![CDATA[
+				AND ${dateType} >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -7 DAY), '%Y-%m-%d')
+				AND  ${dateType} < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+			</if>
+			<if test="datePeriod == 2">
+				<![CDATA[
+					AND ${dateType} >= #{dateStart} 
+					AND ${dateType} < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+			</if>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">						
+				<if test="searchType == 'buyerName'">
+					AND or_buyer_name LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'receiverName'">
+					AND or_receiver_name LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'buyerNum'">
+					AND or_buyer_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'receiverNum'">
+					AND or_receiver_contract_number1 LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'orderNum'">
+					AND or_order_number LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'orderProductNum'">
+					AND or_product_order_number LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+				<if test="searchType == 'storeProduct'">
+					AND or_product LIKE CONCAT('%',#{searchKeyword},'%') 
+				</if>
+				<if test="searchType == 'matchingProduct'">
+					AND pre_pro.product_name LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+			</if>
+			<if test="matchingFlag == 0">					
+				AND om.om_pk IS NULL
+			</if>
+			<if test="matchingFlag == 1">
+				AND om.om_pk IS NOT NULL
+			</if>
+		</trim>
+		GROUP BY
+			od.or_pk
 	</select>
 	
 	<select id="selectOptionMatchings" parameterType="OptionMatchingVO" resultMap="matchingOptionInfoResultMap">

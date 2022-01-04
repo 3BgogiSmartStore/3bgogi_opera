@@ -80,26 +80,17 @@ $(function() {
     // ============================================================== 
     var ctx = document.getElementById("chartjs_balance_bar").getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
-
-        
+        type: 'bar',        
         data: {
-            labels: ["Current", "1-30", "31-60", "61-90", "91+"],
+            labels: ["Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+"],
             datasets: [{
                 label: 'Aged Payables',
-                data: [500, 1000, 1500, 3700, 2500],
+                data: [500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500],
                 backgroundColor: "rgba(89, 105, 255,.8)",
                 borderColor: "rgba(89, 105, 255,1)",
-                borderWidth:2
+                borderWidth:1
 
-            }, {
-                label: 'Aged Receiables',
-                data: [1000, 1500, 2500, 3500, 2500],
-                backgroundColor: "rgba(255, 64, 123,.8)",
-                borderColor: "rgba(255, 64, 123,1)",
-                borderWidth:2
-
-
+                
             }]
 
         },
@@ -119,14 +110,14 @@ $(function() {
                 scales: {
                     xAxes: [{
                 ticks: {
-                    fontSize: 14,
+                    fontSize: 12,
                      fontFamily:'Circular Std Book',
                      fontColor: '#71748d',
                 }
             }],
             yAxes: [{
                 ticks: {
-                    fontSize: 14,
+                    fontSize: 12,
                      fontFamily:'Circular Std Book',
                      fontColor: '#71748d',
                 }
@@ -139,53 +130,52 @@ $(function() {
 });
  
     
-    // ============================================================== 
-    // Gross Profit Margin
-    // ============================================================== 
    Morris.Donut({
                 element: 'morris_gross',
 
                 data: [
-                    { value: 94, label: 'Budget' },
-                    { value: 15, label: '' }
+                	{ value: 397, label: '5점' },
+                    { value: 164, label: '4점' },
+                    { value: 137, label: '3점' },
+                    { value: 33, label: '2점' },
+                    { value: 8, label: '1점' }
                    
                 ],
              
                 labelColor: '#5969ff',
-
                 colors: [
                     '#5969ff',
-                    '#a8b0ff'
-                   
+                    '#21ae41',
+                    '#ffc750',                    
+                    '#ffd5e1',
+                    '#ff407b'
                 ],
 
-                formatter: function(x) { return x + "%" },
+                formatter: function(x) { return x + "건" },
                   resize: true
 
             });
-
-    // ============================================================== 
-    // Net Profit Margin
-    // ============================================================== 
+ 
     Morris.Donut({
                 element: 'morris_profit',
 
                 data: [
-                    { value: 93, label: 'Profit' },
-                    { value: 15, label: '' }
+                    { value: 137, label: '3점' },
+                    { value: 33, label: '2점' },
+                    { value: 8, label: '1점' }
                    
                 ],
-             
                 labelColor: '#ff407b',
 
 
                 colors: [
                     '#ff407b',
+                    '#ffd5e1',
                     '#ffd5e1'
                    
                 ],
 
-                formatter: function(x) { return x + "%" },
+                formatter: function(x) { return x + "건" },
                   resize: true
 
             });
@@ -193,28 +183,18 @@ $(function() {
 
 
 
-    // ============================================================== 
-    //EBIT Morris
-    // ============================================================== 
-
     Morris.Bar({
         element: 'ebit_morris',
         data: [
-            { x: '2011 Q1', y: 20000 },
-            { x: '2011 Q2', y: 24000 },
-            { x: '2011 Q3', y: 33000 },
-            { x: '2011 Q4', y: 40000 },
-            { x: '2012 Q1', y: 25000 },
-            { x: '2012 Q2', y: 70000 },
-            { x: '2012 Q3', y: 52000 },
-            { x: '2012 Q4', y: 39000 },
-            { x: '2013 Q1', y: 80000 }
+            { x: '2021 10', y: 20000 },
+            { x: '2021 11', y: 24000 },
+            { x: '2021 12', y: 33000 }
         ],
         xkey: 'x',
         ykeys: ['y'],
-        labels: ['Y'],
+        labels: ['매출'],
         barColors: ['#ff407b'],
-        preUnits: ["$"]
+        postUnits: ["원"]
 
     });
 

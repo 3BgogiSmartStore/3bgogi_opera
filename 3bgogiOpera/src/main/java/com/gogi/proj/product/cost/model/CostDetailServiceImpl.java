@@ -230,4 +230,10 @@ public class CostDetailServiceImpl implements CostDetailService{
 		return costDetailDAO.selsectCarcassCostCategoryCounting(osVO);
 	}
 
+	@Override
+	public List<CostDetailVO> selectAllCostDetailJoinCostCodeListInMeat() {
+		// TODO Auto-generated method stub
+		return costDetailDAO.selectAllCostDetailJoinCostCodeListInMeat();
+	}
+
 }

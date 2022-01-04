@@ -43,7 +43,8 @@
 			pi_file_path,
 			pi_file_uniq_name,
 			pi_file_exe,
-			pi_taxbil_check_flag
+			pi_taxbil_check_flag,
+			pi_type
 		)
 		VALUES(
 			#{rcFk},
@@ -61,7 +62,8 @@
 			#{piFilePath},
 			#{piFileUniqName},
 			#{piFileExe},
-			#{piTaxbilCheckFlag}
+			#{piTaxbilCheckFlag},
+			#{piType}
 		)
 	</insert>
 	
@@ -95,6 +97,9 @@
 			</if>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
 				AND pi.pi_name LIKE CONCAT('%',#{searchKeyword},'%') 
+			</if>
+			<if test="cfList != null and !cfList.equals('')">
+				AND pi.pi_Type LIKE CONCAT('%',#{cfList},'%') 
 			</if>
 			
 			<if test="taxFlag == 1">
@@ -143,6 +148,9 @@
 			</if>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
 				AND pi.pi_name LIKE CONCAT('%',#{searchKeyword},'%') 
+			</if>
+			<if test="cfList != null and !cfList.equals('')">
+				AND pi.pi_Type LIKE CONCAT('%',#{cfList},'%') 
 			</if>
 			
 			<if test="taxFlag == 1">
@@ -213,7 +221,9 @@
 			pi_file_path = #{piFilePath},
 			pi_file_ori_name = #{piFileOriName},
 			pi_file_uniq_name = #{piFileUniqName},
-			pi_file_exe = #{piFileExe}
+			pi_file_exe = #{piFileExe},
+			pi_type = #{piType},
+			pi_measure = #{piMeasure}
 		WHERE
 			pi_pk = #{piPk}
 	</update>

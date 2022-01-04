@@ -427,6 +427,40 @@
                                     </ul>
                                 </div>
                             </li>
+                            <li class="nav-item">
+	                        	<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#customer_review" aria-controls="customer_review"> 고객 리뷰  </a>
+	                            <div id="customer_review" class="collapse submenu">
+	                            	<ul class="nav flex-column">
+                                        <li class="nav-item">
+				                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#review_manage" aria-controls="review_manage"> 관리 </a>
+				                            <div id="review_manage" class="collapse submenu" style="">
+					                            <ul class="nav flex-column">
+						                            <li class="nav-item">
+						                            	<a class="nav-link" href="<c:url value='/customer_review/insert.do'/>"> 고객 리뷰 입력  </a>
+						                            </li>
+						                            <li class="nav-item">
+						                            	<a class="nav-link" href="#"> 고객 리뷰 목록  </a>
+						                            </li>
+					                            </ul>
+				                            </div>
+			                            </li>
+			                            <li class="nav-item">
+				                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#review_control" aria-controls="review_control"> 설정 </a>
+				                            <div id="review_control" class="collapse submenu" style="">
+					                            <ul class="nav flex-column">
+						                            <li class="nav-item">
+						                            	<a class="nav-link" href="#"> 생산팀 리뷰 설정  </a>
+						                            </li>
+						                            <li class="nav-item">
+						                            	<a class="nav-link" href="#"> 생산팀 리뷰 전광판 설정  </a>
+						                            </li>
+						                            
+					                            </ul>
+				                            </div>
+			                            </li>
+                                    </ul>
+	                            </div>
+	                        </li>
                             </sec:authorize>
                             
                         </ul>

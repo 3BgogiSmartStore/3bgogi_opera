@@ -185,6 +185,17 @@
 		    JOIN cost_code cc ON cd.cc_fk = cc.cc_pk
 	</select>
 	
+	<select id="selectAllCostDetailJoinCostCodeListInMeat" resultMap="CostDetailVOALlResultmap">
+		SELECT 
+			* 
+		FROM 
+			cost_detail cd
+		    JOIN cost_code cc ON cd.cc_fk = cc.cc_pk
+		WHERE
+			cc_fk IN (1,2,3,4)
+	</select>
+	
+	
 	<select id="selectCostdetailWightCostcodeByCcPk" resultMap="CostDetailVOALlResultmap" parameterType="CostCodeVO">
 		SELECT
 			*

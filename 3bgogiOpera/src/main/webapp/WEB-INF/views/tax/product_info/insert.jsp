@@ -6,6 +6,8 @@
     	$(function(){
 			var piCount = 1;
     		
+			// ajax /products/all_cost_detail_join_cost_code_list.do
+				
     		$('#inputDates').datetimepicker({
     			timepicker:false,
     			lang:'kr',
@@ -21,46 +23,122 @@
     			
     			$("input[data-totalcost='"+countings+"']").val(( Number(taxs) + Number(costs) ));
     			
+    			
+    		});
+    		
+    		$("#insertProductInfoForm").submit(function(){
+    			
+    			$("input[name*=piQty]").each( function(){
+    				if($(this).val() == ''){
+    					
+    					alert("수량 혹은 중량을 적어주세요");
+    					
+    					$(this).focus();
+    					event.preventDefault();
+    					return false
+    					
+    				}
+    				
+    			});
+    			
+    			$("input[name*=piName]").each( function(){
+    				if($(this).val() == ''){
+    					
+    					alert("상품 명을 적어주세요");
+    					
+    					$(this).focus();
+    					event.preventDefault();
+    					return false
+    					
+    				}
+    				
+    			});
+    			
     		});
     		
     		$("#piAddBtn").click(function(){
     			
     			piHTML = "";
     			
-    			piHTML+='<tr class="table-3bgogi-hover">'
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piName" class="form-control" placeholder="">'
-	                +'</td>'
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piQty" class="form-control" placeholder="">'
-	                +'</td>'
-	                
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piMeasure" class="form-control" placeholder="">'
-	                +'</td>'
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piCost" data-cost="'+piCount+'" class="form-control">'
-	               +'</td>'
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piTax" data-tax="'+piCount+'" class="form-control">'
-	                +'</td>'
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piTotalCost" data-totalcost="'+piCount+'" class="form-control">'
-	                +'</td>'
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piAccountReceivable" class="form-control" value="0">'
-	                +'</td>'
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piRemark1" class="form-control">'
-	                +'</td>'    
-	                +'<td>'
-	                	+'<input type="text" name="piList['+piCount+'].piRemark2" class="form-control">'
-	                +'</td>'  
-	             +'</tr>';
-	             
-    			piCount++;
+    			$.ajax({
+    				type       : 'GET',
+    				async		: false,
+    				url        : '/products/all_cost_detail_join_cost_code_list_in_meat.do',
+    				success    : function(data){
+
+    					if(data.length > 0){
+    						
+    						piHTML+='<tr class="table-3bgogi-hover">'
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piName" class="form-control" placeholder="">'
+    			                +'</td>'
+    			                
+    			                +'<td>'
+	                            	+'<select class="form-control" name="piList[0].piType" data-live-search="true" data-size="8">'
+										+'<option value="">타입없음</option>'
+										+'<option value="비품">비품</option>';
+										
+										
+										for(let costCount = 0; costCount < data.length; costCount++){
+											for(let costCodeCount = 0; costCodeCount < data[costCount].costCodeVOList.length; costCodeCount++){
+												
+												piHTML+= '<option value="'+data[costCount].costCodeVOList[costCodeCount].ccCodeType+' '+data[costCount].cdName+'">'+data[costCount].costCodeVOList[costCodeCount].ccCodeType+' '+data[costCount].cdName+'</option>';
+												
+											}
+										}
+										
+									piHTML+='</select>'
+									
+	                            +'</td>'
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piQty" class="form-control" placeholder="">'
+    			                +'</td>'
+    			                +'<td>'
+    			                	+'<select class="form-control" name="piList['+piCount+'].piMeasure" >'
+    									+'<option value=""> 단위 선택</option>'
+    									+'<option value=""> 박스</option>'
+    									+'<option value=""> 개</option>'
+    									+'<option value=""> 리터</option>'
+    								+'</select>'
+    			                +'</td>'
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piCost" data-cost="'+piCount+'" class="form-control">'
+    			               +'</td>'
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piTax" data-tax="'+piCount+'" class="form-control">'
+    			                +'</td>'
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piTotalCost" data-totalcost="'+piCount+'" class="form-control">'
+    			                +'</td>'
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piAccountReceivable" class="form-control" value="0">'
+    			                +'</td>'
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piRemark1" class="form-control">'
+    			                +'</td>'    
+    			                +'<td>'
+    			                	+'<input type="text" name="piList['+piCount+'].piRemark2" class="form-control">'
+    			                +'</td>'  
+    			             +'</tr>';
+							
+    						piCount++;
+    						
+    						
+    					}else{
+
+    					}
+    				}
+    				
+    			});
+    			
     			
     			$("#piAddBody").append(piHTML);
+    			
+    			
+    			$("select[name*=piType]").each( function(){
+    				$(this).selectpicker();
+    				
+    			});
     			
     		});
     	});
@@ -129,23 +207,26 @@
                                         </div>
                                         <hr>                                        
                                         <button class="btn btn-primary btn-xs mb-2" id="piAddBtn" type="button"> 항목 추가 </button>
+                                        
                                     	<table id="example2" class="table table-bordered" style="table-layout: fixed; word-break: keep-all;">
                                     		<colgroup>
+												<col width="180px" />
 												<col width="180px" />
 												<col width="80px" />
 												<col width="100px" />
 												<col width="100px" />
 												<col width="100px" />
+												<col width="90px" />
+												<col width="90px" />
+												<col width="150px" />
+												<col width="150px" />
 												
-												<col width="90px" />
-												<col width="90px" />
-												<col width="300px" />
-												<col width="300px" />
 											</colgroup>
 	                                        <thead class="bg-light">
 	                                            <tr>
 	                                                <th >상품</th>
-	                                                <th >수량</th>
+	                                                <th >상품타입</th>
+	                                                <th >수량/중량</th>
 	                                                <th >단위</th>
 	                                                <th >공급가</th>
 	                                                <th >세액</th>
@@ -161,11 +242,29 @@
 		                                            	<input type="text" name="piList[0].piName" class="form-control" placeholder="">
 		                                            </td>
 		                                            <td>
+		                                            	<select class="form-control" name="piList[0].piType" data-live-search="true" data-size="8">
+															<option value="">타입없음</option>
+															<option value="비품">비품</option>
+															<c:forEach var="costDetaillist" items="${costDetailList }">
+																<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">																
+																	<option value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }">${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
+																</c:forEach>
+																
+															</c:forEach>
+														</select>
+		                                            </td>
+		                                            <td>
 		                                            	<input type="text" name="piList[0].piQty" class="form-control" placeholder="">
 		                                            </td>
 		                                            
 		                                            <td>
-		                                            	<input type="text" name="piList[0].piMeasure" class="form-control" placeholder="">
+		                                            	<select class="form-control" name="piList[0].piMeasure" >
+															<option value=""> 단위 선택</option>
+															<option value="박스"> 박스</option>
+															<option value="kg"> kg</option>
+															<option value="개"> 개</option>
+															<option value="리터"> 리터</option>
+														</select>
 		                                            </td>
 		                                            <td>
 		                                            	<input type="text" name="piList[0].piCost" data-cost="0" class="form-control">
@@ -202,5 +301,17 @@
                         <!-- ============================================================== -->
                     </div>
             </div>
+        <script src="${pageContext.request.contextPath}/resources/vendor/multi-select/js/jquery.multi-select.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("select[name*=piType]").each( function(){
+					
+    				$(this).selectpicker();
+    				
+    				
+    			});
+
+			});
+		</script>
         <!-- /page content -->
         <%@ include file="../../inc/bottom.jsp" %>

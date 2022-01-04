@@ -224,6 +224,19 @@ public class CostController {
 		return costDetailService.selectAllCostDetailJoinCostCodeList();
 	}
 	
+	/**
+	 * @MethodName : selectAllCostDetailJoinCostCodeList
+	 * @date : 2019. 5. 23.
+	 * @author : Jeon KiChan
+	 * @메소드설명 : 원가상세사항과 원가분류코드 조인 목록 가져오기 : ajax 형태
+	 */
+	@RequestMapping(value="/all_cost_detail_join_cost_code_list_in_meat.do", method=RequestMethod.GET)
+	@ResponseBody
+	public List<CostDetailVO> selectAllCostDetailJoinCostCodeListInMeat(){
+		
+		return costDetailService.selectAllCostDetailJoinCostCodeListInMeat();
+	}
+	
 	
 	/**
 	 * @MethodName : selectCostsList

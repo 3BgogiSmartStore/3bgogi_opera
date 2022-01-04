@@ -121,6 +121,32 @@
                                                 <input type="text" name="piName" class="form-control" value="${piVO.piName }">
                                             </div>
                                         </div>
+                                        
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right"> 상품타입 </label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <select class="form-control" id="piType" name="piType" data-live-search="true" data-size="8">
+													<option value="">타입없음</option>
+													<option value="비품"
+														<c:if test="${piVO.piType == '비품'}">
+															selected="selected"
+														</c:if>
+														
+													>비품</option>
+													<c:forEach var="costDetaillist" items="${costDetailList }">
+														<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">	
+															<c:set var="cdName" value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }"/>															
+															<option value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }"
+																<c:if test="${cdName == piVO.piType }">
+																	selected="selected"
+																</c:if>
+																
+															>${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
+														</c:forEach>
+													</c:forEach>
+												</select>
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right"> 수량 </label>
                                             <div class="col-12 col-sm-8 col-lg-6">
@@ -130,7 +156,29 @@
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right"> 단위 </label>
                                             <div class="col-12 col-sm-8 col-lg-6">
-                                                <input type="text" name="piMeasure" class="form-control" value="${piVO.piMeasure }">
+                                                <select class="form-control" id="piMeasure" name="piMeasure" >
+													<option value=""> 단위 선택</option>
+													<option value="박스"
+														<c:if test="${piVO.piMeasure == '박스'}">
+															selected="selected"
+														</c:if>
+													> 박스</option>
+													<option value="kg"
+														<c:if test="${piVO.piMeasure == 'kg'}">
+															selected="selected"
+														</c:if>
+													> kg</option>
+													<option value="개"
+														<c:if test="${piVO.piMeasure == '개'}">
+															selected="selected"
+														</c:if>
+													> 개</option>
+													<option value="리터"
+														<c:if test="${piVO.piMeasure == '리터'}">
+															selected="selected"
+														</c:if>
+													> 리터</option>
+												</select>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -236,5 +284,13 @@
 				</div>
 			</div>
 		</div>
+		<script src="${pageContext.request.contextPath}/resources/vendor/multi-select/js/jquery.multi-select.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#piType").selectpicker();
+				
+				
+			});
+		</script>
         <!-- /page content -->
         <%@ include file="../../inc/bottom.jsp" %>

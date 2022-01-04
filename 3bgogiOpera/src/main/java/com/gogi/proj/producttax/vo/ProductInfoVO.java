@@ -22,6 +22,7 @@ public class ProductInfoVO {
 	private String piFileExe;
 	private String piUpdate;
 	private String piRegdate;
+	private String piType;
 	
 	private String rcNames;
 	
@@ -33,7 +34,7 @@ public class ProductInfoVO {
 	public ProductInfoVO(int piPk, int rcFk, String piInputDate, String piName, int piQty, String piMeasure, int piCost,
 			int piTax, int piTotalCost, boolean piTaxbilCheckFlag, boolean piAccFlag, int piAccountReceivable,
 			String piRemark1, String piRemark2, String piFileOriName, String piFilePath, String piFileUniqName,
-			String piFileExe, String piUpdate, String piRegdate) {
+			String piFileExe, String piUpdate, String piRegdate, String piType, String rcNames) {
 		super();
 		this.piPk = piPk;
 		this.rcFk = rcFk;
@@ -55,13 +56,7 @@ public class ProductInfoVO {
 		this.piFileExe = piFileExe;
 		this.piUpdate = piUpdate;
 		this.piRegdate = piRegdate;
-	}
-
-	public String getRcNames() {
-		return rcNames;
-	}
-
-	public void setRcNames(String rcNames) {
+		this.piType = piType;
 		this.rcNames = rcNames;
 	}
 
@@ -225,6 +220,22 @@ public class ProductInfoVO {
 		this.piRegdate = piRegdate;
 	}
 
+	public String getPiType() {
+		return piType;
+	}
+
+	public void setPiType(String piType) {
+		this.piType = piType;
+	}
+
+	public String getRcNames() {
+		return rcNames;
+	}
+
+	public void setRcNames(String rcNames) {
+		this.rcNames = rcNames;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductInfoVO [piPk=" + piPk + ", rcFk=" + rcFk + ", piInputDate=" + piInputDate + ", piName=" + piName
@@ -233,7 +244,7 @@ public class ProductInfoVO {
 				+ piAccFlag + ", piAccountReceivable=" + piAccountReceivable + ", piRemark1=" + piRemark1
 				+ ", piRemark2=" + piRemark2 + ", piFileOriName=" + piFileOriName + ", piFilePath=" + piFilePath
 				+ ", piFileUniqName=" + piFileUniqName + ", piFileExe=" + piFileExe + ", piUpdate=" + piUpdate
-				+ ", piRegdate=" + piRegdate + "]";
+				+ ", piRegdate=" + piRegdate + ", piType=" + piType + ", rcNames=" + rcNames + "]";
 	}
 	
 }

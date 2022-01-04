@@ -167,16 +167,8 @@
     		background: #FFC6C6;
     	}
     </style>
-    
-        <!-- page content -->
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
         <div class="dashboard-wrapper">
             <div class="container-fluid  dashboard-content">
-                <!-- ============================================================== -->
-                <!-- pageheader -->
-                <!-- ============================================================== -->
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
@@ -193,14 +185,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- end pageheader -->
-                <!-- ============================================================== -->
                 <div class="ecommerce-widget">
                     <div class="row">
-                        <!-- ============================================================== -->
-                        <!-- valifation types -->
-                        <!-- ============================================================== -->
                         <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12 col-12">
 	                        <div class="card">
                                 <h5 class="card-header">거래내역서 목록</h5>
@@ -231,12 +217,12 @@
 		                                            </th>
 	                                            	<th >거래처</th>
 	                                                <th >상품 (명세서)</th>
+	                                                <th >상품타입</th>
+	                                                <th >단위</th>
 	                                                <th >수량</th>
 	                                                <th >공급가</th>
 	                                                <th >세액</th>
 	                                                <th >합계</th>
-	                                                <th >세금계산서</th>
-	                                                <th >이체</th>
 	                                                <th >발급일자</th>
 	                                            </tr>
 	                                        </thead>
@@ -270,6 +256,8 @@
 			                                        				
 			                                        			</c:if>
 		                                        			</td>
+		                                        			<td>${pilist.piType }</td>
+		                                        			<td>${pilist.piMeasure }</td>
 		                                        			<td>
 		                                        				<fmt:formatNumber value="${pilist.piQty }" pattern="#,###"/>
 		                                        				<c:set var="totalAmount" value="${totalAmount + pilist.piQty}"></c:set>
@@ -287,36 +275,12 @@
 		                                        				<fmt:formatNumber value="${pilist.piTotalCost }" pattern="#,###"/>
 		                                        				<c:set var="totalPrice" value="${ totalPrice + pilist.piTotalCost }"></c:set>
 		                                        			</td>
-		                                        			
-		                                        			<td>
-		                                        				<label class="custom-control custom-checkbox custom-control-inline">
-					                                                <input type="checkbox" class="custom-control-input" name="taxFlag" data-pi-pk="${pilist.piPk }"
-					                                                	<c:if test="${pilist.piTaxbilCheckFlag == true}">
-				                                        					checked="checked"
-				                                        				</c:if>
-				                                        				<c:if test="${pilist.piTaxbilCheckFlag == false}">
-				                                        				</c:if>
-					                                                ><span class="custom-control-label"></span>
-					                                            </label>
-		                                        			</td>
-		                                        			
-		                                        			<td>
-		                                        				<label class="custom-control custom-checkbox custom-control-inline">
-					                                                <input type="checkbox" class="custom-control-input" name="accFlag" data-pi-pk="${pilist.piPk }"
-					                                                	<c:if test="${pilist.piAccFlag == true}">
-				                                        					checked="checked"
-				                                        				</c:if>
-				                                        				<c:if test="${pilist.piAccFlag == false}">
-				                                        				</c:if>
-					                                                ><span class="custom-control-label"></span>
-					                                            </label>
-		                                        			</td>
 		                                        			<td>${pilist.piInputDate }</td>
 		                                        		</tr>
 		                                        	</c:forEach>
 		                                        	
 	                                        		<tr>
-	                                        			<td colspan="3"> 총 합</td>
+	                                        			<td colspan="5"> 총 합</td>
 		                                                <td >
 		                                                	<fmt:formatNumber value="${totalAmount }" pattern="#,###" />
 		                                                </td>
@@ -329,7 +293,7 @@
 		                                                <td >
 		                                                	<fmt:formatNumber value="${totalPrice }" pattern="#,###" />
 		                                                </td>
-		                                                <td colspan="3" style="text-align: center;"> - </td>
+		                                                <td style="text-align: center;"> - </td>
 	                                        		</tr>
 	                                        	</c:if>
 	                                        </tbody>
@@ -390,6 +354,16 @@
 									</div>
 									<div class="card-body">
 										<h3 class="font-16"> 체크사항 </h3>
+										<select class="form-control mb-3" id="cfList" name="cfList" data-live-search="true" data-size="8">
+										
+											<option value="">타입없음</option>
+											<option value="비품">비품</option>
+											<c:forEach var="costDetaillist" items="${costDetailList }">
+												<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">																
+													<option value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }">${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
+												</c:forEach>
+											</c:forEach>
+										</select>
 										<select class="form-control mb-3" name="taxFlag">
 											<option value="0"
 												<c:if test="${osVO.taxFlag == 0 }">
@@ -512,8 +486,7 @@
 		<script src="${pageContext.request.contextPath}/resources/vendor/multi-select/js/jquery.multi-select.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				$("#ccPk").selectpicker();
-				
+				$("#ccPk, #cfList").selectpicker();
 			});
 		</script>
         <%@ include file="../../inc/bottom.jsp" %>
