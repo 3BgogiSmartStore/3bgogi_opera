@@ -260,6 +260,9 @@
                                         	<a class="nav-link"  href="<c:url value='/analytics/total_sales.do'/>"> 매출 </a>
                                         </li>
                                         <li class="nav-item">
+                                        	<a class="nav-link"  href="<c:url value='/dashboard/dashboard_purchase_contrast_sales.do'/>"> 거래내역서 및 매출 통계 </a>
+                                        </li>
+                                        <li class="nav-item">
                                         	<a class="nav-link" href="<c:url value='/config/event_msg.do'/>"> 문자 대상 추출 </a>
                                         </li>
                                          <li class="nav-item">
