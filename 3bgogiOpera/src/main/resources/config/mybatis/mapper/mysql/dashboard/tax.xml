@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dashboard.tax">
+	
+	<select id="selectProductTaxInfoType" resultType="ProductInfoVO" parameterType="OrderSearchVO">
+		SELECT
+		    SUBSTRING_INDEX(pi_type, ' ', 1) AS super_pi_type
+		FROM
+			product_info
+		WHERE
+			<![CDATA[
+				pi_input_date >= #{dateStart} 
+				AND pi_input_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		GROUP BY
+		    super_pi_type
+		ORDER BY 
+			super_pi_type DESC
+	</select>
+	
+	<select id="selectProductTaxInfoBySuperPiType" resultType="ProductInfoVO" parameterType="OrderSearchVO">
+		SELECT
+			SUM(pi_qty) AS pi_qty,
+		    pi_measure,
+		    SUM(pi_total_cost) AS pi_total_cost,
+		    pi_type,
+		    SUBSTRING_INDEX(pi_type, ' ', 1) AS super_pi_type
+		FROM
+			product_info
+		WHERE
+			<![CDATA[
+				pi_input_date >= #{dateStart} 
+				AND pi_input_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		    AND SUBSTRING_INDEX(pi_type, ' ', 1) = #{searchKeyword}
+		GROUP BY
+			pi_measure,
+		    pi_type,
+		    super_pi_type
+		ORDER BY 
+			pi_type DESC
+	</select>
+	
+	<select id="selectAllProductTaxInfoForExcelFile" resultType="ProductInfoVO" parameterType="OrderSearchVO">
+		SELECT
+			SUM(pi_qty) AS pi_qty,
+		    pi_measure,
+		    SUM(pi_total_cost) AS pi_total_cost,
+		    pi_type,
+		    SUBSTRING_INDEX(pi_type, ' ', 1) AS super_pi_type
+		FROM
+			product_info
+		WHERE
+			<![CDATA[
+				pi_input_date >= #{dateStart} 
+				AND pi_input_date < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		GROUP BY
+			pi_measure,
+		    pi_type,
+		    super_pi_type
+		ORDER BY 
+			pi_type DESC
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

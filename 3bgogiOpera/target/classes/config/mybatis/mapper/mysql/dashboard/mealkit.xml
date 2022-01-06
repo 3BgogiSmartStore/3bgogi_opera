@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dashboard.mealkit">
+	
+	<select id="selectMealkitTotalSale" resultType="OrdersVO" parameterType="OrderSearchVO">
+		SELECT
+			CONCAT(pro.product_name, ' [ ',op.option_name, ' ]') AS or_product,
+		    SUM(od.or_amount * om.om_option_amount) AS or_amount
+		FROM
+			orders od
+		INNER JOIN product_matching pm ON pm.pm_pk = od.pm_fk
+		INNER JOIN option_matching om ON pm.pm_pk = om.pm_fk AND om.om_store_option_name = od.or_product_option 
+		INNER JOIN options op ON op.option_pk = om.option_fk
+		INNER JOIN products pro ON pro.product_pk = op.product_fk
+		WHERE
+			od.or_cancled_flag = 0
+		    AND od.or_excel_div_flag = 0
+		    <![CDATA[	                
+				AND od.or_sending_day >= #{dateStart} 
+				AND od.or_sending_day < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		    AND od.or_refunds = 0
+		    AND op.eo_fk IN (11)
+		    AND od.or_product NOT LIKE '%사은품%'
+		    AND pro.product_name NOT LIKE '%사은품%'
+		    AND pro.product_name NOT LIKE '%스폐셜%'
+		GROUP BY
+			pro.product_name,
+		    op.option_name
+	</select>
+	
+	<select id="selectMealkikTotalSalePrice" resultType="int" parameterType="OrderSearchVO">
+		SELECT
+			SUM(INNE.or_total_price)
+		FROM
+			(
+			SELECT
+				od.or_pk,
+				od.or_total_price
+			FROM
+				orders od
+				INNER JOIN product_matching pm ON pm.pm_pk = od.pm_fk
+				INNER JOIN option_matching om ON pm.pm_pk = om.pm_fk AND om.om_store_option_name = od.or_product_option 
+				INNER JOIN options op ON op.option_pk = om.option_fk
+				INNER JOIN products pro ON pro.product_pk = op.product_fk
+			WHERE
+				od.or_cancled_flag = 0
+			    AND od.or_excel_div_flag = 0
+			    <![CDATA[	                
+					AND od.or_sending_day >= #{dateStart} 
+					AND od.or_sending_day < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+				]]>
+			    AND od.or_refunds = 0
+			    AND op.eo_fk IN (11)
+			    AND od.or_product NOT LIKE '%사은품%'
+			    AND pro.product_name NOT LIKE '%사은품%'
+			    AND pro.product_name NOT LIKE '%스폐셜%'
+			GROUP BY
+				od.or_pk,
+				od.or_total_price
+			) INNE
+	</select>
+</mapper>
+
+
+
+
+
+
+
+

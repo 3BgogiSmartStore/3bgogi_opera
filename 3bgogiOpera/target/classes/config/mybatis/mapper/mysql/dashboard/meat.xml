@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dashboard.meat">
+	
+	<select id="selectMeatTotalWeightInSale" resultType="CostIoVO" parameterType="OrderSearchVO">
+		SELECT
+			outter.product_name AS cost_detail_name,
+			SUM(outter.total_weight) AS ci_weight
+		FROM
+			(
+	        SELECT
+				INNE.qty,
+	            INNE.product_name,
+	            SUM(INNE.weight) AS weight,
+	            SUM(total_weight) as total_weight
+			FROM
+	        (
+	            SELECT  
+					pro.product_name, 
+	                op.option_name,
+				    GROUP_CONCAT(DISTINCT op.option_barcode_number1) AS barcode_num, 
+				    ocm.ocm_each AS weight, 
+	                ocm.ocm_pk,
+	                eo.eos_seq,
+				    GROUP_CONCAT(DISTINCT ci.ci_abattoir) AS abattoir, 
+				    GROUP_CONCAT(DISTINCT ci.ci_country_of_origin) AS country_of_origin, 
+				    DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 5 DAY), '%Y.%m.%d') AS sell_by_date, 
+				    GROUP_CONCAT(DISTINCT ci.ci_level) AS levels, 
+					GROUP_CONCAT(DISTINCT ci.ci_items_manuf_num) AS items_manuf_num, 
+				    GROUP_CONCAT(DISTINCT ci.ci_animal_prod_trace_num) AS animal_prod_trace_num, 
+					GROUP_CONCAT(DISTINCT cc.cc_code_type, ' ', cd.cd_name) AS raw_meterials, 
+				    GROUP_CONCAT(DISTINCT ci.ci_marbling_level ) AS marbling_level,
+	                SUM(od.or_amount * om.om_option_amount) AS qty,
+	                SUM(ocm.ocm_each * od.or_amount * om.om_option_amount) AS total_weight
+				FROM 
+					orders od
+	                INNER JOIN product_matching pm ON pm.pm_pk = od.pm_fk
+	                INNER JOIN option_matching om ON pm.pm_pk = om.pm_fk AND om.om_store_option_name = od.or_product_option 
+	                
+				    INNER JOIN options op ON op.option_pk = om.option_fk
+	                INNER JOIN products pro ON pro.product_pk = op.product_fk
+	                
+	                
+				    INNER JOIN options_costs_matching ocm ON op.option_pk = ocm.option_fk 
+				    INNER JOIN costs cost ON ocm.cost_fk = cost.cost_pk 
+				    INNER JOIN cost_detail cd ON cd.cd_pk = cost.cd_fk 
+				    INNER JOIN cost_code cc ON cc.cc_pk = cd.cc_fk 
+				    INNER JOIN cost_io ci ON cd.cd_pk = ci.cd_fk
+	                INNER JOIN excel_order_seq eo ON op.eo_fk = eo.eos_pk
+				WHERE
+					ci.ci_output_flag = 1
+					AND od.or_excel_div_flag = 0
+					AND od.or_deposit_flag = 1
+	                AND op.eo_fk IN (1,3)
+	                <![CDATA[	                
+		                AND od.or_sending_day >= #{dateStart} 
+		                AND od.or_sending_day < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+	                ]]>
+	                AND od.or_cancled_flag = 0
+	                AND od.or_refunds = 0
+				group by
+					pro.product_name, 
+	                op.option_name,
+	                ocm.ocm_each,
+	                ocm.ocm_pk,
+	                eo.eos_seq
+				) INNE
+			GROUP BY
+				INNE.qty,
+				INNE.product_name
+			) outter
+		GROUP BY
+			outter.product_name
+		ORDER BY
+			outter.product_name DESC
+	</select>
+	
+	<select id="selectMeatTotalPriceInSale" resultType="int" parameterType="OrderSearchVO">
+		SELECT
+			SUM(INNE.or_total_price)
+		FROM
+			(
+			SELECT
+				od.or_pk,
+				od.or_total_price
+			FROM
+				orders od
+				INNER JOIN product_matching pm ON pm.pm_pk = od.pm_fk
+				INNER JOIN option_matching om ON pm.pm_pk = om.pm_fk AND om.om_store_option_name = od.or_product_option 
+				INNER JOIN options op ON op.option_pk = om.option_fk
+				INNER JOIN products pro ON pro.product_pk = op.product_fk
+			WHERE
+				od.or_cancled_flag = 0
+			    AND od.or_excel_div_flag = 0
+			    AND od.or_refunds = 0              
+			    <![CDATA[	                
+			    	AND od.or_sending_day >= #{dateStart} 
+			        AND od.or_sending_day < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+		        ]]>
+			    AND op.eo_fk IN (1,3)
+			GROUP BY
+				od.or_pk,
+				od.or_total_price
+			) INNE
+	</select>
+</mapper>
+
+
+
+
+
+
+
+

@@ -23,6 +23,7 @@ public class ProductInfoVO {
 	private String piUpdate;
 	private String piRegdate;
 	private String piType;
+	private String superPiType;
 	
 	private String rcNames;
 	
@@ -34,7 +35,7 @@ public class ProductInfoVO {
 	public ProductInfoVO(int piPk, int rcFk, String piInputDate, String piName, int piQty, String piMeasure, int piCost,
 			int piTax, int piTotalCost, boolean piTaxbilCheckFlag, boolean piAccFlag, int piAccountReceivable,
 			String piRemark1, String piRemark2, String piFileOriName, String piFilePath, String piFileUniqName,
-			String piFileExe, String piUpdate, String piRegdate, String piType, String rcNames) {
+			String piFileExe, String piUpdate, String piRegdate, String piType, String superPiType, String rcNames) {
 		super();
 		this.piPk = piPk;
 		this.rcFk = rcFk;
@@ -57,6 +58,7 @@ public class ProductInfoVO {
 		this.piUpdate = piUpdate;
 		this.piRegdate = piRegdate;
 		this.piType = piType;
+		this.superPiType = superPiType;
 		this.rcNames = rcNames;
 	}
 
@@ -228,6 +230,14 @@ public class ProductInfoVO {
 		this.piType = piType;
 	}
 
+	public String getSuperPiType() {
+		return superPiType;
+	}
+
+	public void setSuperPiType(String superPiType) {
+		this.superPiType = superPiType;
+	}
+
 	public String getRcNames() {
 		return rcNames;
 	}
@@ -244,7 +254,8 @@ public class ProductInfoVO {
 				+ piAccFlag + ", piAccountReceivable=" + piAccountReceivable + ", piRemark1=" + piRemark1
 				+ ", piRemark2=" + piRemark2 + ", piFileOriName=" + piFileOriName + ", piFilePath=" + piFilePath
 				+ ", piFileUniqName=" + piFileUniqName + ", piFileExe=" + piFileExe + ", piUpdate=" + piUpdate
-				+ ", piRegdate=" + piRegdate + ", piType=" + piType + ", rcNames=" + rcNames + "]";
+				+ ", piRegdate=" + piRegdate + ", piType=" + piType + ", superPiType=" + superPiType + ", rcNames="
+				+ rcNames + "]";
 	}
 	
 }

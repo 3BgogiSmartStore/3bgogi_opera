@@ -119,14 +119,14 @@
 			#{adminName},
 			#{adminPhone},
 			1,
-			1
+			1,
 			#{sellerProdList}
 		)
 	</insert>
 
 	<insert id="insertSellerAuth" parameterType="AdminVO">
 		INSERT INTO
-			admin_role
+			admin_roles
 			(
 				admin_id,
 				role

@@ -78,6 +78,10 @@
 										+'<option value="">타입없음</option>'
 										+'<option value="간편">간편</option>'
 										+'<option value="소스">소스</option>'
+										+'<option value="관리비">관리비</option>'
+										+'<option value="배송비">배송비</option>'
+										+'<option value="지육">지육</option>'
+										+'<option value="영매입">영매입</option>'
 										+'<option value="광고비">광고비</option>'
 										+'<option value="비품">비품</option>';
 										
@@ -89,7 +93,7 @@
 												
 											}
 										}
-										
+									piHTML+='<option value="">비품</option>';
 									piHTML+='</select>'
 									
 	                            +'</td>'
@@ -103,6 +107,7 @@
     									+'<option value="g"> g</option>'
     									+'<option value="개"> 개</option>'
     									+'<option value="리터"> 리터</option>'
+    									+'<option value="마리"> 마리</option>'
     								+'</select>'
     			                +'</td>'
     			                +'<td>'
@@ -250,6 +255,10 @@
 															<option value="">타입없음</option>
 															<option value="간편">간편</option>
 															<option value="소스">소스</option>
+															<option value="광고비">관리비</option>
+															<option value="배송비">배송비</option>
+															<option value="지육">지육</option>
+															<option value="영매입">영매입</option>
 															<option value="광고비">광고비</option>
 															<option value="비품">비품</option>
 															<c:forEach var="costDetaillist" items="${costDetailList }">
@@ -271,6 +280,7 @@
 															<option value="g"> g</option>
 															<option value="개"> 개</option>
 															<option value="리터"> 리터</option>
+															<option value="마리"> 마리</option>
 														</select>
 		                                            </td>
 		                                            <td>
