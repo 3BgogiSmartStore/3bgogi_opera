@@ -51,7 +51,6 @@
 			door_pass
 		WHERE
 			dp_buyer_cnt = #{orBuyerContractNumber1}
-			AND dp_receiver_cnt = #{orReceiverContractNumber1}
 			AND dp_addr = CONCAT(#{orShippingAddress},' ', #{orShippingAddressDetail})
 		ORDER BY
 			dp_regdate DESC
@@ -65,7 +64,6 @@
 			door_pass
 		WHERE
 			dp_buyer_cnt = #{orBuyerContractNumber1}
-			AND dp_receiver_cnt = #{orReceiverContractNumber1}
 			AND dp_addr = CONCAT(#{orShippingAddress},' ', #{orShippingAddressDetail})
 		ORDER BY
 			dp_regdate DESC

@@ -428,20 +428,8 @@
 		DELETE FROM 
 			orders
 		WHERE 
-			or_pk IN(
-				SELECT 
-					inne.or_pk
-				FROM(
-					SELECT
-						or_pk
-					FROM
-						orders
-					WHERE
-						ss_fk = #{ssFk}
-						AND or_regdate = #{orRegdate}
-				
-				) inne
-			)
+			ss_fk = #{ssFk}
+			AND or_regdate = #{orRegdate}
 	</delete>
 	
 	
