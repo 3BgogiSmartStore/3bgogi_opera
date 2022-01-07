@@ -8,6 +8,8 @@
 	<insert id="addStoreSection" parameterType="StoreSectionVO" useGeneratedKeys="true" keyProperty="ssPk">
 		INSERT INTO store_section(
 			ss_name,
+			ss_deliv_comp_type,
+			ss_store_nickname
 			ss_store_id,
 			ss_store_password,
 			ss_auth_key,
@@ -17,6 +19,8 @@
 		)
 		VALUES(
 			#{ssName},
+			#{ssDelivCompType},
+			#{ssStoreNickname},
 			#{ssStoreId},
 			#{ssStorePassword},
 			#{ssAuthKey},
@@ -89,6 +93,7 @@
 			store_section
 		SET
 			ss_name = #{ssName},
+			ss_deliv_comp_type = #{ssDelivCompType},
 			ss_store_id = #{ssStoreId},
 			ss_store_password = #{ssStorePassword},
 			ss_auth_key = #{ssAuthKey},

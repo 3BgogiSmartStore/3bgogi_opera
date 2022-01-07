@@ -41,6 +41,8 @@ import com.gogi.proj.configurations.model.ConfigurationService;
 import com.gogi.proj.configurations.util.ConfigurationUtil;
 import com.gogi.proj.configurations.vo.BlockSendingListVO;
 import com.gogi.proj.configurations.vo.StoreSectionVO;
+import com.gogi.proj.delivery.config.model.DeliveryConfigService;
+import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
 import com.gogi.proj.delivery.model.DeliveryService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
@@ -60,6 +62,9 @@ public class ConfigurationController {
 	private DeliveryService deliService;
 	
 	@Autowired
+	private DeliveryConfigService deliveryConfigService;
+	
+	@Autowired
 	private AllClassificationCodeService accService;
 	/**
 	 * @MethodName : storeListGet
@@ -71,9 +76,11 @@ public class ConfigurationController {
 	public String storeListGet(Model model) {
 		
 		List<StoreSectionVO> ssList = configService.selectStoreSectionList();
+		List<EarlyDelivTypeVO> delivCompList = deliveryConfigService.earlyDelivType();
 		
 		model.addAttribute("ssList", ssList);
 		model.addAttribute("storeCounting", ssList.size());
+		model.addAttribute("delivCompList", delivCompList);
 		
 		return "configuration/store/store_list";
 	}

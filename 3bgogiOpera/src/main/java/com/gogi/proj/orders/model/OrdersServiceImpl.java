@@ -74,6 +74,9 @@ public class OrdersServiceImpl implements OrdersService{
 		int dupliCount = 0;
 		int mergedSuccessedResult = 0;
 		
+		StoreSectionVO ssVO =  configDAO.selectStoreSectionBySspk(ssPk);
+		
+		
 		if(ssPk == 4) {
 			OrdersVO temp = null;
 			
@@ -81,6 +84,10 @@ public class OrdersServiceImpl implements OrdersService{
 			
 			for(OrdersVO ori : orderList) {
 				
+				if(ori.getOrAbsDelivType() == 0 && ssVO.getSsDelivCompType() != 0) {
+					ori.setOrAbsDelivType(ssVO.getSsDelivCompType());
+				}
+					
 				if(counting == 0) {
 					try {
 						temp = ori.copy();
@@ -127,12 +134,14 @@ public class OrdersServiceImpl implements OrdersService{
 		
 		for(OrdersVO vo : orderList) {
 			
+			if(vo.getOrAbsDelivType() == 0 && ssVO.getSsDelivCompType() != 0) {
+				vo.setOrAbsDelivType(ssVO.getSsDelivCompType());
+			}
+			
 			int result = ordersDAO.insertOrderData(vo);
 			if(result > 0) count++;
 			else if(result == 0) dupliCount++;
 		}
-		
-		StoreSectionVO ssVO =  configDAO.selectStoreSectionBySspk(ssPk);
 		
 		int specialNumber = ssVO.getSsSpecialNumberCount();
 		

@@ -76,6 +76,23 @@
 				                                                </div>
 				                                                <div class="row">
 				                                                    <div class="col-md-12 mb-3">
+				                                                        <label for="v_ssDelivCompType"> 택배사 고정 </label>
+				                                                        <select class="form-control" name="ssDelivCompType" id="ssDelivCompType">
+				                                                        	<option value="0"
+				                                                        		<c:if test="${ssVO.ssDelivCompType == 0 }">
+				                                                        			selected="selected"
+				                                                        		</c:if>
+				                                                        	>무관</option>
+				                                                        	<option value="1"
+				                                                        		<c:if test="${ssVO.ssDelivCompType == 1 }">
+				                                                        			selected="selected"
+				                                                        		</c:if>
+				                                                        	>우체국택배 고정</option>
+				                                                        </select>
+				                                                    </div>
+				                                                </div>
+				                                                <div class="row">
+				                                                    <div class="col-md-12 mb-3">
 				                                                        <label for="firstName"> 판매처별칭 </label>
 				                                                        <input type="text" class="form-control" name="ssStoreNickname" id="ssStoreNickname" placeholder="" value="${ssVO.ssStoreNickname }" required>
 				                                                        <div class="invalid-feedback">

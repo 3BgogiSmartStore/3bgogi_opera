@@ -9,6 +9,7 @@ public class StoreSectionVO {
 
 	private int ssPk; //판매처 고유 번호
 	private String ssName; //판매처명
+	private int ssDelivCompType;
 	private String ssStoreId; //판매처 아이디
 	private String ssStorePassword; //판매처 비밀번호
 	private String ssAuthKey; //판매처 인증키
@@ -32,13 +33,14 @@ public class StoreSectionVO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public StoreSectionVO(int ssPk, String ssName, String ssStoreId, String ssStorePassword, String ssAuthKey,
-			String ssStoreUrl, String ssStoreNickname, int ssCommission, int ssSpecialNumberCount, Timestamp ssUpdate,
-			Timestamp ssRegdate, String ssMerge, String ssSendingHeadForm, String ssSendingBodyForm,
+	public StoreSectionVO(int ssPk, String ssName, int ssDelivCompType, String ssStoreId, String ssStorePassword,
+			String ssAuthKey, String ssStoreUrl, String ssStoreNickname, int ssCommission, int ssSpecialNumberCount,
+			Timestamp ssUpdate, Timestamp ssRegdate, String ssMerge, String ssSendingHeadForm, String ssSendingBodyForm,
 			String ssSendingGroupForm, String ssSendingDay, String[] ssSendingHeadFormList) {
 		super();
 		this.ssPk = ssPk;
 		this.ssName = ssName;
+		this.ssDelivCompType = ssDelivCompType;
 		this.ssStoreId = ssStoreId;
 		this.ssStorePassword = ssStorePassword;
 		this.ssAuthKey = ssAuthKey;
@@ -56,14 +58,6 @@ public class StoreSectionVO {
 		this.ssSendingHeadFormList = ssSendingHeadFormList;
 	}
 
-	public String getSsSendingDay() {
-		return ssSendingDay;
-	}
-
-	public void setSsSendingDay(String ssSendingDay) {
-		this.ssSendingDay = ssSendingDay;
-	}
-
 	public int getSsPk() {
 		return ssPk;
 	}
@@ -78,6 +72,14 @@ public class StoreSectionVO {
 
 	public void setSsName(String ssName) {
 		this.ssName = ssName;
+	}
+
+	public int getSsDelivCompType() {
+		return ssDelivCompType;
+	}
+
+	public void setSsDelivCompType(int ssDelivCompType) {
+		this.ssDelivCompType = ssDelivCompType;
 	}
 
 	public String getSsStoreId() {
@@ -184,6 +186,14 @@ public class StoreSectionVO {
 		this.ssSendingGroupForm = ssSendingGroupForm;
 	}
 
+	public String getSsSendingDay() {
+		return ssSendingDay;
+	}
+
+	public void setSsSendingDay(String ssSendingDay) {
+		this.ssSendingDay = ssSendingDay;
+	}
+
 	public String[] getSsSendingHeadFormList() {
 		return ssSendingHeadFormList;
 	}
@@ -194,12 +204,14 @@ public class StoreSectionVO {
 
 	@Override
 	public String toString() {
-		return "StoreSectionVO [ssPk=" + ssPk + ", ssName=" + ssName + ", ssStoreId=" + ssStoreId + ", ssStorePassword="
-				+ ssStorePassword + ", ssAuthKey=" + ssAuthKey + ", ssStoreUrl=" + ssStoreUrl + ", ssStoreNickname="
-				+ ssStoreNickname + ", ssCommission=" + ssCommission + ", ssSpecialNumberCount=" + ssSpecialNumberCount
-				+ ", ssUpdate=" + ssUpdate + ", ssRegdate=" + ssRegdate + ", ssMerge=" + ssMerge
-				+ ", ssSendingHeadForm=" + ssSendingHeadForm + ", ssSendingBodyForm=" + ssSendingBodyForm
-				+ ", ssSendingGroupForm=" + ssSendingGroupForm + ", ssSendingHeadFormList="
-				+ Arrays.toString(ssSendingHeadFormList) + "]";
+		return "StoreSectionVO [ssPk=" + ssPk + ", ssName=" + ssName + ", ssDelivCompType=" + ssDelivCompType
+				+ ", ssStoreId=" + ssStoreId + ", ssStorePassword=" + ssStorePassword + ", ssAuthKey=" + ssAuthKey
+				+ ", ssStoreUrl=" + ssStoreUrl + ", ssStoreNickname=" + ssStoreNickname + ", ssCommission="
+				+ ssCommission + ", ssSpecialNumberCount=" + ssSpecialNumberCount + ", ssUpdate=" + ssUpdate
+				+ ", ssRegdate=" + ssRegdate + ", ssMerge=" + ssMerge + ", ssSendingHeadForm=" + ssSendingHeadForm
+				+ ", ssSendingBodyForm=" + ssSendingBodyForm + ", ssSendingGroupForm=" + ssSendingGroupForm
+				+ ", ssSendingDay=" + ssSendingDay + ", ssSendingHeadFormList=" + Arrays.toString(ssSendingHeadFormList)
+				+ "]";
 	}
+
 }

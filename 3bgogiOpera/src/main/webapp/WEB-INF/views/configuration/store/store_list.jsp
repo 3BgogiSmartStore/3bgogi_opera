@@ -11,14 +11,15 @@
     	$(function(){
     		
     		$('form[name=addStores]').submit(function(){
-    			var v_ssName = $("#v_ssName").val();
-    			var v_ssStoreNickname = $("#v_ssStoreNickname").val();
-    			var v_ssStoreId = $("#v_ssStoreId").val();
-    			var v_ssStorePassword = $("#v_ssStorePassword").val();
-    			var v_ssStorePasswordDupl = $("#v_ssStorePasswordDupl").val();
-    			var v_ssAuthKey = $("#v_ssAuthKey").val();
-    			var v_ssCommission = $("#v_ssCommission").val();
-    			var v_ssStoreUrl = $("#v_ssStoreUrl").val();
+    			let v_ssName = $("#v_ssName").val();
+    			let v_ssStoreNickname = $("#v_ssStoreNickname").val();
+    			let v_ssStoreId = $("#v_ssStoreId").val();
+    			let v_ssStorePassword = $("#v_ssStorePassword").val();
+    			let v_ssStorePasswordDupl = $("#v_ssStorePasswordDupl").val();
+    			let v_ssAuthKey = $("#v_ssAuthKey").val();
+    			let v_ssCommission = $("#v_ssCommission").val();
+    			let v_ssStoreUrl = $("#v_ssStoreUrl").val();
+    			let v_ssDelivCompType = $("#v_ssDelivCompType").val();
     			
     			if(ssName == ''){
     				alert("판매처명이 입력되지 않았습니다");
@@ -45,6 +46,7 @@
     			}
     			
     			$("#ssName").val(v_ssName);
+    			$("#ssDelivCompType").val(v_ssDelivCompType);
     			$("#ssStoreNickname").val(v_ssStoreNickname);
     			$("#ssStoreId").val(v_ssStoreId);
     			$("#ssStorePassword").val(v_ssStorePassword);
@@ -125,6 +127,7 @@
                                         <div class="card-body">
                                             <form class="needs-validation" id="addStores" name="addStores" action="<c:url value='/config/store/add_store.do'/>" method="post">
                                             	<input type="hidden" name="ssName" id="ssName">
+                                            	<input type="hidden" name="ssDelivCompType" id="ssDelivCompType">
                                             	<input type="hidden" name="ssStoreNickname" id="ssStoreNickname">
                                             	<input type="hidden" name="ssStoreId" id="ssStoreId">
                                             	<input type="hidden" name="ssStorePassword" id="ssStorePassword">
@@ -133,7 +136,7 @@
                                             	<input type="hidden" name="ssStoreUrl" id="ssStoreUrl">
                                             	<div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 판매처명 </label>
+                                                        <label for="v_ssName"> 판매처명 </label>
                                                         <input type="text" class="form-control" name="v_ssName" id="v_ssName" placeholder="" value="" required>
                                                         <div class="invalid-feedback">
 
@@ -142,7 +145,16 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 판매처별칭 </label>
+                                                        <label for="v_ssDelivCompType"> 택배사 고정 </label>
+                                                        <select class="form-control" name="v_ssDelivCompType" id="v_ssDelivCompType">
+                                                        	<option value="0">무관</option>
+                                                        	<option value="1">우체국택배 고정</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="v_ssStoreNickname"> 판매처별칭 </label>
                                                         <input type="text" class="form-control" name="v_ssStoreNickname" id="v_ssStoreNickname" placeholder="" value="" required>
                                                         <div class="invalid-feedback">
 
@@ -151,7 +163,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 판매처 아이디</label>
+                                                        <label for="v_ssStoreId"> 판매처 아이디</label>
                                                         <input type="text" class="form-control" name="v_ssStoreId" id="v_ssStoreId" placeholder="" value="">
                                                         <div class="invalid-feedback">
 
@@ -160,7 +172,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 판매처 비밀번호 </label>
+                                                        <label for="v_ssStorePassword"> 판매처 비밀번호 </label>
                                                         <input type="password" class="form-control" name="v_ssStorePassword" id="v_ssStorePassword" placeholder="">
                                                         <div class="invalid-feedback">
 
@@ -169,7 +181,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 판매처 비밀번호 확인 </label>
+                                                        <label for="v_ssStorePasswordDupl"> 판매처 비밀번호 확인 </label>
                                                         <input type="password" class="form-control" name="v_ssStorePasswordDupl" id="v_ssStorePasswordDupl" placeholder="">
                                                         <div class="invalid-feedback">
 
@@ -178,7 +190,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 인증키 ( Auth-key )</label>
+                                                        <label for="v_ssAuthKey"> 인증키 ( Auth-key )</label>
                                                         <input type="text" class="form-control" name="v_ssAuthKey" id="v_ssAuthKey" placeholder="">
                                                         <div class="invalid-feedback">
 
@@ -187,7 +199,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 판매처 기본 수수료 </label>
+                                                        <label for="v_ssCommission"> 판매처 기본 수수료 </label>
                                                         <input type="text" class="form-control" name="v_ssCommission" id="v_ssCommission" placeholder="" value="0">
                                                         <div class="invalid-feedback">
 
@@ -207,7 +219,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 mb-3">
-                                                        <label for="firstName"> 판매처 주소 ( http:// https:// 까지 다 적어야함)</label>
+                                                        <label for="v_ssStoreUrl"> 판매처 주소 ( http:// https:// 까지 다 적어야함)</label>
                                                         <input type="text" class="form-control" name="v_ssStoreUrl" id="v_ssStoreUrl" placeholder="">
                                                         <div class="invalid-feedback">
 
