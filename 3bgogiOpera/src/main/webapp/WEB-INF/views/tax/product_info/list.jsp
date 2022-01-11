@@ -349,17 +349,15 @@
 										<select class="form-control mb-3" id="cfList" name="cfList" data-live-search="true" data-size="8">
 										
 											<option value="">타입없음</option>
-											<option value="간편">간편</option>
-											<option value="소스">소스</option>
-											<option value="관리비">관리비</option>
-											<option value="배송비">배송비</option>
-											<option value="지육">지육</option>
-											<option value="영매입">영매입</option>
-											<option value="광고비">광고비</option>
-											<option value="비품">비품</option>
 											<c:forEach var="costDetaillist" items="${costDetailList }">
 												<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">																
-													<option value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }">${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
+													<option value="${costDetaillist.cdPk }"
+														<c:if test="${costDetaillist.cdPk == osVO.cfList}">
+														
+															selected="selected"
+															
+														</c:if>
+													>${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
 												</c:forEach>
 											</c:forEach>
 										</select>

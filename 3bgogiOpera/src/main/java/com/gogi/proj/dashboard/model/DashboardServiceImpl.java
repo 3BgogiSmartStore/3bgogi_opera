@@ -94,7 +94,7 @@ public class DashboardServiceImpl implements DashboardService{
 			row = (SXSSFRow) sheet.createRow(cellCounting);
 			
 			cell = (SXSSFCell) row.createCell(0);
-			cell.setCellValue(piVO.getPiType());
+			cell.setCellValue(piVO.getSuperPiType());
 			sheet.setColumnWidth(0, ( sheet.getColumnWidth(0) + 512));
 			
 			

@@ -5,6 +5,70 @@ Email: chauhanjitu3@gmail.com
 File: js
 */
 $(function() {
+	
+	function reviewJsonData(reviewList){
+		  
+		  var reviewDataList = [];
+		  
+		  $.each(reviewList, function(idx ){
+			  
+			  let reviewCount = this.reviewCount;
+			  let crGrade = this.crGrade;
+			  
+			  let reviewData = {
+		
+				value: reviewCount
+		
+				, label: crGrade+" 점"
+				
+			  }
+			  
+			  reviewDataList[idx] = reviewData;
+			  
+			  
+		  });
+		  
+		  
+		  console.log( JSON.stringify(reviewDataList)  );
+		  
+		  return reviewDataList;
+		  
+	  }
+	
+	
+	
+	$.ajax({
+	    type       : 'POST',
+	    dataType   : 'json',
+	    async	   : false,
+	    url        : '/customer_review/grade_group.do',
+	    success    : function(data){
+	    	
+	    	let reviewList = reviewJsonData(data);
+	    	
+	    	 Morris.Donut({
+	    		 element: 'morris_gross',
+
+	                data: reviewList,
+	             
+	                labelColor: '#5969ff',
+	                colors: [
+	                    '#5969ff',
+	                    '#21ae41',
+	                    '#ffc750',                    
+	                    '#ffd5e1',
+	                    '#ff407b'
+	                ],
+
+	                formatter: function(x) { return x + " 건" },
+	                  resize: true
+
+	            });
+	        
+	    }
+ 
+  });
+	
     "use strict";
     
     // ============================================================== 
@@ -130,32 +194,6 @@ $(function() {
 });
  
     
-   Morris.Donut({
-                element: 'morris_gross',
-
-                data: [
-                	{ value: 397, label: '5점' },
-                    { value: 164, label: '4점' },
-                    { value: 137, label: '3점' },
-                    { value: 33, label: '2점' },
-                    { value: 8, label: '1점' }
-                   
-                ],
-             
-                labelColor: '#5969ff',
-                colors: [
-                    '#5969ff',
-                    '#21ae41',
-                    '#ffc750',                    
-                    '#ffd5e1',
-                    '#ff407b'
-                ],
-
-                formatter: function(x) { return x + "건" },
-                  resize: true
-
-            });
- 
     Morris.Donut({
                 element: 'morris_profit',
 

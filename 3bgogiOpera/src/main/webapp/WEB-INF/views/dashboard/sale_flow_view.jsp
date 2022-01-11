@@ -260,10 +260,9 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/charts/charts-bundle/chartjs.js"></script>
 
 <script src="${pageContext.request.contextPath}/resources/vendor/charts/sparkline/jquery.sparkline.js"></script>
-<script src="${pageContext.request.contextPath}/resources/libs/js/dashboard-finance.js"></script>
+<script src="${pageContext.request.contextPath}/resources/libs/js/customer_review_main.js"></script>
 <script src="${pageContext.request.contextPath}/resources/libs/dashboard/main-js.js"></script>
 
-<!-- morris js -->
 <script src="${pageContext.request.contextPath}/resources/vendor/charts/morris-bundle/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/charts/morris-bundle/morris.js"></script>
 

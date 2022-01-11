@@ -61,7 +61,7 @@
 		for(let i = 0; i < prodList.length; i++){
 			prodTaxInfoListHTML+=
 			"<tr>"
-				+"<td>"+prodList[i].piType+"</td>";
+				+"<td>"+prodList[i].superPiType+"</td>";
 				
 				if(prodList[i].piMeasure == 'g'){
 					prodTaxInfoListHTML+= "<td>"+(prodList[i].piQty/1000)+" kg </td>";
@@ -80,6 +80,7 @@
 			superPiType = prodList[i].superPiType;
 			
 		}
+		
 		
 		if(superPiType == '한돈' || superPiType == '한우' || superPiType == '수입'){
 			
@@ -247,16 +248,28 @@
                                             </div>
                                             
                                             <c:if test="${!empty piTypeList }">
+                                            	<c:set var="totalPriceValue" value="0"/>
+                                            	
                                             	<c:forEach var="piTypelist" items="${piTypeList }">                                            	
 	                                            	<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
 		                                                <div class="card">
 		                                                    <div class="card-body">
-		                                                        <a class="mb-1" onclick="selectProdTaxInfo('${piTypelist.superPiType }')">${piTypelist.superPiType }</a>
+		                                                    
+		                                                        <a class="mb-1" onclick="selectProdTaxInfo('${piTypelist.piPk }')">${piTypelist.superPiType } <br> (총 금액 : <fmt:formatNumber value="${piTypelist.piTotalCost }" pattern="#,###"/> 원)</a>
 		                                                        
 		                                                    </div>
 		                                                </div>
 		                                            </div>
+		                                            <c:set var="totalPriceValue" value="${totalPriceValue + piTypelist.piTotalCost }"/>
                                             	</c:forEach>
+                                            	<div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6">
+		                                        	<div class="card">
+		                                            	<div class="card-body">
+		                                                	<a class="mb-1"> 총합  : <fmt:formatNumber value="${totalPriceValue }" pattern="#,###"/> 원</a>
+		                                                </div>
+		                                                
+		                                            </div>
+		                                       </div>
                                             </c:if>
                                             
                                             <c:if test="${empty piTypeList }">

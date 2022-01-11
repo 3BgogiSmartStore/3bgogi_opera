@@ -75,21 +75,13 @@
     			                
     			                +'<td>'
 	                            	+'<select class="form-control" name="piList['+piCount+'].piType" data-live-search="true" data-size="8">'
-										+'<option value="">타입없음</option>'
-										+'<option value="간편">간편</option>'
-										+'<option value="소스">소스</option>'
-										+'<option value="관리비">관리비</option>'
-										+'<option value="배송비">배송비</option>'
-										+'<option value="지육">지육</option>'
-										+'<option value="영매입">영매입</option>'
-										+'<option value="광고비">광고비</option>'
-										+'<option value="비품">비품</option>';
+										+'<option value="">타입없음</option>';
 										
 										
 										for(let costCount = 0; costCount < data.length; costCount++){
 											for(let costCodeCount = 0; costCodeCount < data[costCount].costCodeVOList.length; costCodeCount++){
 												
-												piHTML+= '<option value="'+data[costCount].costCodeVOList[costCodeCount].ccCodeType+' '+data[costCount].cdName+'">'+data[costCount].costCodeVOList[costCodeCount].ccCodeType+' '+data[costCount].cdName+'</option>';
+												piHTML+= '<option value="'+data[costCount].cdPk+'">'+data[costCount].costCodeVOList[costCodeCount].ccCodeType+' '+data[costCount].cdName+'</option>';
 												
 											}
 										}
@@ -253,26 +245,16 @@
 		                                            <td>
 		                                            	<select class="form-control" name="piList[0].piType" data-live-search="true" data-size="8">
 															<option value="">타입없음</option>
-															<option value="간편">간편</option>
-															<option value="소스">소스</option>
-															<option value="광고비">관리비</option>
-															<option value="배송비">배송비</option>
-															<option value="지육">지육</option>
-															<option value="영매입">영매입</option>
-															<option value="광고비">광고비</option>
-															<option value="비품">비품</option>
 															<c:forEach var="costDetaillist" items="${costDetailList }">
-																<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">																
-																	<option value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }">${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
+																<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">		
+																	<option value="${costDetaillist.cdPk }">${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
 																</c:forEach>
-																
 															</c:forEach>
 														</select>
 		                                            </td>
 		                                            <td>
 		                                            	<input type="text" name="piList[0].piQty" class="form-control" placeholder="">
 		                                            </td>
-		                                            
 		                                            <td>
 		                                            	<select class="form-control" name="piList[0].piMeasure" >
 															<option value=""> 단위 선택</option>

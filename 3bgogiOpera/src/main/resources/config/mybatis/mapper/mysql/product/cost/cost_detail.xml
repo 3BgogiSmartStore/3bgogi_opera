@@ -191,8 +191,6 @@
 		FROM 
 			cost_detail cd
 		    JOIN cost_code cc ON cd.cc_fk = cc.cc_pk
-		WHERE
-			cc_fk IN (1,2,3,4,5)
 	</select>
 	
 	

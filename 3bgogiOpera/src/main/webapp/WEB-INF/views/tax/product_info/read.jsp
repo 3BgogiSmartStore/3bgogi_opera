@@ -133,56 +133,13 @@
 														</c:if>
 														
 													>간편</option>
-													<option value="소스"
-														<c:if test="${piVO.piType == '소스'}">
-															selected="selected"
-														</c:if>
-														
-													>소스</option>
-													<option value="관리비"
-														<c:if test="${piVO.piType == '관리비'}">
-															selected="selected"
-														</c:if>
-														
-													>관리비</option>
-													<option value="배송비"
-														<c:if test="${piVO.piType == '배송비'}">
-															selected="selected"
-														</c:if>
-														
-													>배송비</option>
-													<option value="지육"
-														<c:if test="${piVO.piType == '지육'}">
-															selected="selected"
-														</c:if>
-														
-													>지육</option>
-													<option value="영매입"
-														<c:if test="${piVO.piType == '영매입'}">
-															selected="selected"
-														</c:if>
-														
-													>영매입</option>
-													<option value="광고비"
-														<c:if test="${piVO.piType == '광고비'}">
-															selected="selected"
-														</c:if>
-														
-													>광고비</option>
-													<option value="비품"
-														<c:if test="${piVO.piType == '비품'}">
-															selected="selected"
-														</c:if>
-														
-													>비품</option>
 													<c:forEach var="costDetaillist" items="${costDetailList }">
 														<c:forEach var="costCodeVOlist" items="${costDetaillist.costCodeVOList }">	
-															<c:set var="cdName" value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }"/>															
-															<option value="${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }"
-																<c:if test="${cdName == piVO.piType }">
+																											
+															<option value="${costDetaillist.cdPk }"
+																<c:if test="${costDetaillist.cdPk == piVO.piType }">
 																	selected="selected"
 																</c:if>
-																
 															>${costCodeVOlist.ccCodeType } ${costDetaillist.cdName }</option>
 														</c:forEach>
 													</c:forEach>

@@ -83,10 +83,24 @@
 	<select id="selectProductInfoList" parameterType="OrderSearchVO" resultType="ProductInfoVO">
 		SELECT
 			rc.rc_name AS rc_names,
-			pi.*
+			pi.pi_pk,
+			pi.pi_input_date,
+			pi.pi_name,
+			pi.pi_qty,
+			pi.pi_measure,
+			pi.pi_cost,
+			pi.pi_tax,
+			pi.pi_total_cost,
+			pi.pi_file_ori_name,
+			pi.pi_file_path,
+			pi.pi_file_uniq_name,
+			pi.pi_file_exe,
+			CONCAT(cc.cc_code_type, ' ', cd.cd_name) AS pi_type
 		FROM
 			res_company rc
 			INNER JOIN product_info pi	ON	rc.rc_pk = pi.rc_fk
+			INNER JOIN cost_detail cd	ON cd.cd_pk = pi.pi_type
+            INNER JOIN cost_code cc		ON cc.cc_pk = cd.cc_fk
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<![CDATA[
 				pi.pi_input_date >= #{dateStart} 
@@ -99,7 +113,7 @@
 				AND pi.pi_name LIKE CONCAT('%',#{searchKeyword},'%') 
 			</if>
 			<if test="cfList != null and !cfList.equals('')">
-				AND pi.pi_Type LIKE CONCAT('%',#{cfList},'%') 
+				AND pi.pi_Type = #{cfList}
 			</if>
 			
 			<if test="taxFlag == 1">
@@ -138,6 +152,8 @@
 		FROM
 			res_company rc
 			INNER JOIN product_info pi	ON	rc.rc_pk = pi.rc_fk
+			INNER JOIN cost_detail cd	ON cd.cd_pk = pi.pi_type
+            INNER JOIN cost_code cc		ON cc.cc_pk = cd.cc_fk
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<![CDATA[
 				pi.pi_input_date >= #{dateStart} 
@@ -150,7 +166,7 @@
 				AND pi.pi_name LIKE CONCAT('%',#{searchKeyword},'%') 
 			</if>
 			<if test="cfList != null and !cfList.equals('')">
-				AND pi.pi_Type LIKE CONCAT('%',#{cfList},'%') 
+				AND pi.pi_Type = #{cfList}
 			</if>
 			
 			<if test="taxFlag == 1">

@@ -1,8 +1,6 @@
 package com.gogi.proj.review.vo;
 
-import com.gogi.proj.paging.PaginationInfo;
-
-public class CustomerReviewVO extends PaginationInfo{
+public class CustomerReviewVO{
 
 	private int crPk;					// 고유값
 	private String crNum;				// 리뷰 글 번호

@@ -123,10 +123,12 @@
 			customer_review
 		WHERE
 			<![CDATA[
-				cr_regdate >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -3 MONTH), '%Y-%m-%d')
+				cr_regdate >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 MONTH), '%Y-%m-%d')
 			]]>
 		GROUP BY
 			cr_grade
+		ORDER BY
+			cr_grade DESC
 	</select>
 	
 </mapper>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogi.proj.review.model.CustomerReviewService;
 import com.gogi.proj.review.util.CustomerReviewExcel;
@@ -94,5 +95,22 @@ public class CustomerReviewController {
 	}
 	
 	
+	
+	/**
+	 * 
+	 * @MethodName : selectReviewGradeGroupAjax
+	 * @date : 2022. 1. 11.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 최근 2개월 간의 평점별로 리뷰 개수 가져오기 
+	 */
+	@RequestMapping(value="/customer_review/grade_group.do", method=RequestMethod.POST)
+	public @ResponseBody List<CustomerReviewVO> selectReviewGradeGroupAjax(){
+		
+		List<CustomerReviewVO> reviewGradeList = customerReviewService.selectReviewGradeGroup();
+		
+		return reviewGradeList;
+		
+	}
 	
 }
