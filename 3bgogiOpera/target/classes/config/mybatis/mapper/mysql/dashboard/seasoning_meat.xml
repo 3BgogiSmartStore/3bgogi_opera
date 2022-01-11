@@ -83,12 +83,14 @@
 	
 	<select id="selectSeasoningMeatTotalPriceInSale" resultType="int" parameterType="OrderSearchVO">
 		SELECT
-			SUM(INNE.or_total_price)
+			SUM(INNE.or_total_price + INNE.or_payment_commision + INNE.or_another_payment_commision)
 		FROM
 			(
 			SELECT
 				od.or_pk,
-				od.or_total_price
+				od.or_total_price,
+				or_payment_commision,
+				or_another_payment_commision
 			FROM
 				orders od
 				INNER JOIN product_matching pm ON pm.pm_pk = od.pm_fk
@@ -106,7 +108,9 @@
 			    AND op.eo_fk IN (7)
 			GROUP BY
 				od.or_pk,
-				od.or_total_price
+				od.or_total_price,
+				or_payment_commision,
+				or_another_payment_commision
 			) INNE
 	</select>
 </mapper>
