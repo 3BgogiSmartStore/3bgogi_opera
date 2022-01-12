@@ -303,7 +303,7 @@ public class CostController {
 	public String updateCostDetailPost(@ModelAttribute CostDetailVO cdVO, Model model) {
 		
 		String msg = "";
-		String url = "/update/cost_detail.do?cdPk="+cdVO.getCdPk();
+		String url = "/products/update/cost_detail.do?cdPk="+cdVO.getCdPk();
 		
 		int result = costDetailService.updateCostDetail(cdVO);
 		

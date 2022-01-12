@@ -48,7 +48,15 @@
     			}
     		});
     		
+    		//저장할 때에 중요사항 null 값 체크
     		$("#updateCostDetailData").submit(function(){
+    			
+    		if(confirm("이 정보로 원재료를 수정하시겠습니까?")){
+   				
+    			var cdName = $("#cdName").val();
+    			var cdCost = $("#cdCost").val();
+    			var cdLossFlag = $("input[name=cdLossFlag]").val();
+    			var cdLossRate = $("#cdLossRate").val();
     			var ciPrice = $("#ciPrice").val();
     			var ciWeight = $("#ciWeight").val();
     			var ciAnimalProdTraceNum = $("#ciAnimalProdTraceNum").val();
@@ -56,15 +64,7 @@
     			var ciCountryOfOrigin = $("#ciCountryOfOrigin").val();
     			var ciLevel = $("#ciLevel").val();
     			var ciItemsManufNum = $("#ciItemsManufNum").val();
-    		});
-    		
-    		//저장할 때에 중요사항 null 값 체크
-    		$("#updateCostDetailData").submit(function(){
-    			var cdName = $("#cdName").val();
-    			var cdCost = $("#cdCost").val();
-    			var cdLossFlag = $("input[name=cdLossFlag]").val();
-    			var cdLossRate = $("#cdLossRate").val();
-    			
+    					
     			if(cdName == null || cdName == ""){
     				alert("원가명을 입력해주세요.");
     				$("#cdName").focus();
@@ -90,14 +90,12 @@
     				
     			}
     			
-    			 if(confirm("이 정보로 원가를 입력하시겠습니까?")){
-    				 
-    			 }else{
-    				event.preventDefault();
-     				return false;
-     				
-    			 }
-    			 
+   			}else{
+   				event.preventDefault();
+    			return false;
+    				
+   			}
+ 
     		});
     		
     		 $(".numberCheck").keyup(function(){
