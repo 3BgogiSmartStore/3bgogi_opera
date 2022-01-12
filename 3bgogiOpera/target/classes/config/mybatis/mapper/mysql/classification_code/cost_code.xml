@@ -32,7 +32,8 @@
 			cc_code = #{ccCode},
 			cc_code_type = #{ccCodeType},
 			cc_carcass_flag = #{ccCarcassFlag},
-			cc_manager = #{ccManager}
+			cc_manager = #{ccManager},
+			cc_sorting = #{ccSorting}
 		WHERE
 			cc_pk = #{ccPk}
 	</update>
@@ -42,12 +43,14 @@
 			cost_code(
 				cc_code,
 				cc_code_type,
-				cc_manager
+				cc_manager,
+				cc_sorting
 			)
 		VALUES(
 			#{ccCode},
 			#{ccCodeType},
-			#{ccManager}
+			#{ccManager},
+			#{ccSorting}
 		)
 	</insert>
 	

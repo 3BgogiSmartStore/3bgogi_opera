@@ -55,9 +55,10 @@
                                     	<thead>
 											<tr>
 												<th width="20%">원재료 분류 코드</th>
-												<th width="35%">원재료 분류 값</th>
+												<th width="25%">원재료 분류 값</th>
 												<th width="15%"> 책임관리자 </th>
-												<th width="30%">부분육 입고 여부</th>
+												<th width="25%">부분육 입고 여부</th>
+												<th width="15%">정렬</th>
 											</tr>
                                     	</thead>
                                         <tbody>
@@ -94,6 +95,9 @@
 					                                        	class="custom-control-input"><span class="custom-control-label"> Y </span>
 					                                        </label>
 		                                            	</td>
+		                                            	<td>
+		                                            		<input class="form-control" name="ccList[${counting }].ccSorting"  type="text" value="${cclist.ccSorting }">
+		                                            	</td>
 		                                            </tr>
 		                                            
 		                                            <c:set var="counting" value="${counting + 1 }"/>
@@ -118,6 +122,7 @@
 				                    		<input type="text" class="form-control" name="ccCode" placeholder="원재료분류코드">
 					                        <input type="text" class="form-control" name="ccCodeType" placeholder="원재료분류값">
 					                        <input type="text" class="form-control" name="ccManager" placeholder="책임관리자">
+					                        <input type="text" class="form-control" name="ccSorting" placeholder="정렬">
 					                        <div class="input-group-append">
 					                        	<button type="submit" class="btn btn-primary"> 추가 </button>
 					                        </div>

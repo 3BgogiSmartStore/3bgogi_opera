@@ -94,7 +94,7 @@ public class AllClassificationCodeServiceImpl implements AllClassificationCodeSe
 		int result = 0;
 		
 		for(CostCodeVO cc : ccVO.getCcList()) {
-			result += accDao.updateCostCode(ccVO);
+			result += accDao.updateCostCode(cc);
 		}
 		
 		return result;

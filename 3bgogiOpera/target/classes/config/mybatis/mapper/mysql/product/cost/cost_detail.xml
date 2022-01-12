@@ -238,6 +238,26 @@
 		ORDER BY
 			ci.ci_regdate DESC
 	</select>
+	
+	<update id="updateCostDetail" parameterType="CostDetailVO">
+		UPDATE
+			cost_detail
+		SET
+			cd_name = #{cdName},
+			cc_fk = #{ccFk},
+			cd_cost = #{cdCost},
+			cd_loss_flag = #{cdLossFlag},
+			cd_loss_rate #{cdLossRate},
+			cd_company_diagnosis = #{cdCompanyDiagnosis},
+			cd_manufacturer = #{cdManufacturer},
+			cd_store_company = #{cdStoreCompany},
+			cd_measure = #{cdMeasure},
+			cd_remark = #{cdRemark}
+		WHERE
+			cd_pk = #{cdPk}
+	</update>
+	
+	
 </mapper>
 
 

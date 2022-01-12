@@ -171,4 +171,16 @@ public interface CostDetailService {
 	 * @메소드설명 : 고기 계열 카테고리 전부 가져오기
 	 */
 	public List<CostDetailVO> selectAllCostDetailJoinCostCodeListInMeat();
+	
+	
+	/**
+	 * 
+	 * @MethodName : updateCostDetail
+	 * @date : 2022. 1. 12.
+	 * @author : Jeon KiChan
+	 * @param cdVO
+	 * @return
+	 * @메소드설명 : 원재료 상세사항 수정하기
+	 */
+	public int updateCostDetail(CostDetailVO cdVO);
 }

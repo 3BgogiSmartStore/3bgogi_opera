@@ -159,4 +159,10 @@ public class CostDetailDAOMybatis extends SqlSessionDaoSupport implements CostDe
 		return getSqlSession().selectList(costDetail+".selectAllCostDetailJoinCostCodeListInMeat");
 	}
 
+	@Override
+	public int updateCostDetail(CostDetailVO cdVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().update(costDetail+".updateCostDetail", cdVO);
+	}
+
 }

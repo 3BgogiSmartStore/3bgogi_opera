@@ -79,7 +79,11 @@
 	
 	<select id="selectMeatTotalPriceInSale" resultType="int" parameterType="OrderSearchVO">
 		SELECT
-			SUM(INNE.or_total_price + INNE.or_payment_commision + INNE.or_another_payment_commision)
+			IF(
+				SUM(INNE.or_total_price + INNE.or_payment_commision + INNE.or_another_payment_commision) IS NULL,
+                0,
+                SUM(INNE.or_total_price + INNE.or_payment_commision + INNE.or_another_payment_commision)
+            )
 		FROM
 			(
 			SELECT

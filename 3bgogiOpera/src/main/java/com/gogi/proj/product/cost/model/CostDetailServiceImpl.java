@@ -15,9 +15,7 @@ import com.gogi.proj.product.cost.vo.CostDetailVO;
 import com.gogi.proj.product.cost.vo.CostIoVO;
 import com.gogi.proj.product.cost.vo.CostsVO;
 import com.gogi.proj.product.cost_io.model.CostIoDAO;
-import com.gogi.proj.product.costs.model.CostsDAO;
 import com.gogi.proj.product.options.model.OptionsDAO;
-import com.gogi.proj.product.options.vo.OptionsCostsMatchingListVO;
 import com.gogi.proj.product.options.vo.OptionsCostsMatchingVO;
 import com.gogi.proj.product.options.vo.OptionsVO;
 import com.gogi.proj.security.AdminVO;
@@ -31,9 +29,6 @@ public class CostDetailServiceImpl implements CostDetailService{
 	
 	@Autowired
 	private OptionsDAO optionsDAO;
-	
-	@Autowired
-	private CostsDAO costsDao;
 	
 	@Autowired
 	private CostIoDAO costIoDao;
@@ -234,6 +229,12 @@ public class CostDetailServiceImpl implements CostDetailService{
 	public List<CostDetailVO> selectAllCostDetailJoinCostCodeListInMeat() {
 		// TODO Auto-generated method stub
 		return costDetailDAO.selectAllCostDetailJoinCostCodeListInMeat();
+	}
+
+	@Override
+	public int updateCostDetail(CostDetailVO cdVO) {
+		// TODO Auto-generated method stub
+		return costDetailDAO.updateCostDetail(cdVO);
 	}
 
 }

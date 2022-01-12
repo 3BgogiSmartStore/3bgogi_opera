@@ -300,11 +300,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="tab-pane fade" id="pills-packages" role="tabpanel" aria-labelledby="pills-packages-tab">
                                         <div class="row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                 <div class="section-block">
-                                                    <h3 class="section-title"> 정육 매출액 <fmt:formatNumber value="${meatSales }" pattern="#,###"/> 원</h3>
+                                                    <h3 class="section-title"> 정육 매출액
+	                                                    <c:if test="${!empty meatSales }">                                                    
+		                                                    <fmt:formatNumber value="${meatSales }" pattern="#,###"/> 원
+	                                                    </c:if> 
+                                                    </h3>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

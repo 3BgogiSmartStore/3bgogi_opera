@@ -22,7 +22,7 @@
             cc.cc_code_type,
 			cc.cc_pk
 		ORDER BY
-			cc.cc_code_type DESC
+			cc.cc_sorting ASC
 	</select>
 	
 	<select id="selectProductTaxInfoBySuperPiType" resultType="ProductInfoVO" parameterType="OrderSearchVO">

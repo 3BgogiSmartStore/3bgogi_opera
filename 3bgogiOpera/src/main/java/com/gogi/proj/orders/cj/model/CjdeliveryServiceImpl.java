@@ -390,7 +390,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 				sheet.setColumnWidth(4, ( sheet.getColumnWidth(4) + 512));
 				
 				cell = (SXSSFCell) row.createCell(5);
-				cell.setCellValue(delivMsg);
+				cell.setCellValue("[ 공동현관 출입방법 : "+doorPass+" ]"+delivMsg);
 				sheet.setColumnWidth(5, ( ( delivMsg.length() * 380 ) + 512));
 
 				cell = (SXSSFCell) row.createCell(6);

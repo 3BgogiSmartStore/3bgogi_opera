@@ -48,7 +48,7 @@
     			}
     		});
     		
-    		$("#insertCostInputDataForm").submit(function(){
+    		$("#updateCostDetailData").submit(function(){
     			var ciPrice = $("#ciPrice").val();
     			var ciWeight = $("#ciWeight").val();
     			var ciAnimalProdTraceNum = $("#ciAnimalProdTraceNum").val();
@@ -59,7 +59,7 @@
     		});
     		
     		//저장할 때에 중요사항 null 값 체크
-    		$("#insertCostDetailData").submit(function(){
+    		$("#updateCostDetailData").submit(function(){
     			var cdName = $("#cdName").val();
     			var cdCost = $("#cdCost").val();
     			var cdLossFlag = $("input[name=cdLossFlag]").val();
@@ -115,6 +115,7 @@
     		 });
     		
     	});
+    	
     	
     	function pageFunc(index){
 			$("input[name=currentPage]").val(index);
@@ -189,7 +190,7 @@
                                     </c:forEach>
                                 </h5>
                                 <div class="card-body">
-                                    <form name="insertCostDetailForm" id="insertCostDetailData" action="<c:url value='/products/insert/cost_detail.do'/>" method="post">
+                                    <form name="updateCostDetailData" id="updateCostDetailData" action="<c:url value='/products/update/cost_detail.do'/>" method="post">
                                     	<input type="hidden" name="cdPk" value="${cdVO.cdPk }">
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right"> 원재료명 </label>

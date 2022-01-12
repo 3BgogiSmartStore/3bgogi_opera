@@ -289,6 +289,37 @@ public class CostController {
 		return "product/update/cost_detail";
 	}
 	
+	/**
+	 * 
+	 * @MethodName : updateCostDetailPost
+	 * @date : 2022. 1. 12.
+	 * @author : Jeon KiChan
+	 * @param cdVO
+	 * @param model
+	 * @return
+	 * @메소드설명 : 원가상세사항 수정하기
+	 */
+	@RequestMapping(value="/update/cost_detail.do", method=RequestMethod.POST)
+	public String updateCostDetailPost(@ModelAttribute CostDetailVO cdVO, Model model) {
+		
+		String msg = "";
+		String url = "/update/cost_detail.do?cdPk="+cdVO.getCdPk();
+		
+		int result = costDetailService.updateCostDetail(cdVO);
+		
+		if(result > 0) {
+			msg = "원재료 수정 완료";
+			
+		}else {
+			msg = "원재료 수정  실패";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "common/message";
+	}
+	
 	
 	/**
 	 * 
