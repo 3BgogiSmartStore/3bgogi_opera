@@ -312,9 +312,10 @@
                                                 <textarea class="form-control" id="cdRemark" name="cdRemark" rows="3" style="resize: none;" placeholder="적지 않아도 무관.">${cdVO.cdRemark }</textarea>
                                             </div>
                                         </div>
+                                        
                                         <div class="form-group row text-right">
                                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                                <button type="button" class="btn btn-space btn-primary"> 수정하기 </button>
+                                                <button type="submit" class="btn btn-space btn-primary"> 수정하기 </button>
                                                 <button class="btn btn-space btn-secondary">취소하기</button>
                                             </div>
                                         </div>
