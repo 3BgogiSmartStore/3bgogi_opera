@@ -247,7 +247,7 @@
 			cc_fk = #{ccFk},
 			cd_cost = #{cdCost},
 			cd_loss_flag = #{cdLossFlag},
-			cd_loss_rate #{cdLossRate},
+			cd_loss_rate = #{cdLossRate},
 			cd_company_diagnosis = #{cdCompanyDiagnosis},
 			cd_manufacturer = #{cdManufacturer},
 			cd_store_company = #{cdStoreCompany},
