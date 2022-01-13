@@ -17,6 +17,7 @@ public class DashboardDAOMybatis extends SqlSessionDaoSupport implements Dashboa
 	private String dashboardMeatNameSpace = "dashboard.meat";
 	private String dashboardSeasoningMeatNameSpace = "dashboard.seasoning";
 	private String dashboardMealkitSpace = "dashboard.mealkit";
+	private String dashboardSalesInfoSpace = "dashboard.sales_info";
 
 	@Override
 	public List<ProductInfoVO> selectProductTaxInfoType(OrderSearchVO osVO) {
@@ -70,5 +71,17 @@ public class DashboardDAOMybatis extends SqlSessionDaoSupport implements Dashboa
 	public int selectMealkikTotalSalePrice(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne(dashboardMealkitSpace+".selectMealkikTotalSalePrice", osVO);
+	}
+
+	@Override
+	public List<OrdersVO> threeMonthTotalSales() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(dashboardSalesInfoSpace+".threeMonthTotalSales");
+	}
+
+	@Override
+	public List<OrdersVO> monthTotalSales() {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(dashboardSalesInfoSpace+".monthTotalSales");
 	}
 }

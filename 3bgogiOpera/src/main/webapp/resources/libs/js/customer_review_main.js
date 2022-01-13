@@ -35,6 +35,37 @@ $(function() {
 		  
 	  }
 	
+	function salesJsonData(orderList){
+		  
+		  var orderDataList = [];
+		  
+		  $.each(orderList, function(idx ){
+			  
+			  let orUserColumn1 = this.orUserColumn1;
+			  let orTotalPrice = this.orTotalPrice;
+			  
+			  let orderData = {
+		
+				x: orUserColumn1 +" "+orTotalPrice
+		
+				, y: orTotalPrice
+				
+			  }
+			  
+			  
+			  orderDataList[idx] = orderData;
+			  
+			  
+		  });
+		  
+		  
+		  console.log( JSON.stringify(orderDataList)  );
+		  
+		  return orderDataList;
+		  
+	  }
+	
+	
 	
 	
 	$.ajax({
@@ -64,6 +95,31 @@ $(function() {
 	                  resize: true
 
 	            });
+	        
+	    }
+ 
+  });
+	
+	
+	$.ajax({
+	    type       : 'GET',
+	    dataType   : 'json',
+	    async	   : false,
+	    url        : '/dashboard/three_month_sales.do',
+	    success    : function(data){
+	    	
+	    	let salesList = salesJsonData(data);
+	    	
+	    	Morris.Bar({
+	            element: 'ebit_morris',
+	            data: salesList,
+	            xkey: 'x',
+	            ykeys: ['y'],
+	            labels: ['매출'],
+	            barColors: ['#ff407b'],
+	            postUnits: ["원"]
+
+	        });
 	        
 	    }
  
@@ -217,28 +273,6 @@ $(function() {
                   resize: true
 
             });
-
-
-
-
-    Morris.Bar({
-        element: 'ebit_morris',
-        data: [
-            { x: '2021 10', y: 20000 },
-            { x: '2021 11', y: 24000 },
-            { x: '2021 12', y: 33000 }
-        ],
-        xkey: 'x',
-        ykeys: ['y'],
-        labels: ['매출'],
-        barColors: ['#ff407b'],
-        postUnits: ["원"]
-
-    });
-
-
-
-
 
     // ============================================================== 
     //EBIT Morris

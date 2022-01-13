@@ -42,6 +42,37 @@ public class DashboardController {
 	
 	/**
 	 * 
+	 * @MethodName : threeMonthTotalSalesAjax
+	 * @date : 2022. 1. 13.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 3개월 간 총 매출
+	 */
+	@RequestMapping(value="/dashboard/three_month_sales.do", method=RequestMethod.GET)
+	@ResponseBody
+	public List<OrdersVO> threeMonthTotalSalesAjax(){
+		
+		return dashboardService.threeMonthTotalSales();
+	}
+	
+	/**
+	 * 
+	 * @MethodName : monthTotalSalesAjax
+	 * @date : 2022. 1. 13.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 이번 달 일별 매출
+	 */
+	@RequestMapping(value="/dashboard/month_sales.do", method=RequestMethod.GET)
+	@ResponseBody
+	public List<OrdersVO> monthTotalSalesAjax(){
+		
+		return dashboardService.monthTotalSales();
+	}
+	
+	
+	/**
+	 * 
 	 * @MethodName : totalPurchaseContrastTotalSales
 	 * @date : 2022. 1. 5.
 	 * @author : Jeon KiChan
@@ -117,6 +148,15 @@ public class DashboardController {
 	}
 	
 	
+	/**
+	 * 
+	 * @MethodName : productTaxInfoExcelResult
+	 * @date : 2022. 1. 13.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @return
+	 * @메소드설명 : 거래내역서 총액, 정육, 간편 등 엑셀 파일로 불러오기
+	 */
 	@RequestMapping(value="/dashboard/prod_tax_excel.do", method=RequestMethod.POST)
 	public ModelAndView productTaxInfoExcelResult(@ModelAttribute OrderSearchVO osVO) {
 		

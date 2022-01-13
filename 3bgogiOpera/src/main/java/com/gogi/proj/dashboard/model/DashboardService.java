@@ -118,4 +118,26 @@ public interface DashboardService {
 	 * @메소드설명 : 간편조리 매출
 	 */
 	public int selectMealkikTotalSalePrice(OrderSearchVO osVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : threeMonthTotalSales
+	 * @date : 2022. 1. 13.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 지난 3개월 총 매출
+	 */
+	public List<OrdersVO> threeMonthTotalSales();
+	
+	
+	/**
+	 * 
+	 * @MethodName : monthTotalSales
+	 * @date : 2022. 1. 13.
+	 * @author : Jeon KiChan
+	 * @return
+	 * @메소드설명 : 이번달 일별 매출
+	 */
+	public List<OrdersVO> monthTotalSales();
 }

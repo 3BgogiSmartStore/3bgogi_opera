@@ -210,4 +210,16 @@ public class DashboardServiceImpl implements DashboardService{
 		// TODO Auto-generated method stub
 		return dashboardDao.selectMealkikTotalSalePrice(osVO);
 	}
+
+	@Override
+	public List<OrdersVO> threeMonthTotalSales() {
+		// TODO Auto-generated method stub
+		return dashboardDao.threeMonthTotalSales();
+	}
+
+	@Override
+	public List<OrdersVO> monthTotalSales() {
+		// TODO Auto-generated method stub
+		return dashboardDao.monthTotalSales();
+	}
 }

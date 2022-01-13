@@ -751,6 +751,7 @@ public class EpostController {
 	public String epostStoppedAreaCheckPost(@ModelAttribute OrderSearchVO osVO, Model model) throws Exception {
 		
 		List<OrdersVO> orderList = dcService.selectOrdersBySendingDeadline(osVO);
+		
 		List<Xsync> epostResultList = new ArrayList<Xsync>();
 		String EPOST_DELIV_STOP = "http://ship.epost.go.kr/api.GetStoppedZipCd.jparcel";
 				
@@ -759,11 +760,16 @@ public class EpostController {
 		
 		for(OrdersVO orVO : orderList) {
 			
-			epost = esu.stoppedDelivAreaCheck(orVO.epostStoppedAreaToString(), EPOST_DELIV_STOP);
-			
-			epost.setOrVO(orVO);
-			
-			epostResultList.add(epost);
+			if(cjService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
+				//새벽배송으로 가능한 지역
+				
+			}else {				
+				epost = esu.stoppedDelivAreaCheck(orVO.epostStoppedAreaToString(), EPOST_DELIV_STOP);
+				
+				epost.setOrVO(orVO);
+				
+				epostResultList.add(epost);
+			}
 		}
 		
 		
