@@ -158,6 +158,9 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
         		}else if(checkingList.get(i).getOrShippingAddress().contains("시흥시")) {
         			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         			
+        		}else if(checkingList.get(i).getOrShippingAddress().contains("수원시")) {
+        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
+        			
         		}else {        		
         			
         			
