@@ -133,6 +133,8 @@
 				or_sending_deadline >= #{dateStart}
 				AND or_sending_deadline < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
 			]]>
+			AND or_cancled_flag = 0
+			AND or_delivery_invoice_number IS NULL
 		GROUP BY
 			or_buyer_name,
 			or_buyer_contract_number1,
