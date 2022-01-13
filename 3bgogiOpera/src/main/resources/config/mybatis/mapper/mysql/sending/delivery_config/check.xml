@@ -117,6 +117,32 @@
 			or_buyer_contract_number1
 	</select>
 	
+	<select id="selectOrdersBySendingDeadline" parameterType="OrderSearchVO" resultType="OrdersVO">
+		SELECT
+			or_buyer_name,
+			or_buyer_contract_number1,
+			or_receiver_name,
+			or_receiver_contract_number1,
+			or_shipping_address,
+			or_shipping_address_detail,
+			or_shipping_address_number
+		FROM
+			orders
+		WHERE
+			<![CDATA[			
+				or_sending_deadline >= #{dateStart}
+				AND or_sending_deadline < DATE_FORMAT(DATE_ADD(#{dateEnd}, INTERVAL 1 DAY), '%Y-%m-%d')
+			]]>
+		GROUP BY
+			or_buyer_name,
+			or_buyer_contract_number1,
+			or_receiver_name,
+			or_receiver_contract_number1,
+			or_shipping_address,
+			or_shipping_address_detail,
+			or_shipping_address_number
+	</select>
+	
 </mapper>
 
 

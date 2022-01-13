@@ -16,6 +16,11 @@
     		
     		$('#exSearchBar').hide();
     		
+    		$("#delivStoppedAreaCheckBtn").click(function(){
+    			window.open("<c:url value='/security/epost/epost_stopped_area_check.do'/>", "발송 중단 지역 확인" , "width=700, height=800, top=100, left=300, scrollbars=no");
+
+    		});
+    		
     		
     		$(".SelfdevisionOrderBtn").click(function(){
     			
@@ -851,7 +856,9 @@
                             <div class="card">
                                 <h5 class="card-header"> 미부여송장 목록 ( <fmt:formatNumber value="${OrderSearchVO.totalRecord }" pattern="#,###" /> 개) </h5>
                                 <div class="card-body" style="padding-bottom: 0;">
+                                	<button class="btn btn-brand btn-xs mb-2" id="delivStoppedAreaCheckBtn" type="button"> 우체국 발송 중단 지역 확인 </button>
                                 	<button class="btn btn-primary btn-xs" id="doorPassKeywordListBtn"> 공동현관 키워드 목록 확인 </button>
+                                	
                                 	<c:if test="${OrderSearchVO.edtFk == 5 }">
 										<button class="btn btn-success btn-xs" id="cjDelivDoorCheckBtn">공동현관 자동체크</button>
 										<!-- <button class="btn btn-danger btn-xs" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button> -->
@@ -904,9 +911,14 @@
 								                            </td>
 	                                        				<td rowspan="${rowSpans }" style="width:20px; text-align: center;" data-table-info="${tableCountings }">
 	                                        					<label class="custom-control custom-checkbox be-select-all">
-												             	   <input class="custom-control-input chk_all" value="${orlist.orSerialSpecialNumber }" 
+												             	   <input class="custom-control-input chk_all table-addr" value="${orlist.orSerialSpecialNumber }" 
+												             	   
+												             	   
+												             	   data-table-addr="${orlist.orShippingAddress } ${orlist.orShippingAddressDetail }"
+												             	   
 												             	   data-deliv-enter-flag="${orlist.orDelivEnterFlag }"
 												             	   type="checkbox" name="orSerialSpecialNumberList"
+												             	   
 												             	   >
 												             	   <span class="custom-control-label"></span>
 												                </label>

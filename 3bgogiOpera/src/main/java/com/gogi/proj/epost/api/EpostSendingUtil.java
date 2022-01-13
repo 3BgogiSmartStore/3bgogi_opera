@@ -11,8 +11,15 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathException;
+import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.json.JSONObject;
 import org.json.XML;
@@ -20,9 +27,18 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogi.proj.epost.vo.RegDataVO;
+import com.gogi.proj.epost.vo.Xsync;
 import com.gogi.proj.util.JsonToMapUtil;
 import com.gogi.proj.util.naverMapApiUtil;
 
@@ -35,6 +51,10 @@ public class EpostSendingUtil {
 	private Properties apiKeyProperties;
 	
 	private String skey;
+	
+	private DocumentBuilderFactory dbFactory;
+	private DocumentBuilder dBuilder;
+	private Document doc;
 	
 	//우체국계약고객시스템에서 확인 가능
 	
@@ -206,7 +226,7 @@ public class EpostSendingUtil {
 		JSONObject xmlJSONObj = XML.toJSONObject(xmlData);
 		String objString = xmlJSONObj.toString();
 		
-		logger.info("우체국 택배 송장생성 내역 = {}"+objString);
+		logger.info("xml 파싱 내역 = {}"+objString);
 		
 		Map<String, Object> results = naverMapApiUtil.returnJson(objString);
 		
@@ -250,4 +270,42 @@ public class EpostSendingUtil {
         return epostXMLParsingDelivByObjectClass(response.toString(), objClass);
 		
 	}
+	
+	
+	public Xsync stoppedDelivAreaCheck(String param, String epostUrl) throws Exception {
+
+		String urlParameters = "key="+apiKeyProperties.getProperty("api_key.epost")
+        +"&"+param;
+		
+		URL obj = new URL(epostUrl+"?"+urlParameters);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		//add reuqest header
+		con.setRequestMethod("GET");
+		con.setRequestProperty("Connection", "keep-alive");
+		con.setRequestProperty("Host", "biz.epost.go.kr");
+		con.setRequestProperty("User-Agent", "Apache-HttpClient/4.5.1(Java/1.8.0_91)");
+		// Send post request
+		con.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		wr.flush();
+		wr.close();
+		
+		int responseCode = con.getResponseCode();
+		
+		Charset charset = Charset.forName("UTF-8");
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(),charset));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+		
+		while ((inputLine = in.readLine()) != null) {
+		    response.append(inputLine);
+		}
+		
+		in.close();
+		
+		Xsync xsync = new Xsync();
+		
+		return (Xsync) epostXMLParsingDelivByObjectClass(response.toString(), xsync);
+	}
+
 }

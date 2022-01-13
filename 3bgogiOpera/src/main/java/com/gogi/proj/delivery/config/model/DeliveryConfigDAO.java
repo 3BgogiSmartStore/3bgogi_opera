@@ -199,4 +199,16 @@ public interface DeliveryConfigDAO {
 	 * @메소드설명 : OrdersVOList가 아닌 OrdersVO의 정보로 공동현관 출입방법 가져오기
 	 */
 	public DoorPassVO selectDoorPassMsgByOrderInfoNotList(OrdersVO orVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectOrdersBySendingDeadline
+	 * @date : 2022. 1. 12.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @return
+	 * @메소드설명 : 발송기한으로 주문서 목록 그룹화로 가져오기
+	 */
+	public List<OrdersVO> selectOrdersBySendingDeadline(OrderSearchVO osVO);
 }

@@ -1394,6 +1394,10 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 				+ "&orderNo=" + orSerialSpecialNumber + "&delivMsg=" + byteSplit(orDeliveryMessage, 2, 180) + "&retReason=&retVisitYmd="
 				+ "&testYn=N&printYn=Y";
 	}
+	
+	public String epostStoppedAreaToString() {
+		return "zipCd="+orShippingAddressNumber;
+	}
 
 	@Override
 	public String toString() {

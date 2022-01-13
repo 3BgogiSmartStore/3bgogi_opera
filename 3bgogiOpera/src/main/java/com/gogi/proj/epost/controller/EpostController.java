@@ -46,6 +46,7 @@ import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
 import com.gogi.proj.epost.api.EpostSendingUtil;
 import com.gogi.proj.epost.model.EpostService;
 import com.gogi.proj.epost.vo.RegDataVO;
+import com.gogi.proj.epost.vo.Xsync;
 import com.gogi.proj.excel.xlsxWriter;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.config.model.OrderConfigService;
@@ -107,6 +108,9 @@ public class EpostController {
 	
 	@Autowired
 	private CjdeliveryService cjService;
+	
+	@Autowired
+	private EpostSendingUtil esu;
 
 	/*
 	 * @RequestMapping(value="/epost.do", method=RequestMethod.GET) public String
@@ -715,4 +719,59 @@ public class EpostController {
 		
 		return mav;
 	}
+	
+	
+	@RequestMapping(value="/epost/epost_stopped_area_check.do", method=RequestMethod.GET)
+	public String epostStoppedAreaCheckGet(Model model) {
+		
+		OrderSearchVO osVO = new OrderSearchVO();
+		
+		if(osVO.getDateStart() == null) {
+			
+			Calendar calendar = Calendar.getInstance();
+			Calendar cal = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH, -7);
+			Date sevenDays = calendar.getTime();
+			Date today = cal.getTime();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			osVO.setDateStart(sdf.format(sevenDays));
+			osVO.setDateEnd(sdf.format(today));
+			
+		}
+		
+		model.addAttribute("osVO", osVO);
+
+		return "delivery/config/epost_stopped_area_check";
+	}
+	
+	
+	@RequestMapping(value="/epost/epost_stopped_area_check.do", method=RequestMethod.POST)
+	public String epostStoppedAreaCheckPost(@ModelAttribute OrderSearchVO osVO, Model model) throws Exception {
+		
+		List<OrdersVO> orderList = dcService.selectOrdersBySendingDeadline(osVO);
+		List<Xsync> epostResultList = new ArrayList<Xsync>();
+		String EPOST_DELIV_STOP = "http://ship.epost.go.kr/api.GetStoppedZipCd.jparcel";
+				
+		Xsync epost = null;
+		
+		
+		for(OrdersVO orVO : orderList) {
+			
+			epost = esu.stoppedDelivAreaCheck(orVO.epostStoppedAreaToString(), EPOST_DELIV_STOP);
+			
+			epost.setOrVO(orVO);
+			
+			epostResultList.add(epost);
+		}
+		
+		
+		model.addAttribute("osVO", osVO);
+		model.addAttribute("epostResultList", epostResultList);
+		
+		return "delivery/config/epost_stopped_area_check";
+	}
+	
+	
 }

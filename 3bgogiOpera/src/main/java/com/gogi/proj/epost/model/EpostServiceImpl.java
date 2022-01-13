@@ -78,6 +78,8 @@ public class EpostServiceImpl implements EpostService {
 	//송장삭제
 	static final String EPOST_DELIV_DELETE = "http://ship.epost.go.kr/api.GetResCancelCmd.jparcel";
 	
+	static final String EPOST_DELIV_STOP = "http://ship.epost.go.kr/api.GetStoppedZipCd.jparcel";
+	
 	@Autowired
 	private EpostSendingUtil esu;
 	

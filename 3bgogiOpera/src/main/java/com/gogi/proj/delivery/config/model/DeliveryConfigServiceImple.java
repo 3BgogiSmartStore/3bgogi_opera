@@ -63,7 +63,7 @@ public class DeliveryConfigServiceImple implements DeliveryConfigService{
 		for( EarlyDelivAreaVO edaVO : edaList) {
 			
 			if(edaVO.isEdaSearchTypeFlag() == true) {
-				if(addr.indexOf(edaVO.getEdaAddr()) != -1) return false;
+				if(addr.contains(edaVO.getEdaAddr())) return false;
 				
 			}else {
 				if(addr.equals(edaVO.getEdaAddr())) return false;
@@ -143,6 +143,12 @@ public class DeliveryConfigServiceImple implements DeliveryConfigService{
 	public DoorPassVO selectDoorPassMsgByOrderInfoNotList(OrdersVO orVO) {
 		// TODO Auto-generated method stub
 		return dcDao.selectDoorPassMsgByOrderInfoNotList(orVO);
+	}
+
+	@Override
+	public List<OrdersVO> selectOrdersBySendingDeadline(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return dcDao.selectOrdersBySendingDeadline(osVO);
 	}
 	
 }
