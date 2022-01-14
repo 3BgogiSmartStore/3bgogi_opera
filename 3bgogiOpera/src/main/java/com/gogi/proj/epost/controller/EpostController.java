@@ -748,7 +748,7 @@ public class EpostController {
 	
 	
 	@RequestMapping(value="/epost/epost_stopped_area_check.do", method=RequestMethod.POST)
-	public String epostStoppedAreaCheckPost(@ModelAttribute OrderSearchVO osVO, Model model) throws Exception {
+	public String epostStoppedAreaCheckPost(@ModelAttribute OrderSearchVO osVO,@RequestParam int cjFlag, Model model) throws Exception {
 		
 		List<OrdersVO> orderList = dcService.selectOrdersBySendingDeadline(osVO);
 		
@@ -760,16 +760,29 @@ public class EpostController {
 		
 		for(OrdersVO orVO : orderList) {
 			
-			if(cjService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
-				//새벽배송으로 가능한 지역
+			if(cjFlag == 1) {
+				if(cjService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
+					//새벽배송으로 가능한 지역
+					
+				}else {				
+					epost = esu.stoppedDelivAreaCheck(orVO.epostStoppedAreaToString(), EPOST_DELIV_STOP);
+					
+					epost.setOrVO(orVO);
+					
+					epostResultList.add(epost);
+				}
 				
-			}else {				
+			}else {
 				epost = esu.stoppedDelivAreaCheck(orVO.epostStoppedAreaToString(), EPOST_DELIV_STOP);
 				
 				epost.setOrVO(orVO);
 				
 				epostResultList.add(epost);
+				
 			}
+			
+			
+			
 		}
 		
 		

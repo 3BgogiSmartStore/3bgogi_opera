@@ -107,15 +107,32 @@
 		            <div class="card-header" style="text-align: center;">
 		                <h4 class="mb-1" style="color:red;"> 확인일 선택 </h4>
 		            </div>
-		            <div class="card-body">
+		            <form class="card-body" method="POST" action="<c:url value='/security/epost/epost_stopped_area_check.do'/>">
 		            
-		            	<form class="btn-group" style="width: 100%;" method="POST" action="<c:url value='/security/epost/epost_stopped_area_check.do'/>">
+		            	<div class="btn-group">
 				        	<input type="text" class="form-control" id="dateStart" name="dateStart" style="text-align: center;" value="${osVO.dateStart }"/>
 				        	<input type="text" class="form-control" id="dateEnd" name="dateEnd" style="text-align: center;" value="${osVO.dateEnd }"/>
 				        	<button class="btn btn-primary" type="submit"> 검색 </button>
-				        </form>
+				        </div>
+				        <div class="btn-group">
+			                <label class="custom-control custom-radio custom-control-inline  mb-2">
+			                    <input type="radio" id="" name="cjFlag" value="0" 
+			                    	<c:if test="${cjFlag == 0 }">
+										checked="checked"
+									</c:if>
+			                    class="custom-control-input"><span class="custom-control-label"> cj 무시 </span>
+			                </label>
+			                <label class="custom-control custom-radio custom-control-inline  mb-2">
+			                	<input type="radio" id="" name="cjFlag" value="1"
+			                    	<c:if test="${cjFlag == 1 }">
+										checked="checked"
+									</c:if>
+			                    class="custom-control-input"><span class="custom-control-label"> cj 적용 </span>
+			                </label>
+				        </div>
 				        
-		            </div>
+				        
+		            </form>
 		        </div>
 			</div>
 			<c:if test="${!empty epostResultList }">
