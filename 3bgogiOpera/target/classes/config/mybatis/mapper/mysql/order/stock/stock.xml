@@ -898,6 +898,7 @@
 		WHERE
 			op.option_stock_flag = 1
 			AND op.option_stock_max_alarm != 0
+			AND op.option_flag = 1
 			<![CDATA[			
 			    AND op.option_stock < op.option_stock_max_alarm
 			]]>

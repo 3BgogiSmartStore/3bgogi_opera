@@ -19,6 +19,7 @@
 
 <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery-3.3.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="${resourcePath}/resources/libs/js/common_util.js"></script>
 <script type="text/javascript">
     
     	$(function(){
@@ -52,198 +53,84 @@
 				<div class="row">
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 						<div class="card">
-							<h5 class="card-header">EBIT (Earnings Before Interest &
-								Tax)</h5>
+							<h5 class="card-header"> 지난 3개월 매출</h5>
 							<div class="card-body">
-								<div id="ebit_morris"></div>
-								<!-- <div class="text-center">
-									<span class="legend-item mr-3"> <span
-										class="fa-xs text-secondary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full"></i></span> <span
-										class="legend-text">EBIT (Earnings Before Interest &
-											Tax)</span>
-									</span>
-									<p></p>
-								</div> -->
+								<div id="threeMonthSales"></div>
 							</div>
 						</div>
 					</div>
 					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
 						<div class="card">
-							<h5 class="card-header">4 ~ 5점 리뷰</h5>
+							<h5 class="card-header"> 리뷰 평점 </h5>
 							<div class="card-body">
 								<div id="morris_gross" style="height: 272px;"></div>
 							</div>
-							<div class="card-footer bg-white">
-								<p>
-									Budget <span class="float-right text-dark">12,000.00</span>
-								</p>
-								<p>
-									Balance<span class="float-right text-dark">-2300.00 <span
-										class="ml-2 text-secondary"><i
-											class="fas fa-caret-up mr-1"></i>25%</span></span>
-								</p>
-							</div>
 						</div>
 					</div>
-					
 					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
 						<div class="card">
-							<h5 class="card-header">1 ~ 3점 리뷰</h5>
-							<div class="card-body">
-								<div id="morris_profit" style="height: 272px;"></div>
-							</div>
-							<div class="card-footer bg-white">
-								<p>
-									Budget <span class="float-right text-dark">3500.00</span>
-								</p>
-								<p>
-									Balance <span class="float-right text-dark">230.00 <span
-										class="ml-2 text-secondary"><i
-											class="fas fa-caret-up mr-1"></i>25%</span></span>
-								</p>
+							<h5 class="card-header"> 리뷰 개수 </h5>
+							<div id="reviewData" class="card-footer bg-white">
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="card">
-							<h5 class="card-header">AP and AR Balance</h5>
+							<h5 class="card-header"> 이번 달 일별 매출</h5>
 							<div class="card-body">
-								<canvas id="chartjs_balance_bar"></canvas>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">
-								Cost of goods / Services <span class="float-right">1 Jan
-									2018 to 31 Dec 2018</span>
-							</h5>
-							<div class="card-body">
-								<div id="goodservice"></div>
+								<div id="monthSales"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<!-- ============================================================== -->
-					<!-- overdue invoices  -->
-					<!-- ============================================================== -->
-					<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">Disputed vs Overdue Invoices</h5>
-							<div class="card-body">
-								<div class="ct-chart-invoice ct-golden-section"></div>
-								<div class="text-center m-t-40">
-									<span class="legend-item mr-3"> <span
-										class="fa-xs text-primary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full "></i></span><span
-										class="legend-text">Disputed Invoices</span>
-									</span> <span class="legend-item mr-3"> <span
-										class="fa-xs text-secondary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full "></i></span><span
-										class="legend-text">Overdue Invoices</span>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- ============================================================== -->
-					<!-- end overdue invoices  -->
-					<!-- ============================================================== -->
-					<!-- ============================================================== -->
-					<!-- disputed invoices  -->
-					<!-- ============================================================== -->
-					<div class="col-xl-5 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">Disputed Invoices</h5>
-							<div class="card-body">
-								<div class="ct-chart-line-invoice ct-golden-section"></div>
-								<div class="text-center m-t-10">
-									<span class="legend-item mr-3"> <span
-										class="fa-xs text-primary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full"></i></span> <span
-										class="legend-text">Disputed Invoices</span>
-									</span> <span class="legend-item mr-3"> <span
-										class="fa-xs text-secondary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full"></i></span> <span
-										class="legend-text">Avarage</span>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- ============================================================== -->
-					<!-- end disputed invoices  -->
-					<!-- ============================================================== -->
-					<!-- ============================================================== -->
-					<!-- account payable age  -->
-					<!-- ============================================================== -->
-					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">Accounts Payable Age</h5>
-							<div class="card-body">
-								<div id="account" style="height: 300px;"></div>
-							</div>
-						</div>
-					</div>
-					<!-- ============================================================== -->
-					<!-- end account payable age  -->
-					<!-- ============================================================== -->
-					<!-- ============================================================== -->
-					<!-- working capital  -->
-					<!-- ============================================================== -->
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">
-								Working Capital <span class="float-right">1 Jan 2018 to
-									31 Dec 2018</span>
-							</h5>
-							<div class="card-body">
-								<div id="capital"></div>
-								<div class="text-center m-t-10">
-									<span class="legend-item mr-3"> <span
-										class="fa-xs text-secondary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full"></i></span> <span
-										class="legend-text">Working Capital</span>
-									</span>
-									<p></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- ============================================================== -->
-					<!-- end working capital  -->
-					<!-- ============================================================== -->
-					<!-- ============================================================== -->
-					<!-- inventory turnover  -->
-					<!-- ============================================================== -->
-					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">Inventory Turnover</h5>
-							<div class="card-body">
-								<div class="ct-chart-inventory ct-golden-section"></div>
-								<div class="text-center m-t-10">
-									<span class="legend-item mr-3"> <span
-										class="fa-xs text-primary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full"></i></span> <span
-										class="legend-text">Turnover</span>
-									</span> <span class="legend-item mr-3"> <span
-										class="fa-xs text-secondary mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full"></i></span> <span
-										class="legend-text">Target</span>
-									</span> <span class="legend-item mr-3"> <span
-										class="fa-xs text-info mr-1 legend-tile"><i
-											class="fa fa-fw fa-square-full"></i></span> <span
-										class="legend-text">Acheived</span>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card">
+                                    <h5 class="card-header"> 최소 보유치 이하로 내려간 상품 재고 목록 </h5>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" style="table-layout: fixed; word-break: keep-all;">
+                                            	<colgroup>
+													<col width="150px" />
+													<col width="150px" />
+													<col width="50px" />
+													<col width="50px" />
+												</colgroup>
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0"> 상품명 </th>
+                                                        <th class="border-0"> 옵션명 </th>
+                                                        <th class="border-0"> 재고 개수 </th>
+                                                        <th class="border-0"> 권장 보유량 </th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                                <tbody>
+                                                	<c:if test="${empty productStockList}">
+                                                		<tr>
+                                                			<td colspan="4"> 권장 보유량 이하로 내려간 상품이 없습니다 </td>
+                                                		</tr>
+                                                	</c:if>
+                                                	<c:if test="${!empty productStockList}">
+														<c:forEach var="productOptionlist" items="${productStockList }">														
+		                                                    <tr>
+		                                                        <td>${productOptionlist.productName }</td>
+		                                                        <td>${productOptionlist.optionName }</td>
+		                                                        <td>${productOptionlist.optionStock }</td>
+		                                                        <td>${productOptionlist.optionStockMaxAlarm }</td>
+		                                                    </tr>
+														</c:forEach>                                                		
+                                                	</c:if>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+				</div>	
+			
 			</div>
 		</div>
 	</div>

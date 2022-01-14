@@ -17,50 +17,7 @@
 				)
 				
             ) AS or_total_price,
-            INNE.dates AS or_user_column1
-		FROM
-			(
-            SELECT 
-				ss.ss_name,
-		        ss.ss_commission,
-                SUM(od.or_total_price) AS total_price,
-		        SUM(od.or_payment_commision) AS comm,
-		        SUM(od.or_another_payment_commision) AS ano_comm,
-                DATE_FORMAT(od.or_sending_day, '%Y년 %m월') AS dates
-		        
-			FROM
-				orders od
-				INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
-			WHERE 			
-				<![CDATA[				
-					or_sending_day >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 3 MONTH) , '%Y-%m')
-                    AND or_sending_day < DATE_FORMAT(NOW() , '%Y-%m')
-				]]>
-				AND od.or_cancled_flag = 0
-				AND od.or_excel_div_flag = 0
-			GROUP BY
-				ss.ss_name,
-		        ss.ss_commission,
-                dates
-			) INNE
-		GROUP BY
-			INNE.dates
-		ORDER BY
-			INNE.dates ASC
-	</select>
-	
-	<select id="monthTotalSales" resultType="OrdersVO">
-		SELECT
-			IF(
-				SUM(
-					INNE.total_price + INNE.comm + INNE.ano_comm - ( (INNE.total_price + INNE.comm + INNE.ano_comm) * INNE.ss_commission / 100)
-				) IS NULL,
-                0,
-                SUM(
-					INNE.total_price + INNE.comm + INNE.ano_comm - ( (INNE.total_price + INNE.comm + INNE.ano_comm) * INNE.ss_commission / 100)
-				)
-            ) AS or_total_price,
-            DATE_FORMAT(dc.dc_date, '%Y-%m-%d') AS or_user_column1
+            DATE_FORMAT(dc.dc_date, '%Y년 %m월') AS or_user_column1
 		FROM
 			(
             SELECT 
@@ -76,8 +33,8 @@
 				INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
 			WHERE 			
 				<![CDATA[				
-					or_sending_day >= DATE_FORMAT(NOW() , '%Y-%m')
-                    AND or_sending_day < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH) , '%Y-%m')
+					or_sending_day >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 3 MONTH) , '%Y-%m-01')
+                    AND or_sending_day < DATE_FORMAT(NOW() , '%Y-%m-01')
 				]]>
 				AND od.or_cancled_flag = 0
 				AND od.or_excel_div_flag = 0
@@ -88,14 +45,64 @@
 			) INNE
             RIGHT JOIN dummy_calendar dc	ON	dc.dc_date = INNE.dates 
 		WHERE
-			<![CDATA[			
-				dc.dc_date  >= DATE_FORMAT(NOW() , '%Y-%m')
-				AND dc.dc_date < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH) , '%Y-%m')
+			<![CDATA[
+				dc.dc_date  >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 3 MONTH) , '%Y-%m-01')
+				AND dc.dc_date < DATE_FORMAT(NOW() , '%Y-%m-01')
 			]]>
 		GROUP BY
-			dc.dc_date
+			or_user_column1
 		ORDER BY
-			dc.dc_date DESC
+			or_user_column1 ASC
+	</select>
+	
+	<select id="monthTotalSales" resultType="OrdersVO">
+		SELECT
+			IF(
+				SUM(
+					INNE.total_price + INNE.comm + INNE.ano_comm - ( (INNE.total_price + INNE.comm + INNE.ano_comm) * INNE.ss_commission / 100)
+				) IS NULL,
+                0,
+                SUM(
+					INNE.total_price + INNE.comm + INNE.ano_comm - ( (INNE.total_price + INNE.comm + INNE.ano_comm) * INNE.ss_commission / 100)
+				)
+            ) AS or_total_price,
+            DATE_FORMAT(dc.dc_date, '%m-%d') AS or_user_column1
+		FROM
+			(
+            SELECT 
+				ss.ss_name,
+		        ss.ss_commission,
+                SUM(od.or_total_price) AS total_price,
+		        SUM(od.or_payment_commision) AS comm,
+		        SUM(od.or_another_payment_commision) AS ano_comm,
+                DATE_FORMAT(od.or_sending_day, '%Y-%m-%d') AS dates
+		        
+			FROM
+				orders od
+				INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
+			WHERE 			
+				<![CDATA[				
+					or_sending_day >= DATE_FORMAT(NOW() , '%Y-%m-01')
+                    AND or_sending_day < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH), '%Y-%m-01')
+				]]>
+				
+				AND od.or_cancled_flag = 0
+				AND od.or_excel_div_flag = 0
+			GROUP BY
+				ss.ss_name,
+		        ss.ss_commission,
+                dates
+			) INNE
+            RIGHT JOIN dummy_calendar dc	ON	dc.dc_date = INNE.dates 
+		WHERE
+			<![CDATA[
+				dc.dc_date  >= DATE_FORMAT(NOW() , '%Y-%m-01')
+				AND dc.dc_date < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH), '%Y-%m-01')
+			]]>
+		GROUP BY
+			or_user_column1
+		ORDER BY
+			or_user_column1 ASC
 	</select>
 </mapper>
 

@@ -8,13 +8,18 @@ $(function() {
 	
 	function reviewJsonData(reviewList){
 		  
-		  var reviewDataList = [];
+		  let reviewDataList = [];
+		  
+		  let reviewHTML = "";
 		  
 		  $.each(reviewList, function(idx ){
 			  
 			  let reviewCount = this.reviewCount;
 			  let crGrade = this.crGrade;
-			  
+			
+			  reviewHTML+='<p>'
+					+crGrade+' 점 <span class="float-right text-dark">'+comma(reviewCount)+' 건</span>'
+				+'</p>';
 			  let reviewData = {
 		
 				value: reviewCount
@@ -25,7 +30,7 @@ $(function() {
 			  
 			  reviewDataList[idx] = reviewData;
 			  
-			  
+			  $("#reviewData").html(reviewHTML);
 		  });
 		  
 		  
@@ -46,8 +51,7 @@ $(function() {
 			  
 			  let orderData = {
 		
-				x: orUserColumn1 +" "+orTotalPrice
-		
+				x: orUserColumn1 +"\n"+comma(orTotalPrice)+"원"
 				, y: orTotalPrice
 				
 			  }
@@ -111,7 +115,32 @@ $(function() {
 	    	let salesList = salesJsonData(data);
 	    	
 	    	Morris.Bar({
-	            element: 'ebit_morris',
+	            element: 'threeMonthSales',
+	            data: salesList,
+	            xkey: 'x',
+	            ykeys: ['y'],
+	            labels: ['매출'],
+	            barColors: ['#ff407b'],
+	            postUnits: ["원"]
+
+	        });
+	        
+	    }
+ 
+  });
+	
+	
+	$.ajax({
+	    type       : 'GET',
+	    dataType   : 'json',
+	    async	   : false,
+	    url        : '/dashboard/month_sales.do',
+	    success    : function(data){
+	    	
+	    	let salesList = salesJsonData(data);
+	    	
+	    	Morris.Bar({
+	            element: 'monthSales',
 	            data: salesList,
 	            xkey: 'x',
 	            ykeys: ['y'],
@@ -195,59 +224,6 @@ $(function() {
         highlightLineColor: undefined,
         resize:true,
     });
-    // ============================================================== 
-    // Chart Balance Bar
-    // ============================================================== 
-    var ctx = document.getElementById("chartjs_balance_bar").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',        
-        data: {
-            labels: ["Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+","Current", "1-30", "31-60", "61-90", "91+"],
-            datasets: [{
-                label: 'Aged Payables',
-                data: [500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500,500, 1000, 1500, 3700, 2500],
-                backgroundColor: "rgba(89, 105, 255,.8)",
-                borderColor: "rgba(89, 105, 255,1)",
-                borderWidth:1
-
-                
-            }]
-
-        },
-        options: {
-            legend: {
-                    display: true,
-
-                    position: 'bottom',
-
-                    labels: {
-                        fontColor: '#71748d',
-                        fontFamily:'Circular Std Book',
-                        fontSize: 14,
-                    }
-            },
-
-                scales: {
-                    xAxes: [{
-                ticks: {
-                    fontSize: 12,
-                     fontFamily:'Circular Std Book',
-                     fontColor: '#71748d',
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                    fontSize: 12,
-                     fontFamily:'Circular Std Book',
-                     fontColor: '#71748d',
-                }
-            }]
-                }
-    }
-
-
-
-});
  
     
     Morris.Donut({

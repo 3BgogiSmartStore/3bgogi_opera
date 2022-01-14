@@ -23,7 +23,9 @@ import com.gogi.proj.dashboard.model.DashboardService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.product.cost.vo.CostIoVO;
+import com.gogi.proj.product.products.vo.ProductOptionVO;
 import com.gogi.proj.producttax.vo.ProductInfoVO;
+import com.gogi.proj.stock.model.StockService;
 
 @Controller
 public class DashboardController {
@@ -33,8 +35,15 @@ public class DashboardController {
 	@Autowired
 	private DashboardService dashboardService;
 	
+	@Autowired
+	private StockService stockService;
+	
 	@RequestMapping(value="/dashboard/sale_flow_view.do", method=RequestMethod.GET)
 	public String saleFlowView(Model model) {
+		
+		List<ProductOptionVO> productStockList = stockService.productOptionStockAlarm();
+		
+		model.addAttribute("productStockList", productStockList);
 		
 		return "dashboard/sale_flow_view";
 	}

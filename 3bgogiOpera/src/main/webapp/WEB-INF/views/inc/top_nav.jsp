@@ -272,6 +272,9 @@
                                         <li class="nav-item">
                                         	<a class="nav-link" href="<c:url value='/analytics/product_sales.do'/>"> 상품명 별 판매 개수 </a>
                                         </li>
+                                        <li class="nav-item">
+                                        	<a class="nav-link" href="<c:url value='/dashboard/sale_flow_view.do'/>"> 매출 대시보드 </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
