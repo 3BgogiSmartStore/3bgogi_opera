@@ -211,4 +211,17 @@ public interface DeliveryConfigDAO {
 	 * @메소드설명 : 발송기한으로 주문서 목록 그룹화로 가져오기
 	 */
 	public List<OrdersVO> selectOrdersBySendingDeadline(OrderSearchVO osVO);
+	
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectDelivCompanyByOrSerialSpecialNumber
+	 * @date : 2022. 1. 17.
+	 * @author : Jeon KiChan
+	 * @param String orSerialSpecialNumber
+	 * @return
+	 * @메소드설명 : 주문서 고유 묶음 번호로 배송회사 pk값 가져오기
+	 */
+	public int selectDelivCompanyByOrSerialSpecialNumber(String orSerialSpecialNumber);
 }

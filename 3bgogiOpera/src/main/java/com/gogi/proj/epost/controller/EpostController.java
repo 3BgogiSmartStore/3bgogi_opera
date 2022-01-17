@@ -51,6 +51,7 @@ import com.gogi.proj.excel.xlsxWriter;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.config.model.OrderConfigService;
 import com.gogi.proj.orders.model.OrdersService;
+import com.gogi.proj.orders.teamfresh.model.TeamFreshService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
@@ -111,6 +112,9 @@ public class EpostController {
 	
 	@Autowired
 	private EpostSendingUtil esu;
+	
+	@Autowired
+	private TeamFreshService teamFreshService;
 
 	/*
 	 * @RequestMapping(value="/epost.do", method=RequestMethod.GET) public String
@@ -168,7 +172,7 @@ public class EpostController {
 			orderSearchVO.setTotalQtyAlarm(12);
 		}
 		
-		if(orderSearchVO.getEdtFk() == 6) {
+		/*if(orderSearchVO.getEdtFk() == 6) {
 			orderSearchVO.setEdtFk(6);
 			
 			orderSearchVO.setOrSerialSpecialNumberList(todayPickupService.selectTodayPickupTargetChecking(orderSearchVO).getOrSerialSpecialNumberList());
@@ -181,6 +185,76 @@ public class EpostController {
 			
 			model.addAttribute("storeSectionList",storeSectionList);
 			model.addAttribute("insertStoreOrderList", insertStoreOrderList);
+			model.addAttribute("OrderSearchVO", orderSearchVO);
+			model.addAttribute("orderList",checkingResultList);
+			model.addAttribute("edtList", edtList);
+			
+			return "delivery/not_sending_list";
+			
+		}else */
+		
+		if(orderSearchVO.getEdtFk() == 7) {
+			orderSearchVO.setOrSerialSpecialNumberList(teamFreshService.selectTeamFreshDeliveryTargetChecking(orderSearchVO).getOrSerialSpecialNumberList());
+			int packingIrreOrderCounting = orderConfigService.selectPackingIrreTargetOrderCounting();
+			
+			int checkingCount = 0;
+			
+			List<OrdersVOList> checkingResultList = null;
+			
+			if(orderSearchVO.getOrSerialSpecialNumberList() == null) {
+				orderSearchVO.setTotalRecord(checkingCount);
+				
+			}else {
+				checkingCount = cjService.selectDontGrantCjDelivOrderListInMonthCounting(orderSearchVO);
+				
+				orderSearchVO.setTotalRecord(checkingCount);
+				
+				checkingResultList = cjService.selectDontGrantCjDelivOrderListInMonth(orderSearchVO);
+			}
+			
+			List<DoorPassKeywordVO> doorList = dcService.selectAllDoorPassKeyword();
+			
+			if(checkingResultList != null ) {				
+				for( OrdersVOList buyerInfo :  checkingResultList) {
+					
+					if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+						buyerInfo.setOrDelivEnterFlag(true);
+						
+					}else {					
+						buyerInfo = dcService.doorPassCheck(buyerInfo);
+						
+						if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+							buyerInfo.setOrDelivEnterFlag(true);
+							
+						}else {
+							
+							for( OrdersVO orderInfo : buyerInfo.getOrVoList()) {
+								
+								if(orderInfo.getOrDeliveryMessage() != null && !orderInfo.getOrDeliveryMessage().equals("")) {
+									
+									for(DoorPassKeywordVO dpk : doorList) {
+										
+										if(orderInfo.getOrDeliveryMessage().contains(dpk.getDpkWord())) {
+											buyerInfo.setOrDelivEnterFlag(true);
+											break;
+											
+										}
+										
+									}
+									
+									
+								}
+								
+							}
+						}
+						
+					}
+				}
+			}
+			
+			model.addAttribute("storeSectionList",storeSectionList);
+			model.addAttribute("insertStoreOrderList", insertStoreOrderList);
+			model.addAttribute("packingIrreOrderCounting", packingIrreOrderCounting);
 			model.addAttribute("OrderSearchVO", orderSearchVO);
 			model.addAttribute("orderList",checkingResultList);
 			model.addAttribute("edtList", edtList);
@@ -718,6 +792,34 @@ public class EpostController {
 		ModelAndView mav = new ModelAndView("downloadView", fileMap);
 		
 		return mav;
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : teamFreshDeliveryExcelDelivFile
+	 * @date : 2022. 1. 17.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param request
+	 * @param model
+	 * @return
+	 * @메소드설명 : 팀프레시 송장 부여
+	 */
+	@RequestMapping(value="/teamfresh_delivery.do", method=RequestMethod.POST)
+	public String teamFreshDeliveryExcelDelivFile(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request, Model model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		AdminVO adminVo = (AdminVO)auth.getPrincipal();
+		
+		//, request.getRemoteAddr(), adminVo.getUsername()
+		
+		String result = teamFreshService.createTeamFreshDelivInvoice(osVO, request.getRemoteAddr(), adminVo.getUsername());
+
+		model.addAttribute("delivResult", result);
+		
+		return "delivery/deliv_result";
 	}
 	
 	

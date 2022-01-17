@@ -150,5 +150,11 @@ public class DeliveryConfigServiceImple implements DeliveryConfigService{
 		// TODO Auto-generated method stub
 		return dcDao.selectOrdersBySendingDeadline(osVO);
 	}
+
+	@Override
+	public int selectDelivCompanyByOrSerialSpecialNumber(String orSerialSpecialNumber) {
+		// TODO Auto-generated method stub
+		return dcDao.selectDelivCompanyByOrSerialSpecialNumber(orSerialSpecialNumber);
+	}
 	
 }

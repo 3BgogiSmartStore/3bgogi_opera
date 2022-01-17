@@ -42,6 +42,7 @@ import com.gogi.proj.epost.vo.RegDataVO;
 import com.gogi.proj.log.model.LogService;
 import com.gogi.proj.log.vo.OrderHistoryVO;
 import com.gogi.proj.orders.model.OrdersDAO;
+import com.gogi.proj.orders.teamfresh.model.TeamFreshService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.todayPickup.controller.TodayPickupController;
@@ -66,6 +67,9 @@ public class EpostServiceImpl implements EpostService {
 	
 	@Autowired
 	private TodayPickupService todayPickupService;
+	
+	@Autowired
+	private TeamFreshService teamFreshService;
 
 	@Autowired
 	private OrdersDAO orderDao;
@@ -167,6 +171,12 @@ public class EpostServiceImpl implements EpostService {
 				}else if(regVO.getEdtFk() == 5){
 					epostDao.deleteDelivInfo(orSerialSpecialNumberList.get(i));
 					results.append(""+orSerialSpecialNumberList.get(i)+" => cj새벽 배송 삭제 <br>");
+					
+				}else if(regVO.getEdtFk() == 7){
+					teamFreshService.deleteTeamFreshDelivInvoice(regVO.getResNo(), ip, adminId);
+					
+					epostDao.deleteDelivInfo(orSerialSpecialNumberList.get(i));
+					results.append(""+orSerialSpecialNumberList.get(i)+" => 팀프레시 송장 삭제 <br>");
 					
 				}else if(regVO.getEdtFk() == 1){
 					deliDao.deleteSendingReq(regVO);

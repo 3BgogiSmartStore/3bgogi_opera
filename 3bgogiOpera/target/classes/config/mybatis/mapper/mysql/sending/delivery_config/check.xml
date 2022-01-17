@@ -145,6 +145,16 @@
 			or_shipping_address_number
 	</select>
 	
+	<select id="selectDelivCompanyByOrSerialSpecialNumber" parameterType="String" resultType="int">
+		SELECT
+			edt_fk
+		FROM
+			orders
+		WHERE
+			or_serial_special_number = #{orSerialSpecialNumber}
+		GROUP BY
+			edt_fk
+	</select>
 </mapper>
 
 

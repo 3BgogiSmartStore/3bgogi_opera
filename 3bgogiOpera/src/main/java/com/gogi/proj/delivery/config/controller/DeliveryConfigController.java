@@ -27,6 +27,7 @@ import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.model.OrdersService;
+import com.gogi.proj.orders.teamfresh.model.TeamFreshService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
@@ -53,6 +54,9 @@ public class DeliveryConfigController {
 	
 	@Autowired
 	private CjdeliveryService cjDeliveryService;
+	
+	@Autowired
+	private TeamFreshService teamFreshService;
 	
 	/**
 	 * 
@@ -240,9 +244,22 @@ public class DeliveryConfigController {
 								
 				orVO = dcService.doorPassCheck(orVO);
 
+				int edtFk = dcService.selectDelivCompanyByOrSerialSpecialNumber(orSerialSpecialNumber);
+				
+				if(edtFk == 7) {					
+					int updateResult = teamFreshService.updateTeamFreshDoorPass(orSerialSpecialNumber, orVO.getOrDelivEnter());
+					
+					if( updateResult > 0) msg = "팀프레시 공동현관 비밀번호 수정 완료";
+					else msg = "팀프레시 공동현관 비밀번호 수정 실패";
+					
+				}else {
+					msg = "입력 완료";
+				}
+				
+			}else {				
+				msg = "입력 완료";
 			}
 			
-			msg = "입력 완료";
 			
 			model.addAttribute("closing", true);
 		}else {

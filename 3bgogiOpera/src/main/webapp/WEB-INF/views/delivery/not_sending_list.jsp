@@ -325,6 +325,49 @@
     			
     		}); 
     		
+    		$("#teamFreshDelivButton").click(function(){
+    			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
+    			
+    			if(orSize == 0){
+    				alert("부여할 수 있는 송장이 존재하지 않습니다");
+    				return false;
+    			}
+    			
+    			if(confirm(orSize+" 개의 주문서에 팀프레시 송장을 부여하시겠습니까?")){
+        			
+        			$("#teamFreshDelivButton").removeClass("btn btn-warning");
+        			
+            		$("#teamFreshDelivButton").text("");
+            		
+        			$("#teamFreshDelivButton").addClass("dashboard-spinner spinner-xs");
+
+					window.open('', 'viewer', 'width=1000, height=700');
+	    			
+	    			var delivForm =  document.createElement("form");
+	    			delivForm.method="POST";
+	    			
+	    			delivForm.action = '<c:url value="/security/teamfresh_delivery.do"/>';
+	    			delivForm.target = "viewer";
+	    			
+	    			for(var i=0; i<orSize; i++){
+	    				var orSerialSpecialNumberInput = document.createElement("input");
+	    				orSerialSpecialNumberInput.name="orSerialSpecialNumberList";
+	    				orSerialSpecialNumberInput.value=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
+	    				delivForm.append(orSerialSpecialNumberInput);
+	    				console.log(orSerialSpecialNumberInput+" "+$("input[name=orSerialSpecialNumberList]:checked")[i].value);
+	    				
+	    			}
+	    			
+	    			$("#excelDownloadIframe").append(delivForm);
+	    			
+	    			delivForm.submit();
+	    			
+	    			$("#excelDownloadIframe").html("");
+    			}
+    			
+    			
+    		}); 
+    		
     		
     		$("#cjDelivDoorMsgButton").click(function(){
     			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
@@ -765,6 +808,11 @@
 											</c:if>
 				                            <div class="btn-group">
 				                            	<select class="form-control" name="edtFk">
+				                            		<option value="7"
+				                            			<c:if test="${OrderSearchVO.edtFk == 7 }">
+															selected="selected"
+														</c:if>
+				                            		>팀프레시 송장 부여</option>
 				                            		<option value="5"
 				                            			<c:if test="${OrderSearchVO.edtFk == 5 }">
 															selected="selected"
@@ -827,6 +875,9 @@
 												<c:if test="${OrderSearchVO.edtFk == 1 }">
 													우체국택배 송장 가공중입니다
 												</c:if>
+												<c:if test="${OrderSearchVO.edtFk == 7 }">
+													팀프레시 송장 가공중입니다
+												</c:if>
                                         	</h3>
 	                        			</div>
                                         <div class="form-group col-sm-6 pl-0">
@@ -835,7 +886,10 @@
 												<!-- <button type="button" class="btn btn-primary" id="labelIO">  라벨지 출력  </button> -->				
 												<c:if test="${OrderSearchVO.edtFk == 5 }">
 													<button class="btn btn-warning" id="cjDelivButton"> cj 새벽배송 임시송장 부여 </button>
-												</c:if>								
+												</c:if>		
+												<c:if test="${OrderSearchVO.edtFk == 7 }">
+													<button class="btn btn-warning" id="teamFreshDelivButton"> 팀프레시 송장 부여 </button>
+												</c:if>						
 												
 												<c:if test="${OrderSearchVO.edtFk == 6 }">
 													<button class="btn btn-warning" id="allMergeBtn"> 선택 주문 전부 합포 </button>
@@ -859,12 +913,13 @@
                                 	<button class="btn btn-brand btn-xs mb-2" id="delivStoppedAreaCheckBtn" type="button"> 우체국 발송 중단 지역 확인 </button>
                                 	<button class="btn btn-primary btn-xs" id="doorPassKeywordListBtn"> 공동현관 키워드 목록 확인 </button>
                                 	
-                                	<c:if test="${OrderSearchVO.edtFk == 5 }">
+                                	<c:if test="${OrderSearchVO.edtFk == 5 or OrderSearchVO.edtFk == 7 }">
 										<button class="btn btn-success btn-xs" id="cjDelivDoorCheckBtn">공동현관 자동체크</button>
 										<!-- <button class="btn btn-danger btn-xs" id="cjDelivDoorMsgButton"> 공동현관 비밀번호 요청 문자발송 </button> -->
 										<button class="btn btn-danger btn-xs" id="cjDelivDoorMsgKakaoButton"> 공동현관 비밀번호 알림톡 </button>
 									</c:if>
                                 </div>
+                                
                                 <div class="card-body">
                                     <table class="table table-bordered">
                                         <thead>

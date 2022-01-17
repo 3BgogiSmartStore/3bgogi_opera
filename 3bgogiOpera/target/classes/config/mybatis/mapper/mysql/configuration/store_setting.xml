@@ -9,7 +9,7 @@
 		INSERT INTO store_section(
 			ss_name,
 			ss_deliv_comp_type,
-			ss_store_nickname
+			ss_store_nickname,
 			ss_store_id,
 			ss_store_password,
 			ss_auth_key,
