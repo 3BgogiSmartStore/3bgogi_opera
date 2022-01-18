@@ -142,7 +142,7 @@
 				            		<table class="table table-hover">
 		                            	<thead>
 											<tr>
-												<th>이름</th>
+												<th>구매자/수령자</th>
 												<th>연락처</th>
 												<th>주소</th>
 												<th>결과</th>
@@ -153,7 +153,7 @@
 		                                	<c:if test="${empty epostList.error_code }">
 		                                    	<tr>
 			                                    	<td>
-			                                        	${epostList.orVO.orBuyerName }
+			                                        	${epostList.orVO.orBuyerName } / ${epostList.orVO.orReceiverName }
 			                                        </td>
 			                                        <td>
 			                                        	${epostList.orVO.orBuyerContractNumber1 }

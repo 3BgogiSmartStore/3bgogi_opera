@@ -185,28 +185,29 @@ public class TeamFreshServiceImpl implements TeamFreshService{
 					sb.append(poVO.getProductName()+"|");
 				}
 				
-				
-				if(poVO.getOptionMemo2() != null) {					
-					if(delivMsgTemp.indexOf(poVO.getOptionMemo2()) != -1 || poVO.getOptionMemo2().equals("")) {
+				System.out.println("poVO.getOptionMemo2() = "+poVO.getOptionMemo2());
+				if(poVO.getOptionMemo2() != null && !poVO.getOptionMemo2().equals("")) {					
+					if(delivMsg.contains(poVO.getOptionMemo2())) {
 						continue;
 					}else {
 						delivMsg+= poVO.getOptionMemo2();
-						delivMsgTemp = poVO.getOptionMemo2();
 					}
 				}
 				
-				if(poVO.getOptionMemo1() != null) {						
-					if(doorPassTemp.indexOf(poVO.getOptionMemo1()) != -1 || poVO.getOptionMemo1().equals("")) {
+				System.out.println("poVO.getOptionMemo1() = "+poVO.getOptionMemo1());
+				
+				if(poVO.getOptionMemo1() != null && !poVO.getOptionMemo1().equals("")) {						
+					if(doorPass.contains(poVO.getOptionMemo1())) {
 						continue;
 					}else {
 						doorPass+= poVO.getOptionMemo1();
-						doorPassTemp = poVO.getOptionMemo1();
 					}
 				}
 
 				prodCount++;
 			}
 			
+			System.out.println("doorPass = "+doorPass+", delivMsg = "+delivMsg);
         	orderInfo = new JSONObject();
         	orderInfo.put("idx", (i+1));
         	orderInfo.put("customerName", "삼형제월드");
@@ -223,11 +224,12 @@ public class TeamFreshServiceImpl implements TeamFreshService{
         	orderInfo.put("senderName", delivTarget.get(i).getOrBuyerName());
         	orderInfo.put("itemInfo", sb.toString());
         	
-        	//orderInfo.put("cNote1", "");
-        	//orderInfo.put("cNote2", "");
-        	//orderInfo.put("cNote3", "");
-        	//orderInfo.put("cNote4", "");
-        	//orderInfo.put("cNote5", "");
+        	
+        	orderInfo.put("cNote1", "");
+        	orderInfo.put("cNote2", "");
+        	orderInfo.put("cNote3", "");
+        	orderInfo.put("cNote4", "");
+        	orderInfo.put("cNote5", "");
         	orderInfo.put("premiumYn", "X");
         	
         	orderList.add(orderInfo);

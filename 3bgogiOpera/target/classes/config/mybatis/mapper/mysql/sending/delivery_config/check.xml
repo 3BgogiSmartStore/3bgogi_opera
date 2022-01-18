@@ -125,7 +125,8 @@
 			or_receiver_contract_number1,
 			or_shipping_address,
 			or_shipping_address_detail,
-			or_shipping_address_number
+			or_shipping_address_number,
+			or_abs_deliv_type
 		FROM
 			orders
 		WHERE
@@ -142,7 +143,8 @@
 			or_receiver_contract_number1,
 			or_shipping_address,
 			or_shipping_address_detail,
-			or_shipping_address_number
+			or_shipping_address_number,
+			or_abs_deliv_type
 	</select>
 	
 	<select id="selectDelivCompanyByOrSerialSpecialNumber" parameterType="String" resultType="int">

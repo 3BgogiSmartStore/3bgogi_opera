@@ -91,6 +91,7 @@
 		UPDATE
 			orders
 		SET
+			or_delivery_company = '팀프레시',
 			or_delivery_invoice_number = #{orDeliveryInvoiceNumber},
 			regi_no = #{orDeliveryInvoiceNumber},
 			res_no = #{resNo},

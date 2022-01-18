@@ -863,7 +863,9 @@ public class EpostController {
 		for(OrdersVO orVO : orderList) {
 			
 			if(cjFlag == 1) {
-				if(cjService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
+				
+				
+				if( orVO.getOrAbsDelivType() == 0 && cjService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
 					//새벽배송으로 가능한 지역
 					
 				}else {				
