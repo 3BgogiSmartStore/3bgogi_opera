@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="delivery.config.door_pass_keyword">
+	
+	<!-- 출입문 키워드 추출에 필요한 값들 -->
+	
+	<insert id="insertDoorPassKeyword" parameterType="DoorPassKeywordVO">
+		INSERT INTO door_pass_keyword(
+			dpk_word
+		)
+		VALUES(
+			#{dpkWord}
+		)
+	</insert>
+	
+	<select id="selectAllDoorPassKeyword" resultType="DoorPassKeywordVO">
+		SELECT
+			*
+		FROM
+			door_pass_keyword
+	</select>
+	
+	<delete id="deleteDoorPassKeyword" parameterType="DoorPassKeywordVO">
+		DELETE FROM door_pass_keyword
+		WHERE
+			dpk_pk = #{dpkPk}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+

@@ -129,6 +129,9 @@ public class LotteServiceImpl implements LotteService{
 		header.add("합포장키");
 		header.add("고객메시지");
 		header.add("보내는사람(지정)");
+		header.add("주소(지정)");
+		header.add("전화번호1(지정)");
+		header.add("우편번호(지정)");
 
 		
 		SXSSFWorkbook workbook = new SXSSFWorkbook();
@@ -227,7 +230,7 @@ public class LotteServiceImpl implements LotteService{
 				sheet.setColumnWidth(3, ( sheet.getColumnWidth(3) + 512));
 				
 				cell = (SXSSFCell) row.createCell(4);
-				cell.setCellValue(delivTarget.get(i).getOrAmount());	
+				cell.setCellValue(poVO.getAnotherOptionQty());	
 				sheet.autoSizeColumn(4);
 				sheet.setColumnWidth(4, ( sheet.getColumnWidth(4) + 512));
 				
@@ -258,6 +261,22 @@ public class LotteServiceImpl implements LotteService{
 				cell.setCellValue(delivTarget.get(i).getOrBuyerName());
 				sheet.autoSizeColumn(9);
 				sheet.setColumnWidth(9, ( sheet.getColumnWidth(9) + 512));
+				
+				
+				cell = (SXSSFCell) row.createCell(10);
+				cell.setCellValue("인천광역시 계양구 효서로 388 2층 삼형제고기");
+				sheet.autoSizeColumn(10);
+				sheet.setColumnWidth(10, ( sheet.getColumnWidth(10) + 512));
+				
+				cell = (SXSSFCell) row.createCell(11);
+				cell.setCellValue("0507-1312-1620");
+				sheet.autoSizeColumn(11);
+				sheet.setColumnWidth(11, ( sheet.getColumnWidth(11) + 512));
+				
+				cell = (SXSSFCell) row.createCell(12);
+				cell.setCellValue("21126");
+				sheet.autoSizeColumn(12);
+				sheet.setColumnWidth(12, ( sheet.getColumnWidth(12) + 512));
 				
 				cellCounting++;
 				

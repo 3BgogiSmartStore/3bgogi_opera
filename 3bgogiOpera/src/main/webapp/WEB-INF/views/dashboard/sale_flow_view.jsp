@@ -54,13 +54,53 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+				
+					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
 						<div class="card">
-							<h5 class="card-header"> 지난 3개월 매출</h5>
-							<div class="card-body">
-								<div id="threeMonthSales"></div>
-							</div>
-						</div>
+                            <h5 class="card-header"> 지난 3개월 매출</h5>
+                            <div class="card-body">
+                                <div id="threeMonthCarousel" class="carousel slide" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                    	<c:set var="counting" value="0"/>
+                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
+	                                        <li data-target="#threeMonthCarousel" data-slide-to="${counting }" 
+	                                        	<c:if test="${counting == 0 }">
+	                                        		class="active"
+	                                        		
+	                                        	</c:if>
+	                                        ></li>
+	                                        <c:set var="counting" value="${counting + 1 }"/>
+                                    	</c:forEach>
+                                    </ol>
+                                    
+                                    <div class="carousel-inner">
+                                    	<c:set var="counting" value="0"/>
+                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
+	                                        <div class="carousel-item  
+		                                        <c:if test="${counting == 0 }">
+	                                        		active 
+	                                        		
+	                                        	</c:if>
+	                                        ">
+	                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
+	                                            <div class="carousel-caption d-none d-md-block">
+	                                                <h2> <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h2>
+	                                                <h4> ${threeList.orUserColumn1 }</h4>
+	                                            </div>
+	                                        </div>
+	                                        <c:set var="counting" value="${counting + 1 }"/>
+                                    	</c:forEach>
+                                    </div>
+                                    
+                                    <a class="carousel-control-prev" href="#threeMonthCarousel" role="button" data-slide="prev">
+                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                       <span class="sr-only">이전</span>  </a>
+                                    <a class="carousel-control-next" href="#threeMonthCarousel" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">다음</span>  </a>
+                                </div>
+                            </div>
+                        </div>
 					</div>
 					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
 						<div class="card">
@@ -85,23 +125,25 @@
                                     </ol>
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
-                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide">
+                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
                                             <div class="carousel-caption d-none d-md-block">
-                                                <h3 class="text-white">Heading Title Carousel</h3>
+                                                <h3 class="">Heading Title Carousel</h3>
                                                 <p>Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiat enim ut luctus. Aliquam pellentesque ut tellus ultricies bibendum.</p>
                                             </div>
                                         </div>
+                                        
                                         <div class="carousel-item">
-                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="Second slide">
+                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="Second slide" style="opacity: 0;">
                                             <div class="carousel-caption d-none d-md-block">
-                                                <h3 class="text-white">Heading Title Carousel</h3>
+                                                <h3 class="">Heading Title Carousel</h3>
                                                 <p>Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiat enim ut luctus. Aliquam pellentesque ut tellus ultricies bibendum.</p>
                                             </div>
                                         </div>
+                                        
                                         <div class="carousel-item">
-                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="Third slide">
+                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="Third slide" style="opacity: 0;">
                                             <div class="carousel-caption d-none d-md-block">
-                                                <h3 class="text-white">Heading Title Carousel</h3>
+                                                <h3 class="">Heading Title Carousel</h3>
                                                 <p>Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiat enim ut luctus. Aliquam pellentesque ut tellus ultricies bibendum.</p>
                                             </div>
                                         </div>
@@ -195,7 +237,12 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/charts/morris-bundle/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/charts/morris-bundle/morris.js"></script>
 <script type="text/javascript">
-	
+	$(function(){
+		$(".carousel").carousel({
+			interval: 1500
+		});
+		
+	});
 </script>
 
 </html>

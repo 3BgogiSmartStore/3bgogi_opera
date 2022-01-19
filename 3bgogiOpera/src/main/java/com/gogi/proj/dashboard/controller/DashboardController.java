@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gogi.proj.analytics.model.AnalyticsService;
 import com.gogi.proj.dashboard.model.DashboardService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
@@ -38,12 +39,33 @@ public class DashboardController {
 	@Autowired
 	private StockService stockService;
 	
+	@Autowired
+	private AnalyticsService analyService;
+	
 	@RequestMapping(value="/dashboard/sale_flow_view.do", method=RequestMethod.GET)
 	public String saleFlowView(Model model) {
 		
 		List<ProductOptionVO> productStockList = stockService.productOptionStockAlarm();
+		List<OrdersVO> threeMonthTotalSales = dashboardService.threeMonthTotalSales();
+		List<OrdersVO> monthTotalSales = dashboardService.monthTotalSales();
+		
+		
+		int matching_fail = analyService.notMatchingOrder();
+		int dont_grant_invoice_num  = analyService.dontGrantInvoiceOrder();
+		int output_weiting_order  = analyService.sendingWeitOrder();
+		int output_order  = analyService.sendingFinishOrder();
+		int deposit_order  = analyService.depositOrder();
+		
 		
 		model.addAttribute("productStockList", productStockList);
+		model.addAttribute("threeMonthTotalSales", threeMonthTotalSales);
+		model.addAttribute("monthTotalSales", monthTotalSales);
+		
+		model.addAttribute("matching_fail", matching_fail);
+		model.addAttribute("dont_grant_invoice_num", dont_grant_invoice_num);
+		model.addAttribute("output_weiting_order", output_weiting_order);
+		model.addAttribute("output_order", output_order);
+		model.addAttribute("deposit_order", deposit_order);
 		
 		return "dashboard/sale_flow_view";
 	}

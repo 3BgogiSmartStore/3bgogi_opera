@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="delivery.config">
+	
+	<!-- 우편번호 등록 조회용 -->
+	<resultMap id="delivResultMap" type="com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO">
+		<id property="edtPk" column="edt_pk" javaType="int"/>
+		<result property="edtType" column="edt_type" javaType="String"/>
+		<result property="edtUrl" column="edt_url" javaType="String"/>
+		
+		<collection property="edtList" ofType="com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO">
+			<id property="edaPk" column="eda_pk" javaType="int"/>
+			<result property="edtFk" column="edt_fk" javaType="int"/>
+			<result property="edaAddr" column="eda_addr" javaType="String"/>
+			<result property="edaSearchTypeFlag" column="eda_search_type_flag" javaType="boolean"/>
+			<result property="edaRegdate" column="eda_regdate" javaType="java.sql.Timestamp"/>
+		</collection>
+		
+	</resultMap>
+	
+	<!-- 배송 회사 전부 불러오기 -->
+	<select id="earlyDelivType" resultType="EarlyDelivTypeVO">
+		SELECT
+			*
+		FROM
+			early_deliv_type
+		
+	</select>
+	
+	
+	<!-- 배송 불가 지역 추가하기 -->
+	<!-- search_type_flag = 0 전부 맞았을 경우, 1 포함이 될 경우 -->
+	<insert id="insertEarlyDelivArea" parameterType="EarlyDelivAreaVO">
+		INSERT
+			early_deliv_area
+			(
+				edt_fk,
+				eda_addr,
+				eda_search_type_flag				
+			)
+		VALUES(
+			#{edtFk},
+			#{edaAddr},
+			#{edaSearchTypeFlag}
+		)
+	</insert>
+	
+	<!-- 배송 불가 지역 불러오기 -->
+	<select id="selectEarlyDelivArea" resultMap="delivResultMap" parameterType="OrderSearchVO">
+		SELECT
+			*
+		FROM
+			early_deliv_area eda
+			INNER JOIN early_deliv_type edt ON eda.edt_fk = edt.edt_pk
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				eda.eda_addr LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+			<if test="edtFk != 0">
+				AND edt_fk = #{edtFk}
+			</if>
+		</trim>
+			
+			
+		LIMIT 
+			#{firstRecordIndex}, #{recordCountPerPage} 
+	</select>
+	
+	<!-- 배송 불가 지역 페이징처리를 위한 전체 개수 -->
+	<select id="earlyDelivAreaCount" resultType="int" parameterType="OrderSearchVO">
+		SELECT
+			COUNT(*)
+		FROM
+			early_deliv_area eda
+			INNER JOIN early_deliv_type edt ON eda.edt_fk = edt.edt_pk
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				eda.eda_addr LIKE CONCAT('%',#{searchKeyword},'%')
+			</if>
+			<if test="edtFk != 0">
+				AND edt_fk = #{edtFk}
+			</if>
+		</trim>
+	</select>
+	
+	
+	<!-- 모든 배송 불가 지역 불러오기 -->
+	<select id="allEarlyDelivArea" resultType="EarlyDelivAreaVO" parameterType="int">
+		SELECT
+			*
+		FROM
+			early_deliv_area
+		WHERE
+			edt_fk = #{edtFk}
+	</select>
+	
+	<!-- 배송 불가 지역 삭제하기 -->
+	<delete id="deleteEarlyDelivArea" parameterType="EarlyDelivAreaVO">
+		DELETE FROM 
+			early_deliv_area
+		WHERE
+			eda_pk = #{edaPk}
+	</delete>
+	
+	
+	
+</mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="delivery.lotte_delivery">
+<mapper namespace="delivery.cj_delivery">
 	
 	<resultMap id="deliveryInfoResultMap" type="OrdersVOList">
 		<id property="orSerialSpecialNumber" column="or_serial_special_number" javaType="String"/>
@@ -156,7 +156,7 @@
 			</collection>
 	</resultMap>
 	
-	<select id="selectDontGrantLotteDelivOrderListInMonthCounting" parameterType="OrderSearchVO" resultType="int">
+	<select id="selectDontGrantCjDelivOrderListInMonthCounting" parameterType="OrderSearchVO" resultType="int">
 		SELECT
 			COUNT(out_or.or_serial_special_number)
 		FROM(
@@ -186,6 +186,12 @@
 						 od.or_refunds = 0
 						 AND od.or_abs_deliv_type = 0
 						 AND od.or_delivery_invoice_number IS NULL
+						<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
+							AND od.or_serial_special_number IN 
+							<foreach collection="orSerialSpecialNumberList" item="item" open="(" close=")"  separator=",">
+						        #{item}
+						    </foreach>
+						</if>
 						<![CDATA[
 							AND od.or_sending_deadline >= #{dateStart}
 							AND od.or_sending_deadline <= #{dateEnd}
@@ -227,7 +233,7 @@
 
 	</select>
 	
-	<select id="selectDontGrantLotteDelivOrderListInMonth" parameterType="OrderSearchVO" resultMap="deliveryInfoResultMap">
+	<select id="selectDontGrantCjDelivOrderListInMonth" parameterType="OrderSearchVO" resultMap="deliveryInfoResultMap">
 		SELECT
 			datas.*
 		FROM
@@ -330,6 +336,12 @@
 					od.or_refunds = 0
 					AND or_abs_deliv_type = 0
 					AND od.or_delivery_invoice_number IS NULL
+					<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
+						AND od.or_serial_special_number IN 
+						<foreach collection="orSerialSpecialNumberList" item="item" open="(" close=")"  separator=",">
+					        #{item}
+					    </foreach>
+					</if>
 					<![CDATA[
 						
 						AND od.or_sending_deadline >= #{dateStart}
@@ -380,7 +392,7 @@
 			datas.or_settlement_day asc
 	</select>
 	
-	<select id="selectLotteDeliveryTargetChecking" resultType="OrdersVO">
+	<select id="selectCjDeliveryTargetChecking" resultType="OrdersVO">
 		SELECT
 			datas.*
 		FROM
@@ -482,15 +494,15 @@
 	
 	
 	<!-- 송장 가입력 상태로 둠 -->
-	<update id="updateLotteDeliveryTargetBeforeGrantInvoiceNum" parameterType="OrdersVO">
+	<update id="updateCjDeliveryTargetBeforeGrantInvoiceNum" parameterType="OrdersVO">
 		UPDATE
 			orders
 		SET
-			or_delivery_company = '롯데택배',
+			or_delivery_company = 'CJ대한통운',
 			or_delivery_invoice_number = '입력전',
 			regi_no = '입력전',
 			or_invoice_num_date = #{orUserColumn7},
-			edt_fk = 4
+			edt_fk = 5
 		WHERE
 			or_delivery_invoice_number IS NULL
 			AND or_cancled_flag = 0
@@ -503,7 +515,7 @@
 	
 	
 	<!-- primary key 값으로 송장부여 -->
-	<update id="grantLotteDeliveryInvoiceNumByOrPk" parameterType="OrderSearchVO">
+	<update id="grantCjDeliveryInvoiceNumByOrPk" parameterType="OrderSearchVO">
 		UPDATE
 			orders
 		SET
@@ -514,13 +526,13 @@
 	
 	
 	<!-- 별도의 묶음번호를 기준으로 송장부여 : priamry key 값으로 송장부여가 불가능할 경우에 사용할 수 있도록 함 -->
-	<update id="grantLotteDeliveryInvoiceNumBySerialSpecialNumber" parameterType="OrdersVO">
+	<update id="grantCjDeliveryInvoiceNumBySerialSpecialNumber" parameterType="OrdersVO">
 		UPDATE
 			orders
 		SET
 			or_delivery_invoice_number = #{orDeliveryInvoiceNumber},
 			regi_no = #{orDeliveryInvoiceNumber},
-			edt_fk = 4
+			edt_fk = 5
 		WHERE
 			or_serial_special_number = #{orSerialSpecialNumber}
 			<![CDATA[
@@ -529,16 +541,14 @@
 	</update>
 	
 	
-	<!-- 롯데택배 엑셀 파일로 만들기 위한 정보 나열 -->
-	<select id="selectLotteDeliveryExcelTarget" parameterType="OrderSearchVO" resultMap="renewalDeliveryInfoResultMap">
+	<!-- cj 엑셀 파일로 만들기 위한 정보 나열 -->
+	<select id="selectCjDeliveryExcelTarget" parameterType="OrderSearchVO" resultMap="renewalDeliveryInfoResultMap">
 		SELECT
 			eos.eos_deliv_seq,
 			od.or_pk,
 			od.or_user_column4,
 			od.or_receiver_name,
 			od.or_receiver_contract_number1,
-			od.or_buyer_name,
-			od.or_shipping_address_number,
 			IF(od.or_shipping_address_detail IS NULL OR od.or_shipping_address_detail = '',
 				or_shipping_address,
                 CONCAT(od.or_shipping_address, ' ', od.or_shipping_address_detail)
@@ -578,7 +588,7 @@
             od.or_delivery_message DESC
 	</select>
 	
-	<select id="selectOrdersPkByOrSerialSpecialNumberForGrantLotteInvoiceNum" parameterType="String" resultType="OrdersVO">
+	<select id="selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum" parameterType="String" resultType="OrdersVO">
 		SELECT 
 			or_pk,
 			or_order_number,
@@ -591,7 +601,7 @@
 			orders
 		WHERE
 			or_serial_special_number = #{orSerialSpecialNumber}
-			AND edt_fk = 4
+			AND or_delivery_invoice_number = '입력전'
 			<![CDATA[
 				AND or_sending_deadline >= DATE_FORMAT(DATE_ADD(NOW() , INTERVAL -15 DAY), '%Y-%m-%d')
 			]]>
