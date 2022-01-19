@@ -175,17 +175,22 @@ public class TeamFreshServiceImpl implements TeamFreshService{
 			
 			StringBuffer sb = new StringBuffer("");
 			
-			int prodCount = 1;
 			int prodSize = delivTarget.get(i).getProductOptionList().size();
-			for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
+
+			for(int prodCount = 0; prodCount < prodSize; prodCount++) {
 				
-				if(prodCount == prodSize) {
+				ProductOptionVO poVO = delivTarget.get(i).getProductOptionList().get(prodCount);
+
+				if(prodCount == prodSize ) {
 					sb.append(poVO.getProductName());
-				}else {
+				}else if((prodCount + 1) % 2 == 1 ){
+					sb.append(poVO.getProductName()+" ● ");
+					
+				}else if((prodCount + 1) % 2 == 0 ){
 					sb.append(poVO.getProductName()+"|");
+					
 				}
 				
-				System.out.println("poVO.getOptionMemo2() = "+poVO.getOptionMemo2());
 				if(poVO.getOptionMemo2() != null && !poVO.getOptionMemo2().equals("")) {					
 					if(delivMsg.contains(poVO.getOptionMemo2())) {
 						continue;
@@ -194,8 +199,6 @@ public class TeamFreshServiceImpl implements TeamFreshService{
 					}
 				}
 				
-				System.out.println("poVO.getOptionMemo1() = "+poVO.getOptionMemo1());
-				
 				if(poVO.getOptionMemo1() != null && !poVO.getOptionMemo1().equals("")) {						
 					if(doorPass.contains(poVO.getOptionMemo1())) {
 						continue;
@@ -203,11 +206,9 @@ public class TeamFreshServiceImpl implements TeamFreshService{
 						doorPass+= poVO.getOptionMemo1();
 					}
 				}
-
-				prodCount++;
+				
 			}
 			
-			System.out.println("doorPass = "+doorPass+", delivMsg = "+delivMsg);
         	orderInfo = new JSONObject();
         	orderInfo.put("idx", (i+1));
         	orderInfo.put("customerName", "삼형제월드");

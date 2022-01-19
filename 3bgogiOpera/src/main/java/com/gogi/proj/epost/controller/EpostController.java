@@ -50,6 +50,7 @@ import com.gogi.proj.epost.vo.Xsync;
 import com.gogi.proj.excel.xlsxWriter;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.config.model.OrderConfigService;
+import com.gogi.proj.orders.lotte.model.LotteService;
 import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.teamfresh.model.TeamFreshService;
 import com.gogi.proj.orders.vo.OrdersVO;
@@ -115,6 +116,9 @@ public class EpostController {
 	
 	@Autowired
 	private TeamFreshService teamFreshService;
+	
+	@Autowired
+	private LotteService lotteService;
 
 	/*
 	 * @RequestMapping(value="/epost.do", method=RequestMethod.GET) public String
@@ -330,6 +334,27 @@ public class EpostController {
 			model.addAttribute("edtList", edtList);
 			
 			return "delivery/not_sending_list";
+			
+		}else if(orderSearchVO.getEdtFk() == 4) {
+			
+			int packingIrreOrderCounting = orderConfigService.selectPackingIrreTargetOrderCounting();
+
+			
+			int checkingCount = lotteService.selectDontGrantLotteDelivOrderListInMonthCounting(orderSearchVO);
+			
+			orderSearchVO.setTotalRecord(checkingCount);
+			
+			List<OrdersVOList> checkingResultList = lotteService.selectDontGrantLotteDelivOrderListInMonth(orderSearchVO);
+			
+			model.addAttribute("storeSectionList",storeSectionList);
+			model.addAttribute("insertStoreOrderList", insertStoreOrderList);
+			model.addAttribute("packingIrreOrderCounting", packingIrreOrderCounting);
+			model.addAttribute("OrderSearchVO", orderSearchVO);
+			model.addAttribute("orderList",checkingResultList);
+			model.addAttribute("edtList", edtList);
+			
+			return "delivery/not_sending_list";
+			
 			
 		}else {			
 			int recordCounting = epostService.selectDontGrantDelivOrderListInMonthCounting(orderSearchVO);
@@ -807,7 +832,7 @@ public class EpostController {
 	 * @메소드설명 : 팀프레시 송장 부여
 	 */
 	@RequestMapping(value="/teamfresh_delivery.do", method=RequestMethod.POST)
-	public String teamFreshDeliveryExcelDelivFile(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request, Model model) {
+	public String gnratTeamFreshDeliveryInvoiceNum(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request, Model model) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -820,6 +845,35 @@ public class EpostController {
 		model.addAttribute("delivResult", result);
 		
 		return "delivery/deliv_result";
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @MethodName : lotteDeliveryExcelFile
+	 * @date : 2022. 1. 19.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param request
+	 * @param model
+	 * @return
+	 * @메소드설명 : 롯데택배 송장 임시부여
+	 */
+	@RequestMapping(value="/lotte_delivery.do", method=RequestMethod.POST)
+	public ModelAndView lotteDeliveryExcelFile(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request, Model model) {
+	
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		AdminVO adminVo = (AdminVO)auth.getPrincipal();
+		
+		File file = lotteService.lotteDeliveryExcelInfo(osVO, request.getRemoteAddr(), adminVo.getUsername());
+
+		Map<String, Object> fileMap = new HashMap<String, Object>();
+		fileMap.put("myfile", file);
+		ModelAndView mav = new ModelAndView("downloadView", fileMap);
+		
+		return mav;
 	}
 	
 	

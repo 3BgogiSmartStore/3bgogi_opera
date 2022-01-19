@@ -183,11 +183,12 @@
                                             <div id="excel_order" class="collapse submenu" style="">
                                                 <ul class="nav flex-column">
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="<c:url value='/orders/grant_cj_deliv_invoice.do'/>" style="color:#ffa3a3;"> cj새벽배송 송장 입력 </a>
+                                                        <a class="nav-link" href="<c:url value='/orders/grant_deliv_invoice.do'/>" style="color:#ffa3a3;"> 택배사 송장 일괄 입력 </a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </li>
+                                        
                                         <li class="nav-item">
                                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#irregular_order" aria-controls="irregular_order"> 고객 필터링 </a>
                                             <div id="irregular_order" class="collapse submenu" style="">

@@ -678,6 +678,109 @@ public class ReadOrderExcel {
 		
 		return orderList;
 	}
+	
+	public List<OrdersVO> readOrderExcelDataToLotteDeliv(String fileName) throws POIXMLException{
+		
+		List<OrdersVO> orderList = new ArrayList<OrdersVO>();
+		
+		Calendar cal = Calendar.getInstance();
+		
+		String upPath = fileUtil.getUploadPath(FileuploadUtil.ORDER_EXCEL, false);
+		
+		try {
+
+			FileInputStream fis= new FileInputStream(upPath+"\\"+fileName);
+			
+			XSSFWorkbook workbook=new XSSFWorkbook(fis);
+			
+			int rowindex=0;
+			
+			int columnindex=0;
+			
+			OrdersVO orderVO = null;
+
+			XSSFSheet sheet=workbook.getSheetAt(0);
+
+			int rows=sheet.getPhysicalNumberOfRows();
+			
+			for(rowindex=2;rowindex<rows;rowindex++){
+
+			    XSSFRow row=sheet.getRow(rowindex);
+			    
+			    orderVO = new OrdersVO();
+			    
+			    if(row !=null){
+			        
+			        for(columnindex=0; columnindex < 10; columnindex++){
+
+			            XSSFCell cell=row.getCell(columnindex);
+			            if(cell==null) {
+			            	continue;
+			            }else {
+			            	//묶음번호
+			            	if(columnindex==9) {
+			            		String value = "";
+			            		 switch (cell.getCellType()){
+		                            case HSSFCell.CELL_TYPE_FORMULA:
+		                                value=cell.getCellFormula();
+		                                break;
+		                            case HSSFCell.CELL_TYPE_NUMERIC:
+		                                value=((int)cell.getNumericCellValue())+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_STRING:
+		                                value=cell.getStringCellValue()+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_BLANK:
+		                                value=cell.getBooleanCellValue()+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_ERROR:
+		                                value=cell.getErrorCellValue()+"";
+		                                break;
+		                            }
+
+			            		orderVO.setOrSerialSpecialNumber(value);
+			            		
+			            	//묶음번호
+			            	}else if(columnindex==6) {
+			            		String value = "";
+			            		 switch (cell.getCellType()){
+		                            case HSSFCell.CELL_TYPE_FORMULA:
+		                                value=cell.getCellFormula();
+		                                break;
+		                            case HSSFCell.CELL_TYPE_NUMERIC:
+		                                value=((int)cell.getNumericCellValue())+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_STRING:
+		                                value=cell.getStringCellValue()+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_BLANK:
+		                                value=cell.getBooleanCellValue()+"";
+		                                break;
+		                            case HSSFCell.CELL_TYPE_ERROR:
+		                                value=cell.getErrorCellValue()+"";
+		                                break;
+		                            }
+			            		orderVO.setOrDeliveryInvoiceNumber(value.replaceAll("-", ""));
+			            		
+			            	//수취인명
+			            	}
+			            }
+			            
+			        }//for
+			    }
+			    orderList.add(orderVO);
+			    orderVO = null;
+			}//for
+			
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		return orderList;
+	}
+
 
 
 

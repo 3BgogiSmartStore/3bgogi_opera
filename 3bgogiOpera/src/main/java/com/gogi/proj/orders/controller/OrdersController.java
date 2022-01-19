@@ -46,6 +46,7 @@ import com.gogi.proj.orders.config.model.StoreExcelDataSortingService;
 import com.gogi.proj.orders.config.vo.ReqFilterKeywordVO;
 import com.gogi.proj.orders.config.vo.StoreCancleExcelDataSortingVO;
 import com.gogi.proj.orders.config.vo.StoreExcelDataSortingVO;
+import com.gogi.proj.orders.lotte.model.LotteService;
 import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.AdminOrderRecordVO;
 import com.gogi.proj.orders.vo.IrregularOrderVO;
@@ -96,6 +97,9 @@ public class OrdersController {
 	
 	@Autowired
 	private CjdeliveryService cjService;
+	
+	@Autowired
+	private LotteService lotteService;
 	
 	@Autowired
 	private AligoSendingForm asf;
@@ -262,10 +266,10 @@ public class OrdersController {
 	 * @return
 	 * @메소드설명 : cj 새벽배송 송장 엑셀 파일 넣는 페이지
 	 */
-	@RequestMapping(value="/grant_cj_deliv_invoice.do", method=RequestMethod.GET)
+	@RequestMapping(value="/grant_deliv_invoice.do", method=RequestMethod.GET)
 	public String insertCjDeliveryInvoiceNumPageGet() {
 		
-		return "orders/smart_store_sending_order_insert";
+		return "orders/grant_delivery_invoice_num";
 	}
 	
 	/**
@@ -278,15 +282,15 @@ public class OrdersController {
 	 * @return
 	 * @메소드설명 : cj 새벽배송 송장 엑셀 파일 넣기
 	 */
-	@RequestMapping(value="/grant_cj_deliv_invoice.do", method=RequestMethod.POST)
-	public String insertCjDeliveryInvoiceNumPagePost(HttpServletRequest request, Model model) {
+	@RequestMapping(value="/grant_deliv_invoice.do", method=RequestMethod.POST)
+	public String insertCjDeliveryInvoiceNumPagePost(HttpServletRequest request, @RequestParam int edtPk, Model model) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		AdminVO adminVo = (AdminVO)auth.getPrincipal();
 		
 		String msg = "";
-		String url = "/orders/grant_cj_deliv_invoice.do";
+		String url = "/orders/grant_deliv_invoice.do";
 
 		String fileName = "";
 		
@@ -310,7 +314,14 @@ public class OrdersController {
 		
 		try {
 
-			orderList = readOrderExcel.readOrderExcelDataToXLSForSmartStoreSendingData(fileName);
+			if(edtPk == 5) {
+				orderList = readOrderExcel.readOrderExcelDataToXLSForSmartStoreSendingData(fileName);
+				
+			}else if(edtPk == 4) {
+				orderList = readOrderExcel.readOrderExcelDataToLotteDeliv(fileName);
+				
+			}
+			
 			
 		}catch(NullPointerException nulle) {
 			msg = "데이터 값이 없습니다.";
@@ -321,18 +332,42 @@ public class OrdersController {
 			
 		}
 		
-		
 		int updateResult = 0;
 		
-		updateResult = cjService.grantCjDeliveryInvoiceNumBySerialSpecialNumber(orderList, request.getRemoteAddr(), adminVo.getUsername());
+		//cj 새벽배송 하루컴퍼니
+		if(edtPk == 5) {
+			updateResult = cjService.grantCjDeliveryInvoiceNumBySerialSpecialNumber(orderList, request.getRemoteAddr(), adminVo.getUsername());
 
-		if( updateResult > 0 ) {
-			msg = "Cj 새벽배송 송장 기입 완료";
-			url = "/order/config/search_except_addr_order.do";
-		}else {
-			msg = "cj엑셀파일로 입력된 값이 존재하지 않습니다";
-			url = "/orders/grant_cj_deliv_invoice.do";
+			if( updateResult > 0 ) {
+				msg = "Cj 새벽배송 송장 기입 완료";
+				url = "/order/config/search_except_addr_order.do";
+				
+			}else {
+				msg = "cj엑셀파일로 입력된 값이 존재하지 않습니다";
+				url = "/orders/grant_deliv_invoice.do";
+				
+			}
+			
+		//롯데택배
+		}else if(edtPk == 4){
+			updateResult = lotteService.grantLotteDeliveryInvoiceNumBySerialSpecialNumber(orderList, request.getRemoteAddr(), adminVo.getUsername());
+
+			if( updateResult > 0 ) {
+				
+				int logResult = lotteService.insertOrderHistory(orderList, request.getRemoteAddr(), adminVo.getUsername()); 
+				msg = "롯데택배 송장 "+logResult+"장 기입 완료";
+				url = "/order/config/search_except_addr_order.do";
+				
+			}else {
+				msg = "롯데택배 엑셀파일로 입력된 값이 존재하지 않습니다";
+				url = "/orders/grant_deliv_invoice.do";
+				
+			}
+			
 		}
+		
+		
+
 		
 		
 		model.addAttribute("msg", msg);

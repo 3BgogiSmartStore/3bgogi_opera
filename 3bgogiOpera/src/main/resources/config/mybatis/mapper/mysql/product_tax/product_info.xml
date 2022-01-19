@@ -99,8 +99,8 @@
 		FROM
 			res_company rc
 			INNER JOIN product_info pi	ON	rc.rc_pk = pi.rc_fk
-			INNER JOIN cost_detail cd	ON cd.cd_pk = pi.pi_type
-            INNER JOIN cost_code cc		ON cc.cc_pk = cd.cc_fk
+			LEFT JOIN cost_detail cd	ON cd.cd_pk = pi.pi_type
+            LEFT JOIN cost_code cc		ON cc.cc_pk = cd.cc_fk
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<![CDATA[
 				pi.pi_input_date >= #{dateStart} 
@@ -152,8 +152,8 @@
 		FROM
 			res_company rc
 			INNER JOIN product_info pi	ON	rc.rc_pk = pi.rc_fk
-			INNER JOIN cost_detail cd	ON cd.cd_pk = pi.pi_type
-            INNER JOIN cost_code cc		ON cc.cc_pk = cd.cc_fk
+			LEFT JOIN cost_detail cd	ON cd.cd_pk = pi.pi_type
+            LEFT JOIN cost_code cc		ON cc.cc_pk = cd.cc_fk
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<![CDATA[
 				pi.pi_input_date >= #{dateStart} 

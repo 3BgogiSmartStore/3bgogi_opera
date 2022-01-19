@@ -325,6 +325,54 @@
     			
     		}); 
     		
+    		$("#lotteDelivButton").click(function(){
+    			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
+    			
+    			if(orSize == 0){
+    				alert("부여할 수 있는 송장이 존재하지 않습니다");
+    				return false;
+    			}
+    			
+    			if(confirm(orSize+" 개의 주문서에 롯데택배 임시송장을 부여하시겠습니까?")){
+        			
+        			$("#cjDelivButton").removeClass("btn btn-warning");
+        			
+            		$("#cjDelivButton").text("");
+            		
+        			$("#cjDelivButton").addClass("dashboard-spinner spinner-xs");
+        			
+    				if($("select[name=edtFk]").val() == '3'){
+    					alert("임시 송장을 부여합니다");
+    					
+    				}
+    				
+					var divs = document.createElement("div");
+	    			
+	    			var excelDownloadForm =  document.createElement("form");
+	    			excelDownloadForm.action="/security/lotte_delivery.do";
+	    			excelDownloadForm.method="POST";
+    					
+	    			var orSerialSpecialNumberList = new Array(orSize);
+	    			
+	    			
+	    			for(var i=0; i<orSize; i++){
+	    				var orSerialSpecialNumberInput = document.createElement("input");
+	    				orSerialSpecialNumberInput.name="orSerialSpecialNumberList";
+	    				orSerialSpecialNumberInput.value=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
+	    				excelDownloadForm.append(orSerialSpecialNumberInput);
+	    				
+	    			}
+	    			
+	    			$("#excelDownloadIframe").append(excelDownloadForm);
+	    			
+	    			excelDownloadForm.submit();
+	    			
+	    			$("#excelDownloadIframe").html("");
+    			}
+    			
+    			
+    		}); 
+    		
     		$("#teamFreshDelivButton").click(function(){
     			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
     			
@@ -808,21 +856,22 @@
 											</c:if>
 				                            <div class="btn-group">
 				                            	<select class="form-control" name="edtFk">
-				                            		<option value="7"
-				                            			<c:if test="${OrderSearchVO.edtFk == 7 }">
+				                            		<option value="4"
+				                            			<c:if test="${OrderSearchVO.edtFk == 4 }">
 															selected="selected"
 														</c:if>
-				                            		>팀프레시 송장 부여</option>
+				                            		>롯데택배 송장 부여</option>
+				                            		
 				                            		<option value="5"
 				                            			<c:if test="${OrderSearchVO.edtFk == 5 }">
 															selected="selected"
 														</c:if>
 				                            		>cj 새벽배송 송장 부여</option>
-				                            		<option value="6"
+				                            		<%-- <option value="6"
 				                            			<c:if test="${OrderSearchVO.edtFk == 6 }">
 															selected="selected"
 														</c:if>
-				                            		>오늘의 픽업 송장 부여</option>
+				                            		>오늘의 픽업 송장 부여</option> --%>
 				                            		<option value="1"
 				                            			<c:if test="${OrderSearchVO.edtFk == 1 }">
 															selected="selected"
@@ -866,6 +915,10 @@
 	                        		<div class="row">
 	                        			<div class="form-group col-sm-6 pl-0">
 	                        				<h3 class="navbar-brand" style="padding: 0px 0px 0px 20px; margin: 0px; color: #da0419;">
+	                        					<c:if test="${OrderSearchVO.edtFk == 4 }">
+													롯데택배 송장 가공중입니다
+												</c:if>
+												
 	                        					<c:if test="${OrderSearchVO.edtFk == 5 }">
 													cj 새벽배송 송장 가공중입니다
 												</c:if>
@@ -883,14 +936,16 @@
                                         <div class="form-group col-sm-6 pl-0">
                                         	<p class="text-right">
 												<button type="button" class="btn btn-primary" id="orderIO">  주문서 출력  </button>
-												<!-- <button type="button" class="btn btn-primary" id="labelIO">  라벨지 출력  </button> -->				
+												<!-- <button type="button" class="btn btn-primary" id="labelIO">  라벨지 출력  </button> -->		
+												<c:if test="${OrderSearchVO.edtFk == 4 }">
+													<button class="btn btn-warning" id="lotteDelivButton"> 롯데택배 임시송장 부여 </button>
+												</c:if>		
 												<c:if test="${OrderSearchVO.edtFk == 5 }">
 													<button class="btn btn-warning" id="cjDelivButton"> cj 새벽배송 임시송장 부여 </button>
 												</c:if>		
 												<c:if test="${OrderSearchVO.edtFk == 7 }">
 													<button class="btn btn-warning" id="teamFreshDelivButton"> 팀프레시 송장 부여 </button>
 												</c:if>						
-												
 												<c:if test="${OrderSearchVO.edtFk == 6 }">
 													<button class="btn btn-warning" id="allMergeBtn"> 선택 주문 전부 합포 </button>
 													<button class="btn btn-warning" id="todayPickupDelivButton"> 오늘의 픽업 송장 부여 </button>
