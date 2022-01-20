@@ -537,8 +537,6 @@
 			od.or_user_column4,
 			od.or_receiver_name,
 			od.or_receiver_contract_number1,
-			od.or_buyer_name,
-			od.or_shipping_address_number,
 			IF(od.or_shipping_address_detail IS NULL OR od.or_shipping_address_detail = '',
 				or_shipping_address,
                 CONCAT(od.or_shipping_address, ' ', od.or_shipping_address_detail)
@@ -546,9 +544,8 @@
             IF(
 				or_request IS NOT NULL AND or_request != '',
                 CONCAT('[ 요청사항 : ',od.or_request, ' ] ', pro.product_name, ' [ ', op.option_name, ' ] ', (od.or_amount * om.om_option_amount), ' 개'),
-                CONCAT(pro.product_name, ' [ ', op.option_name, ' ] ')
+                CONCAT(pro.product_name, ' [ ', op.option_name, ' ] ', (od.or_amount * om.om_option_amount), ' 개')
             )  AS product_name,
-            (od.or_amount * om.om_option_amount) AS another_option_qty,
 			od.or_delivery_message AS or_user_column5,
 			'1',
 			od.or_serial_special_number,
@@ -561,7 +558,6 @@
 			INNER JOIN options op ON om.option_fk = op.option_pk
 			INNER JOIN products pro ON pro.product_pk = op.product_fk
 			INNER JOIN excel_order_seq eos ON op.eo_fk = eos.eos_pk
-			
 		WHERE
 			<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
 				od.or_serial_special_number IN 

@@ -230,7 +230,7 @@ public class LotteServiceImpl implements LotteService{
 				sheet.setColumnWidth(3, ( sheet.getColumnWidth(3) + 512));
 				
 				cell = (SXSSFCell) row.createCell(4);
-				cell.setCellValue(poVO.getAnotherOptionQty());	
+				cell.setCellValue(1);	
 				sheet.autoSizeColumn(4);
 				sheet.setColumnWidth(4, ( sheet.getColumnWidth(4) + 512));
 				
