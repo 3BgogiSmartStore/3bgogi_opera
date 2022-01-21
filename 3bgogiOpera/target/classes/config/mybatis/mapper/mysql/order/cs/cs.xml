@@ -1841,6 +1841,18 @@
 				#{items}
 			</foreach>
 	</update>
+	<update id="absInitDeliv" parameterType="java.util.List">
+		UPDATE
+			orders
+		SET
+			or_abs_deliv_type = 0
+		WHERE
+			or_serial_special_number IN
+			<foreach collection="list" item="items" open="(" close=")" separator=",">
+				#{items}
+			</foreach>
+	</update>
+	
 </mapper>
 
 

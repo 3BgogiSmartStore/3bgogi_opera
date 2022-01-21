@@ -982,6 +982,8 @@
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="combineOrderButton"> 주문서 합치기 및 정보변경</button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="pickUpServiceBtn"> 수령방식변경 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="absEpostDeliv"> 우체국택배로 고정 </button>
+	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="absInitDeliv"> 택배사 고정 해제</button>
+	                                		
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="devideOrderButton"> 주문서 나누기 </button>
 	                                		<button class="btn btn-danger btn-xs mb-2" type="button" id="deleteDelivButton"> 송장 삭제 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="outputBtn"> 발송 하기 </button>

@@ -77,7 +77,10 @@ body {
 					</div>
 					<div class="card-body">
 						<form id="pickUpStatChange" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" action="<c:url value='/orders/pick_up_service.do'/>" method="post">
-							<input name="orSerialSpecialNumber" value="${orVO.orSerialSpecialNumber }" type="hidden">
+							<c:forEach items="${orSerialSpecialNumberList }" var="orSerialList">
+								<input name="orSerialSpecialNumberList" value="${orSerialList }" type="hidden">
+							</c:forEach>
+							
 							
 							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 								<div class="form-group row">								

@@ -1030,4 +1030,10 @@ public class OrdersServiceImpl implements OrdersService{
 		// TODO Auto-generated method stub
 		return ordersDAO.absEpostDeliv(orSerialSpecialNumberList);
 	}
+
+	@Override
+	public int absInitDeliv(List<String> orSerialSpecialNumberList) {
+		// TODO Auto-generated method stub
+		return ordersDAO.absInitDeliv(orSerialSpecialNumberList);
+	}
 }

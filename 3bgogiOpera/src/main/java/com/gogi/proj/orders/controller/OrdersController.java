@@ -1786,9 +1786,9 @@ public class OrdersController {
 	 * @메소드설명 : 퀵서비스, 방문수령으로 변경하는 페이지
 	 */
 	@RequestMapping(value="/pick_up_service.do", method=RequestMethod.GET)
-	public String pickUpServiceGet(@ModelAttribute OrdersVO orVO, Model model ) {
+	public String pickUpServiceGet(@RequestParam List<String> orSerialSpecialNumberList, Model model ) {
 		
-		model.addAttribute("orVO", orVO);
+		model.addAttribute("orSerialSpecialNumberList", orSerialSpecialNumberList);
 		
 		return "orders/config/pick_up_service";
 	}
@@ -1805,15 +1805,21 @@ public class OrdersController {
 	 * @메소드설명 : 퀵서비스, 방문수령으로 변경
 	 */
 	@RequestMapping(value="/pick_up_service.do", method=RequestMethod.POST)
-	public String pickUpServicePost(@ModelAttribute OrdersVO orVO, Model model) {
+	public String pickUpServicePost(@ModelAttribute OrdersVO orVO, @RequestParam List<String> orSerialSpecialNumberList, Model model) {
 		String msg = "";
 		String url = "/";
 		boolean closing = true;
 		
-		int result = ordersService.receiverPickUp(orVO);
+		int result = 0;
+		
+		for(String orSerialNum : orSerialSpecialNumberList) {
+			orVO.setOrSerialSpecialNumber(orSerialNum);
+			result += ordersService.receiverPickUp(orVO);
+		}
+		
 		
 		if(result > 0) {
-			msg = "수령 상태 변경 완료";
+			msg = "수령 상태 "+orSerialSpecialNumberList.size()+" 건 변경 완료";
 			
 		}else {
 			msg = "수령 상태 변경 실패, 다시 한 번 확인해주세요";
@@ -1963,6 +1969,25 @@ public class OrdersController {
 	public int absEpostDeliv(@RequestParam List<String> orSerialSpecialNumber) {
 		
 		int result = ordersService.absEpostDeliv(orSerialSpecialNumber);
+		
+		return result; 
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : absInitDeliv
+	 * @date : 2022. 1. 21.
+	 * @author : Jeon KiChan
+	 * @param orSerialSpecialNumber
+	 * @return
+	 * @메소드설명 : 배송회사 고정 풀기
+	 */
+	@RequestMapping(value="/abs_init_deliv.do", method=RequestMethod.GET)
+	@ResponseBody
+	public int absInitDeliv(@RequestParam List<String> orSerialSpecialNumber) {
+		
+		int result = ordersService.absInitDeliv(orSerialSpecialNumber);
 		
 		return result; 
 	}

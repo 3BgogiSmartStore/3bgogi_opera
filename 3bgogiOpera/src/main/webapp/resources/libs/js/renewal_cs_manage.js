@@ -1133,14 +1133,16 @@ jQuery(document).ready(function($) {
 			alert("변경할 수 있는 주문서가 없습니다"); 
 			return false;
 			
-		}else if(orSize > 1){
-			alert("한 번에 두 개 이상의 주문서를 변경할 수 없습니다"); 
-			return false;
 		}
 		
-		orSerialSpecialNumber = $("input[data-deliv-weiting='1']:checked").val();
+		let orSerialSpecialNumberList = new Array(orSize);
 		
-		window.open("/orders/pick_up_service.do?orSerialSpecialNumber="+orSerialSpecialNumber, "수령방식변경" , "width=500px, height=620px, top=50px, left=50px, scrollbars=no");
+		for(var i=0; i<orSize; i++){
+			orSerialSpecialNumberList[i]=$("input[data-deliv-weiting='1']:checked")[i].value;
+			
+		}
+
+		window.open("/orders/pick_up_service.do?orSerialSpecialNumberList="+orSerialSpecialNumberList, "수령방식변경" , "width=500px, height=620px, top=50px, left=50px, scrollbars=no");
 		
 	});
 	
@@ -1354,6 +1356,51 @@ jQuery(document).ready(function($) {
 		window.open('/delivery/config/door_pass.do?orSerialSpecialNumber='+orSerialSpecialNumber, "공동현관 비밀번호 입력" , "width=700, height=900, top=100, left=100, scrollbars=no");
 		
 		
+		
+	});
+	
+	
+	$("#absInitDeliv").click(function(){
+		
+		var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
+		
+		var orSerialSpecialNumberList = new Array(orSize);
+		
+		if(orSize == 0){
+			alert("선택된 주문서가 존재하지 않습니다"); 
+			return false;
+			
+		}
+
+		if(confirm("배송회사 고정을 푸시겠습니까?")){
+			for(var i=0; i<orSize; i++){
+				orSerialSpecialNumberList[i]=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
+				
+			}
+			
+			$.ajax({
+				type       : 'GET',
+				data       : {
+					"orSerialSpecialNumber":orSerialSpecialNumberList
+					
+				},
+				url        : '/orders/abs_init_deliv.do',
+				success    : (data) => {		
+					if(data > 0){
+						alert("배송회사 고정 해제");
+						location.reload();
+					}else{
+						alert("배송회사 고정 실패");
+						location.reload();
+					}
+					
+				},error	: (log) => {
+					alert("서버 에러 발생. " + log);
+				}
+				
+			});
+			
+		}
 		
 	});
 

@@ -118,31 +118,34 @@ public class LotteDAOMybatis extends SqlSessionDaoSupport implements LotteDAO{
 			int invoiceSize = orderList.size();
 			
 			for( int i = 0; i < invoiceSize; i++) {
-				pstmt.setString(1, orderList.get(i).getOrDeliveryInvoiceNumber());
-				pstmt.setString(2, orderList.get(i).getOrDeliveryInvoiceNumber());
-				pstmt.setString(3, orderList.get(i).getOrSerialSpecialNumber());
 				
-				pstmt.addBatch();
-				pstmt.clearParameters();
-				
-				if(i % 3000 == 0) {
+				if(orderList.get(i).getOrDeliveryInvoiceNumber() != null && !orderList.get(i).getOrDeliveryInvoiceNumber().equals("")) {					
+					pstmt.setString(1, orderList.get(i).getOrDeliveryInvoiceNumber());
+					pstmt.setString(2, orderList.get(i).getOrDeliveryInvoiceNumber());
+					pstmt.setString(3, orderList.get(i).getOrSerialSpecialNumber());
 					
-					result = pstmt.executeBatch();
+					pstmt.addBatch();
+					pstmt.clearParameters();
 					
-					
-					pstmt.clearBatch();
-					
-					con.commit();
-					
-					for(int j = 0; j < result.length; j++) {
-						if(result[j] == 0) {
-							suc[1]++;
-						}else {
-							
-							suc[0]++;
+					if(i % 3000 == 0) {
+						
+						result = pstmt.executeBatch();
+						
+						
+						pstmt.clearBatch();
+						
+						con.commit();
+						
+						for(int j = 0; j < result.length; j++) {
+							if(result[j] == 0) {
+								suc[1]++;
+							}else {
+								
+								suc[0]++;
+							}
 						}
+						
 					}
-					
 				}
 			}
 			

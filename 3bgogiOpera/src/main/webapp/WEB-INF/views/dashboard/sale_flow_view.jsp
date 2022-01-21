@@ -53,116 +53,163 @@
 						</div>
 					</div>
 				</div>
+				<c:set var="epost_weiting_v" value="${deliveryTypeResult.epost_weiting == null? 0 : deliveryTypeResult.epost_weiting }" />
+	            <c:set var="another_weiting_v" value="${deliveryTypeResult.another_weiting == null? 0 : deliveryTypeResult.another_weiting }" />
 				<div class="row">
 				
-					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-						<div class="card">
-                            <h5 class="card-header"> 지난 3개월 매출</h5>
-                            <div class="card-body">
-                                <div id="threeMonthCarousel" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                    	<c:set var="counting" value="0"/>
-                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
-	                                        <li data-target="#threeMonthCarousel" data-slide-to="${counting }" 
-	                                        	<c:if test="${counting == 0 }">
-	                                        		class="active"
-	                                        		
-	                                        	</c:if>
-	                                        ></li>
-	                                        <c:set var="counting" value="${counting + 1 }"/>
-                                    	</c:forEach>
-                                    </ol>
-                                    
-                                    <div class="carousel-inner">
-                                    	<c:set var="counting" value="0"/>
-                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
-	                                        <div class="carousel-item  
-		                                        <c:if test="${counting == 0 }">
-	                                        		active 
-	                                        		
-	                                        	</c:if>
-	                                        ">
-	                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
-	                                            <div class="carousel-caption d-none d-md-block">
-	                                                <h2> <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h2>
-	                                                <h4> ${threeList.orUserColumn1 }</h4>
-	                                            </div>
-	                                        </div>
-	                                        <c:set var="counting" value="${counting + 1 }"/>
-                                    	</c:forEach>
-                                    </div>
-                                    
-                                    <a class="carousel-control-prev" href="#threeMonthCarousel" role="button" data-slide="prev">
-                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                       <span class="sr-only">이전</span>  </a>
-                                    <a class="carousel-control-next" href="#threeMonthCarousel" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">다음</span>  </a>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header"> 리뷰 평점 </h5>
-							<div class="card-body">
-								<div id="morris_gross" style="height: 272px;"></div>
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="card">
+		                            <h5 class="card-header"> 지난 3개월 매출</h5>
+		                            <div class="card-body">
+		                                <div id="threeMonthCarousel" class="carousel slide" data-ride="carousel">
+		                                    <ol class="carousel-indicators">
+		                                    	<c:set var="counting" value="0"/>
+		                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
+			                                        <li data-target="#threeMonthCarousel" data-slide-to="${counting }" 
+			                                        	<c:if test="${counting == 0 }">
+			                                        		class="active"
+			                                        		
+			                                        	</c:if>
+			                                        ></li>
+			                                        <c:set var="counting" value="${counting + 1 }"/>
+		                                    	</c:forEach>
+		                                    </ol>
+		                                    
+		                                    <div class="carousel-inner">
+		                                    	<c:set var="counting" value="0"/>
+		                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
+			                                        <div class="carousel-item  
+				                                        <c:if test="${counting == 0 }">
+			                                        		active 
+			                                        		
+			                                        	</c:if>
+			                                        ">
+			                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
+			                                            <div class="carousel-caption d-none d-md-block">
+			                                                <h1 style="font-size : 52px;"> <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h1>
+			                                                <h2 style="font-size : 42px;"> ${threeList.orUserColumn1 }</h2>
+			                                                
+			                                            </div>
+			                                        </div>
+			                                        <c:set var="counting" value="${counting + 1 }"/>
+		                                    	</c:forEach>
+		                                    </div>
+		                                    <a class="carousel-control-prev" href="#threeMonthCarousel" role="button" data-slide="prev">
+		                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		                                       <span class="sr-only">이전</span>  </a>
+		                                    <a class="carousel-control-next" href="#threeMonthCarousel" role="button" data-slide="next">
+		                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		                                            <span class="sr-only">다음</span>  </a>
+		                                </div>
+		                            </div>
+		                        </div>
 							</div>
-							<div id="reviewData" class="card-footer bg-white">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="card">
+		                            <h5 class="card-header"> 등록된 리뷰 </h5>
+		                            <div class="card-body">
+		                                <div id="customerReviewCarousel" class="carousel slide" data-ride="carousel">
+		                                    <ol class="carousel-indicators">
+		                                    	
+		                                    	<c:set var="counting" value="0"/>
+		                                    	<c:forEach var="reviewlist" items="${reviewList }">
+			                                        <li data-target="#customerReviewCarousel" data-slide-to="${counting }" 
+			                                        	<c:if test="${counting == 0 }">
+			                                        		class="active"
+			                                        		
+			                                        	</c:if>
+			                                        ></li>
+			                                        <c:set var="counting" value="${counting + 1 }"/>
+		                                    	</c:forEach>
+		                                    </ol>
+		                                    <div class="carousel-inner">
+		                                    	<c:set var="counting" value="0"/>
+		                                    	<c:forEach var="reviewlist" items="${reviewList }">
+			                                        <div class="carousel-item  
+				                                        <c:if test="${counting == 0 }">
+			                                        		active 
+			                                        		
+			                                        	</c:if>
+			                                        ">
+			                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
+			                                            <div class="carousel-caption d-none d-md-block">
+			                                            	<fmt:formatNumber var="iconCounting" value="${reviewlist.crGrade }" type="number"/>
+			                                            	<h1> ${reviewlist.crProdName } </h1>
+			                                            	
+			                                            	
+			                                                <h1> 평점   
+			                                                	<c:forEach var="i" begin="1" end="${iconCounting }" step="1">
+			                                                	
+			                                                		<i class="fas fa-star"></i>
+			                                                	</c:forEach>
+			                                                </h1>
+			                                                <p style="color: black; font-size : 28px;"> ${reviewlist.crContent }</p>
+			                                                
+			                                            </div>
+			                                        </div>
+			                                        <c:set var="counting" value="${counting + 1 }"/>
+		                                    	</c:forEach>
+		                                    </div>
+		                                    
+		                                    <a class="carousel-control-prev" href="#customerReviewCarousel" role="button" data-slide="prev">
+		                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		                                       <span class="sr-only">Previous</span>  </a>
+		                                    <a class="carousel-control-next" href="#customerReviewCarousel" role="button" data-slide="next">
+		                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		                                            <span class="sr-only">Next</span>  </a>
+		                                </div>
+		                            </div>
+		                        </div>
 							</div>
+	
+							<!-- 우체국 남은 송장 개수 -->
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="card border-3 border-top border-top-primary">
+		                        	<div class="card-body" id="sendingFinished">
+		                            	<h5 class="text-muted" > 우체국송장 발송 전 </h5>
+		                                <div class="metric-value d-inline-block">
+		                                	<h1 class="mb-1"> ${epost_weiting_v } 건</h1>
+		                                </div>
+		                            </div>
+		                       </div>
+							</div>
+							
+							<!-- 우체국 외 송장 개수 -->
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="card border-3 border-top border-top-primary">
+		                        	<div class="card-body" id="sendingFinished">
+		                            	<h5 class="text-muted" > 그 외 택배사 발송 전 </h5>
+		                                <div class="metric-value d-inline-block">
+		                                	<h1 class="mb-1"> ${another_weiting_v } 건</h1>
+		                                </div>
+		                            </div>
+		                       </div>
+							</div>
+						
 						</div>
 					</div>
-					
-					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="card">
-                            <h5 class="card-header">Slides with Captions</h5>
-                            <div class="card-body">
-                                <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators1" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators1" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators1" data-slide-to="2"></li>
-                                    </ol>
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
-                                            <div class="carousel-caption d-none d-md-block">
-                                                <h3 class="">Heading Title Carousel</h3>
-                                                <p>Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiat enim ut luctus. Aliquam pellentesque ut tellus ultricies bibendum.</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="Second slide" style="opacity: 0;">
-                                            <div class="carousel-caption d-none d-md-block">
-                                                <h3 class="">Heading Title Carousel</h3>
-                                                <p>Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiat enim ut luctus. Aliquam pellentesque ut tellus ultricies bibendum.</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="Third slide" style="opacity: 0;">
-                                            <div class="carousel-caption d-none d-md-block">
-                                                <h3 class="">Heading Title Carousel</h3>
-                                                <p>Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiat enim ut luctus. Aliquam pellentesque ut tellus ultricies bibendum.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a class="carousel-control-prev" href="#carouselExampleIndicators1" role="button" data-slide="prev">
-                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                       <span class="sr-only">Previous</span>  </a>
-                                    <a class="carousel-control-next" href="#carouselExampleIndicators1" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>  </a>
-                                </div>
-                            </div>
-                        </div>
-					</div>
+					<!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="card">
+									<h5 class="card-header"> 리뷰 평점 </h5>
+									<div class="card-body">
+										<div id="morris_gross" style="height: 272px;"></div>
+									</div>
+									<div id="reviewData" class="card-footer bg-white">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
 				</div>
+				
 				<div class="row">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="card">
-							<h5 class="card-header"> 이번 달 일별 매출</h5>
+							<h1 class="card-header" id="monthSalesHeader"> 이번 달 일별 매출</h1>
 							<div class="card-body">
 								<div id="monthSales"></div>
 							</div>

@@ -6,6 +6,7 @@ public enum GodomallInvoiceCompNum {
 	CJ("CJ대한통운", 8), 
 	FRESH_SOLUTION("프레시솔루션", 94),
 	TODAY_PICKUP("오늘의픽업",95),
+	LOTTE("롯데택배", 18),
 	EMPTY("없음", 0);
 	
 	private String delivComNm;

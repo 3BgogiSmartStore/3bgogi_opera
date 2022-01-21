@@ -393,5 +393,16 @@ public interface OrdersService {
 	 */
 	public int absEpostDeliv(List<String> orSerialSpecialNumberList);
 	
+	/**
+	 * 
+	 * @MethodName : absInitDeliv
+	 * @date : 2022. 1. 21.
+	 * @author : Jeon KiChan
+	 * @param orSerialSpecialNumberList
+	 * @return
+	 * @메소드설명 : 배송회사 고정 풀기
+	 */
+	public int absInitDeliv(List<String> orSerialSpecialNumberList);
+	
 //	public List<OrdersVO> outPutDatefilter(OrderSearchVO osVO);
 }
