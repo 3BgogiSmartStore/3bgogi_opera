@@ -832,8 +832,8 @@
 
 
 	<select id="newSearchCustomerOrderInfoToExcelFile" parameterType="OrderSearchVO" resultType="OrdersVO">
-				SELECT
-           datas.or_serial_special_number,
+		SELECT
+            datas.or_serial_special_number,
 			datas.or_buyer_id,
 			datas.ss_name,
 			datas.or_shipping_address_detail,
