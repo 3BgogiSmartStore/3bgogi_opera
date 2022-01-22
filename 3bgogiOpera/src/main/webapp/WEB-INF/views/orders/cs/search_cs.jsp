@@ -537,13 +537,30 @@
 												<select class="form-control form-control-sm mb-2 
 						                        	<c:if test="${osVO.edtFk != 0 }">
 				                            			selected-values
-				                            				
 				                            		</c:if>
 						                        " name="edtFk"  >
-							                        <option value="0"> 택배사 </option>
-													<option value="1">우체국택배</option>
+							                        <option value="0"
+							                        	<c:if test="${osVO.edtFk == 0 }">
+				                            				selected="selected"
+				                            			</c:if>
+							                        > 택배사 </option>
+													<option value="1"
+							                        	<c:if test="${osVO.edtFk == 1 }">
+				                            				selected="selected"
+				                            			</c:if>
+							                        >우체국택배</option>
 													<!-- <option value="3">새벽배송(프레시솔루션)</option> -->
-													<option value="5">CJ새벽배송</option>
+													<option value="5"
+							                        	<c:if test="${osVO.edtFk == 5 }">
+				                            				selected="selected"
+				                            			</c:if>
+							                        >CJ새벽배송</option>
+							                        <option value="4"
+							                        	<c:if test="${osVO.edtFk == 4 }">
+				                            				selected="selected"
+				                            			</c:if>
+							                        >롯데택배</option>
+							                        
 												</select>&nbsp;
 												<select class="form-control form-control-sm mb-2 
 						                        	<c:if test="${osVO.sendingReq != 0 }">

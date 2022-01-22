@@ -27,7 +27,14 @@ public enum CjDetailDeliveryAreaCheck {
 	GIMPOSI("김포시" , Arrays.asList("통진읍","양촌읍","대곶면","월곶면","하성면")),
 	HWASEONGSI("화성시", Arrays.asList("병점동","반정동","황계동","배양동","기안동","송산동","안녕동","중동","신동","금곡동","새솔동","봉담읍","우정읍","향남읍","남양읍","매송면","비봉면","마도면","송산면","서신면","팔탄면","장안면","양감면","정남면","기배동","화산동")),
 	YONGINSI("용인시", Arrays.asList("처인구")),
-	ANSANSI("안산시", Arrays.asList("안산동","반월공단","수암동","장상동","화정동","대부북동","대부동동","대부남동","선감동"));
+	ANSANSI("안산시", Arrays.asList("안산동","반월공단","수암동","장상동","대부북동","대부동동","대부남동","선감동")),
+	GUNPOSI("군포시", Arrays.asList("대야동")),
+	GURISI("구리시", Arrays.asList("동구동")),
+	GWANGMYEONGSI("광명시", Arrays.asList("학온동")),
+	BUNDANGRU("분당구", Arrays.asList("율동")),
+	SUJEONGGU("수정구", Arrays.asList("위례동")),
+	JUNGWONGU("중원구", Arrays.asList("갈현동","상대동")),
+	UIWANGSI("의왕시", Arrays.asList("삼동"));
 	
 	private String areas;
 	private List<String> dongList;

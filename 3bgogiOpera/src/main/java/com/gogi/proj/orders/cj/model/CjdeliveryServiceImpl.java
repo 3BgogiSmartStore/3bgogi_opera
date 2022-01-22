@@ -92,6 +92,12 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
     		}else if(addr.contains("수원시")) {
     			return true;
     			
+    		}else if(addr.contains("안양시")) {
+    			return true;
+    			
+    		}else if(addr.contains("과천시")) {
+    			return true;
+    			
     		}else {        		
     			
     			
@@ -159,6 +165,12 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
         			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         			
         		}else if(checkingList.get(i).getOrShippingAddress().contains("수원시")) {
+        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
+        			
+        		}else if(checkingList.get(i).getOrShippingAddress().contains("안양시")) {
+        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
+        			
+        		}else if(checkingList.get(i).getOrShippingAddress().contains("과천시")) {
         			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         			
         		}else {        		
