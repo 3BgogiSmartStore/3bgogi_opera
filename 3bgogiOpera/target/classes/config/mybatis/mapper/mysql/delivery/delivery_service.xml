@@ -147,13 +147,13 @@
 	</update>
 	
 	<select id="selectDeliveryOutPutCancledTarget" parameterType="OrderSearchVO" resultType="OrderHistoryVO">
-						SELECT
-							od.or_pk AS or_fk
-						FROM 
-							orders od
-					        INNER JOIN store_section ss		ON od.ss_fk = ss.ss_pk
-						WHERE
-							od.or_output_date = #{dateEnd}
+		SELECT
+			od.or_pk AS or_fk
+		FROM 
+			orders od
+			INNER JOIN store_section ss		ON od.ss_fk = ss.ss_pk
+		WHERE
+			od.or_output_date = #{dateEnd}
 	</select>
 	
 	<!-- 스토어 송장 업로드 파일 다운로드 -->

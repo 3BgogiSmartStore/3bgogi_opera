@@ -842,6 +842,7 @@
 			datas.or_shipping_address,
 			GROUP_CONCAT(DISTINCT datas.or_delivery_invoice_number SEPARATOR ',') AS or_delivery_invoice_number,
 			GROUP_CONCAT(DISTINCT datas.or_delivery_company SEPARATOR ',') AS or_delivery_company,
+			GROUP_CONCAT(DISTINCT datas.or_delivery_message SEPARATOR ',') AS or_delivery_message,
 			datas.or_buyer_contract_number1,
 			datas.or_buyer_contract_number2,
 			datas.or_receiver_contract_number1,
@@ -880,6 +881,7 @@
 				od.or_shipping_address_detail,
 				od.or_delivery_invoice_number,
 				od.or_delivery_company,
+				od.or_delivery_message,
 				od.or_buyer_contract_number1,
 				od.or_buyer_contract_number2,
 				od.or_receiver_contract_number1,
@@ -966,6 +968,7 @@
 				od.or_product,
                 od.or_product_option,
                 od.or_inflow_route,
+                od.or_delivery_message,
                 pro.product_name,
                 op.option_name,
                 od.edt_fk

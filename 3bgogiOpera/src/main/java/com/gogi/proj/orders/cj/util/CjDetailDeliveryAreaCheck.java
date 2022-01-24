@@ -7,12 +7,13 @@ import java.util.List;
  * 
  * @author Jeon KiChan
  * @date : 2021. 10. 21.
+ * @lastUpdate : 2022-01-24
  * @ClassName : 지역 별 배송 불가 지역 체크
  */
 public enum CjDetailDeliveryAreaCheck {
 
 	// 아래에 기재된 지역은 새벽배송이 불가능한 지역
-	DUCYANGGU("덕양구" , Arrays.asList("원당동","신원동","북한동","효자동","오금동","용두동","벽제동","선유동","고양동","대자동","관산동","내유동","내곡동","화정동","강매동","행주내동","행주외동","신평동","현천동","덕은동","향동동","원신동","흥도동","행주동","대덕동")),
+	DUCYANGGU("덕양구" , Arrays.asList("신원동","북한동","효자동","오금동","용두동","벽제동","선유동","고양동","대자동","관산동","내유동","내곡동","화정동","강매동","행주내동","행주외동","신평동","현천동","덕은동","향동동","원신동","흥도동","행주동","대덕동")),
 	ILSANDONGGU("일산동구", Arrays.asList("산황동","사리현동","지영동","설문동","문봉동","성석동","고봉동")),
 	ILSANSUGU("일산서구", Arrays.asList("구산동","법곳동","송포동", "송산동")),
 	PAJUSI("파주시", Arrays.asList("아동동","야동동","검산동","매금동","교하동","오도동","상지석동","산남동","당하동","문발동","송촌동","하지석동","서패동","신촌동","연다산동","금릉동","문산읍","파주읍","법원읍","조리읍","월롱면","탄현면","광탄면","파평면","적성면","군내면","장단면","진동면","진서면","운정동","운정1동","운정2동","운정3동")),
@@ -34,6 +35,10 @@ public enum CjDetailDeliveryAreaCheck {
 	BUNDANGRU("분당구", Arrays.asList("율동")),
 	SUJEONGGU("수정구", Arrays.asList("위례동")),
 	JUNGWONGU("중원구", Arrays.asList("갈현동","상대동")),
+	GWONSEONGU("권선구", Arrays.asList("곡선동")),
+	YEONGTONGGU("영통구", Arrays.asList("광교동")),
+	GIGEUNGGU("기흥구", Arrays.asList("기흥동","서농동","구성동")),
+	UIJEONGBUSI("의정부시", Arrays.asList("송산동","자금동","흥선동")),
 	UIWANGSI("의왕시", Arrays.asList("삼동"));
 	
 	private String areas;

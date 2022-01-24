@@ -737,29 +737,6 @@ jQuery(document).ready(function($) {
 				$("#csSearchForm").append(orDeliveryNum);
 				
 		     });
-
-			
-			/*for(var i=0; i<orSize; i++){
-				var orSerialSpecialNumberInput = document.createElement("input");
-				orSerialSpecialNumberInput.name="orVoList["+i+"].orSerialSpecialNumber";
-				
-				orSerialSpecialNumberInput.type="hidden";
-				orSerialSpecialNumberInput.value=$("input[data-deliv='1']:checked")[i].value;
-				
-				
-				var orDeliveryNum = document.createElement("input");
-				orDeliveryNum.name="orVoList["+i+"].orDeliveryInvoiceNumber";
-				
-				orDeliveryNum.type="hidden";
-				orDeliveryNum.value=$("input[data-deliv='1']:checked")[i].data("deliv-num");
-				
-				$("#csSearchForm").append(orSerialSpecialNumberInput);
-				$("#csSearchForm").append(orDeliveryNum);
-				
-				alert($("input[data-deliv='1']:checked")[i].data("deliv-num"));
-				
-				
-			}*/
 			
 			var csSearchFormData = jQuery("#csSearchForm").serialize();
 			

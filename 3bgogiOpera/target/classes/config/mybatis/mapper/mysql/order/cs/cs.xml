@@ -1101,7 +1101,7 @@
 		SELECT
 			or_buyer_id,
 			or_serial_special_number,
-			or_settlement_day,
+			GROUP_CONCAT(DISTINCT or_settlement_day SEPARATOR ',') AS or_settlement_day,
 		    or_buyer_name,
 		    or_buyer_another_name,
 		    or_buyer_contract_number1,
@@ -1126,7 +1126,6 @@
 		GROUP BY
 			or_buyer_id,
 			or_serial_special_number,
-			or_settlement_day,
 		    or_buyer_name,
 		    or_buyer_another_name,
 		    or_buyer_contract_number1,
@@ -1162,7 +1161,8 @@
 			or_shipping_address_detail = #{orShippingAddressDetail},
 			or_shipping_address_number = #{orShippingAddressNumber},
 			or_sending_Deadline = #{orSendingDeadline},
-			or_regdate = #{orRegdate}
+			or_regdate = #{orRegdate},
+			or_sending_day = null
 		WHERE
 			or_pk = #{orPk}
 	</update>

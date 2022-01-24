@@ -501,46 +501,47 @@ public class xlsxWriter {
 				cell = (SXSSFCell)row.createCell(11);
 				cell.setCellValue(orList.get(rowIdx).getOrDeliveryInvoiceNumber() == null ? " - " : orList.get(rowIdx).getOrDeliveryInvoiceNumber());
 				
-				cell =(SXSSFCell) row.createCell(12);
-				cell.setCellValue(orList.get(rowIdx).getOrAmount());	
+				cell = (SXSSFCell)row.createCell(12);
+				cell.setCellValue(orList.get(rowIdx).getOrDeliveryMessage() == null ? "" : orList.get(rowIdx).getOrDeliveryMessage());
 				
 				cell =(SXSSFCell) row.createCell(13);
-				cell.setCellValue(orList.get(rowIdx).getOrOrderNumber());
+				cell.setCellValue(orList.get(rowIdx).getOrAmount());	
 				
 				cell =(SXSSFCell) row.createCell(14);
+				cell.setCellValue(orList.get(rowIdx).getOrOrderNumber());
+				
+				cell =(SXSSFCell) row.createCell(15);
 				cell.setCellValue(orList.get(rowIdx).getOrProductOrderNumber());
 				
-				
-				cell = (SXSSFCell)row.createCell(15);
+				cell = (SXSSFCell)row.createCell(16);
 				cell.setCellValue(orList.get(rowIdx).getOrProduct());
 				
-				cell = (SXSSFCell)row.createCell(16);
+				cell = (SXSSFCell)row.createCell(17);
 				cell.setCellValue(orList.get(rowIdx).getOrProductOption());
 				
-				cell = (SXSSFCell)row.createCell(17);
+				cell = (SXSSFCell)row.createCell(18);
 				cell.setCellValue(orList.get(rowIdx).getOrUserColumn1());
 				
-				cell = (SXSSFCell)row.createCell(18);
+				cell = (SXSSFCell)row.createCell(19);
 				cell.setCellValue(orList.get(rowIdx).getOrUserColumn2());
 				
-				cell = (SXSSFCell)row.createCell(19);
+				cell = (SXSSFCell)row.createCell(20);
 				cell.setCellValue((int)orList.get(rowIdx).getOrCancledQty());
 				
-				cell = (SXSSFCell)row.createCell(20);
+				cell = (SXSSFCell)row.createCell(21);
 				cell.setCellValue((int)orList.get(rowIdx).getOrRefunds());
 
-				cell = (SXSSFCell)row.createCell(21);
+				cell = (SXSSFCell)row.createCell(22);
 				cell.setCellValue(orList.get(rowIdx).getOrSendingDeadline() == null ? " - " : ymd.format(orList.get(rowIdx).getOrSendingDeadline()));
 
-				cell = (SXSSFCell)row.createCell(22);
+				cell = (SXSSFCell)row.createCell(23);
 				cell.setCellValue((orList.get(rowIdx).getOrSendingDay() == null ? " - " : ymdhms.format(orList.get(rowIdx).getOrSendingDay())));
 
-				cell = (SXSSFCell)row.createCell(23);
+				cell = (SXSSFCell)row.createCell(24);
 				cell.setCellValue(orList.get(rowIdx).getOrSettlementDay() == null ? " - " : ymdhms.format(orList.get(rowIdx).getOrSettlementDay()));
 
-				cell = (SXSSFCell)row.createCell(24);
+				cell = (SXSSFCell)row.createCell(25);
 				cell.setCellValue(orList.get(rowIdx).getOrInflowRoute());
-
 
 				rowCounting++;
 	           
@@ -687,6 +688,7 @@ public class xlsxWriter {
 		 header.add("배송지 상세사항");
 		 header.add("택배사");
 		 header.add("송장번호");
+		 header.add("배송메세지");
 		 header.add("수량");
 		 header.add("주문번호");
 		 header.add("상품주문번호");

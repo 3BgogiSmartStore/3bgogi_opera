@@ -543,6 +543,7 @@
             ) AS or_shipping_address,
             od.or_shipping_address_number,
             od.or_buyer_name,
+            od.or_buyer_another_name,
             IF(
 				or_request IS NOT NULL AND or_request != '',
                 CONCAT('[ 요청사항 : ',od.or_request, ' ] ', pro.product_name, ' [ ', op.option_name, ' ] ', (od.or_amount * om.om_option_amount), ' 개'),

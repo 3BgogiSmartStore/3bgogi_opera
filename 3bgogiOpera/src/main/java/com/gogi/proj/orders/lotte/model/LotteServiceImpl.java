@@ -257,8 +257,13 @@ public class LotteServiceImpl implements LotteService{
 				sheet.autoSizeColumn(8);
 				sheet.setColumnWidth(8, ( sheet.getColumnWidth(8) + 512));
 				
+				
 				cell = (SXSSFCell) row.createCell(9);
-				cell.setCellValue(delivTarget.get(i).getOrBuyerName());
+				if(delivTarget.get(i).getOrBuyerAnotherName() != null && !delivTarget.get(i).getOrBuyerAnotherName().equals("")) {
+					cell.setCellValue(delivTarget.get(i).getOrBuyerAnotherName());
+				}else {
+					cell.setCellValue(delivTarget.get(i).getOrBuyerName());
+				}
 				sheet.autoSizeColumn(9);
 				sheet.setColumnWidth(9, ( sheet.getColumnWidth(9) + 512));
 				
