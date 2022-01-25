@@ -68,16 +68,6 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 	 * 
 	 */
 	public boolean isCjDeliveryArea(String zipCode, String addr, String addrDetail) {
-		
-		URLUtil uUtil = new URLUtil();
-		
-		OrderInfoToCjdelivery ocjd = new OrderInfoToCjdelivery();
-		
-		Map<String, String> requestHeaders = new HashMap<>();
-
-        requestHeaders.put("Accept", "*/*");
-		
-        String parsingString = "";
         
         String address = addr+" "+addrDetail;
         
@@ -165,7 +155,6 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
         			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         			
         		}else {        		
-        			
         			
         			//전국 단위별 배송 가능 지역 확인
         			if( CjDeliveryArea.findDelivPosivArea(checkingList.get(i).getOrShippingAddress()) == CjDeliveryArea.POSIV) {
