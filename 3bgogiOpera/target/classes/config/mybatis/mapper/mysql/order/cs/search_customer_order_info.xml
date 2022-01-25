@@ -257,6 +257,9 @@
 		<if test="receiveType == 4">
 			AND od.or_rec_type = 3
 		</if>
+		<if test="receiveType == 5">
+			AND od.or_rec_type = 4
+		</if>
 		<!-- 대량 주소 엑셀 여부 -->
 		<if test="excelFlag == 1">
 			AND od.or_excel_div_flag = 1
@@ -869,6 +872,7 @@
 			datas.product_name AS or_user_column1,
 			datas.option_name AS or_user_column2,
 			datas.edt_fk,
+			datas.or_rec_type,
 			IF( 
 				SUM(datas.or_deposit_flag) IS NULL,
 				0,
@@ -900,6 +904,7 @@
 				od.or_cancled_flag,
 				od.or_refunds,
 				od.or_settlement_day,
+				od.or_rec_type,
 				od.edt_fk,
 				CASE
 					WHEN od.or_cancled_flag = 0
@@ -976,7 +981,8 @@
                 od.or_delivery_message,
                 pro.product_name,
                 op.option_name,
-                od.edt_fk
+                od.edt_fk,
+                od.or_rec_type
 			ORDER BY
 				od.or_settlement_day DESC
 			) datas
@@ -1002,7 +1008,8 @@
             datas.total_amounts,
 			datas.product_name,
 			datas.option_name,
-			datas.edt_fk
+			datas.edt_fk,
+			datas.od.or_rec_type
 		<trim prefix="HAVING" prefixOverrides="AND |OR ">
 			<if test="cancledFlag == 1">
 				AND SUM(datas.or_cancled_qty) IS NULL

@@ -533,6 +533,11 @@
 															selected="selected"
 														</c:if>
 													>제주익일특급</option>
+													<option value="5"
+														<c:if test="${osVO.receiveType == 5}">
+															selected="selected"
+														</c:if>
+													>대신택배</option>
 												</select>&nbsp;
 												<select class="form-control form-control-sm mb-2 
 						                        	<c:if test="${osVO.edtFk != 0 }">
