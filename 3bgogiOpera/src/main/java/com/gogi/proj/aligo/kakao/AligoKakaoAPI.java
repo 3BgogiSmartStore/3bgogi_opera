@@ -119,7 +119,6 @@ public class AligoKakaoAPI {
         requestHeaders.put("sender","070-4169-3167");
         
         int count = 1;
-        String button = buttonJsonData();
         
         for(OrdersVO orVO : orderList) {
         	String msg = "";
@@ -139,7 +138,6 @@ public class AligoKakaoAPI {
             requestHeaders.put("recvname_"+count, orVO.getOrBuyerName());
             requestHeaders.put("subject_"+count, subject);
             requestHeaders.put("message_"+count, msg);
-            requestHeaders.put("button_"+count, button);
             
             requestHeaders.put("failover", "Y");
             requestHeaders.put("fsubject_"+count, subject);
@@ -182,17 +180,22 @@ public class AligoKakaoAPI {
 	}
 	
 	private String phoneMsg() {
-		return "#{고객명}님!\n" + 
-				"□ 주문번호 : #{주문번호}\n" + 
+		return "#{고객명}님!\r\n" + 
+				"□ 주문번호 : #{주문번호}\r\n" + 
 				"\r\n" + 
-				"새벽배송으로 발송될 예정입니다.\n" + 
-				"그러나 공동현관 출입번호가 기재되지 않아 ★1층 공동현관 앞에 배송될 수 있어 연락드립니다★\n" + 
-				"\n" + 
-				"하단에 네이버 톡톡 링크@ 클릭 해서\n" + 
-				"공동현관 비밀번호 말씀해 주시면 됩니다!\n" + 
-				"\n" + 
-				"[네이버톡톡] 17:30분 까지만\n" + 
-				"talk.naver.com/ct/wc9uqb#nafullscreen";
+				"*****긴급공지*****\r\n" + 
+				"새벽배송으로 발송될 예정입니다.\r\n" + 
+				"그러나 공동현관 비번이 기재되지 않아\r\n" + 
+				"【1층 공동현관 앞에 배송될 수 있어\r\n" + 
+				"연락드립니다】\r\n" + 
+				"\r\n" + 
+				"【하단 메시지로 ★30분★ 안에\r\n" + 
+				"공동현관 비번 알려주세요】\r\n" + 
+				"\r\n" + 
+				"【비번 없는경우 ★자유출입★ 이라고\r\n" + 
+				"남겨주세요】\r\n" + 
+				"\r\n" + 
+				"*문자 발송 후 30분이 지나면 입력 및 변경이 어렵고 출고 후에는 교환 및 반품이 어렵습니다.";
 	}
 	
 	
