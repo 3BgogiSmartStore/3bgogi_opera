@@ -1126,6 +1126,9 @@
 					                                                    		<c:if test="${orderlist.orRecType == 3 }">
 					                                                    			- 제주도 택배 예정 -
 					                                                    		</c:if>
+					                                                    		<c:if test="${orderlist.orRecType == 4 }">
+					                                                    			- 대신택배 예정 -
+					                                                    		</c:if>
 					                                                    	</c:if>
 					                                                    	<c:if test="${!empty orderlist.orDeliveryInvoiceNumber }">
 					                                                    		${orderlist.orDeliveryInvoiceNumber}<br>
@@ -1136,7 +1139,10 @@
 					                                                    			- 방문수령 -
 					                                                    		</c:if>
 					                                                    		<c:if test="${orderlist.orRecType == 3 }">
-					                                                    			- 제주도 택배 -
+					                                                    			- 제주도 익일 -
+					                                                    		</c:if>
+					                                                    		<c:if test="${orderlist.orRecType == 4 }">
+					                                                    			- 대신택배 -
 					                                                    		</c:if>
 					                                                    	</c:if>
 					                                                    </td>

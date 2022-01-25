@@ -279,6 +279,11 @@ public class EpostServiceImpl implements EpostService {
 				orderList.setRegiNo(delivInvoiceNum);
 				orderList.setOrDeliveryCompany("방문수령");
 				
+			}else if(orderList.getOrRecType() == 4) {
+				orderList.setOrDeliveryInvoiceNumber(delivInvoiceNum);
+				orderList.setRegiNo(delivInvoiceNum);
+				orderList.setOrDeliveryCompany("대신택배");
+				
 			}
 			
 			orderList.setOrInvoiceNumDate(createInvoiceNumDateCounting);

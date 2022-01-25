@@ -668,6 +668,52 @@
     				
     		});
     		
+    		//택배사 고정 해제
+    		$("#absInitDeliv").click(function(){
+    			
+    			var orSize = $("input[name=serialNumCheck]:checked").length;
+    			
+    			var orSerialSpecialNumberList = new Array(orSize);
+    			
+    			if(orSize == 0){
+    				alert("해제할 수 있는 주문서가 존재하지 않습니다"); 
+    				return false;
+    				
+    			}
+
+    			if(confirm("배송회사 고정을 푸시겠습니까?")){
+    				for(var i=0; i<orSize; i++){
+    					orSerialSpecialNumberList[i]=$("input[name=serialNumCheck]:checked")[i].value;
+    					
+    				}
+    				
+    				
+    				$.ajax({
+    					type       : 'GET',
+    					data       : {
+    						"orSerialSpecialNumber":orSerialSpecialNumberList
+    						
+    					},
+    					url        : '/orders/abs_init_deliv.do',
+    					success    : (data) => {		
+    						if(data > 0){
+    							alert("배송회사 고정 해제");
+    							location.reload();
+    						}else{
+    							alert("배송회사 고정 실패");
+    							location.reload();
+    						}
+    						
+    					},error	: (log) => {
+    						alert("서버 에러 발생. " + log);
+    					}
+    					
+    				});
+    				
+    			}
+    			
+    		});
+    		
     	});
     	
     	
@@ -969,15 +1015,13 @@
                                     </div>
                                     <div id="orderControl" class="collapse" aria-labelledby="headingSeven" data-parent="#orderController">
                                     	<div class="card-body">
+                                    		<button class="btn btn-primary btn-xs mb-2" type="button" id="absInitDeliv"> 택배사 고정 해제</button>
+                                    		
 	                                		<table class="table table-bordered">
 		                                        <thead>
 		                                            <tr style="text-align: center;">
 		                                            	<th scope="col" colspan="1">
-					                                        <label class="custom-control custom-checkbox be-select-all" style="display: inline-block;">
-												            	<input class="custom-control-input serialNumCheckAll" type="checkbox" name="serialNumCheckAll" id="orSerialList"><span class="custom-control-label"></span>
-												            </label>
 				                                        </th>
-				                                        
 		                                                <th scope="col"> 구매자</th>
 		                                                <th scope="col"> 수령자</th>
 		                                                <th scope="col"> 주소 </th>
@@ -989,7 +1033,7 @@
 		                                        		<tr>
 		                                        			<td>
 		                                        				<label class="custom-control custom-checkbox be-select-all" style="display: inline-block;">
-												             	   <input class="custom-control-input serialNumCheck" type="checkbox" name="serialNumCheck"><span class="custom-control-label"></span>
+												             	   <input class="custom-control-input serialNumCheck" type="checkbox" name="serialNumCheck" value="${epostAbsList.orSerialSpecialNumber }"><span class="custom-control-label"></span>
 												                </label>
 		                                        			</td>
 		                                        			

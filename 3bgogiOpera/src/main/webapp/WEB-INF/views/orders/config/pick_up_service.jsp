@@ -89,6 +89,7 @@ body {
 			                            <option value="1">퀵서비스</option>
 			                            <option value="2">방문수령</option>
 			                            <option value="3">제주익일특급</option>
+			                            <option value="4">대신택배</option>
 			                        </select>
 								</div>
 							</div>

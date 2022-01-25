@@ -59,7 +59,7 @@
 			<c:forEach var="orlist" items="${orList }">		
 				<div id="html_deliv_test" style="position: absolute; width:1090px; height:429px; top:${topValue}px;" >
 				
-					<c:if test="${orlist.orRecType > 0 and orlist.orRecType <= 3 }">
+					<c:if test="${orlist.orRecType > 0 and orlist.orRecType <= 4 }">
 						<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:17px; left:700px; font-size:12px;"> 수령인 : ${orlist.orReceiverName }, </h3>
 						<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:35px; left:700px; font-size:12px;"> 수령시간 : ${orlist.orRecMemo }, 보관장소 :  ${orlist.orRecStoragePlace }</h3>
 						<h1 class='deliv-styles deliv-dont-deliv-msg-top' style="top:170px; left:670px; font-size:90px; opacity: 0.5;"> 보 관 증 </h1>
@@ -78,6 +78,11 @@
 						<c:if test="${orlist.orRecType == 3 }">
 							<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:20px; font-size:20px;">**** 제주익일 **** 제주익일 **** 제주익일 **** 제주익일 ****</h3>
 							<h3 class='deliv-styles deliv-order-number' style="top: 130px; font-size:130px; opacity: 0.5;"> 제주익일 </h3>
+							
+						</c:if>
+						<c:if test="${orlist.orRecType == 4 }">
+							<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:20px; font-size:20px;">**** 대신택배 **** 대신택배 **** 대신택배 **** 대신택배 ****</h3>
+							<h3 class='deliv-styles deliv-order-number' style="top: 130px; font-size:130px; opacity: 0.5;"> 대신택배 </h3>
 							
 						</c:if>
 
