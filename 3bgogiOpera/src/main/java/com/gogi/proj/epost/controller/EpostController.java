@@ -197,6 +197,11 @@ public class EpostController {
 			
 		}else */
 		
+		//우체국으로 고정된 목록 가져오기
+		List<OrdersVOList> epostAbsDelivList = epostService.selectDontGrantDelivOrderAbsDelivEpost(orderSearchVO);
+		
+		model.addAttribute("epostAbsDelivList", epostAbsDelivList);
+		
 		if(orderSearchVO.getEdtFk() == 7) {
 			orderSearchVO.setOrSerialSpecialNumberList(teamFreshService.selectTeamFreshDeliveryTargetChecking(orderSearchVO).getOrSerialSpecialNumberList());
 			int packingIrreOrderCounting = orderConfigService.selectPackingIrreTargetOrderCounting();

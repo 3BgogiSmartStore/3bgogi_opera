@@ -44,6 +44,7 @@ import com.gogi.proj.log.vo.OrderHistoryVO;
 import com.gogi.proj.orders.model.OrdersDAO;
 import com.gogi.proj.orders.teamfresh.model.TeamFreshService;
 import com.gogi.proj.orders.vo.OrdersVO;
+import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.todayPickup.controller.TodayPickupController;
 import com.gogi.proj.todayPickup.model.TodayPickupService;
@@ -764,6 +765,12 @@ public class EpostServiceImpl implements EpostService {
 			epostDao.lotteTarget(orderList);
 		
 		return orderList;
+	}
+
+	@Override
+	public List<OrdersVOList> selectDontGrantDelivOrderAbsDelivEpost(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return epostDao.selectDontGrantDelivOrderAbsDelivEpost(osVO);
 	}
 
 	

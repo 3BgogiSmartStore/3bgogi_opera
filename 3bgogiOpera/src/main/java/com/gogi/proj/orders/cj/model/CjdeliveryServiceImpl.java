@@ -109,33 +109,6 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
     			
     		}else {        		
     			
-    			
-    			//전국 단위별 배송 가능 지역 확인
-    			if( CjDeliveryArea.findDelivPosivArea(addr) == CjDeliveryArea.POSIV) {
-    				
-    				//지역 별 배송 불가 지역 확인
-    				if(CjDetailDeliveryAreaCheck.hasAreaName(address) == true) {
-    					
-    					try {
-    						
-    						parsingString = uUtil.getCoordiante("https://www.cjthemarket.com/common/address/chkDawnDeliveryAvailable.json?addr="+URLEncoder.encode(addr, "UTF-8")+"&zipCd="+URLEncoder.encode(zipCode,"UTF-8"), requestHeaders, "POST", null);
-    						
-    					} catch (IOException e) {
-    						// TODO Auto-generated catch block
-    						throw new RuntimeException("입출력 에러", e);
-    						
-    					}
-    					
-    					CjResultMessage cjMsg = ocjd.stringToCjResultMsg(parsingString);
-    					
-    					if(cjMsg.getIsDawnAble() == true) {
-    						return true;
-    					}
-    					
-    				}
-    				
-    			}
-    			
     		}
         	
         }

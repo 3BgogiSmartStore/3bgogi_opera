@@ -958,6 +958,54 @@
                                     </div>
 	                            </div>
                         	</div>
+                        	<c:if test="${!empty epostAbsDelivList }">
+                        		<div class="card" id="orderController">
+                            		<div class="card-header" id="headingSeven">
+                                    	<h5 class="mb-0">
+                                        	<button id="arcoBtn1" class="btn btn-link" data-toggle="collapse" data-target="#orderControl" aria-expanded="false" aria-controls="orderControl" type="button">
+                                            	우체국택배 고정 주문서 확인하기
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="orderControl" class="collapse" aria-labelledby="headingSeven" data-parent="#orderController">
+                                    	<div class="card-body">
+	                                		<table class="table table-bordered">
+		                                        <thead>
+		                                            <tr style="text-align: center;">
+		                                            	<th scope="col" colspan="1">
+					                                        <label class="custom-control custom-checkbox be-select-all" style="display: inline-block;">
+												            	<input class="custom-control-input serialNumCheckAll" type="checkbox" name="serialNumCheckAll" id="orSerialList"><span class="custom-control-label"></span>
+												            </label>
+				                                        </th>
+				                                        
+		                                                <th scope="col"> 구매자</th>
+		                                                <th scope="col"> 수령자</th>
+		                                                <th scope="col"> 주소 </th>
+		                                                <th scope="col"> 출입방법 </th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody class="dataTable">
+		                                        	<c:forEach var="epostAbsList" items="${epostAbsDelivList }">
+		                                        		<tr>
+		                                        			<td>
+		                                        				<label class="custom-control custom-checkbox be-select-all" style="display: inline-block;">
+												             	   <input class="custom-control-input serialNumCheck" type="checkbox" name="serialNumCheck"><span class="custom-control-label"></span>
+												                </label>
+		                                        			</td>
+		                                        			
+		                                        			<td>${epostAbsList.orBuyerName } / ${epostAbsList.orBuyerContractNumber1 }</td>
+		                                        			<td>${epostAbsList.orReceiverName } / ${epostAbsList.orReceiverContractNumber1 }</td>
+		                                        			<td>${epostAbsList.orShippingAddress } ${epostAbsList.orShippingAddressDetail }</td>
+		                                        			<td>${epostAbsList.orDelivEnter }</td>
+		                                        		</tr>
+		                                        	</c:forEach>
+		                                        </tbody>
+		                                    </table>
+                                        </div>
+                                   </div>
+                                </div>
+                        	
+                        	</c:if>
                         </div>
                     </div>
                     <div class="row">

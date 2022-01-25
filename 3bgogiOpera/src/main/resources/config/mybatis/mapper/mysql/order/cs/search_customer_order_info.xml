@@ -145,6 +145,7 @@
 		<result property="orRecType" column="or_rec_type" javaType="int"/>
 		<result property="orRecMemo" column="or_rec_memo" javaType="String"/>
 		<result property="orRecStoragePlace" column="or_rec_storage_place" javaType="String"/>
+		<result property="orAbsDelivType" column="or_abs_deliv_type" javaType="int"/>
 		
 	</resultMap>
 	
@@ -511,6 +512,7 @@
 			SUM(datas.or_refunds) AS or_refunds,
 			datas.edt_fk,
 			datas.or_rec_type,
+			datas.or_abs_deliv_type,
 			SUM(datas.or_excel_div_flag) AS or_excel_div_flag,
 			IF( 
 				SUM(datas.or_deposit_flag) IS NULL,
@@ -540,6 +542,7 @@
 				od.or_refunds,
 				od.or_settlement_day,
 				od.or_rec_type,
+				od.or_abs_deliv_type,
 				CASE
 					WHEN od.or_cancled_flag = 0
 					THEN
@@ -608,7 +611,8 @@
 				od.or_refunds,
 				od.or_settlement_day,
 				od.or_rec_type,
-				od.edt_fk
+				od.edt_fk,
+				od.or_abs_deliv_type
 			ORDER BY
 				od.or_settlement_day DESC
 			) datas
@@ -625,6 +629,7 @@
 			datas.or_receiver_contract_number1,
 			datas.or_sending_deadline,
 			datas.or_rec_type,
+			datas.or_abs_deliv_type,
 			datas.edt_fk
 		<trim prefix="HAVING" prefixOverrides="AND |OR ">
 			<if test="cancledFlag == 1">

@@ -71,6 +71,7 @@
 		<result property="orRecMemo" column="or_rec_memo" javaType="String"/>
 		<result property="orRecStoragePlace" column="or_rec_storage_place" javaType="String"/>
 		<result property="orAbsDelivType" column="or_abs_deliv_type" javaType="int"/>
+		<result property="orUserColumn4" column="or_user_column4" javaType="String"/>
 		
 		<!-- 상품명 매칭 -->
 		<collection property="productMatchingVOList" ofType="ProductMatchingVO">
@@ -182,6 +183,7 @@
 			od.or_request,
 			od.or_excel_div_flag,
 			od.or_fk,
+			od.or_user_column4,
             pm.pm_pk,
             od.or_deposit_flag,
 			pro.product_pk,
@@ -246,6 +248,7 @@
 			od.or_excel_div_flag,
 			od.or_fk,
 			od.or_deposit_flag,
+			od.or_user_column4,
             pm.pm_pk,
             om.om_pk,
 			pro.product_pk,

@@ -141,4 +141,16 @@ public interface EpostDAO {
 	 * @메소드설명 : 롯데택배 임의 송장 부여
 	 */
 	public int lotteTarget(OrdersVO orVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectDontGrantDelivOrderAbsDelivEpost
+	 * @date : 2022. 1. 25.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @return
+	 * @메소드설명 : 우체국 고정 건 주문 목록 가져오기
+	 */
+	public List<OrdersVOList> selectDontGrantDelivOrderAbsDelivEpost(OrderSearchVO osVO);
 }

@@ -112,4 +112,15 @@ public interface EpostService {
 	 */
 	public OrdersVO lotteTarget(OrderSearchVO osVO);
 	
+	
+	/**
+	 * 
+	 * @MethodName : selectDontGrantDelivOrderAbsDelivEpost
+	 * @date : 2022. 1. 25.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @return
+	 * @메소드설명 : 우체국 고정 건 주문 목록 가져오기
+	 */
+	public List<OrdersVOList> selectDontGrantDelivOrderAbsDelivEpost(OrderSearchVO osVO);
 }

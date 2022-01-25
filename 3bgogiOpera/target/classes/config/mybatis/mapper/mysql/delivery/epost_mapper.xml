@@ -1359,6 +1359,133 @@
             
 	</update>
 	
+	
+	<select id="selectDontGrantDelivOrderAbsDelivEpost" parameterType="OrderSearchVO" resultMap="deliveryInfoResultMap">
+		SELECT
+			datas.*
+		FROM
+            (
+            SELECT
+				od.or_serial_special_number,
+				od.or_user_column1,
+				od.or_pk,
+				od.ss_fk,
+				ss.ss_name,
+				od.or_product_option,
+				od.or_product,
+				od.or_buyer_name,
+				od.or_buyer_contract_number1,
+				od.or_receiver_name,
+				od.or_receiver_contract_number1,
+				od.or_delivery_invoice_number,
+				od.or_shipping_address,
+				od.or_shipping_address_detail,
+				od.or_order_number,
+				od.or_product_order_number,
+				od.or_product_number,
+				od.or_sending_deadline,
+				od.or_delivery_message,
+				od.or_settlement_day,
+                SUM(od.or_inv_flag) AS or_inv_flag,
+				SUM(od.or_total_price) AS or_total_price,
+				SUM(od.or_total_cost) AS or_total_cost,
+	            pm.pm_pk,
+				pro.product_pk,
+                pro.product_name,
+				om.om_pk,
+				op.option_pk,
+                op.option_name,
+                op.option_cost_flag,
+                SUM(od.or_amount * om.om_option_amount) AS cf_fk,
+                SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT od.or_user_column4 separator ','), ',', 1) AS or_deliv_enters
+                
+			FROM
+				orders od
+				INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
+				INNER JOIN product_matching pm ON od.pm_fk = pm.pm_pk
+				INNER JOIN option_matching om ON om.pm_fk = pm.pm_pk AND od.or_product_option = om.om_store_option_name
+				INNER JOIN options op ON om.option_fk = op.option_pk
+				INNER JOIN products pro ON pro.product_pk = op.product_fk
+				INNER JOIN excel_order_seq eo ON op.eo_fk = eo.eos_pk
+				
+			WHERE
+				<![CDATA[
+					od.or_sending_deadline >= #{dateStart}
+				]]>
+				AND od.or_excel_div_flag = 0
+				AND od.or_cancled_flag = 0
+				AND od.or_refunds = 0
+				AND od.or_abs_deliv_type = 1
+			GROUP BY
+				od.or_user_column1,
+				od.or_serial_special_number,
+				od.or_pk,
+				od.ss_fk,
+				od.or_product_option,
+				od.or_product,
+				od.or_product_option,
+				od.or_buyer_name,
+				od.or_buyer_contract_number1,
+				od.or_receiver_name,
+				od.or_receiver_contract_number1,
+				od.or_delivery_invoice_number,
+				od.or_order_number,
+				od.or_product_order_number,
+				od.or_product_number,
+				od.or_sending_deadline,
+				od.or_delivery_message,
+				od.or_settlement_day,
+	            pm.pm_pk,
+	            om.om_pk,
+				pro.product_pk,
+                pro.product_name,
+				op.option_pk,
+                op.option_cost_flag,
+                op.option_name
+			) datas,
+            (
+			SELECT
+				output.or_serial_special_number
+			FROM
+				(
+				SELECT
+					od.or_serial_special_number,
+					COUNT(od.or_serial_special_number) AS serial_count,
+					SUM(od.or_inv_flag) AS total_flag,
+					SUM(od.or_deposit_flag) AS total_deposit,
+					SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT od.or_user_column4 separator ','), ',', 1) AS or_deliv_enters
+				FROM
+					orders od
+				<trim prefix="WHERE" prefixOverrides="AND |OR ">
+					od.or_delivery_invoice_number IS NULL
+					AND od.or_refunds = 0
+					AND od.or_abs_deliv_type = 1
+					<![CDATA[
+						AND od.or_sending_deadline >= #{dateStart} AND od.or_sending_deadline <= #{dateEnd}
+					]]>	
+		            <![CDATA[
+						AND od.or_cancled_flag = 0
+						AND od.or_excel_div_flag = 0
+						AND od.or_sending_deadline <= #{dateEnd}
+					 ]]>
+				</trim>
+				GROUP BY
+					od.or_serial_special_number
+				ORDER BY 
+					od.or_serial_special_number ASC
+				) output
+			WHERE
+				output.serial_count = output.total_flag
+				AND output.serial_count = output.total_deposit
+			GROUP BY
+				output.or_serial_special_number
+            ) SELECTER
+		WHERE
+			datas.or_serial_special_number = SELECTER.or_serial_special_number
+		ORDER BY
+			datas.or_settlement_day asc
+	</select>
+	
 </mapper>
 
 

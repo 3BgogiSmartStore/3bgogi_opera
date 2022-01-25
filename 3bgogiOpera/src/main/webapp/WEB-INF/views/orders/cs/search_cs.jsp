@@ -1160,6 +1160,10 @@
 				                                                    </c:if>
 				                                                    <c:if test="${orderlist.orDepositFlag == false }">
 					                                                    <td style="text-align: center;">
+					                                                    	<c:if test="${orderlist.orAbsDelivType == 1 }">
+					                                                    		<span class="text-danger"> - 우체국고정 - </span><br>
+					                                                    	</c:if>
+					                                                    	
 					                                                    	<c:if test="${empty orderlist.orDeliveryInvoiceNumber }">
 					                                                    		-
 					                                                    	</c:if>

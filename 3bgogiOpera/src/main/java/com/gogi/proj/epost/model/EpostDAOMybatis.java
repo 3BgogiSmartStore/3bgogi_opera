@@ -110,4 +110,10 @@ public class EpostDAOMybatis extends SqlSessionDaoSupport implements EpostDAO{
 		// TODO Auto-generated method stub
 		return  getSqlSession().update(epostNameSpace+".lotteTarget", orVO);
 	}
+
+	@Override
+	public List<OrdersVOList> selectDontGrantDelivOrderAbsDelivEpost(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(epostNameSpace+".selectDontGrantDelivOrderAbsDelivEpost", osVO);
+	}
 }
