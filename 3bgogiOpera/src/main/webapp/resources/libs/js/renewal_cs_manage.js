@@ -51,9 +51,9 @@ jQuery(document).ready(function($) {
 		    	//택배수령
 		    	if(data[0].orRecType == 0){
 		    		
-		    		if(data[0].orDeliveryInvoiceNumber != ''){
+		    		if(data[0].orDeliveryInvoiceNumber != null && data[0].orDeliveryInvoiceNumber != ''){
 		    			$("#orderDetailRecMemo").show();
-			    		$("#orderDetailRecMemo").text(' 송장번호 : '+ (data[0].orDeliveryInvoiceNumber == '입력전' ? 'cj택배 송장 입력 대기중'  : data[0].orDeliveryInvoiceNumber ));
+			    		$("#orderDetailRecMemo").text('배송방법 : '+data[0].orDeliveryCompany+', 송장번호 : '+ (data[0].orDeliveryInvoiceNumber == '입력전' ? 'cj택배 송장 입력 대기중'  : data[0].orDeliveryInvoiceNumber ));
 			    		
 		    		}else {
 		    			$("#orderDetailRecType, #orderDetailRecMemo, #orderDetailRecStoragePlace").hide();
@@ -71,6 +71,17 @@ jQuery(document).ready(function($) {
 		    	}else if(data[0].orRecType == 2){
 		    		$("#orderDetailRecType, #orderDetailRecMemo, #orderDetailRecStoragePlace").show();
 		    		$("#orderDetailRecType").text(' - 방문수령 -');
+		    		$("#orderDetailRecMemo").text(' 수령 시간 및 메모 : '+data[0].orRecMemo);
+		    		$("#orderDetailRecStoragePlace").text(' 보관장소 : '+data[0].orRecStoragePlace);
+		    		
+		    	}else if(data[0].orRecType == 3){
+		    		$("#orderDetailRecMemo").show();
+		    		$("#orderDetailRecMemo").text('우체국 제주도 익일특급, 송장번호 : '+ (data[0].orDeliveryInvoiceNumber == null ? '송장대기중'  : data[0].orDeliveryInvoiceNumber ));
+
+		    		
+		    	}else if(data[0].orRecType == 4){
+		    		$("#orderDetailRecType, #orderDetailRecMemo, #orderDetailRecStoragePlace").show();
+		    		$("#orderDetailRecType").text(' - 대신택배 -');
 		    		$("#orderDetailRecMemo").text(' 수령 시간 및 메모 : '+data[0].orRecMemo);
 		    		$("#orderDetailRecStoragePlace").text(' 보관장소 : '+data[0].orRecStoragePlace);
 		    		
