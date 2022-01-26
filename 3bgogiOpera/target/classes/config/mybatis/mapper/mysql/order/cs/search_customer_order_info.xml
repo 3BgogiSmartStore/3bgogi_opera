@@ -1009,7 +1009,7 @@
 			datas.product_name,
 			datas.option_name,
 			datas.edt_fk,
-			datas.od.or_rec_type
+			datas.or_rec_type
 		<trim prefix="HAVING" prefixOverrides="AND |OR ">
 			<if test="cancledFlag == 1">
 				AND SUM(datas.or_cancled_qty) IS NULL

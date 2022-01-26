@@ -1,9 +1,12 @@
 package com.gogi.proj.orders.config.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +19,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gogi.proj.excel.ReadOrderExcel;
 import com.gogi.proj.orders.config.model.OrderConfigService;
 import com.gogi.proj.orders.config.vo.ExceptAddressKeywordVO;
 import com.gogi.proj.orders.config.vo.OrdersDeleteVO;
 import com.gogi.proj.orders.config.vo.ReqFilterKeywordVO;
+import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
+import com.gogi.proj.util.FileuploadUtil;
 import com.gogi.proj.util.PageUtility;
 
 @Controller
@@ -34,6 +40,14 @@ public class OrderConfigController {
 	@Autowired
 	private OrderConfigService orderConfigService;
 	
+	@Autowired
+	private FileuploadUtil fileUploadUtil;
+	
+	@Autowired
+	private OrdersService ordersService;
+	
+	@Autowired
+	private ReadOrderExcel readOrderExcel;
 	
 	/**
 	 * 
@@ -380,9 +394,51 @@ public class OrderConfigController {
 	 * @메소드설명 : 엑셀 주소 파일로 주문서 나누기
 	 */
 	@RequestMapping(value="/devide/excel_order.do", method=RequestMethod.GET)
-	public String excelOrderDevide(@ModelAttribute OrdersVO osVO, Model model) {
+	public String excelOrderDevideGet(@ModelAttribute OrdersVO osVO, Model model) {
 		
 		model.addAttribute("osVO", osVO);
+		
+		return "orders/config/devide_excel_order";
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : excelOrderDevidePost
+	 * @date : 2022. 1. 26.
+	 * @author : Jeon KiChan
+	 * @param request
+	 * @param orVO
+	 * @param model
+	 * @return
+	 * @메소드설명 : 엑셀 주소 파일로 주문서 목록 불러오기
+	 */
+	@RequestMapping(value="/devide/excel_order.do", method=RequestMethod.POST)
+	public String excelOrderDevidePost(HttpServletRequest request, @ModelAttribute OrdersVO orVO, Model model) {
+
+		String fileName = "";
+		
+		try {
+			
+			fileName = fileUploadUtil.fileupload(request, FileuploadUtil.ORDER_EXCEL);
+			
+		} catch (IllegalStateException e) {
+			throw new RuntimeException("매개 변수를 확인", e);
+			
+		} catch ( IOException e) {
+			throw new RuntimeException("파일 입력 오류", e);
+		}
+
+		
+		OrdersVO originalOrVO = ordersService.selectOrdersByPk(orVO.getOrPk());
+		
+		List<OrdersVO>  orderList = readOrderExcel.readGiftSetExcelFile(fileName, originalOrVO);
+
+		
+		model.addAttribute("orVO", orVO);
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("originalOrVO", originalOrVO);
 		
 		return "orders/config/devide_excel_order";
 		
