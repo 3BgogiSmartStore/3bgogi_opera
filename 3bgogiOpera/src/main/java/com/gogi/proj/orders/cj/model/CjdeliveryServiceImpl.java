@@ -69,6 +69,14 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 	 */
 	public boolean isCjDeliveryArea(String zipCode, String addr, String addrDetail) {
         
+		URLUtil uUtil = new URLUtil();
+		
+		OrderInfoToCjdelivery ocjd = new OrderInfoToCjdelivery();
+		
+		Map<String, String> requestHeaders = new HashMap<>();
+
+        requestHeaders.put("Accept", "*/*");
+        
         String address = addr+" "+addrDetail;
         
         if(dcService.isEarlyDelivArea(address, 5)) {
@@ -98,7 +106,33 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
     			return true;
     			
     		}else {        		
-    			
+    			//전국 단위별 배송 가능 지역 확인
+    			if( CjDeliveryArea.findDelivPosivArea(addr) == CjDeliveryArea.POSIV) {
+    				
+    				String parsingString = "";
+    				
+    				//지역 별 배송 불가 지역 확인
+    				if(CjDetailDeliveryAreaCheck.hasAreaName(addr) == true) {
+    					
+    					try {
+    						
+    						parsingString = uUtil.getCoordiante("https://www.cjthemarket.com/common/address/chkDawnDeliveryAvailable.json?addr="+URLEncoder.encode(addr, "UTF-8")+"&zipCd="+URLEncoder.encode(zipCode,"UTF-8"), requestHeaders, "POST", null);
+    						
+    					} catch (IOException e) {
+    						// TODO Auto-generated catch block
+    						throw new RuntimeException("입출력 에러", e);
+    						
+    					}
+    					
+    					CjResultMessage cjMsg = ocjd.stringToCjResultMsg(parsingString);
+    					
+    					if(cjMsg.getIsDawnAble() == true) {
+    						return true;
+    					}
+    					
+    				}
+    				
+    			}
     		}
         	
         }
@@ -113,77 +147,13 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 		List<OrdersVO> checkingList = cjDao.selectCjDeliveryTargetChecking(osVO);
 		
 		List<String> targetList = new ArrayList<String>();
-		
-		URLUtil uUtil = new URLUtil();
-		
-		OrderInfoToCjdelivery ocjd = new OrderInfoToCjdelivery();
-		
-		Map<String, String> requestHeaders = new HashMap<>();
 
-        requestHeaders.put("Accept", "*/*");
-		
-        String parsingString = "";
-  
         int checkingListSize = checkingList.size();
+        
         for(int i = 0; i < checkingListSize; i++) {
-        	String addr = checkingList.get(i).getOrShippingAddress()+" "+checkingList.get(i).getOrShippingAddressDetail();
-        	
-        	if(dcService.isEarlyDelivArea(addr, 5)) {
-        		
-        		if(checkingList.get(i).getOrShippingAddress().split(" ")[0].contains("서울") ) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else if(checkingList.get(i).getOrShippingAddress().contains("시흥시")) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else if(checkingList.get(i).getOrShippingAddress().contains("수원시")) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else if(checkingList.get(i).getOrShippingAddress().contains("안양시")) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else if(checkingList.get(i).getOrShippingAddress().contains("과천시")) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else if(checkingList.get(i).getOrShippingAddress().contains("장안구")) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else if(checkingList.get(i).getOrShippingAddress().contains("팔달구")) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else if(checkingList.get(i).getOrShippingAddress().contains("수지구")) {
-        			targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        			
-        		}else {        		
-        			
-        			//전국 단위별 배송 가능 지역 확인
-        			if( CjDeliveryArea.findDelivPosivArea(checkingList.get(i).getOrShippingAddress()) == CjDeliveryArea.POSIV) {
-        				
-        				//지역 별 배송 불가 지역 확인
-        				if(CjDetailDeliveryAreaCheck.hasAreaName(addr) == true) {
-        					
-        					try {
-        						
-        						parsingString = uUtil.getCoordiante("https://www.cjthemarket.com/common/address/chkDawnDeliveryAvailable.json?addr="+URLEncoder.encode(checkingList.get(i).getOrShippingAddress(), "UTF-8")+"&zipCd="+URLEncoder.encode(checkingList.get(i).getOrShippingAddressNumber(),"UTF-8"), requestHeaders, "POST", null);
-        						
-        					} catch (IOException e) {
-        						// TODO Auto-generated catch block
-        						throw new RuntimeException("입출력 에러", e);
-        						
-        					}
-        					
-        					CjResultMessage cjMsg = ocjd.stringToCjResultMsg(parsingString);
-        					
-        					if(cjMsg.getIsDawnAble() == true) {
-        						targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
-        					}
-        					
-        				}
-        				
-        			}
-        			
-        		}
-        		
+
+        	if(isCjDeliveryArea(checkingList.get(i).getOrShippingAddressNumber(), checkingList.get(i).getOrShippingAddress(), checkingList.get(i).getOrShippingAddressDetail())) {
+        		targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
         	}
         		
 		}
