@@ -169,7 +169,7 @@ public class AligoKakaoAPI {
 		JSONArray array = new JSONArray();
 		
 		JSONObject data = new JSONObject();
-		data.put("name", "공동현관 비밀번호 알려주기");
+		data.put("name", "공동현관 비번 알려주기");
 		data.put("linkType", "MD");
 		data.put("linkTypeName", "메세지전달");
 		
