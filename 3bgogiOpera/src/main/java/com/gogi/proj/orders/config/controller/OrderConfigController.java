@@ -367,4 +367,24 @@ public class OrderConfigController {
 		
 		return "logs/delete_order_list";
 	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : excelOrderDevide
+	 * @date : 2022. 1. 26.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param model
+	 * @return
+	 * @메소드설명 : 엑셀 주소 파일로 주문서 나누기
+	 */
+	@RequestMapping(value="/devide/excel_order.do", method=RequestMethod.GET)
+	public String excelOrderDevide(@ModelAttribute OrdersVO osVO, Model model) {
+		
+		model.addAttribute("osVO", osVO);
+		
+		return "orders/config/devide_excel_order";
+		
+	}
 }

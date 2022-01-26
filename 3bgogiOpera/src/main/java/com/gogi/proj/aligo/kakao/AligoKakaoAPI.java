@@ -93,7 +93,7 @@ public class AligoKakaoAPI {
 		
 		for(AligoKaKaoTempletList akList : dto.getList()) {		
 			count++;
-			if(count == 7) akDto = akList;
+			if(count == 8) akDto = akList;
 			
 		}
 		
@@ -138,6 +138,7 @@ public class AligoKakaoAPI {
             requestHeaders.put("recvname_"+count, orVO.getOrBuyerName());
             requestHeaders.put("subject_"+count, subject);
             requestHeaders.put("message_"+count, msg);
+            requestHeaders.put("button_"+count, buttonJsonData());
             
             requestHeaders.put("failover", "Y");
             requestHeaders.put("fsubject_"+count, subject);

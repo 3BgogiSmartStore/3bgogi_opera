@@ -263,7 +263,7 @@ public class EpostServiceImpl implements EpostService {
 		
 		if(orderList == null) return null;
 		
-		if(orderList.getOrRecType() > 0 && orderList.getOrRecType() < 3) {
+		if(orderList.getOrRecType() > 0 && orderList.getOrRecType() < 5) {
 			double dValue = Math.random();
 			long delivNum = 10000000000000L;
 			
