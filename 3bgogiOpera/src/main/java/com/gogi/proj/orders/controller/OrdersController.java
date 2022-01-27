@@ -1262,7 +1262,7 @@ public class OrdersController {
 	 * @param orVO
 	 * @param model
 	 * @return
-	 * @메소드설명 : 대용량 주소 엑셀 파일 넣기
+	 * @메소드설명 : 대량 주소 엑셀 파일 넣기
 	 */
 	@RequestMapping(value="/devide/gift.do", method=RequestMethod.POST)
 	public String devideExcelGiftSetPost(HttpServletRequest request, @ModelAttribute OrdersVO orVO, Model model) {
@@ -1291,7 +1291,7 @@ public class OrdersController {
 		int [] result = ordersService.updateExcelDivOrders(originalOrVO, fileName);
 
 		if(result == null || result[0] == 0) {
-			msg = "엑셀의 개수와 개수가 다릅니다. 다시 한 번 확인해주세요.";
+			msg = "주문서와 엑셀 파일의 개수가 다릅니다 다시 한 번 확인해주세요.";
 			model.addAttribute("msg", msg);
 			model.addAttribute("closing", closing);
 			return "common/message";

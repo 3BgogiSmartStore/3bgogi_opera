@@ -100,7 +100,7 @@ body {
                                 <h5 class="card-header"> 선물세트 엑셀로 나누기 </h5>
                                 <div class="card-body">
                                     <form id="orderGiftSubmit" method="POST" action="<c:url value='/orders/devide/gift.do'/>" enctype="multipart/form-data">
-                                    	<input type="hidden" name="orPk" value="${osVO.orPk }" id="orPk">
+                                    	<input type="hidden" name="orPk" value="${orVO.orPk }" id="orPk">
                                     	
                                         <div class="input-group mb-3">
                                         	<input type="file" name="excelfile" class="form-control">

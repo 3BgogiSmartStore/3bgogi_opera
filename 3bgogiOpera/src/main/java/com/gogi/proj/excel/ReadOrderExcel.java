@@ -1896,7 +1896,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		return value;
 	}
 	
-public String cellTypeReturnSXSS(SXSSFCell cell) {
+	public String cellTypeReturnSXSS(SXSSFCell cell) {
 		
 		String value = "";
 		

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gogi.proj.excel.ReadOrderExcel;
 import com.gogi.proj.orders.config.model.OrderConfigService;
+import com.gogi.proj.orders.config.util.ExcelDevideUtil;
 import com.gogi.proj.orders.config.vo.ExceptAddressKeywordVO;
 import com.gogi.proj.orders.config.vo.OrdersDeleteVO;
 import com.gogi.proj.orders.config.vo.ReqFilterKeywordVO;
@@ -47,7 +48,7 @@ public class OrderConfigController {
 	private OrdersService ordersService;
 	
 	@Autowired
-	private ReadOrderExcel readOrderExcel;
+	private ExcelDevideUtil excelDevideUtil;
 	
 	/**
 	 * 
@@ -394,9 +395,9 @@ public class OrderConfigController {
 	 * @메소드설명 : 엑셀 주소 파일로 주문서 나누기
 	 */
 	@RequestMapping(value="/devide/excel_order.do", method=RequestMethod.GET)
-	public String excelOrderDevideGet(@ModelAttribute OrdersVO osVO, Model model) {
+	public String excelOrderDevideGet(@ModelAttribute OrdersVO orVO, Model model) {
 		
-		model.addAttribute("osVO", osVO);
+		model.addAttribute("orVO", orVO);
 		
 		return "orders/config/devide_excel_order";
 		
@@ -433,7 +434,7 @@ public class OrderConfigController {
 		
 		OrdersVO originalOrVO = ordersService.selectOrdersByPk(orVO.getOrPk());
 		
-		List<OrdersVO>  orderList = readOrderExcel.readGiftSetExcelFile(fileName, originalOrVO);
+		List<OrdersVO>  orderList = excelDevideUtil.readGiftSetExcelFile(fileName, originalOrVO);
 
 		
 		model.addAttribute("orVO", orVO);
@@ -441,6 +442,50 @@ public class OrderConfigController {
 		model.addAttribute("originalOrVO", originalOrVO);
 		
 		return "orders/config/devide_excel_order";
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : excelOrderDevideInsert
+	 * @date : 2022. 1. 27.
+	 * @author : Jeon KiChan
+	 * @param orPk
+	 * @param orList
+	 * @param model
+	 * @return
+	 * @메소드설명 : 대량 주소 엑셀 파일 넣기( 우편번호 기입 자동화 )
+	 */
+	@RequestMapping(value="/devide/excel_order_insert.do", method=RequestMethod.POST)
+	public String excelOrderDevideInsert(@RequestParam int orPk, @ModelAttribute OrdersVOList orList, Model model) {
+		
+		String msg = "";
+		boolean closing = true;
+		boolean reload = true;
+		
+		OrdersVO originalOrVO = ordersService.selectOrdersByPk(orPk);
+
+		List<OrdersVO>  orderList = excelDevideUtil.addOriginalOrderInfo(orList, originalOrVO);
+		
+		if(originalOrVO.getOrAmount() != orderList.size()) {
+			
+			msg = "주문서("+originalOrVO.getOrAmount()+")와 엑셀("+orderList.size()+")의 개수가 다릅니다 다시 한 번 확인해주세요.";
+			model.addAttribute("msg", msg);
+			model.addAttribute("closing", closing);
+			return "common/message";
+			
+		}
+		
+		int [] result = ordersService.updateExcelDivOrders(originalOrVO, orderList);
+		
+		msg = result[0]+" 개 등록 완료. 페이지를 새로고침 합니다.";
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("closing", closing);
+		model.addAttribute("reload", reload);
+		
+		return "common/message";
 		
 	}
 }

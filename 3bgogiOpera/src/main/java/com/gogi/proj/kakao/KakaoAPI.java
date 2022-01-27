@@ -2,6 +2,7 @@ package com.gogi.proj.kakao;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -36,6 +37,30 @@ public class KakaoAPI {
 		if(kakaoDto.getDocuments().size() != 0) {
 			logger.info("kakao 행정동 결과 = {}", kakaoDto.toString());
 			result = kakaoDto.getDocuments().get(0).getAddress().getRegion_3depth_name();
+		}
+		
+		return result;
+	}
+	
+	public String searchRegionZipCode(String Addr, Map<String, String> requestHeaders) {
+        
+		URLUtil uUtil = new URLUtil();
+		String jsonString = "";
+		String result = "";
+		
+		try {
+			jsonString = uUtil.getCoordiante("https://dapi.kakao.com/v2/local/search/address.json?query="+URLEncoder.encode(Addr, "UTF-8"), requestHeaders, "GET", null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		KakaoDTO kakaoDto = stringToKakaoDTO(jsonString);
+		
+		
+		if(kakaoDto.getDocuments().size() != 0) {
+			logger.info("kakao 행정동 결과 = {}", kakaoDto.toString());
+			result = kakaoDto.getDocuments().get(0).getRoad_address().getZone_no();
 		}
 		
 		return result;

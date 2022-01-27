@@ -548,7 +548,9 @@ jQuery(document).ready(function($) {
 			return false;
 		}
 		
-		window.open("/orders/devide/gift.do?orPk="+orderOrPk, "엑셀 주소지 입력" , "width=800px, height=620px, top=50px, left=50px, scrollbars=no");
+		
+		window.open("/order/config/devide/excel_order.do?orPk="+orderOrPk, "엑셀 주소지 입력" , "width=800px, height=620px, top=50px, left=50px, scrollbars=no");	
+		//window.open("/orders/devide/gift.do?orPk="+orderOrPk, "엑셀 주소지 입력" , "width=800px, height=620px, top=50px, left=50px, scrollbars=no");
 		
 	});
 	

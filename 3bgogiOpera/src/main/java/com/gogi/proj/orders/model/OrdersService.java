@@ -404,5 +404,18 @@ public interface OrdersService {
 	 */
 	public int absInitDeliv(List<String> orSerialSpecialNumberList);
 	
+	
+	/**
+	 * 
+	 * @MethodName : updateExcelDivOrders
+	 * @date : 2022. 1. 27.
+	 * @author : Jeon KiChan
+	 * @param originalOrder
+	 * @param excelList
+	 * @return
+	 * @메소드설명 : 엑셀 파일로 주문서 나누기
+	 */
+	public int [] updateExcelDivOrders(OrdersVO originalOrder, List<OrdersVO> excelList);
+	
 //	public List<OrdersVO> outPutDatefilter(OrderSearchVO osVO);
 }

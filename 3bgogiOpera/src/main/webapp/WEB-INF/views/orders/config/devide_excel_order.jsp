@@ -39,7 +39,8 @@ function doubleSubmitCheck(){
 }
 
 $(function(){
-	$("#orderGiftSubmit").submit(function(){
+	$("#orderGiftSubmit, #excelOrderInserst").submit(function(){
+		
 		
 		doubleSubmitCheck();
 		
@@ -70,51 +71,99 @@ body {
 <body>
 	<div class="container-fluid  dashboard-content">
 					<div class="row">
-                    	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="card">
-                                <h5 class="card-header"> 엑셀 파일 주문서 나누기 </h5>
-                                <div class="card-body">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">판매처</th>
-                                                <th scope="col">주문 수</th>
-                                                <th scope="col">입력일</th>
-                                                <th scope="col">삭제여부</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        	<tr>
-		                                     	<th scope="row"></th>
-		                                        <th scope="row"></th>
-		                                        <th scope="row"></th>
-		                                        <th scope="row"></th>
-		                                    </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="card">
-                                <h5 class="card-header"> 엑셀 파일 입력 </h5>
-                                <div class="card-body">
-                                    <form id="orderGiftSubmit" method="POST" action="<c:url value='/orders/devide/gift.do'/>" enctype="multipart/form-data">
-                                    	<input type="hidden" name="orPk" value="${osVO.orPk }" id="orPk">
-                                    	
-                                        <div class="input-group mb-3">
-                                        	<input type="file" name="excelfile" class="form-control">
-	                                        <div class="input-group-append be-addon">
-	                                        	<input type="submit" class="btn btn-success" value="해당 엑셀 파일로 나누기">
-	                                        	<!-- <button type="button" type="submit" class="btn btn-success" > 해당 엑셀 파일로 나누기 </button> -->
+						<c:if test="${!empty orderList}">
+	                    	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+	                            <div class="card">
+	                                <h5 class="card-header"> 엑셀 파일 주문서 나누기 </h5>
+	                                <form class="card-body" id="excelOrderInserst" method="POST" action="<c:url value='/order/config/devide/excel_order_insert.do'/>">
+	                                
+	                                
+	                                	<input type="hidden" name="orPk" value="${orVO.orPk }" id="orPk">
+	                                	
+	                                    <table class="table table-hover">
+	                                        <thead>
+	                                            <tr>
+	                                                <th scope="col">구매자 표기명</th>
+	                                                <th scope="col">수령자</th>
+	                                                <th scope="col">연락처</th>
+	                                                <th scope="col">우편번호</th>
+	                                                <th scope="col">주소</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        	<c:set var="orderListCounting" value="0"/>
+	                                        	<c:set var="addrFalse" value="0"/>
+	                                        	<c:forEach var="orderlist" items="${orderList }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orBuyerAnotherName" value="${orderlist.orBuyerAnotherName }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orReceiverName" value="${orderlist.orReceiverName }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orReceiverContractNumber1" value="${orderlist.orReceiverContractNumber1 }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orReceiverContractNumber2" value="${orderlist.orReceiverContractNumber2 }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orShippingAddressNumber" value="${orderlist.orShippingAddressNumber }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orShippingAddress" value="${orderlist.orShippingAddress }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orShippingAddressDetail" value="${orderlist.orShippingAddressDetail }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orAmount" value="${orderlist.orAmount }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orProduct" value="${orderlist.orProduct }">	    
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orProductOption" value="${orderlist.orProductOption }">	   
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orDeliveryMessage" value="${orderlist.orDeliveryMessage }">
+	                                        		<input type="hidden" name="orVoList[${orderListCounting }].orSendingDeadline" value="${orderlist.orSendingDeadline }">	
+	                                        		 
+		                                        	<tr
+		                                        		<c:if test="${orderlist.orShippingAddressNumber == '0' }">
+					                                    	style="background-color: #FFA2A2; color:white;"
+					                                    	
+					                                    </c:if>
+		                                        	>
+				                                     	<th scope="row">${orderlist.orBuyerAnotherName }</th>
+				                                        <th scope="row">${orderlist.orReceiverName }</th>
+				                                        <th scope="row">${orderlist.orReceiverContractNumber1 }</th>
+				                                        <th scope="row">${orderlist.orShippingAddressNumber }</th>
+				                                        <th scope="row">${orderlist.orShippingAddress}</th>
+				                                        
+				                                    </tr>
+				                                    <c:if test="${orderlist.orShippingAddressNumber == '0' }">
+				                                    	<c:set var="addrFalse" value="${addrFalse + 1 }"/>
+				                                    </c:if>
+				                                    
+				                                    <c:set var="orderListCounting" value="${orderListCounting + 1 }"/>
+	                                        	</c:forEach>
+	                                        </tbody>
+	                                    </table>
+	                                    <c:if test="${addrFalse == 0 }">
+				                        	<button type="submit" class="btn btn-success" style="display:block; text-align: right;"> 해당 정보로 입력하기 </button>
+				                        	
+				                        </c:if>  
+				                        
+				                        <c:if test="${addrFalse != 0 }">
+				                        	<span class="text-danger" style="display:block; text-align: right;"> 잘못된 주소로 인해 우편번호를 찾을 수 없는 건이 있습니다. 직접 기입해주세요.</span>
+				                        </c:if>  
+	                                </form>
+	                            </div>
+	                        </div>
+						
+						</c:if>
+						<c:if test="${empty orderList}">
+	                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+	                            <div class="card">
+	                                <h5 class="card-header"> 엑셀 파일 입력 </h5>
+	                                <div class="card-body">
+	                                    <form id="orderGiftSubmit" method="POST" action="<c:url value='/order/config/devide/excel_order.do'/>" enctype="multipart/form-data">
+	                                    	<input type="hidden" name="orPk" value="${orVO.orPk }" id="orPk">
+	                                    	
+	                                    	
+	                                        <div class="input-group mb-3">
+	                                        	<input type="file" name="excelfile" class="form-control">
+		                                        <div class="input-group-append be-addon">
+		                                        	<input type="submit" class="btn btn-success" value="해당 엑셀 파일로 나누기">
+		                                        	<!-- <button type="button" type="submit" class="btn btn-success" > 해당 엑셀 파일로 나누기 </button> -->
+		                                        </div>
 	                                        </div>
-                                        </div>
-                                        
-                                        
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+	                                        
+	                                        
+	                                    </form>
+	                                </div>
+	                            </div>
+	                        </div>
+                       </c:if>
                         
 					</div>
 	</div>
