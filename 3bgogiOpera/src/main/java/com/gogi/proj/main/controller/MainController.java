@@ -63,6 +63,7 @@ public class MainController {
 		int output_order  = analyService.sendingFinishOrder();
 		int deposit_order  = analyService.depositOrder();
 		
+		
 		model.addAttribute("deliveryTypeResult", deliveryTypeResult);
 		model.addAttribute("deliveryList", deliveryList);
 		model.addAttribute("costInputList", costInputList);
