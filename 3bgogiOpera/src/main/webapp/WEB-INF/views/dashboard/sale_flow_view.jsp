@@ -24,7 +24,11 @@
     
     	$(function(){
     		
-    		
+    		setTimeout(function(){
+				window.reload();
+				
+				
+			}, 300000);
     		
     		
     	});
@@ -62,47 +66,13 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<div class="card">
 		                            <h5 class="card-header"> 지난 3개월 매출</h5>
-		                            <div class="card-body">
-		                                <div id="threeMonthCarousel" class="carousel slide" data-ride="carousel">
-		                                    <ol class="carousel-indicators">
-		                                    	<c:set var="counting" value="0"/>
-		                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
-			                                        <li data-target="#threeMonthCarousel" data-slide-to="${counting }" 
-			                                        	<c:if test="${counting == 0 }">
-			                                        		class="active"
-			                                        		
-			                                        	</c:if>
-			                                        ></li>
-			                                        <c:set var="counting" value="${counting + 1 }"/>
-		                                    	</c:forEach>
-		                                    </ol>
-		                                    
-		                                    <div class="carousel-inner">
-		                                    	<c:set var="counting" value="0"/>
-		                                    	<c:forEach var="threeList" items="${threeMonthTotalSales }">
-			                                        <div class="carousel-item  
-				                                        <c:if test="${counting == 0 }">
-			                                        		active 
-			                                        		
-			                                        	</c:if>
-			                                        ">
-			                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
-			                                            <div class="carousel-caption d-none d-md-block">
-			                                                <h1 style="font-size : 52px;"> <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h1>
-			                                                <h2 style="font-size : 42px;"> ${threeList.orUserColumn1 }</h2>
-			                                                
-			                                            </div>
-			                                        </div>
-			                                        <c:set var="counting" value="${counting + 1 }"/>
-		                                    	</c:forEach>
-		                                    </div>
-		                                    <a class="carousel-control-prev" href="#threeMonthCarousel" role="button" data-slide="prev">
-		                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		                                       <span class="sr-only">이전</span>  </a>
-		                                    <a class="carousel-control-next" href="#threeMonthCarousel" role="button" data-slide="next">
-		                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-		                                            <span class="sr-only">다음</span>  </a>
-		                                </div>
+		                            <div class="card-body" style="text-align: center;">
+		                            
+		                                <c:forEach var="threeList" items="${threeMonthTotalSales }">
+											<h1 > <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h1>
+				                            <h2 > ${threeList.orUserColumn1 }</h2>
+				                            
+		                                </c:forEach>
 		                            </div>
 		                        </div>
 							</div>
@@ -136,16 +106,15 @@
 			                                            <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/images/card-img-1.jpg" alt="First slide" style="opacity: 0;">
 			                                            <div class="carousel-caption d-none d-md-block">
 			                                            	<fmt:formatNumber var="iconCounting" value="${reviewlist.crGrade }" type="number"/>
-			                                            	<h1> ${reviewlist.crProdName } </h1>
-			                                            	
-			                                            	
-			                                                <h1> 평점   
+			                                            	<h2> ${reviewlist.crProdName } </h2>
+			                                                <h2> 평점   
 			                                                	<c:forEach var="i" begin="1" end="${iconCounting }" step="1">
 			                                                	
 			                                                		<i class="fas fa-star"></i>
 			                                                	</c:forEach>
-			                                                </h1>
-			                                                <p style="color: black; font-size : 28px;"> ${reviewlist.crContent }</p>
+			                                                </h2>
+			                                                
+			                                                <p style="color: black; font-size : 18px;"> ${reviewlist.crContent }</p>
 			                                                
 			                                            </div>
 			                                        </div>
@@ -286,7 +255,7 @@
 <script type="text/javascript">
 	$(function(){
 		$(".carousel").carousel({
-			interval: 1500
+			
 		});
 		
 	});
