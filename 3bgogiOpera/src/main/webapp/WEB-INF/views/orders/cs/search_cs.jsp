@@ -583,8 +583,8 @@
 															selected="selected"
 														</c:if>
 													> 요청 있는 건</option>
-													<option value="1"
-														<c:if test="${osVO.sendingReq == 1}">
+													<option value="2"
+														<c:if test="${osVO.sendingReq == 2}">
 															selected="selected"
 														</c:if>
 													> 요청 처리된 건</option>

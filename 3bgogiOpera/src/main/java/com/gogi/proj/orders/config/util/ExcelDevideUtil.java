@@ -106,9 +106,11 @@ public class ExcelDevideUtil {
 							// 판매처별로 엑셀 열을 읽어서 씀
 							// 구매자명
 							if (cell == null && (columnindex == 1 || columnindex == 9)) {
+								
 								if (columnindex == 1) {
 									nullCount = true;
 									break;
+									
 								} else if (columnindex == 9) {
 									orderVO.setOrDeliveryMessage("");
 								}

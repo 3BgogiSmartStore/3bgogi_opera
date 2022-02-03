@@ -54,6 +54,7 @@ public class DashboardController {
 		List<OrdersVO> threeMonthTotalSales = dashboardService.threeMonthTotalSales();
 		List<OrdersVO> monthTotalSales = dashboardService.monthTotalSales();
 		List<CustomerReviewVO> reviewList = customerReviewService.selectSaleFlowReview();
+		Map<String, Object> deliveryTypeResult =  analyService.mainDeliveryTypeResult();
 		
 		int matching_fail = analyService.notMatchingOrder();
 		int dont_grant_invoice_num  = analyService.dontGrantInvoiceOrder();
@@ -66,6 +67,7 @@ public class DashboardController {
 		model.addAttribute("threeMonthTotalSales", threeMonthTotalSales);
 		model.addAttribute("monthTotalSales", monthTotalSales);
 		
+		model.addAttribute("deliveryTypeResult", deliveryTypeResult);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("matching_fail", matching_fail);
 		model.addAttribute("dont_grant_invoice_num", dont_grant_invoice_num);

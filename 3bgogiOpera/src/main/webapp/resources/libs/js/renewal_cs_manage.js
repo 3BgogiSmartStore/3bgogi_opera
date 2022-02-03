@@ -558,7 +558,7 @@ jQuery(document).ready(function($) {
 	$("input[name=changeOrderInfo]").change(function(){
 		
 		var orSerialSpecialNumber = $(this).data("serial-special-number");
-		var orBuerId = $(this).data("buyer-id");
+		var orBuyerId = $(this).data("buyer-id");
 		var orSettlementDay = $(this).data("settlement-day");
 		var orBuyerName = $(this).data("buyer-name");
 		var orBuyerAnotherName = $(this).data("buyer-another-name"); 
@@ -574,9 +574,8 @@ jQuery(document).ready(function($) {
 		var orSendingDeadline = $(this).data("sending-deadline");
 		var orRegdate = $(this).data("regdate");
 		
-		
 		$("#orSendingDeadline").val(orSendingDeadline);
-		$("#orBuerId").val(orBuerId);
+		$("#orBuyerId").val(orBuyerId);
 		$("#orSettlementDay").val(orSettlementDay);
 		$("#orBuyerName").val(orBuyerName);
 		$("#orBuyerAnotherName").val(orBuyerAnotherName);

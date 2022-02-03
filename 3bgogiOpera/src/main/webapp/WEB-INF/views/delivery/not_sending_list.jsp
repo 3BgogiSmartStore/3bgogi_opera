@@ -217,66 +217,6 @@
     			
     		});
     		
-    		//테스트용
-    		/* $("#freshSolutionExcelDelivButton").click(function(){
-    			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
-    			
-    			if(doubleSubmitFlag == false){
-    				
-    				return false;
-    			}
-    			
-    			if(orSize == 0){
-    				alert("부여할 수 있는 송장이 존재하지 않습니다");
-    				return false;
-    			}
-    			
-    			if(confirm(orSize+" 개의 주문서에 송장을 부여하시겠습니까?")){
-    				
-    				doubleSubmitCheck();
-        			
-        			if(doubleSubmitFlag == false){
-        				
-        				return false;
-        			}
-        			
-        			$("#freshSolutionExcelDelivButton").removeClass("btn btn-warning");
-        			
-            		$("#freshSolutionExcelDelivButton").text("");
-            		
-        			$("#freshSolutionExcelDelivButton").addClass("dashboard-spinner spinner-xs");
-        			
-    				if($("select[name=edtFk]").val() == '3'){
-    					alert("임시 송장을 부여합니다");
-    					
-    				}
-    				
-					var divs = document.createElement("div");
-	    			
-	    			var excelDownloadForm =  document.createElement("form");
-	    			excelDownloadForm.action="/security/fresh_solution.do";
-	    			excelDownloadForm.method="POST";
-    					
-	    			var orSerialSpecialNumberList = new Array(orSize);
-	    			
-	    			for(var i=0; i<orSize; i++){
-	    				var orSerialSpecialNumberInput = document.createElement("input");
-	    				orSerialSpecialNumberInput.name="orSerialSpecialNumberList";
-	    				orSerialSpecialNumberInput.value=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
-	    				excelDownloadForm.append(orSerialSpecialNumberInput);
-	    				
-	    			}
-	    			
-	    			$("#excelDownloadIframe").append(excelDownloadForm);
-	    			
-	    			excelDownloadForm.submit();
-	    			
-	    			$("#excelDownloadIframe").html("");
-    			}
-    			
-    			
-    		}); */
-    		
     		$("#cjDelivButton").click(function(){
     			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
     			
@@ -537,13 +477,6 @@
     					
     				}
     			}
-    			
-    			/*		if($("#orSeiralSpecialNumberAllSelect").is(":checked")){
-    				$("input[name=orSerialSpecialNumberList]").prop("checked","checked");
-    			}else{
-    				$("input[name=orSerialSpecialNumberList]").prop("checked","");
-    			}
-    			*/
     			
     		});
     		
