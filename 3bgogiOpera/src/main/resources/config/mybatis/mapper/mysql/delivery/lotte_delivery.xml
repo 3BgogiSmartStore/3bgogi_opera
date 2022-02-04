@@ -184,7 +184,9 @@
 					
 					<trim prefix="WHERE" prefixOverrides="AND |OR ">
 						 od.or_refunds = 0
-						 AND od.or_abs_deliv_type = 0
+						 AND (
+							od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 4
+						)
 						 AND od.or_delivery_invoice_number IS NULL
 						 AND od.or_rec_type = 0
 						<![CDATA[
@@ -283,7 +285,9 @@
 					
 				]]>
 				AND od.or_delivery_invoice_number IS  NULL
-				AND od.or_abs_deliv_type = 0
+				AND (
+					od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 4
+				)
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
@@ -330,7 +334,9 @@
 					orders od
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_refunds = 0
-					AND or_abs_deliv_type = 0
+					AND (
+						od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 4
+					)
 					AND od.or_delivery_invoice_number IS NULL
 					AND od.or_rec_type = 0
 					<![CDATA[
@@ -413,7 +419,9 @@
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
-				AND od.or_abs_deliv_type = 0
+				AND (
+					od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 4
+				)
 				AND od.or_rec_type = 0
 			GROUP BY
 				od.or_serial_special_number,
@@ -438,7 +446,9 @@
 					orders od
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_refunds = 0
-					AND od.or_abs_deliv_type = 0
+					AND (
+						od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 4
+					)
 					AND od.or_delivery_invoice_number IS NULL
 					AND od.or_rec_type = 0
 					<![CDATA[
@@ -578,6 +588,9 @@
 			AND od.or_cancled_flag = 0
 			AND od.or_refunds = 0
 			AND od.or_rec_type = 0
+			AND (
+				od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 4
+			)
 		ORDER BY
 			od.or_serial_special_number ASC,
 			eos.eos_deliv_seq ASC,

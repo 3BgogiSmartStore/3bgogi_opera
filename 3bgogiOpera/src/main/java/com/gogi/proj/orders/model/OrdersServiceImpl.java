@@ -1027,17 +1027,6 @@ public class OrdersServiceImpl implements OrdersService {
 		return count;
 	}
 
-	@Override
-	public int absEpostDeliv(List<String> orSerialSpecialNumberList) {
-		// TODO Auto-generated method stub
-		return ordersDAO.absEpostDeliv(orSerialSpecialNumberList);
-	}
-
-	@Override
-	public int absInitDeliv(List<String> orSerialSpecialNumberList) {
-		// TODO Auto-generated method stub
-		return ordersDAO.absInitDeliv(orSerialSpecialNumberList);
-	}
 
 	@Transactional
 	@Override
@@ -1056,5 +1045,15 @@ public class OrdersServiceImpl implements OrdersService {
 		ordersDAO.updateExcelDivOrders(originalOrder);
 
 		return result;
+	}
+
+	@Override
+	public int absDelivCompany(OrdersVO orVO) {
+		// TODO Auto-generated method stub
+		
+		int result = ordersDAO.absDelivCompany(orVO);
+		
+		return result;
+		
 	}
 }

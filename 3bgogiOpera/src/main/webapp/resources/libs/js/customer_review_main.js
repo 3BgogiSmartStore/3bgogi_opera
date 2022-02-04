@@ -152,10 +152,6 @@ $(function() {
 	    success    : function(data){
 	    	
 	    	let salesList = salesJsonData(data);
-	    	let totalPrice = salesTotalPrice(data);
-	    	
-	    	$("#monthSalesHeader").text("이번 달 일별 매출 ( 총 매출 : "+comma(totalPrice)+" 원 )");
-	    	
 	    	
 	    	Morris.Bar({
 	            element: 'monthSales',

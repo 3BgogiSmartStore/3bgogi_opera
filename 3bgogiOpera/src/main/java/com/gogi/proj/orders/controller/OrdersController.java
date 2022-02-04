@@ -1954,42 +1954,4 @@ public class OrdersController {
 		return result;
 	}
 	
-	
-	/**
-	 * 
-	 * @MethodName : absEpostDeliv
-	 * @date : 2021. 11. 23.
-	 * @author : Jeon KiChan
-	 * @param orSerialSpecialNumber
-	 * @return
-	 * @메소드설명 : 우체국택배로만 나갈 수 있게 고정
-	 */
-	@RequestMapping(value="/abs_epost_deliv.do", method=RequestMethod.GET)
-	@ResponseBody
-	public int absEpostDeliv(@RequestParam List<String> orSerialSpecialNumber) {
-		
-		int result = ordersService.absEpostDeliv(orSerialSpecialNumber);
-		
-		return result; 
-	}
-	
-	
-	/**
-	 * 
-	 * @MethodName : absInitDeliv
-	 * @date : 2022. 1. 21.
-	 * @author : Jeon KiChan
-	 * @param orSerialSpecialNumber
-	 * @return
-	 * @메소드설명 : 배송회사 고정 풀기
-	 */
-	@RequestMapping(value="/abs_init_deliv.do", method=RequestMethod.GET)
-	@ResponseBody
-	public int absInitDeliv(@RequestParam List<String> orSerialSpecialNumber) {
-		
-		int result = ordersService.absInitDeliv(orSerialSpecialNumber);
-		
-		return result; 
-	}
-	
 }

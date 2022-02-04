@@ -384,25 +384,14 @@ public interface OrdersService {
 	
 	/**
 	 * 
-	 * @MethodName : or_abs_deliv_type
-	 * @date : 2021. 11. 23.
+	 * @MethodName : absDelivCompany
+	 * @date : 2022. 2. 4.
 	 * @author : Jeon KiChan
-	 * @param orSerialSpecialNumberList
+	 * @param orVO
 	 * @return
-	 * @메소드설명 : 배송회사 고정시키기
+	 * @메소드설명 :
 	 */
-	public int absEpostDeliv(List<String> orSerialSpecialNumberList);
-	
-	/**
-	 * 
-	 * @MethodName : absInitDeliv
-	 * @date : 2022. 1. 21.
-	 * @author : Jeon KiChan
-	 * @param orSerialSpecialNumberList
-	 * @return
-	 * @메소드설명 : 배송회사 고정 풀기
-	 */
-	public int absInitDeliv(List<String> orSerialSpecialNumberList);
+	public int absDelivCompany(OrdersVO orVO);
 	
 	
 	/**

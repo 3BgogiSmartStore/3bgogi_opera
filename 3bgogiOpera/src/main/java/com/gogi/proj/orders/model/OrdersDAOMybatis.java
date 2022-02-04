@@ -588,15 +588,9 @@ public class OrdersDAOMybatis extends SqlSessionDaoSupport implements OrdersDAO{
 	}
 
 	@Override
-	public int absEpostDeliv(List<String> orSerialSpecialNumberList) {
+	public int absDelivCompany(OrdersVO orVO) {
 		// TODO Auto-generated method stub
-		return getSqlSession().update(orderCsNameSpace+".absEpostDeliv", orSerialSpecialNumberList);
-	}
-
-	@Override
-	public int absInitDeliv(List<String> orSerialSpecialNumberList) {
-		// TODO Auto-generated method stub
-		return getSqlSession().update(orderCsNameSpace+".absInitDeliv", orSerialSpecialNumberList);
+		return getSqlSession().update(orderCsNameSpace+".absDelivCompany", orVO);
 	}
 	
 }

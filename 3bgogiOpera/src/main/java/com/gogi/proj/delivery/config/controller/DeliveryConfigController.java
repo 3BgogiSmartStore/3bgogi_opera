@@ -438,5 +438,69 @@ public class DeliveryConfigController {
 		return cjDeliveryService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail());
 		
 	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : absDelivCompanyGet
+	 * @date : 2022. 2. 4.
+	 * @author : Jeon KiChan
+	 * @param orSerialSpecialNumberList
+	 * @param model
+	 * @return
+	 * @메소드설명 : 택배사 고정 
+	 */
+	@RequestMapping(value="/abs_deliv_company.do", method=RequestMethod.GET)
+	public String absDelivCompanyGet(@RequestParam List<String> orSerialSpecialNumberList, Model model) {
+		
+		model.addAttribute("orSerialSpecialNumberList", orSerialSpecialNumberList);
+		
+		return "orders/config/fixed_deliv_company";
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : absDelivCompanyPost
+	 * @date : 2022. 2. 4.
+	 * @author : Jeon KiChan
+	 * @param orVO
+	 * @param orSerialSpecialNumberList
+	 * @param model
+	 * @return
+	 * @메소드설명 : 택배사 고정
+	 */
+	@RequestMapping(value="/abs_deliv_company.do", method=RequestMethod.POST)
+	public String absDelivCompanyPost(@ModelAttribute OrdersVO orVO, @RequestParam List<String> orSerialSpecialNumberList, Model model) {
+		
+		//int result = ordersService.absInitDeliv(orSerialSpecialNumber);
+		
+		
+		String msg = "";
+		String url = "/";
+		boolean closing = true;
+		
+		int result = 0;
+		
+		for(String orSerialNum : orSerialSpecialNumberList) {
+			orVO.setOrSerialSpecialNumber(orSerialNum);
+			result += ordersService.absDelivCompany(orVO);
+			
+		}
+		
+		
+		if(result > 0) {
+			msg = "택배사 고정 "+orSerialSpecialNumberList.size()+" 건 변경 완료";
+			
+		}else {
+			msg = "택배사 고정 변경 실패, 다시 한 번 확인해주세요";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		model.addAttribute("closing", closing);
+		
+		return "common/message";
+	}
 }
 

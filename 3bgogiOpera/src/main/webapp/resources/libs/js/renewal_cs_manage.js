@@ -1283,50 +1283,6 @@ jQuery(document).ready(function($) {
 		
 	});
 	
-	$("#absEpostDeliv").click(function(){
-		
-		var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
-		
-		var orSerialSpecialNumberList = new Array(orSize);
-		
-		if(orSize == 0){
-			alert("선택된 주문서가 존재하지 않습니다"); 
-			return false;
-			
-		}
-
-		if(confirm("우체국택배로 고정하시겠습니까?")){
-			for(var i=0; i<orSize; i++){
-				orSerialSpecialNumberList[i]=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
-				
-			}
-			
-			$.ajax({
-				type       : 'GET',
-				data       : {
-					"orSerialSpecialNumber":orSerialSpecialNumberList
-					
-				},
-				url        : '/orders/abs_epost_deliv.do',
-				success    : (data) => {		
-					if(data > 0){
-						alert("고정 완료");
-						location.reload();
-					}else{
-						alert("고정 실패");
-						location.reload();
-					}
-					
-				},error	: (log) => {
-					alert("서버 에러 발생. " + log);
-				}
-				
-			});
-			
-		}
-		
-	});
-	
 	$("#doorPassButton").click(function(){
 		orSize = $("input[name='orSerialSpecialNumberList']:checked").length;
 		
@@ -1344,52 +1300,26 @@ jQuery(document).ready(function($) {
 		
 		window.open('/delivery/config/door_pass.do?orSerialSpecialNumber='+orSerialSpecialNumber, "공동현관 비밀번호 입력" , "width=700, height=900, top=100, left=100, scrollbars=no");
 		
-		
-		
 	});
 	
-	
-	$("#absInitDeliv").click(function(){
-		
-		var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
-		
-		var orSerialSpecialNumberList = new Array(orSize);
+	$("#absDelivConpanyBtn").click(function(){
+		orSize = $("input[data-deliv-weiting='1']:checked").length;
 		
 		if(orSize == 0){
-			alert("선택된 주문서가 존재하지 않습니다"); 
+			alert("택배사를 고정할 수 있는 주문서가 없습니다"); 
 			return false;
 			
 		}
-
-		if(confirm("배송회사 고정을 푸시겠습니까?")){
-			for(var i=0; i<orSize; i++){
-				orSerialSpecialNumberList[i]=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
-				
-			}
-			
-			$.ajax({
-				type       : 'GET',
-				data       : {
-					"orSerialSpecialNumber":orSerialSpecialNumberList
-					
-				},
-				url        : '/orders/abs_init_deliv.do',
-				success    : (data) => {		
-					if(data > 0){
-						alert("배송회사 고정 해제");
-						location.reload();
-					}else{
-						alert("배송회사 고정 실패");
-						location.reload();
-					}
-					
-				},error	: (log) => {
-					alert("서버 에러 발생. " + log);
-				}
-				
-			});
+		
+		let orSerialSpecialNumberList = new Array(orSize);
+		
+		for(var i=0; i<orSize; i++){
+			orSerialSpecialNumberList[i]=$("input[data-deliv-weiting='1']:checked")[i].value;
 			
 		}
+		
+
+		window.open("/delivery/config/abs_deliv_company.do?orSerialSpecialNumberList="+orSerialSpecialNumberList, "택배사 고정" , "width=500px, height=620px, top=50px, left=50px, scrollbars=no");
 		
 	});
 

@@ -52,7 +52,6 @@ public class DashboardController {
 		
 		List<ProductOptionVO> productStockList = stockService.productOptionStockAlarm();
 		List<OrdersVO> threeMonthTotalSales = dashboardService.threeMonthTotalSales();
-		List<OrdersVO> monthTotalSales = dashboardService.monthTotalSales();
 		List<CustomerReviewVO> reviewList = customerReviewService.selectSaleFlowReview();
 		Map<String, Object> deliveryTypeResult =  analyService.mainDeliveryTypeResult();
 		
@@ -65,7 +64,6 @@ public class DashboardController {
 		
 		model.addAttribute("productStockList", productStockList);
 		model.addAttribute("threeMonthTotalSales", threeMonthTotalSales);
-		model.addAttribute("monthTotalSales", monthTotalSales);
 		
 		model.addAttribute("deliveryTypeResult", deliveryTypeResult);
 		model.addAttribute("reviewList", reviewList);
@@ -85,7 +83,7 @@ public class DashboardController {
 	 * @date : 2022. 1. 13.
 	 * @author : Jeon KiChan
 	 * @return
-	 * @메소드설명 : 3개월 간 총 매출
+	 * @메소드설명 : 이번 달 총 매출 가져오기 ( 나중에 메서드 명 바꾸기 )
 	 */
 	@RequestMapping(value="/dashboard/three_month_sales.do", method=RequestMethod.GET)
 	@ResponseBody
@@ -100,7 +98,7 @@ public class DashboardController {
 	 * @date : 2022. 1. 13.
 	 * @author : Jeon KiChan
 	 * @return
-	 * @메소드설명 : 이번 달 일별 매출
+	 * @메소드설명 : 지난 11개월 간의 매출 가져오기 ( 나중에 메서드 명 바꾸기)
 	 */
 	@RequestMapping(value="/dashboard/month_sales.do", method=RequestMethod.GET)
 	@ResponseBody

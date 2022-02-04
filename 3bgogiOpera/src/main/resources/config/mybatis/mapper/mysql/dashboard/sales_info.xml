@@ -33,8 +33,7 @@
 				INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
 			WHERE 			
 				<![CDATA[				
-					or_sending_day >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 3 MONTH) , '%Y-%m-01')
-                    AND or_sending_day < DATE_FORMAT(NOW() , '%Y-%m-01')
+					or_sending_day >= DATE_FORMAT(NOW(), '%Y-%m-01')
 				]]>
 				AND od.or_cancled_flag = 0
 				AND od.or_excel_div_flag = 0
@@ -46,8 +45,8 @@
             RIGHT JOIN dummy_calendar dc	ON	dc.dc_date = INNE.dates 
 		WHERE
 			<![CDATA[
-				dc.dc_date  >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL - 3 MONTH) , '%Y-%m-01')
-				AND dc.dc_date < DATE_FORMAT(NOW() , '%Y-%m-01')
+				dc.dc_date  >= DATE_FORMAT(NOW(), '%Y-%m-01')
+				AND dc.dc_date < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH) , '%Y-%m-01')
 			]]>
 		GROUP BY
 			or_user_column1
@@ -56,7 +55,7 @@
 	</select>
 	
 	<select id="monthTotalSales" resultType="OrdersVO">
-		SELECT
+				SELECT
 			IF(
 				SUM(
 					INNE.total_price + INNE.comm + INNE.ano_comm - ( (INNE.total_price + INNE.comm + INNE.ano_comm) * INNE.ss_commission / 100)
@@ -66,7 +65,7 @@
 					INNE.total_price + INNE.comm + INNE.ano_comm - ( (INNE.total_price + INNE.comm + INNE.ano_comm) * INNE.ss_commission / 100)
 				)
             ) AS or_total_price,
-            DATE_FORMAT(dc.dc_date, '%m-%d') AS or_user_column1
+            DATE_FORMAT(dc.dc_date, '%Y-%m') AS or_user_column1
 		FROM
 			(
             SELECT 
@@ -82,8 +81,8 @@
 				INNER JOIN store_section ss ON od.ss_fk = ss.ss_pk
 			WHERE 			
 				<![CDATA[				
-					or_sending_day >= DATE_FORMAT(NOW() , '%Y-%m-01')
-                    AND or_sending_day < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH), '%Y-%m-01')
+					or_sending_day < DATE_FORMAT(NOW() , '%Y-%m-01')
+                    AND or_sending_day >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -12 MONTH), '%Y-%m-01')
 				]]>
 				
 				AND od.or_cancled_flag = 0
@@ -96,8 +95,8 @@
             RIGHT JOIN dummy_calendar dc	ON	dc.dc_date = INNE.dates 
 		WHERE
 			<![CDATA[
-				dc.dc_date  >= DATE_FORMAT(NOW() , '%Y-%m-01')
-				AND dc.dc_date < DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH), '%Y-%m-01')
+				dc.dc_date  < DATE_FORMAT(NOW() , '%Y-%m-01')
+				AND dc.dc_date >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -12 MONTH), '%Y-%m-01')
 			]]>
 		GROUP BY
 			or_user_column1

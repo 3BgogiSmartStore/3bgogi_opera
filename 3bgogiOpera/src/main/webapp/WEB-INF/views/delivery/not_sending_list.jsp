@@ -601,7 +601,7 @@
     				
     		});
     		
-    		//택배사 고정 해제
+    		//택배사 고정변경
     		$("#absInitDeliv").click(function(){
     			
     			var orSize = $("input[name=serialNumCheck]:checked").length;
@@ -609,47 +609,24 @@
     			var orSerialSpecialNumberList = new Array(orSize);
     			
     			if(orSize == 0){
-    				alert("해제할 수 있는 주문서가 존재하지 않습니다"); 
+    				alert("택배사 고정을 변경할 수 있는 주문서가 존재하지 않습니다"); 
     				return false;
     				
     			}
 
-    			if(confirm("배송회사 고정을 푸시겠습니까?")){
+    			if(confirm("고정된 택배사를 변경하시겠습니까?")){
     				for(var i=0; i<orSize; i++){
     					orSerialSpecialNumberList[i]=$("input[name=serialNumCheck]:checked")[i].value;
     					
     				}
     				
-    				
-    				$.ajax({
-    					type       : 'GET',
-    					data       : {
-    						"orSerialSpecialNumber":orSerialSpecialNumberList
-    						
-    					},
-    					url        : '/orders/abs_init_deliv.do',
-    					success    : (data) => {		
-    						if(data > 0){
-    							alert("배송회사 고정 해제");
-    							location.reload();
-    						}else{
-    							alert("배송회사 고정 실패");
-    							location.reload();
-    						}
-    						
-    					},error	: (log) => {
-    						alert("서버 에러 발생. " + log);
-    					}
-    					
-    				});
+    				window.open("/delivery/config/abs_deliv_company.do?orSerialSpecialNumberList="+orSerialSpecialNumberList, "택배사 고정" , "width=500px, height=620px, top=50px, left=50px, scrollbars=no");
     				
     			}
     			
     		});
     		
     	});
-    	
-    	
     	
     	function pageFunc(index){
 			$("input[name=currentPage]").val(index);
@@ -942,19 +919,20 @@
                             		<div class="card-header" id="headingSeven">
                                     	<h5 class="mb-0">
                                         	<button id="arcoBtn1" class="btn btn-link" data-toggle="collapse" data-target="#orderControl" aria-expanded="false" aria-controls="orderControl" type="button">
-                                            	우체국택배 고정 주문서 확인하기
+                                            	택배사 고정 주문서 확인하기
                                             </button>
                                         </h5>
                                     </div>
                                     <div id="orderControl" class="collapse" aria-labelledby="headingSeven" data-parent="#orderController">
                                     	<div class="card-body">
-                                    		<button class="btn btn-primary btn-xs mb-2" type="button" id="absInitDeliv"> 택배사 고정 해제</button>
+                                    		<button class="btn btn-primary btn-xs mb-2" type="button" id="absInitDeliv"> 택배사 고정 변경</button>
                                     		
 	                                		<table class="table table-bordered">
 		                                        <thead>
 		                                            <tr style="text-align: center;">
 		                                            	<th scope="col" colspan="1">
 				                                        </th>
+				                                        <th scope="col"> 고정된택배사</th>
 		                                                <th scope="col"> 구매자</th>
 		                                                <th scope="col"> 수령자</th>
 		                                                <th scope="col"> 주소 </th>
@@ -969,7 +947,14 @@
 												             	   <input class="custom-control-input serialNumCheck" type="checkbox" name="serialNumCheck" value="${epostAbsList.orSerialSpecialNumber }"><span class="custom-control-label"></span>
 												                </label>
 		                                        			</td>
-		                                        			
+		                                        			<td>
+		                                        				<c:if test="${epostAbsList.orAbsDelivType == 1 }">
+					                                            	<span class="text-danger"> - 우체국고정 - </span><br>
+					                                            </c:if>
+					                                            <c:if test="${epostAbsList.orAbsDelivType == 4 }">
+					                                            	<span class="text-danger"> - 롯데고정 - </span><br>
+					                                            </c:if>
+		                                        			</td>
 		                                        			<td>${epostAbsList.orBuyerName } / ${epostAbsList.orBuyerContractNumber1 }</td>
 		                                        			<td>${epostAbsList.orReceiverName } / ${epostAbsList.orReceiverContractNumber1 }</td>
 		                                        			<td>${epostAbsList.orShippingAddress } ${epostAbsList.orShippingAddressDetail }</td>

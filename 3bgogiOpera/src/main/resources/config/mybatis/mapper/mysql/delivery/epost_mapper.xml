@@ -353,6 +353,9 @@
 					AND od.or_serial_special_number = #{searchKeyword}
 					AND od.or_cancled_flag = 0
 					AND od.or_excel_div_flag = 0
+					AND (
+						od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 1
+					)
 				GROUP BY
 					od.or_pk,
 					od.or_serial_special_number,
@@ -431,6 +434,9 @@
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_delivery_invoice_number IS NULL
 					AND od.or_refunds = 0
+					AND (
+						od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 1
+					)
 					<![CDATA[
 						AND od.or_sending_deadline >= #{dateStart} AND od.or_sending_deadline <= #{dateEnd}
 					]]>
@@ -564,6 +570,9 @@
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
+				AND (
+						od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 1
+					)
 			GROUP BY
 				od.or_user_column1,
 				od.or_serial_special_number,
@@ -848,6 +857,9 @@
 					AND od.or_cancled_flag = 0
 					AND od.or_refunds = 0
 					AND od.or_serial_special_number = #{searchKeyword}
+					AND (
+						od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 1
+					)
 				GROUP BY
 					od.or_pk,
 					od.or_serial_special_number,
@@ -1062,6 +1074,9 @@
 					AND od.or_cancled_flag = 0
 					AND od.or_excel_div_flag = 0
 					AND od.or_refunds = 0
+					AND (
+						od.or_abs_deliv_type = 0 OR od.or_abs_deliv_type = 1
+					)
 				GROUP BY
 					od.or_pk,
 					od.or_serial_special_number,
@@ -1386,6 +1401,7 @@
 				od.or_sending_deadline,
 				od.or_delivery_message,
 				od.or_settlement_day,
+				od.or_abs_deliv_type,
                 SUM(od.or_inv_flag) AS or_inv_flag,
 				SUM(od.or_total_price) AS or_total_price,
 				SUM(od.or_total_cost) AS or_total_cost,
@@ -1415,7 +1431,7 @@
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
-				AND od.or_abs_deliv_type = 1
+				AND od.or_abs_deliv_type != 0
 			GROUP BY
 				od.or_user_column1,
 				od.or_serial_special_number,
@@ -1435,6 +1451,7 @@
 				od.or_sending_deadline,
 				od.or_delivery_message,
 				od.or_settlement_day,
+				od.or_abs_deliv_type,
 	            pm.pm_pk,
 	            om.om_pk,
 				pro.product_pk,

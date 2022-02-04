@@ -24,10 +24,10 @@
     
     	$(function(){
     		
+    		
     		setTimeout(function(){
-				window.reload();
-				
-				
+    			location.reload();
+
 			}, 300000);
     		
     		
@@ -64,19 +64,65 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<div class="card">
-		                            <h5 class="card-header"> 지난 3개월 매출</h5>
-		                            <div class="card-body" style="text-align: center;">
-		                            
-		                                <c:forEach var="threeList" items="${threeMonthTotalSales }">
-											<h1 > <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h1>
-				                            <h2 > ${threeList.orUserColumn1 }</h2>
-				                            
-		                                </c:forEach>
-		                            </div>
-		                        </div>
+								<c:forEach var="threeList" items="${threeMonthTotalSales }">
+									<div class="card">
+			                            <h2 class="card-header">
+			                            	${threeList.orUserColumn1 } 매출
+			                            </h2>
+			                            <div class="card-body" style="text-align: center;">
+											<h1 style="font-size: 57px;"> <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h1>
+											
+			                            </div>
+			                        </div>
+		                        </c:forEach>
 							</div>
+							
+							<!-- 우체국 남은 송장 개수 -->
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+								<div class="card">
+									<h2 class="card-header"> 우체국송장 발송 전 </h2>
+		                        	<div class="card-body">
+		                                <h1 style="font-size: 57px;">${epost_weiting_v } 건</h1>
+		                            </div>
+		                       </div>
+							</div>
+							<!-- 그 외 택배사 발송 전 -->
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+								<div class="card">
+									<h2 class="card-header"> 그 외 택배사 발송 전 </h2>
+		                        	<div class="card-body">
+		                                <h1 style="font-size: 57px;">${another_weiting_v } 건</h1>
+		                            </div>
+		                       </div>
+							</div>
+						
+						</div>
+					</div>
+					<!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+						<div class="row">
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="card">
+									<h5 class="card-header"> 리뷰 평점 </h5>
+									<div class="card-body">
+										<div id="morris_gross" style="height: 272px;"></div>
+									</div>
+									<div id="reviewData" class="card-footer bg-white">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+				</div>
+				<div class="row">
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+						<div class="card">
+							<h1 class="card-header" id="monthSalesHeader"> 지난 11개월간 매출</h1>
+							<div class="card-body">
+								<div id="monthSales"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<div class="card">
 		                            <h5 class="card-header"> 등록된 리뷰 </h5>
 		                            <div class="card-body">
@@ -88,7 +134,6 @@
 			                                        <li data-target="#customerReviewCarousel" data-slide-to="${counting }" 
 			                                        	<c:if test="${counting == 0 }">
 			                                        		class="active"
-			                                        		
 			                                        	</c:if>
 			                                        ></li>
 			                                        <c:set var="counting" value="${counting + 1 }"/>
@@ -132,58 +177,6 @@
 		                            </div>
 		                        </div>
 							</div>
-	
-							<!-- 우체국 남은 송장 개수 -->
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<div class="card border-3 border-top border-top-primary">
-		                        	<div class="card-body" id="sendingFinished">
-		                            	<h5 class="text-muted" > 우체국송장 발송 전 </h5>
-		                                <div class="metric-value d-inline-block">
-		                                	<h1 class="mb-1"> ${epost_weiting_v } 건</h1>
-		                                </div>
-		                            </div>
-		                       </div>
-							</div>
-							
-							<!-- 우체국 외 송장 개수 -->
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<div class="card border-3 border-top border-top-primary">
-		                        	<div class="card-body" id="sendingFinished">
-		                            	<h5 class="text-muted" > 그 외 택배사 발송 전 </h5>
-		                                <div class="metric-value d-inline-block">
-		                                	<h1 class="mb-1"> ${another_weiting_v } 건</h1>
-		                                </div>
-		                            </div>
-		                       </div>
-							</div>
-						
-						</div>
-					</div>
-					<!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-						<div class="row">
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-								<div class="card">
-									<h5 class="card-header"> 리뷰 평점 </h5>
-									<div class="card-body">
-										<div id="morris_gross" style="height: 272px;"></div>
-									</div>
-									<div id="reviewData" class="card-footer bg-white">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
-				</div>
-				
-				<div class="row">
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-						<div class="card">
-							<h1 class="card-header" id="monthSalesHeader"> 이번 달 일별 매출</h1>
-							<div class="card-body">
-								<div id="monthSales"></div>
-							</div>
-						</div>
-					</div>
 				</div>
 				<div class="row">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
