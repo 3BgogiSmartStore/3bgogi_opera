@@ -125,6 +125,7 @@
 		<result property="orShippingAddress" column="or_shipping_address" javaType="String"/>
 		<result property="orShippingAddressDetail" column="or_shipping_address_detail" javaType="String"/>
 		<result property="orDelivEnter" column="or_deliv_enters" javaType="String"/>
+		<result property="orAbsDelivType" column="or_abs_deliv_type" javaType="int"/>
 		
 		<collection property="orVoList" ofType="OrdersVO">
 			<id property="orPk" column="or_pk" javaType="int"/>
@@ -1476,7 +1477,7 @@
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_delivery_invoice_number IS NULL
 					AND od.or_refunds = 0
-					AND od.or_abs_deliv_type = 1
+					AND od.or_abs_deliv_type != 0
 					<![CDATA[
 						AND od.or_sending_deadline >= #{dateStart} AND od.or_sending_deadline <= #{dateEnd}
 					]]>	

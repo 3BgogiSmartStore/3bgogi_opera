@@ -24,6 +24,7 @@ public class OrdersVOList {
 	private String ssName;
 	private Date orSendingDay;
 	private Date orSendingDeadline;
+	private int orAbsDelivType;
 	
 	private List<OrdersVO> orVoList;
 
@@ -59,6 +60,14 @@ public class OrdersVOList {
 		this.orSendingDay = orSendingDay;
 		this.orSendingDeadline = orSendingDeadline;
 		this.orVoList = orVoList;
+	}
+	
+	public int getOrAbsDelivType() {
+		return orAbsDelivType;
+	}
+
+	public void setOrAbsDelivType(int orAbsDelivType) {
+		this.orAbsDelivType = orAbsDelivType;
 	}
 
 	public String getOrSerialSpecialNumber() {
