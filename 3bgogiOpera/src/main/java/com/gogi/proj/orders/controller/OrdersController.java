@@ -180,6 +180,7 @@ public class OrdersController {
 		
 		
 		try {
+			
 			if(sedsVO.getSsFk() == 3) {				
 				orderList = readOrderExcel.readOrderExcelDataToXLS(fileName, sedsVO.getSsFk(), sendingDeadlineFlag);
 				

@@ -66,11 +66,12 @@
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<c:forEach var="threeList" items="${threeMonthTotalSales }">
 									<div class="card">
-			                            <h2 class="card-header">
+			                            <h1 class="card-header">
 			                            	${threeList.orUserColumn1 } 매출
-			                            </h2>
+			                            </h1>
+			                            
 			                            <div class="card-body" style="text-align: center;">
-											<h1 style="font-size: 57px;"> <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h1>
+											<h1 style="font-size: 170px;"> <fmt:formatNumber value="${threeList.orTotalPrice }" pattern="#,###"/> 원</h1>
 											
 			                            </div>
 			                        </div>
@@ -80,18 +81,19 @@
 							<!-- 우체국 남은 송장 개수 -->
 							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
 								<div class="card">
-									<h2 class="card-header"> 우체국송장 발송 전 </h2>
+									<h1 class="card-header"> 우체국송장 발송 전 </h1>
 		                        	<div class="card-body">
-		                                <h1 style="font-size: 57px;">${epost_weiting_v } 건</h1>
+		                                <h1 style="font-size: 170px;">${epost_weiting_v } 건</h1>
 		                            </div>
 		                       </div>
 							</div>
+							
 							<!-- 그 외 택배사 발송 전 -->
 							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
 								<div class="card">
-									<h2 class="card-header"> 그 외 택배사 발송 전 </h2>
+									<h1 class="card-header"> 그 외 택배사 발송 전 </h1>
 		                        	<div class="card-body">
-		                                <h1 style="font-size: 57px;">${another_weiting_v } 건</h1>
+		                                <h1 style="font-size: 170px;">${another_weiting_v } 건</h1>
 		                            </div>
 		                       </div>
 							</div>
@@ -178,7 +180,8 @@
 		                        </div>
 							</div>
 				</div>
-				<div class="row">
+				 
+				<%-- <div class="row">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
                                     <h5 class="card-header"> 최소 보유치 이하로 내려간 상품 재고 목록 </h5>
@@ -222,7 +225,7 @@
                                     </div>
                                 </div>
                             </div>
-				</div>	
+				</div>	 --%>
 			
 			</div>
 		</div>

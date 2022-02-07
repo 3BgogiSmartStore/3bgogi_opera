@@ -1,9 +1,3 @@
-/*
-Template Name: Influence Admin Template
-Author: jitu
-Email: chauhanjitu3@gmail.com
-File: js
-*/
 $(function() {
 	
 	function reviewJsonData(reviewList){
@@ -42,7 +36,7 @@ $(function() {
 	
 	function salesJsonData(orderList){
 		  
-		  var orderDataList = [];
+		  let orderDataList = [];
 		  
 		  $.each(orderList, function(idx ){
 			  

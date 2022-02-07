@@ -181,13 +181,13 @@ public class Godomall {
 		try {
 			doc = dBuilder.parse(url + urlParameters);
 			
-			System.out.println("doc = "+dBuilder.parse(url + urlParameters));
-			
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -203,6 +203,7 @@ public class Godomall {
 
 				Element element = (Element) node;
 				String orderNumber = getTagValue("orderNo", element);
+				
 				String orderDate = getTagValue("orderDate", element);
 				String orBuyerId = getTagValue("memId", element);
 				String orderName = "";
@@ -234,7 +235,7 @@ public class Godomall {
 						receiverAddressSub = getTagValue("receiverAddressSub", delivEle);
 						mc_deliveryHopeDate = getTagValue("mc_deliveryHopeDate", delivEle);
 						mc_orderMemo1 = "( "+getTagValue("mc_orderMemo1", delivEle)+" ) "+getTagValue("orderMemo", delivEle) == null ? "" : getTagValue("orderMemo", delivEle);
-						mc_orderMemo2 = getTagValue("mc_orderMemo2", delivEle);
+						mc_orderMemo2 = getTagValue("mc_orderMemo2", delivEle) == null ? "" : getTagValue("mc_orderMemo2", delivEle);
 						//mc_orderMemo3 = getTagValue("mc_orderMemo3", delivEle);
 						
 					}
@@ -275,6 +276,7 @@ public class Godomall {
 	        				
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
+
 							e.printStackTrace();
 							failCheck = true;
 							break;
@@ -295,6 +297,7 @@ public class Godomall {
 						String optionInfo = getTagValue("optionInfo", prodEle).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "");
 						List<String> options = Arrays.asList(optionInfo.split(","));
 						orVO.setOrProductOrderNumber(getTagValue("sno", prodEle));
+
 						orVO.setOrAmount(Integer.parseInt(getTagValue("goodsCnt", prodEle)));
 						orVO.setOrProduct(getTagValue("goodsNm", prodEle));
 						orVO.setOrProductNumber(getTagValue("goodsNo", prodEle));
@@ -319,15 +322,21 @@ public class Godomall {
 						orVO.setOrRegdate(today);
 						
 						orList.add(orVO);
+						
 					}
+					
 				}
+				
 			}
+
 		}
 		
 		if( failCheck == false) {
 			return orList;
+			
 		}else {
 			return null;
+			
 		}
 		
 	}
