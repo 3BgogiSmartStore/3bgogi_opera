@@ -908,6 +908,18 @@ public class EpostController {
 	}
 	
 	
+	/**
+	 * 
+	 * @MethodName : epostStoppedAreaCheckPost
+	 * @date : 2022. 2. 11.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param cjFlag
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @메소드설명 : 배송 불가 지역 체크
+	 */
 	@RequestMapping(value="/epost/epost_stopped_area_check.do", method=RequestMethod.POST)
 	public String epostStoppedAreaCheckPost(@ModelAttribute OrderSearchVO osVO,@RequestParam int cjFlag, Model model) throws Exception {
 		

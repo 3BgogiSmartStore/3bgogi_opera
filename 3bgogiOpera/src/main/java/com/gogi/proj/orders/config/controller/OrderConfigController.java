@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +31,7 @@ import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
+import com.gogi.proj.security.AdminVO;
 import com.gogi.proj.util.FileuploadUtil;
 import com.gogi.proj.util.PageUtility;
 
@@ -486,6 +489,68 @@ public class OrderConfigController {
 		model.addAttribute("reload", reload);
 		
 		return "common/message";
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : addTempSendingDeadlinePageGet
+	 * @date : 2022. 2. 10.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param model
+	 * @return
+	 * @메소드설명 : 임시 발송일 지정 페이지
+	 */
+	@RequestMapping(value="/add/temp_sending_deadline.do", method=RequestMethod.GET)
+	public String addTempSendingDeadlinePageGet(@ModelAttribute OrderSearchVO osVO, Model model) {
+		
+		if(osVO.getDateStart() == null) {
+			
+			Calendar cal = Calendar.getInstance();
+			Date today = cal.getTime();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			osVO.setDateStart(sdf.format(today));
+			
+		}
+
+		model.addAttribute("osVO", osVO);
+		
+		
+		return "orders/config/temp_sending_deadline_form";
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : addTempSendingDeadlinePagePost
+	 * @date : 2022. 2. 10.
+	 * @author : Jeon KiChan
+	 * @param request
+	 * @param osVO
+	 * @return
+	 * @메소드설명 : 임시 발송일 지정하기
+	 */
+	@RequestMapping(value="/add/temp_sending_deadline.do", method=RequestMethod.POST)
+	@ResponseBody
+	public boolean addTempSendingDeadlinePagePost(HttpServletRequest request, @ModelAttribute OrderSearchVO osVO) {
+		
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		AdminVO adminVo = (AdminVO)auth.getPrincipal();
+		
+		int result = orderConfigService.addTempSendingDeadline(osVO, request.getRemoteAddr(), adminVo.getUsername());
+		
+		if(result != 0) {
+			
+			return true;
+		}else {
+			return false;
+		}
 		
 	}
 }

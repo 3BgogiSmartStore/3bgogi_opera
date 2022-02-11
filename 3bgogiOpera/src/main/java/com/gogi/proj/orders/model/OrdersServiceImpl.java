@@ -136,6 +136,8 @@ public class OrdersServiceImpl implements OrdersService {
 				vo.setOrAbsDelivType(ssVO.getSsDelivCompType());
 			}
 
+			vo.setOrTotalCost(vo.getOrTotalPrice() - ( vo.getOrTotalPrice() * ssVO.getSsCommission() / 100 ) );
+			
 			int result = ordersDAO.insertOrderData(vo);
 			if (result > 0)
 				count++;

@@ -88,7 +88,6 @@ public class OrderUtilityClass {
 					divOd.setOrDevideFlag(false);
 					divOd.setOrInvFlag(false);
 					divOd.setOrAmount(matchingProducts.get(i).getOptionSeq());
-					divOd.setOrTotalCost(0);
 					result.add(divOd);
 					
 				//복수 매칭 나누기로 인한 추가 주문서
@@ -101,7 +100,7 @@ public class OrderUtilityClass {
 					divOd.setOrProductOptionPrice(0);
 					divOd.setOrDiscountPrice(0);
 					divOd.setOrAmount(matchingProducts.get(i).getOptionSeq());
-					divOd.setOrTotalPrice(0 );
+					divOd.setOrTotalPrice(0);
 					divOd.setOrTotalCost(0);
 					divOd.setOrPaymentCommision(0);
 					divOd.setOrAnotherPaymentCommision( 0);

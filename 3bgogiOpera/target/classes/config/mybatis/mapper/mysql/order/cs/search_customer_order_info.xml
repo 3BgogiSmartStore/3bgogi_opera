@@ -146,6 +146,7 @@
 		<result property="orRecMemo" column="or_rec_memo" javaType="String"/>
 		<result property="orRecStoragePlace" column="or_rec_storage_place" javaType="String"/>
 		<result property="orAbsDelivType" column="or_abs_deliv_type" javaType="int"/>
+		<result property="orTempSendingDeadline" column="or_temp_sending_deadline" javaType="String"/>
 		
 	</resultMap>
 	
@@ -510,6 +511,7 @@
             SUM(datas.or_amount) AS or_amount,
 			SUM(datas.or_cancled_qty) AS or_cancled_qty,
 			datas.or_sending_deadline,
+			datas.or_temp_sending_deadline,
 			SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT datas.or_sending_day ORDER BY or_sending_day DESC SEPARATOR ',' ), ',', 1) AS or_sending_day,
 			SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT datas.or_settlement_day ORDER BY or_settlement_day DESC SEPARATOR ',' ), ',', 1) AS or_settlement_day,
 			SUM(datas.or_refunds) AS or_refunds,
@@ -540,6 +542,7 @@
 				od.or_pk,
 				od.or_total_price,
 				od.or_sending_deadline,
+				od.or_temp_sending_deadline,
 				od.or_sending_day,
 				od.or_cancled_flag,
 				od.or_refunds,
@@ -609,6 +612,7 @@
 		        or_amount,
 				od.or_total_price,
 				od.or_sending_deadline,
+				od.or_temp_sending_deadline,
 				od.or_sending_day,
 				od.or_cancled_flag,
 				od.or_refunds,
@@ -631,6 +635,7 @@
 			datas.or_buyer_contract_number1,
 			datas.or_receiver_contract_number1,
 			datas.or_sending_deadline,
+			datas.or_temp_sending_deadline,
 			datas.or_rec_type,
 			datas.or_abs_deliv_type,
 			datas.edt_fk

@@ -183,4 +183,18 @@ public interface OrderConfigService {
 	 * @메소드설명 : 주문서 삭제 내역에 필요한 페이징 개수
 	 */
 	public int selectOrdersDeleteListCounting(OrderSearchVO osVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : addTempSendingDeadline
+	 * @date : 2022. 2. 10.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param ip
+	 * @param adminId
+	 * @return
+	 * @메소드설명 : 임시 발송일 추가하기
+	 */
+	public int addTempSendingDeadline(OrderSearchVO osVO, String ip, String adminId);
 }

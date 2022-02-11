@@ -72,7 +72,13 @@
 	                                        		<c:forEach var="sendinglist" items="${sendingList }">
 	                                        			<tr>
 			                                                <td>
-			                                                	${sendinglist.orDeliveryInvoiceNumber }
+			                                                	<c:if test="${empty sendinglist.orDeliveryInvoiceNumber }">
+			                                                		<span class="text-danger">임시로 발송처리된 주문</span>
+			                                                		
+			                                                	</c:if>
+			                                                	<c:if test="${!empty sendinglist.orDeliveryInvoiceNumber }">
+			                                                		${sendinglist.orDeliveryInvoiceNumber }
+			                                                	</c:if>
 			                                                </td>
 			                                                <td>
 			                                                	${sendinglist.orBuyerName } / <br>

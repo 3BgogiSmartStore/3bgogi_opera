@@ -22,6 +22,7 @@ public class OrderConfigDAOMybatis extends SqlSessionDaoSupport implements Order
 	private String reqFilterKeywordNamespace = "order.config.req_filter_keyword";
 	private String orderConfigDivNamespace = "order.config.div";
 	private String orderConfigDelete = "order.config.delete";
+	private String orderSetting = "order.config.setting";
 
 	@Override
 	public int insertExceptAddressKeyword(ExceptAddressKeywordVO eakVO) {
@@ -123,6 +124,12 @@ public class OrderConfigDAOMybatis extends SqlSessionDaoSupport implements Order
 	public int selectOrdersDeleteListCounting(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne(orderConfigDelete+".selectOrdersDeleteListCounting", osVO);
+	}
+
+	@Override
+	public int addTempSendingDeadline(OrderSearchVO osVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().update(orderSetting+".addTempSendingDeadline", osVO);
 	}
 	
 	

@@ -162,6 +162,7 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 	private String adminId;
 
 	private int orAbsDelivType;
+	private String orTempSendingDeadline;
 	
 	// 우체국 발송용
 	private List<ProductOptionVO> productOptionList;
@@ -334,6 +335,14 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		this.adminId = adminId;
 		this.orAbsDelivType = orAbsDelivType;
 		this.productOptionList = productOptionList;
+	}
+
+	public String getOrTempSendingDeadline() {
+		return orTempSendingDeadline;
+	}
+
+	public void setOrTempSendingDeadline(String orTempSendingDeadline) {
+		this.orTempSendingDeadline = orTempSendingDeadline;
 	}
 
 	public int getOrAbsDelivType() {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="order.config.setting">
+
+	<update id="addTempSendingDeadline" parameterType="OrderSearchVO">
+		UPDATE
+			orders
+		SET
+			or_temp_sending_deadline = #{dateStart}
+		WHERE
+			or_serial_special_number IN
+				<foreach collection="orSerialSpecialNumberList" item="specialNumber" open="(" close=")" separator=",">
+					#{specialNumber}
+				</foreach>
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+

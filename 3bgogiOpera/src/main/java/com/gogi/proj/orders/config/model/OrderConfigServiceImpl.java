@@ -1,10 +1,15 @@
 package com.gogi.proj.orders.config.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gogi.proj.log.model.LogDAO;
+import com.gogi.proj.log.model.LogService;
+import com.gogi.proj.log.vo.OrderHistoryVO;
 import com.gogi.proj.orders.config.vo.ExceptAddressKeywordVO;
 import com.gogi.proj.orders.config.vo.OrdersDeleteVO;
 import com.gogi.proj.orders.config.vo.ReqFilterKeywordVO;
@@ -13,10 +18,17 @@ import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
 
 @Service
-public class OrderConfigServiceImpl implements OrderConfigService{
+public class OrderConfigServiceImpl implements OrderConfigService {
 
 	@Autowired
 	private OrderConfigDAO orderConfigDao;
+	
+	@Autowired
+	private LogDAO logDao;
+	
+	@Autowired
+	private LogService logService;
+
 
 	@Override
 	public int insertExceptAddressKeyword(ExceptAddressKeywordVO eakVO) {
@@ -87,16 +99,16 @@ public class OrderConfigServiceImpl implements OrderConfigService{
 	@Override
 	public List<OrdersVOList> selectPackingIrreTargetOrderList() {
 		// TODO Auto-generated method stub
-		
+
 		List<OrdersVO> targetOrderNumber = orderConfigDao.selectPackingIrreTargetOrder();
-		
-		if(targetOrderNumber.size() != 0) {			
+
+		if (targetOrderNumber.size() != 0) {
 			List<OrdersVOList> targetOrder = orderConfigDao.selectPackingIrreTargetOrderList(targetOrderNumber);
 			return targetOrder;
-		}else {			
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
@@ -116,6 +128,44 @@ public class OrderConfigServiceImpl implements OrderConfigService{
 		// TODO Auto-generated method stub
 		return orderConfigDao.selectOrdersDeleteListCounting(osVO);
 	}
-	
-	
+
+	@Override
+	public int addTempSendingDeadline(OrderSearchVO osVO, String ip, String adminId) {
+		// TODO Auto-generated method stub
+		OrdersVO changeOr = null;
+		OrderHistoryVO ohVO = null;
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		Date now = new Date();
+
+		String todayYMD = sdf.format(now);
+
+		for (int i = 0; i < osVO.getOrSerialSpecialNumberList().size(); i++) {
+
+			changeOr = new OrdersVO();
+			changeOr.setOrSerialSpecialNumber(osVO.getOrSerialSpecialNumberList().get(i));
+
+			List<OrdersVO> changeOrderList = logDao.selectOrdersChangeBeforeValueBySerialSpecialNumber(changeOr);
+
+			for (int j = 0; j < changeOrderList.size(); j++) {
+
+				ohVO = new OrderHistoryVO();
+
+				ohVO.setOrFk(changeOrderList.get(j).getOrPk());
+				ohVO.setOhIp(ip);
+				ohVO.setOhAdmin(adminId);
+				ohVO.setOhEndPoint("cs - 임시 발송일 지정");
+				ohVO.setOhRegdate(todayYMD);
+				ohVO.setOhDetail("임시 발송일 [ "+osVO.getDateStart()+" ]");
+
+				logService.insertOrderHistory(ohVO);
+
+			}
+
+		}
+
+		return orderConfigDao.addTempSendingDeadline(osVO);
+	}
+
 }

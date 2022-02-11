@@ -36,6 +36,8 @@ import com.gogi.proj.configurations.model.ConfigurationService;
 import com.gogi.proj.configurations.vo.StoreSectionVO;
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
+import com.gogi.proj.epost.api.EpostSendingUtil;
+import com.gogi.proj.epost.vo.Xsync;
 import com.gogi.proj.excel.ReadOrderExcel;
 import com.gogi.proj.excel.xlsxWriter;
 import com.gogi.proj.matching.model.MatchingService;
@@ -106,6 +108,9 @@ public class OrdersController {
 	
 	@Autowired
 	private Godomall gm;
+	
+	@Autowired
+	private EpostSendingUtil esu;
 	
 	private final int PROCESS_ORDER_INSERT = 1;
 	private final int PROCESS_PRODUCT_MATCHING = 2;
@@ -243,10 +248,48 @@ public class OrdersController {
 		
 		model.addAttribute("storeList", storeList);
 		
+		
+		
+		//새벽 배송 및 우체국 발송 가능 지역 체크
+		
+		List<Xsync> epostResultList = new ArrayList<Xsync>();
+		String EPOST_DELIV_STOP = "http://ship.epost.go.kr/api.GetStoppedZipCd.jparcel";
+				
+		Xsync epost = null;
+		
+		String tempAddr = "";
+		
+		for(OrdersVO orVO : orderList) {
+			
+			if(!tempAddr.equals(orVO.getOrShippingAddress())) {
+				
+				
+				if( orVO.getOrAbsDelivType() == 0 && cjService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
+					//새벽배송으로 가능한 지역
+					
+				}else {				
+					try {
+						epost = esu.stoppedDelivAreaCheck(orVO.epostStoppedAreaToString(), EPOST_DELIV_STOP);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					epost.setOrVO(orVO);
+					
+					epostResultList.add(epost);
+				}
+				
+				tempAddr = orVO.getOrShippingAddress();
+			}
+
+		}
+
 		model.addAttribute("insertResult", result[0]);
 		model.addAttribute("duplResult",result[1]);
 		model.addAttribute("mergedSuccessedResult",result[2]);
 		model.addAttribute("checkingIroList",checkingIroList);
+		model.addAttribute("epostResultList", epostResultList);
 		
 		//자동으로 매칭 시키기
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

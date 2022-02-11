@@ -286,23 +286,13 @@ jQuery(document).ready(function($) {
 	//주문 삭제 기능
 	$("#deleteOrderButton").click(function(){
 		if(confirm("선택된 주문서를 정말 삭제하시겠습니까? ( 복구 불가 )")){			
-			/*var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
-			var orSerialSpecialNumberList = new Array(orSize);
+			let inputWord = prompt("주문서삭제라고 입력해주시면 선택된 주문서가 삭제됩니다");
 			
-			var csSearchForm =  document.createElement("form");
-			csSearchForm.method="POST";
-			csSearchForm.id="csSearchForm";
-			
-			$("#csSearchIframe").append(csSearchForm);
-			
-			for(var i=0; i<orSize; i++){
-				var orSerialSpecialNumberInput = document.createElement("input");
-				orSerialSpecialNumberInput.name="orSerialSpecialNumberList";
-				orSerialSpecialNumberInput.type="hidden";
-				orSerialSpecialNumberInput.value=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
-				$("#csSearchForm").append(orSerialSpecialNumberInput);
+			if(inputWord != '주문서삭제'){
+				alert("주문서삭제라고 정확하게 입력해주셔야 삭제가 가능합니다");
+				
+				return false;
 			}
-			*/
 			
 			var csSearchFormData = csSearchFormInsertAndReturn('name', 'orSerialSpecialNumberList');
 			
@@ -672,6 +662,15 @@ jQuery(document).ready(function($) {
 		
 		if(confirm(orSize+" 개의 송장을 삭제하시겠습니까?")){
 			
+			let inputWord = prompt("송장삭제라고 입력해주시면 선택된 송장이 삭제됩니다");
+			
+			if(inputWord != '송장삭제'){
+				alert("송장삭제라고 정확하게 입력해주셔야 삭제가 가능합니다");
+				
+				return false;
+			}
+			
+			
 			var csSearchForm =  document.createElement("form");
 			csSearchForm.method="POST";
 			csSearchForm.id="csSearchForm";
@@ -855,6 +854,24 @@ jQuery(document).ready(function($) {
 		
 		
 		window.open('/orders/change/deadline.do?orSerialSpecialNumberList='+orSerialSpecialNumberList, "발송일 변경" , "width=430, height=500, top=200, left=1200, scrollbars=no");
+	});
+	
+	$("#addTempSendingDeadlineBtn").click(function(){
+		var orSize = $("input[data-deliv-weiting='1']:checked, input[data-deliv='1']:checked").length;
+		var orSerialSpecialNumberList = new Array(orSize);
+			
+		for(var i=0; i<orSize; i++){
+			orSerialSpecialNumberList[i]=$("input[data-deliv-weiting='1']:checked, input[data-deliv='1']:checked")[i].value;
+			
+		}
+
+		if(orSize == 0) {
+			alert("임시 발송일을 지정할 주문 건이 없습니다");
+			return false;
+		}
+		
+		window.open('/order/config/add/temp_sending_deadline.do?orSerialSpecialNumberList='+orSerialSpecialNumberList, "임시 발송일 지정" , "width=430, height=500, top=200, left=1200, scrollbars=no");
+		
 	});
 	
 	$("#orderHistoryBtn").click(function(){

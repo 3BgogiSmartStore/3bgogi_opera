@@ -140,10 +140,17 @@
 			or_sending_day = NULL
 		WHERE
 			or_output_date = #{dateEnd}
-			<![CDATA[
-				AND or_sending_day >= #{dateStart}
-				AND or_sending_day < DATE_FORMAT(DATE_ADD(#{dateStart}, INTERVAL 1 DAY), '%Y-%m-%d')
-			]]>
+			<![CDATA[				
+				AND(	(
+							or_sending_day >= #{dateStart}
+							AND or_sending_day < DATE_ADD(#{dateStart}, INTERVAL 1 DAY) 
+                        )
+                        OR (
+							or_temp_sending_deadline >= #{dateStart}
+							AND or_temp_sending_deadline < DATE_ADD(#{dateStart}, INTERVAL 1 DAY)
+                        )
+					)
+				]]>
 	</update>
 	
 	<select id="selectDeliveryOutPutCancledTarget" parameterType="OrderSearchVO" resultType="OrderHistoryVO">
@@ -179,7 +186,7 @@
 	</select>
 	
 	<select id="selectStoreSendingResultByDate" resultType="OrdersVO" parameterType="OrderSearchVO">
-		SELECT
+				SELECT
 			INNE.ss_name,
 			INNE.ss_pk AS ss_fk,
 			INNE.ss_auto_get_date AS or_user_column3,
@@ -201,10 +208,16 @@
 			WHERE			
 				<![CDATA[				
 					(	(od.or_sending_day >= #{dateStart}
-						AND od.or_sending_day < DATE_ADD(#{dateStart}, INTERVAL 1 DAY) )
+						AND od.or_sending_day < DATE_ADD(#{dateStart}, INTERVAL 1 DAY) 
+                        AND (od.or_delivery_invoice_number IS NOT NULL OR od.or_delivery_invoice_number != '')
+                        )
+                        OR (
+							od.or_temp_sending_deadline >= #{dateStart}
+							AND od.or_temp_sending_deadline < DATE_ADD(#{dateStart}, INTERVAL 1 DAY)
+                        )
 					)
 				]]>
-				AND (od.or_delivery_invoice_number IS NOT NULL OR od.or_delivery_invoice_number != '')
+				
 				AND od.or_cancled_flag = 0
 		        AND or_excel_div_flag = 0
 			GROUP BY
@@ -233,16 +246,22 @@
 			<![CDATA[				
 				(	or_output_date IS NULL AND
 								 
-					(or_sending_day >= #{dateStart}
-					AND or_sending_day < DATE_ADD(#{dateStart}, INTERVAL 1 DAY) )
+					(
+						or_sending_day >= #{dateStart}
+						AND or_sending_day < DATE_ADD(#{dateStart}, INTERVAL 1 DAY) 
+						AND (or_delivery_invoice_number IS NOT NULL OR or_delivery_invoice_number != '')
+                        AND or_sending_day IS NOT NULL
+                    )
+                    OR (
+							or_temp_sending_deadline >= #{dateStart}
+							AND or_temp_sending_deadline < DATE_ADD(#{dateStart}, INTERVAL 1 DAY)
+                        )
 									
 				)
 			]]>
 			AND ss_fk = #{ssPk}
-			AND (or_delivery_invoice_number IS NOT NULL OR or_delivery_invoice_number != '')
 			AND or_cancled_flag = 0
 			AND or_excel_div_flag = 0
-			AND or_sending_day IS NOT NULL
 			
 	</update>
 	
@@ -283,10 +302,23 @@
 			AND or_cancled_flag = 0
 			AND or_excel_div_flag = 0
 			AND or_refunds = 0
-			AND or_sending_day IS NOT NULL
-			<![CDATA[			
-				AND or_sending_day>= #{ssSendingDay}
-				AND or_sending_day < DATE_ADD(#{ssSendingDay}, INTERVAL 1 DAY) 
+			<![CDATA[
+							
+				AND 
+				
+				(
+					(
+						or_sending_day>= #{ssSendingDay}
+						AND or_sending_day < DATE_ADD(#{ssSendingDay}, INTERVAL 1 DAY) 
+						AND or_sending_day IS NOT NULL
+					)
+					OR 
+					(
+						or_temp_sending_deadline>= #{ssSendingDay}
+						AND or_temp_sending_deadline < DATE_ADD(#{ssSendingDay}, INTERVAL 1 DAY) 
+					)
+				)
+				 
 			]]>
 			
 		GROUP BY
@@ -329,7 +361,8 @@
 		    or_settlement_day,
 		    or_shipping_address,
 		    or_shipping_address_detail,
-		    or_delivery_invoice_number
+		    or_delivery_invoice_number,
+		    or_temp_sending_deadline
 		FROM
 			orders
 		WHERE
@@ -337,10 +370,23 @@
 			AND ss_fk = #{ssPk}
 			AND or_cancled_flag = 0
 			AND or_excel_div_flag = 0
-			AND or_sending_day IS NOT NULL
-			<![CDATA[			
-				AND or_sending_day>= #{ssSendingDay}
-				AND or_sending_day < DATE_ADD(#{ssSendingDay}, INTERVAL 1 DAY) 
+			<![CDATA[
+							
+				AND 
+				
+				(
+					(
+						or_sending_day>= #{ssSendingDay}
+						AND or_sending_day < DATE_ADD(#{ssSendingDay}, INTERVAL 1 DAY) 
+						AND or_sending_day IS NOT NULL
+					)
+					OR 
+					(
+						or_temp_sending_deadline>= #{ssSendingDay}
+						AND or_temp_sending_deadline < DATE_ADD(#{ssSendingDay}, INTERVAL 1 DAY) 
+					)
+				)
+				 
 			]]>
 		
 	</select>

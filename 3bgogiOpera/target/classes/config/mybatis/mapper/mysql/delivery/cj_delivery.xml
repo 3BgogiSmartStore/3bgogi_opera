@@ -607,7 +607,7 @@
 			orders
 		WHERE
 			or_serial_special_number = #{orSerialSpecialNumber}
-			AND or_delivery_invoice_number = '입력전'
+			AND edt_fk = 5
 			<![CDATA[
 				AND or_sending_deadline >= DATE_FORMAT(DATE_ADD(NOW() , INTERVAL -15 DAY), '%Y-%m-%d')
 			]]>

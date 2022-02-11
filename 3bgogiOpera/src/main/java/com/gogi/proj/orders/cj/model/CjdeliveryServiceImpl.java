@@ -458,6 +458,22 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 		
 		int temp = 0;
 		
+		String temps = "";
+		
+		List<OrdersVO> tempList = new ArrayList<OrdersVO>();
+		
+		for(OrdersVO orVO : orderList) {
+			if(orVO.getOrSerialSpecialNumber().equals(temps)) {
+				continue;
+				
+			}else {
+				tempList.add(orVO);
+				temps = orVO.getOrSerialSpecialNumber();
+			}
+		}
+
+		orderList = tempList;
+		
 		for(OrdersVO orVO : orderList) {
 			
 			List<OrdersVO> orList = cjDao.selectOrdersPkByOrSerialSpecialNumberForGrantCjInvoiceNum(orVO.getOrSerialSpecialNumber());

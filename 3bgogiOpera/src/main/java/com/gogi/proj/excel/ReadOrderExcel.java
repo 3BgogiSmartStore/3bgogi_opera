@@ -35,6 +35,7 @@ import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.util.EmptyCheckUtil;
 import com.gogi.proj.util.FileuploadUtil;
 import com.gogi.proj.util.PhoneNumberUtil;
+import com.gogi.proj.util.StringUtil;
 
 @Component
 public class ReadOrderExcel {
@@ -46,6 +47,9 @@ public class ReadOrderExcel {
 	
 	@Autowired
 	private FileuploadUtil fileUtil;
+	
+	@Autowired
+	private StringUtil stringUtil;
 	
 	public List<OrdersVO> readOrderExcelDataToXLS(String fileName, int ssFk, boolean sendingDeadlineFlag) throws POIXMLException{
 		
@@ -179,6 +183,8 @@ public class ReadOrderExcel {
 		                                value=cell.getErrorCellValue()+"";
 		                                break;
 		                            }
+			            			
+			            			value = stringUtil.mysqlSafe(value);
 			            			
 			            			int firstIndex = value.lastIndexOf("[");
 			            			int lastIndex = value.lastIndexOf("]");

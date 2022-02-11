@@ -211,4 +211,16 @@ public interface OrderConfigDAO {
 	 */
 	public int selectOrdersDeleteListCounting(OrderSearchVO osVO);
 	
+	
+	/**
+	 * 
+	 * @MethodName : addTempSendingDeadline
+	 * @date : 2022. 2. 10.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @return
+	 * @메소드설명 : 임시 발송일 추가하기
+	 */
+	public int addTempSendingDeadline(OrderSearchVO osVO);
+	
 }

@@ -205,6 +205,12 @@
 									                    		selected="selected"
 									                    	</c:if>
 									                    >주문 발송기한 기준</option>
+									                    <option value="or_temp_sending_deadline"
+									                    	<c:if test="${osVO.dateType == 'or_temp_sending_deadline' }">
+									                    		selected="selected"
+									                    	</c:if>
+									                    >주문 임시 발송 기준</option>
+									                    
 								                    </select>
 			                        			</div>
 			                        			<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -1001,6 +1007,7 @@
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="addProductButton"> 상품추가 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="aligoSmsBtn"> 문자 보내기 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="changeSendingDeadlineBtn"> 발송일 변경 </button>
+	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="addTempSendingDeadlineBtn"> 임시 발송일 지정 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="combineOrderButton"> 주문서 합치기 및 정보변경</button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="pickUpServiceBtn"> 수령방식변경 </button>
 	                                		<button class="btn btn-primary btn-xs mb-2" type="button" id="absDelivConpanyBtn"> 택배사 고정 </button>
@@ -1076,6 +1083,12 @@
 				                                                	</c:if>
 				                                                	<c:if test="${!empty orderlist.orSendingDeadline }">
 				                                                		<fmt:formatDate value="${orderlist.orSendingDeadline }" pattern="yyyy-MM-dd"/>
+				                                                	</c:if>
+				                                                	<c:if test="${!empty orderlist.orTempSendingDeadline }">
+				                                                		<br>
+				                                                		<span class="text-danger">
+				                                                			(임시 : ${orderlist.orTempSendingDeadline })
+				                                                		</span>
 				                                                	</c:if>
 				                                                </td>
 				                                                <td>
