@@ -1169,7 +1169,7 @@
 			or_shipping_address_number = #{orShippingAddressNumber},
 			or_sending_Deadline = #{orSendingDeadline},
 			or_regdate = #{orRegdate},
-			or_temp_sending_deadline = #{orTempSendingDeadline}
+			or_temp_sending_deadline = #{orTempSendingDeadline},
 			or_sending_day = null
 		WHERE
 			or_pk = #{orPk}
