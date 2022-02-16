@@ -458,8 +458,6 @@ public class OrdersController {
 			for(int i = 0; i < osVO.getCreateInvoiceNumList().size(); i++) {
 				String [] invoiceList = osVO.getCreateInvoiceNumList().get(i).split("/");
 				
-				System.out.println("osVO.getCreateInvoiceNumList().get(i) = "+osVO.getCreateInvoiceNumList().get(i));
-				
 				insVO = new InvoiceNumSearchVO(Integer.parseInt(invoiceList[0]),Integer.parseInt(invoiceList[1]),invoiceList[2]);
 				
 				insVOList.add(insVO);
@@ -547,6 +545,25 @@ public class OrdersController {
 				searchLists.add(searchList[i]);
 			}
 			osVO.setSearchKeywordList(searchLists);
+		}
+		
+		if(osVO.getCreateInvoiceNumList() != null && osVO.getCreateInvoiceNumList().size() > 0) {
+			InvoiceNumSearchVO insVO;
+			
+			List<InvoiceNumSearchVO> insVOList = new ArrayList<InvoiceNumSearchVO>();
+			
+			for(int i = 0; i < osVO.getCreateInvoiceNumList().size(); i++) {
+				String [] invoiceList = osVO.getCreateInvoiceNumList().get(i).split("/");
+				
+				insVO = new InvoiceNumSearchVO(Integer.parseInt(invoiceList[0]),Integer.parseInt(invoiceList[1]),invoiceList[2]);
+				
+				insVOList.add(insVO);
+				
+			}
+			
+			osVO.setInsVOList(insVOList);
+			
+			
 		}
 		
 		int totalRecord = ordersService.newSearchCustomerOrderInfoCounting(osVO);
