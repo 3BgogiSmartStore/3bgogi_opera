@@ -60,6 +60,7 @@ public class OrderSearchVO {
 	private int ssPk; //스토어 고유값 넣어주기
 	private List<String> ssPkList; //스토어 고유값
 	private String ssList;
+	private List<InvoiceNumSearchVO> insVOList;
 	
 	private List<String> cfPkList;
 	private String cfList;
@@ -91,6 +92,14 @@ public class OrderSearchVO {
 	private String exSerachKeyword; //제외 검색어
 	private List<String> exSearchKeywordList; //제외 검색어 리스트값
 	
+	public List<InvoiceNumSearchVO> getInsVOList() {
+		return insVOList;
+	}
+
+	public void setInsVOList(List<InvoiceNumSearchVO> insVOList) {
+		this.insVOList = insVOList;
+	}
+
 	public int getFreebieFlag() {
 		return freebieFlag;
 	}

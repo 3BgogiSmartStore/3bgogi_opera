@@ -216,6 +216,50 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card">
+                                    <h5 class="card-header"> 최소 보유치 이하로 내려간 상품 재고 목록 </h5>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" style="table-layout: fixed; word-break: keep-all;">
+                                            	<colgroup>
+													<col width="150px" />
+													<col width="150px" />
+													<col width="50px" />
+													<col width="50px" />
+												</colgroup>
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0"> 상품명 </th>
+                                                        <th class="border-0"> 옵션명 </th>
+                                                        <th class="border-0"> 재고 개수 </th>
+                                                        <th class="border-0"> 권장 보유량 </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                	<c:if test="${empty productOptionList}">
+                                                		<tr>
+                                                			<td colspan="4"> 권장 보유량 이하로 내려간 상품이 없습니다 </td>
+                                                		</tr>
+                                                	</c:if>
+                                                	
+                                                	<c:if test="${!empty productOptionList}">
+														<c:forEach var="productOptionlist" items="${productOptionList }">														
+		                                                    <tr>
+		                                                        <td>${productOptionlist.productName }</td>
+		                                                        <td>${productOptionlist.optionName }</td>
+		                                                        <td>${productOptionlist.optionStock }</td>
+		                                                        <td>${productOptionlist.optionStockMaxAlarm }</td>
+		                                                    </tr>
+														</c:forEach>                                                		
+                                                	</c:if>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
                                     <h5 class="card-header"> 입고된 상품 내역 </h5>
@@ -274,6 +318,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>

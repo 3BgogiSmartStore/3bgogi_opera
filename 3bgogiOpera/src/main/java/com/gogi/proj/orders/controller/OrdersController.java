@@ -54,6 +54,7 @@ import com.gogi.proj.orders.vo.AdminOrderRecordVO;
 import com.gogi.proj.orders.vo.IrregularOrderVO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
+import com.gogi.proj.paging.InvoiceNumSearchVO;
 import com.gogi.proj.paging.OrderSearchVO;
 import com.gogi.proj.security.AdminVO;
 import com.gogi.proj.stock.model.StockService;
@@ -447,6 +448,27 @@ public class OrdersController {
 				searchLists.add(searchList[i]);
 			}
 			osVO.setSearchKeywordList(searchLists);
+		}
+		
+		if(osVO.getCreateInvoiceNumList() != null && osVO.getCreateInvoiceNumList().size() > 0) {
+			InvoiceNumSearchVO insVO;
+			
+			List<InvoiceNumSearchVO> insVOList = new ArrayList<InvoiceNumSearchVO>();
+			
+			for(int i = 0; i < osVO.getCreateInvoiceNumList().size(); i++) {
+				String [] invoiceList = osVO.getCreateInvoiceNumList().get(i).split("/");
+				
+				System.out.println("osVO.getCreateInvoiceNumList().get(i) = "+osVO.getCreateInvoiceNumList().get(i));
+				
+				insVO = new InvoiceNumSearchVO(Integer.parseInt(invoiceList[0]),Integer.parseInt(invoiceList[1]),invoiceList[2]);
+				
+				insVOList.add(insVO);
+				
+			}
+			
+			osVO.setInsVOList(insVOList);
+			
+			
 		}
 		
 		int totalRecord = ordersService.newSearchCustomerOrderInfoCounting(osVO);

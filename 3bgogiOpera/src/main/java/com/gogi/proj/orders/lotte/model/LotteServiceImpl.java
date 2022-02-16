@@ -391,7 +391,7 @@ public class LotteServiceImpl implements LotteService{
 					ohVO.setOhIp(ip);
 					ohVO.setOhAdmin(adminId);
 					ohVO.setOhRegdate(dates);
-					ohVO.setOhEndPoint("롯데택배 생성");
+					ohVO.setOhEndPoint("롯데택배 송장 생성");
 					ohVO.setOhDetail("롯데택배 택배 송장 ( "+orVO.getOrDeliveryInvoiceNumber()+" ) 입력 완료");
 					
 					result+= logService.insertOrderHistory(ohVO);

@@ -489,8 +489,8 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 					ohVO.setOhIp(ip);
 					ohVO.setOhAdmin(adminId);
 					ohVO.setOhRegdate(dates);
-					ohVO.setOhEndPoint("cj 새벽배송 생성");
-					ohVO.setOhDetail("cj 새벽배송 분류코드 ( "+orVO.getOrDeliveryInvoiceNumber()+" ) 입력 완료");
+					ohVO.setOhEndPoint("cj 새벽배송 송장 생성");
+					ohVO.setOhDetail("cj 새벽배송 택배 송장  ( "+orVO.getOrDeliveryInvoiceNumber()+" ) 입력 완료");
 					
 					result+= logService.insertOrderHistory(ohVO);
 					temp = orList.get(i).getOrPk();

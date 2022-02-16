@@ -152,10 +152,10 @@
 	
 	<sql id="commonSearch">
 		<if test="createInvoiceNumList != null and createInvoiceNumList.size != 0">
-			AND or_invoice_num_date IN
-			<foreach collection="createInvoiceNumList" item="inoviceNum" open="(" close=")" separator=",">
-				#{inoviceNum}
-			</foreach>
+			
+				<foreach collection="insVOList" item="inoviceList" open="(" close=")" separator="OR">
+					 (edt_fk = #{inoviceList.delivComp} AND or_rec_type = #{inoviceList.recType} AND or_invoice_num_date = #{inoviceList.invoiceNumDate} )
+				</foreach>
 		</if>
 		<if test="ssPk != 0">
 			AND od.ss_fk = #{ssPk}

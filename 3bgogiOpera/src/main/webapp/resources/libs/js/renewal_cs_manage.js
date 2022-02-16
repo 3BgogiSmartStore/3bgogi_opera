@@ -562,8 +562,10 @@ jQuery(document).ready(function($) {
 		var orShippingAddressDetail = $(this).data("shipping-address-detail");
 		var orShippingAddressNumber = $(this).data("shipping-address-number");
 		var orSendingDeadline = $(this).data("sending-deadline");
+		var orTempSendingDeadline = $(this).data("temp-sending-deadline");
 		var orRegdate = $(this).data("regdate");
 		
+		$("#orTempSendingDeadline").val(orTempSendingDeadline);
 		$("#orSendingDeadline").val(orSendingDeadline);
 		$("#orBuyerId").val(orBuyerId);
 		$("#orSettlementDay").val(orSettlementDay);

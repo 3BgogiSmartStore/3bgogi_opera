@@ -30,6 +30,9 @@
 		<security:intercept-url pattern="/products/*/*.do" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/options/*/*.do" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/orders/*.do" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/order/*.do" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/dashboard/*.do" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/customer_review/*.do" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/admin/attendance/admin_attendance_status.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/admin/attendance/team_info_detail.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/admin/team/team_auth.do" access="hasRole('ROLE_ADMIN')"/>

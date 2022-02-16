@@ -842,13 +842,14 @@
 									                <c:if test="${!empty invoiceNum }">
 									                	<option disabled>송장생성차수 </option>
 									                	<c:forEach var="invoiceNumList" items="${invoiceNum }">
-															<option value="${invoiceNumList.orInvoiceNumDate }"
+															<option value="${invoiceNumList.edtFk }/${invoiceNumList.orRecType }/${invoiceNumList.orInvoiceNumDate }"
 															
-																<c:if test="${!empty osVO.createInvoiceNumList }">
+																<c:if test="${!empty osVO.insVOList }">
 																
-																	<c:forEach var="invoiceNums" items="${osVO.createInvoiceNumList }">				
+																	<c:forEach var="invoiceNums" items="${osVO.insVOList }">				
 																													
-																		<c:if test="${invoiceNumList.orInvoiceNumDate  == invoiceNums }">
+																		<c:if test="${invoiceNumList.orInvoiceNumDate  == invoiceNums.invoiceNumDate and invoiceNumList.orRecType  == invoiceNums.recType and invoiceNumList.edtFk  == invoiceNums.delivComp }">
+																		
 																			selected="selected"
 																		</c:if>
 																		

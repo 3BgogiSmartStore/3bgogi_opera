@@ -105,6 +105,7 @@ body {
 													data-shipping-address-detail="${orders.orShippingAddressDetail }"
 													data-shipping-address-number="${orders.orShippingAddressNumber }"
 													data-sending-deadline="${orders.orSendingDeadline }"
+													data-temp-sending-deadline="${orders.orTempSendingDeadline }"
 													data-regdate="${orders.orRegdate }">
 													<span class="custom-control-label"></span>
 												</label>

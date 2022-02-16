@@ -1119,6 +1119,7 @@
 		    or_shipping_address_detail,
 		    or_shipping_address_number,
 		    or_sending_deadline,
+		    or_temp_sending_deadline,
 		    or_abs_deliv_type,
 		    or_regdate
 		FROM
@@ -1142,6 +1143,7 @@
 		    or_shipping_address_detail,
 		    or_shipping_address_number,
 		    or_sending_deadline,
+		    or_temp_sending_deadline,
 		    or_abs_deliv_type,
 		    or_regdate
 	</select>
@@ -1167,6 +1169,7 @@
 			or_shipping_address_number = #{orShippingAddressNumber},
 			or_sending_Deadline = #{orSendingDeadline},
 			or_regdate = #{orRegdate},
+			or_temp_sending_deadline = #{orTempSendingDeadline}
 			or_sending_day = null
 		WHERE
 			or_pk = #{orPk}
@@ -1593,13 +1596,17 @@
 				COUNT(INNE.or_serial_special_number) AS total_order_count,
 		        SUM(INNE.insert_order_count) AS or_total_excel_div,
 		        INNE.or_invoice_num_date,
-				INNE.or_delivery_company
+				INNE.or_delivery_company,
+				INNE.edt_fk,
+				INNE.or_rec_type
 			FROM(
 		        SELECT 
 					or_serial_special_number,
 		            COUNT(or_serial_special_number) AS insert_order_count,
 					or_invoice_num_date,
-					or_delivery_company
+					or_delivery_company,
+					edt_fk,
+					or_rec_type
 				FROM
 					orders
 				WHERE
@@ -1611,13 +1618,17 @@
 				GROUP BY
 					or_serial_special_number,
 					or_invoice_num_date,
-					or_delivery_company
+					or_delivery_company,
+					edt_fk,
+					or_rec_type
 				ORDER BY
 					or_invoice_num_date ASC
 				) INNE
 			GROUP BY
 				INNE.or_invoice_num_date,
-				INNE.or_delivery_company
+				INNE.or_delivery_company,
+				INNE.edt_fk,
+				INNE.or_rec_type
 	</select>
 	
 	<select id="selectBuyerAddrInfo" parameterType="OrdersVO" resultType="OrdersVO">
