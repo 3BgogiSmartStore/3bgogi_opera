@@ -84,9 +84,6 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
         	if(addr.split(" ")[0].contains("서울") ) {
     			return true;
     			
-    		}else if(addr.contains("시흥시")) {
-    			return true;
-    			
     		}else if(addr.contains("수원시")) {
     			return true;
     			

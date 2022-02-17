@@ -39,6 +39,7 @@ public enum CjDetailDeliveryAreaCheck {
 	YEONGTONGGU("영통구", Arrays.asList("광교동")),
 	GIGEUNGGU("기흥구", Arrays.asList("기흥동","서농동","구성동")),
 	UIJEONGBUSI("의정부시", Arrays.asList("송산동","자금동","흥선동")),
+	SIHEUNGSI("시흥시", Arrays.asList("방산동","포동", "미산동", "안현동", "매화동", "도창동", "금이동", "과림동", "계수동", "화정동", "하중동", "하상동", "광석동", "물왕동", "논곡동", "거모동", "군자동", "죽율동", "무지내동", "배곧동", "신현동", "정왕본동", "연성동")),
 	UIWANGSI("의왕시", Arrays.asList("삼동"));
 	
 	private String areas;
