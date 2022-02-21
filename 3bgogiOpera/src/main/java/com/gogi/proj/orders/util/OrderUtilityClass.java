@@ -93,7 +93,6 @@ public class OrderUtilityClass {
 				//복수 매칭 나누기로 인한 추가 주문서
 				}else {
 					divOd.setOrProductOrderNumber("삼-"+ordersVO.getOrProductOrderNumber());
-					divOd.setOrReceiverName(divOd.getOrReceiverName()+"("+i+")");
 					divOd.setOrProduct(matchingProducts.get(i).getProductName());
 					divOd.setOrProductOption(matchingProducts.get(i).getOptionName());
 					divOd.setOrProductPrice(0);

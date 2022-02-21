@@ -846,8 +846,13 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		            }else {
 		            	orderVO.setSsFk(ssFk);
 		            	
+		            	//구매자명
 		            	if(columnindex==sortingVO.getSedsBuyerName()) {
-		            		orderVO.setOrBuyerName(cell.getStringCellValue());
+		            		String value = cell.getStringCellValue();
+		            		
+		            		value = stringUtil.mysqlSafe(value);
+		            		
+		            		orderVO.setOrBuyerName(value);
 		            		//구매자ID		
 		            	}if(columnindex==sortingVO.getSedsBuyerId()) {
 		            		
@@ -873,7 +878,12 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		            		orderVO.setOrBuyerId(value);
 		            		//수취인명	
 		            	}if(columnindex==sortingVO.getSedsReceiverName()) {
-		            		orderVO.setOrReceiverName(cell.getStringCellValue());
+		            		
+		            		String value = cell.getStringCellValue();
+		            		
+		            		value = stringUtil.mysqlSafe(value);
+		            		
+		            		orderVO.setOrReceiverName(value);
 		            		//상품명
 		            	}if(columnindex==sortingVO.getSedsProduct()) {
 		            		orderVO.setOrProduct(cell.getStringCellValue());
@@ -911,7 +921,12 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		            			orderVO.setOrProductOption("단일상품");
 		            			
 		            		}else {
-		            			orderVO.setOrProductOption(cell.getStringCellValue());
+		            			
+		            			String value = cell.getStringCellValue();
+			            		
+			            		value = stringUtil.mysqlSafe(value);
+			            		
+		            			orderVO.setOrProductOption(value);
 		            			
 		            		}
 		            		
@@ -1208,11 +1223,14 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		            		
 		            		String value = cellTypeReturn(cell);
 		            		
+		            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
+		            		
 		            		orderVO.setOrReceiverContractNumber1(value);
 		            		//수취인 연락처 2
 		            	}if(columnindex==sortingVO.getSedsReceiverContractNumber2()) {
 		            		String value = cellTypeReturn(cell);
 		            		
+		            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
 		            		
 		            		orderVO.setOrReceiverContractNumber2(value);
 		            		//배송지
@@ -1220,7 +1238,12 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		            		
 		            		//구매자연락처
 		            	}if(columnindex==sortingVO.getSedsBuyerContractNumber1()) {
-		            		orderVO.setOrBuyerContractNumber1(cell.getStringCellValue());
+		            		
+		            		String value = cellTypeReturn(cell);
+		            		
+		            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
+		            		
+		            		orderVO.setOrBuyerContractNumber1(value);
 		            		
 		            		//우편번호
 		            	}if(columnindex==sortingVO.getSedsShippingAddressNumber()) {
@@ -1342,6 +1365,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 		    	
 		    }
 		    orderVO.setOrRegdate(ts);
+		    if(orderVO.getOrSettlementDay() == null) orderVO.setOrSettlementDay(ts);
 		    orderVO.setOrSendingAddress("(21126) 인천광역시 계양구 효서로  388 삼형제고기");
 		    orderList.add(orderVO);
 		    orderVO = null;
@@ -2216,7 +2240,12 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            	orderVO.setSsFk(ssFk);
 					            	
 					            	if(columnindex==sortingVO.getSedsBuyerName()) {
-					            		orderVO.setOrBuyerName(cell.getStringCellValue());
+					            		
+					            		String value =cellTypeReturn(cell) + "";
+					            		
+					            		value = stringUtil.mysqlSafe(value);
+					            		
+					            		orderVO.setOrBuyerName(value);
 					            		//구매자ID		
 					            	}if(columnindex==sortingVO.getSedsBuyerId()) {
 					            		
@@ -2242,7 +2271,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		orderVO.setOrBuyerId(value);
 					            		//수취인명	
 					            	}if(columnindex==sortingVO.getSedsReceiverName()) {
-					            		orderVO.setOrReceiverName(cell.getStringCellValue());
+					            		
+					            		String value =cellTypeReturn(cell) + "";
+					            		
+					            		value = stringUtil.mysqlSafe(value);
+					            		
+					            		orderVO.setOrReceiverName(value);
+					            		
 					            		//상품명
 					            	}if(columnindex==sortingVO.getSedsProduct()) {
 					            		orderVO.setOrProduct(cell.getStringCellValue());
@@ -2585,6 +2620,8 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		
 					            		String value = cellTypeReturn(cell);
 					            		
+					            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
+					            		
 					            		orderVO.setOrReceiverContractNumber1(value);
 					            		//수취인 연락처 2
 					            	}if(columnindex==sortingVO.getSedsReceiverContractNumber2()) {
@@ -2597,7 +2634,12 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		
 					            		//구매자연락처
 					            	}if(columnindex==sortingVO.getSedsBuyerContractNumber1()) {
-					            		orderVO.setOrBuyerContractNumber1(cell.getStringCellValue());
+					            		
+					            		String value = cellTypeReturn(cell);
+					            		
+					            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
+					            		
+					            		orderVO.setOrBuyerContractNumber1(value);
 					            		
 					            		//우편번호
 					            	}if(columnindex==sortingVO.getSedsShippingAddressNumber()) {
@@ -2735,6 +2777,7 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					    	
 					    }
 					    orderVO.setOrRegdate(ts);
+					    if(orderVO.getOrSettlementDay() == null) orderVO.setOrSettlementDay(ts);
 					    orderVO.setOrSendingAddress("(21126) 인천광역시 계양구 효서로  388 삼형제고기");
 					    orderList.add(orderVO);
 					    orderVO = null;
@@ -2776,7 +2819,16 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            	orderVO.setSsFk(ssFk);
 				            	
 				            	if(columnindex==sortingVO.getSedsBuyerName()) {
-				            		orderVO.setOrBuyerName(cell.getStringCellValue());
+				            		
+				            		String value = cellTypeReturnHSS(cell) + "";
+				            		
+				            		
+				            		value = stringUtil.mysqlSafe(value);
+				            		
+				            		System.out.println("value = "+value);
+				            		
+				            		orderVO.setOrBuyerName(value);
+				            		
 				            		//구매자ID		
 				            	}if(columnindex==sortingVO.getSedsBuyerId()) {
 				            		
@@ -2802,7 +2854,12 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            		orderVO.setOrBuyerId(value);
 				            		//수취인명	
 				            	}if(columnindex==sortingVO.getSedsReceiverName()) {
-				            		orderVO.setOrReceiverName(cell.getStringCellValue());
+				            		
+				            		String value = cellTypeReturnHSS(cell) + "";
+				            		
+				            		value = stringUtil.mysqlSafe(value);
+				            		
+				            		orderVO.setOrReceiverName(value);
 				            		//상품명
 				            	}if(columnindex==sortingVO.getSedsProduct()) {
 				            		orderVO.setOrProduct(cell.getStringCellValue());
@@ -3146,11 +3203,14 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            		
 				            		String value = cellTypeReturnHSS(cell);
 				            		
+				            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
+				            		
 				            		orderVO.setOrReceiverContractNumber1(value);
 				            		//수취인 연락처 2
 				            	}if(columnindex==sortingVO.getSedsReceiverContractNumber2()) {
 				            		String value = cellTypeReturnHSS(cell);
 				            		
+				            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
 				            		
 				            		orderVO.setOrReceiverContractNumber2(value);
 				            		//배송지
@@ -3158,7 +3218,12 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            		
 				            		//구매자연락처
 				            	}if(columnindex==sortingVO.getSedsBuyerContractNumber1()) {
-				            		orderVO.setOrBuyerContractNumber1(cell.getStringCellValue());
+				            		
+				            		String value = cellTypeReturnHSS(cell);
+				            		
+				            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
+				            		
+				            		orderVO.setOrBuyerContractNumber1(value);
 				            		
 				            		//우편번호
 				            	}if(columnindex==sortingVO.getSedsShippingAddressNumber()) {
@@ -3275,6 +3340,7 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				    	
 				    }
 				    orderVO.setOrRegdate(ts);
+				    if(orderVO.getOrSettlementDay() == null) orderVO.setOrSettlementDay(ts);
 				    orderVO.setOrSendingAddress("(21126) 인천광역시 계양구 효서로  388 삼형제고기");
 				    orderList.add(orderVO);
 				    orderVO = null;
