@@ -3408,8 +3408,6 @@ public List<OrdersVO> readInvoice(String fileName, int ssFk, StoreExcelDataSorti
 				            	// 판매처별로 엑셀 열을 읽어서 씀
 				            	//구매자명
 				            
-				            	
-				            	System.out.println("getSedsOrderNumber() = " + sortingVO.getSedsOrderNumber());
 				            	if(columnindex==sortingVO.getSedsOrderNumber()) {
 				            		String value = "";
 				            		 switch (cell.getCellType()){
@@ -3431,7 +3429,7 @@ public List<OrdersVO> readInvoice(String fileName, int ssFk, StoreExcelDataSorti
 			                            }
 				            		 
 				            		orderVO.setOrOrderNumber(value);
-				            		System.out.println("orderVO.setOrOrderNumber(value) = " + orderVO.getOrOrderNumber());
+
 				            		//구매자ID		
 				            	}if(columnindex==sortingVO.getSedsProductOrderNumber()) {
 				            		

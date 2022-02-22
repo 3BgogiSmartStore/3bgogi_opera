@@ -17,25 +17,39 @@ public class PhoneNumberUtil {
 	    num = num.replaceAll("-","").replaceAll(" ", "");
 
 	    if (num.length() == 11) {
+	    	
 	        if (mask.equals("Y")) {
 	            formatNum = num.replaceAll("(\\d{3})(\\d{3,4})(\\d{4})", "$1-****-$3");
+	            
 	        }else{
 	            formatNum = num.replaceAll("(\\d{3})(\\d{3,4})(\\d{4})", "$1-$2-$3");
+	            
 	        }
+	        
 	    }else if(num.length()==8){
 	        formatNum = num.replaceAll("(\\d{4})(\\d{4})", "$1-$2");
+	        
+	    }else if(num.length()==12){
+	    	formatNum = num.replaceAll("(\\d{4})(\\d{4,4})(\\d{4})", "$1-$2-$3");
+	    	
 	    }else{
+	    	
 	        if(num.indexOf("02")==0){
 	            if(mask.equals("Y")){
 	                formatNum = num.replaceAll("(\\d{2})(\\d{3,4})(\\d{4})", "$1-****-$3");
+	                
 	            }else{
 	                formatNum = num.replaceAll("(\\d{2})(\\d{3,4})(\\d{4})", "$1-$2-$3");
+	                
 	            }
+	            
 	        }else{
 	            if(mask.equals("Y")){
 	                formatNum = num.replaceAll("(\\d{3})(\\d{3,4})(\\d{4})", "$1-****-$3");
+	                
 	            }else{
 	                formatNum = num.replaceAll("(\\d{3})(\\d{3,4})(\\d{4})", "$1-$2-$3");
+	                
 	            }
 	        }
 	    }

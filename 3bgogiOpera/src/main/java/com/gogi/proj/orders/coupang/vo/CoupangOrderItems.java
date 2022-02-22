@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class CoupangOrderItems {
 
-	private int vendorItemPackageId;					//미사용
+	private String vendorItemPackageId;					//미사용
 	private String vendorItemPackageName;				//미사용
-	private int productId;								//
+	private String productId;								//
 	private String vendorItemId;						//vendorItemId
 	private String vendorItemName;						//vendorItemName
 	/**
@@ -45,7 +45,7 @@ public class CoupangOrderItems {
 	 */
 	private String etcInfoValue;
 	private String [] etcInfoValues;
-	private int sellerProductId;
+	private String sellerProductId;
 	private String sellerProductName;
 	private String sellerProductItemName;
 	private String firstSellerProductItemName;
@@ -68,11 +68,11 @@ public class CoupangOrderItems {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CoupangOrderItems(int vendorItemPackageId, String vendorItemPackageName, int productId, String vendorItemId,
+	public CoupangOrderItems(String vendorItemPackageId, String vendorItemPackageName, String productId, String vendorItemId,
 			String vendorItemName, int shippingCount, int salesPrice, int orderPrice, int discountPrice,
 			int instantCouponDiscount, int downloadableCouponDiscount, int coupangDiscount,
 			String externalVendorSkuCode, String etcInfoHeader, String etcInfoValue, String[] etcInfoValues,
-			int sellerProductId, String sellerProductName, String sellerProductItemName,
+			String sellerProductId, String sellerProductName, String sellerProductItemName,
 			String firstSellerProductItemName, int cancelCount, int holdCountForCancel, String estimatedShippingDate,
 			String plannedShippingDate, String invoiceNumberUploadDate, boolean pricingBadge, boolean usedProduct,
 			String confirmDate, String deliveryChargeTypeName, boolean canceled) {
@@ -109,11 +109,11 @@ public class CoupangOrderItems {
 		this.canceled = canceled;
 	}
 
-	public int getVendorItemPackageId() {
+	public String getVendorItemPackageId() {
 		return vendorItemPackageId;
 	}
 
-	public void setVendorItemPackageId(int vendorItemPackageId) {
+	public void setVendorItemPackageId(String vendorItemPackageId) {
 		this.vendorItemPackageId = vendorItemPackageId;
 	}
 
@@ -125,11 +125,11 @@ public class CoupangOrderItems {
 		this.vendorItemPackageName = vendorItemPackageName;
 	}
 
-	public int getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
@@ -237,11 +237,11 @@ public class CoupangOrderItems {
 		this.etcInfoValues = etcInfoValues;
 	}
 
-	public int getSellerProductId() {
+	public String getSellerProductId() {
 		return sellerProductId;
 	}
 
-	public void setSellerProductId(int sellerProductId) {
+	public void setSellerProductId(String sellerProductId) {
 		this.sellerProductId = sellerProductId;
 	}
 
