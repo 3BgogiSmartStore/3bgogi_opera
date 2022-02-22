@@ -1,5 +1,7 @@
 package com.gogi.proj.orders.coupang.vo;
 
+import java.util.Arrays;
+
 public class CoupangResDTO {
 
 	/**
@@ -10,7 +12,7 @@ public class CoupangResDTO {
 	private int code;
 	
 	private String message;
-	private CoupangData data;
+	private CoupangData [] data;
 	private String nextToken;
 	
 	public CoupangResDTO() {
@@ -18,7 +20,7 @@ public class CoupangResDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CoupangResDTO(int code, String message, CoupangData data, String nextToken) {
+	public CoupangResDTO(int code, String message, CoupangData[] data, String nextToken) {
 		super();
 		this.code = code;
 		this.message = message;
@@ -26,20 +28,10 @@ public class CoupangResDTO {
 		this.nextToken = nextToken;
 	}
 
-	/**
-	 * 400 (요청변수확인)	Invalid vendor ID	올바른 판매자 ID(vendorId)를 입력했는지 확인합니다. 예) A00012345
-	 * 
-	 * 400 (요청변수확인)	endTime-startTime range should less than31.	조회기간이 31일 이내 인지 확인합니다.
-	 */
 	public int getCode() {
 		return code;
 	}
 
-	/**
-	 * 400 (요청변수확인)	Invalid vendor ID	올바른 판매자 ID(vendorId)를 입력했는지 확인합니다. 예) A00012345
-	 * 
-	 * 400 (요청변수확인)	endTime-startTime range should less than31.	조회기간이 31일 이내 인지 확인합니다.
-	 */
 	public void setCode(int code) {
 		this.code = code;
 	}
@@ -52,11 +44,11 @@ public class CoupangResDTO {
 		this.message = message;
 	}
 
-	public CoupangData getData() {
+	public CoupangData[] getData() {
 		return data;
 	}
 
-	public void setData(CoupangData data) {
+	public void setData(CoupangData[] data) {
 		this.data = data;
 	}
 
@@ -70,8 +62,9 @@ public class CoupangResDTO {
 
 	@Override
 	public String toString() {
-		return "CoupangResDTO [code=" + code + ", message=" + message + ", data=" + data + ", nextToken=" + nextToken
-				+ "]";
+		return "CoupangResDTO [code=" + code + ", message=" + message + ", data=" + Arrays.toString(data)
+				+ ", nextToken=" + nextToken + "]";
 	}
+
 	
 }

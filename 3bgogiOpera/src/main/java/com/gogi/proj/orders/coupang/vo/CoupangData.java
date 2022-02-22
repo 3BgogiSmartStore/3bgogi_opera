@@ -17,7 +17,7 @@ public class CoupangData {
 	private boolean splitShipping;					//분리배송여부
 	private boolean ableSplitShipping;				//분리배송가능여부
 	private CoupangReceiver receiver;				//수취인 정보
-	private CoupangOrderer [] orderItems;			//주문한 상품 정보
+	private CoupangOrderItems [] orderItems;			//주문한 상품 정보
 	private CoupangOverseaShippingInfo overseaShippingInfoDto; //해외배송정보
 	private String deliveryCompanyName;
 	private String invoiceNumber;
@@ -33,7 +33,7 @@ public class CoupangData {
 
 	public CoupangData(String shipmentBoxId, String orderId, String orderedAt, CoupangOrderer orderer, String paidAt,
 			String status, int shippingPrice, int remotePrice, boolean remoteArea, String parcelPrintMessage,
-			boolean splitShipping, boolean ableSplitShipping, CoupangReceiver receiver, CoupangOrderer[] orderItems,
+			boolean splitShipping, boolean ableSplitShipping, CoupangReceiver receiver, CoupangOrderItems[] orderItems,
 			CoupangOverseaShippingInfo overseaShippingInfoDto, String deliveryCompanyName, String invoiceNumber,
 			String inTrasitDateTime, String deliveredDate, String refer, String shipmentType) {
 		super();
@@ -164,11 +164,11 @@ public class CoupangData {
 		this.receiver = receiver;
 	}
 
-	public CoupangOrderer[] getOrderItems() {
+	public CoupangOrderItems[] getOrderItems() {
 		return orderItems;
 	}
 
-	public void setOrderItems(CoupangOrderer[] orderItems) {
+	public void setOrderItems(CoupangOrderItems[] orderItems) {
 		this.orderItems = orderItems;
 	}
 

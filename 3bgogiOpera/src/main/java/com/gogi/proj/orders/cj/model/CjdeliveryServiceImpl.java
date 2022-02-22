@@ -292,26 +292,29 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 			String doorPassTemp = "";
 			
 			for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
-				
-				if(poVO.getOptionMemo2() != null) {					
-					if(delivMsgTemp.indexOf(poVO.getOptionMemo2()) != -1 || poVO.getOptionMemo2().equals("")) {
-						continue;
+
+				if(poVO.getOptionMemo2() != null && !poVO.getOptionMemo2().equals("")) {					
+					if(delivMsgTemp.indexOf(poVO.getOptionMemo2()) != -1 ) {
+						
 					}else {
 						delivMsg+= poVO.getOptionMemo2();
 						delivMsgTemp = poVO.getOptionMemo2();
 					}
 				}
 				
-				if(poVO.getOptionMemo1() != null) {						
-					if(doorPassTemp.indexOf(poVO.getOptionMemo1()) != -1 || poVO.getOptionMemo1().equals("")) {
-						continue;
+				if(poVO.getOptionMemo1() != null && !poVO.getOptionMemo1().equals("")) {						
+					if(doorPassTemp.indexOf(poVO.getOptionMemo1()) != -1) {
+
+						
 					}else {
+
 						doorPass+= poVO.getOptionMemo1();
 						doorPassTemp = poVO.getOptionMemo1();
 					}
+				}else {
+
 				}
 
-				
 			}
 			
 			if(delivMsg.length() > 120) {				
@@ -356,7 +359,7 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
 				
 				cell = (SXSSFCell) row.createCell(5);
 				if(!doorPass.equals("")) {
-					cell.setCellValue("[ 공동현관 출입방법 : "+doorPass+" ]"+delivMsg);
+					cell.setCellValue("(현관출입 : "+doorPass+")"+delivMsg);
 					
 				}else {
 					cell.setCellValue(delivMsg);

@@ -8,7 +8,7 @@ public class CoupangOrderItems {
 	private int vendorItemPackageId;					//미사용
 	private String vendorItemPackageName;				//미사용
 	private int productId;								//
-	private int vendorItemId;							//vendorItemId
+	private String vendorItemId;						//vendorItemId
 	private String vendorItemName;						//vendorItemName
 	/**
 	 * shippingCount = 주문시 item의 구매 수량
@@ -68,7 +68,7 @@ public class CoupangOrderItems {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CoupangOrderItems(int vendorItemPackageId, String vendorItemPackageName, int productId, int vendorItemId,
+	public CoupangOrderItems(int vendorItemPackageId, String vendorItemPackageName, int productId, String vendorItemId,
 			String vendorItemName, int shippingCount, int salesPrice, int orderPrice, int discountPrice,
 			int instantCouponDiscount, int downloadableCouponDiscount, int coupangDiscount,
 			String externalVendorSkuCode, String etcInfoHeader, String etcInfoValue, String[] etcInfoValues,
@@ -133,11 +133,11 @@ public class CoupangOrderItems {
 		this.productId = productId;
 	}
 
-	public int getVendorItemId() {
+	public String getVendorItemId() {
 		return vendorItemId;
 	}
 
-	public void setVendorItemId(int vendorItemId) {
+	public void setVendorItemId(String vendorItemId) {
 		this.vendorItemId = vendorItemId;
 	}
 
