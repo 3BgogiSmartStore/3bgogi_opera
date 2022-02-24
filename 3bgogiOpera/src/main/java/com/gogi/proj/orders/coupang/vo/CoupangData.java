@@ -25,7 +25,7 @@ public class CoupangData {
 	private String deliveredDate;
 	private String refer;
 	private String shipmentType;
-	
+
 	public CoupangData() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -239,5 +239,5 @@ public class CoupangData {
 				+ ", deliveryCompanyName=" + deliveryCompanyName + ", invoiceNumber=" + invoiceNumber
 				+ ", inTrasitDateTime=" + inTrasitDateTime + ", deliveredDate=" + deliveredDate + ", refer=" + refer
 				+ ", shipmentType=" + shipmentType + "]";
-	}	
+	}
 }

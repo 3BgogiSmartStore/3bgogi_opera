@@ -130,10 +130,16 @@ public class OrdersServiceImpl implements OrdersService {
 			}
 		}
 
+		int orderNumCount = 1;
+		
 		for (OrdersVO vo : orderList) {
 
 			if (vo.getOrAbsDelivType() == 0 && ssVO.getSsDelivCompType() != 0) {
 				vo.setOrAbsDelivType(ssVO.getSsDelivCompType());
+			}
+			
+			if(vo.getSsFk() == 18) {
+				vo.setOrProductOrderNumber(vo.getOrProductOrderNumber()+"-"+orderNumCount);
 			}
 
 			vo.setOrTotalCost(vo.getOrTotalPrice() - ( vo.getOrTotalPrice() * ssVO.getSsCommission() / 100 ) );
@@ -143,6 +149,9 @@ public class OrdersServiceImpl implements OrdersService {
 				count++;
 			else if (result == 0)
 				dupliCount++;
+			
+			orderNumCount++;
+			
 		}
 
 		int specialNumber = ssVO.getSsSpecialNumberCount();

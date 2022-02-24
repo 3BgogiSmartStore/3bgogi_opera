@@ -2338,13 +2338,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		
 					            		//상품주문번호
 					            	}if(columnindex==sortingVO.getSedsProductOrderNumber()) {
-					            		String value = cellTypeReturn(cell);
+					            		String value = cell.getStringCellValue()+"";
 					            		
 					            		orderVO.setOrProductOrderNumber(value);
 					            		//주문번호
 					            	}if(columnindex==sortingVO.getSedsOrderNumber()) {
 					            		
-					            		String value = cellTypeReturn(cell);
+					            		String value = cell.getStringCellValue()+"";
 					            		 
 					            		orderVO.setOrOrderNumber(value);
 					            		//발송일 : 다운로드 받은 시간이 나옴 보류해야됌
@@ -2920,13 +2920,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            		
 				            		//상품주문번호
 				            	}if(columnindex==sortingVO.getSedsProductOrderNumber()) {
-				            		String value = cellTypeReturnHSS(cell);
+				            		String value = cell.getStringCellValue()+"";
 				            		
 				            		orderVO.setOrProductOrderNumber(value);
 				            		//주문번호
 				            	}if(columnindex==sortingVO.getSedsOrderNumber()) {
 				            		
-				            		String value = cellTypeReturnHSS(cell);
+				            		String value = cell.getStringCellValue()+"";
 				            		 
 				            		orderVO.setOrOrderNumber(value);
 				            		//발송일 : 다운로드 받은 시간이 나옴 보류해야됌

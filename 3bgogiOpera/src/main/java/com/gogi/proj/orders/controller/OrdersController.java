@@ -48,6 +48,7 @@ import com.gogi.proj.orders.config.model.StoreExcelDataSortingService;
 import com.gogi.proj.orders.config.vo.ReqFilterKeywordVO;
 import com.gogi.proj.orders.config.vo.StoreCancleExcelDataSortingVO;
 import com.gogi.proj.orders.config.vo.StoreExcelDataSortingVO;
+import com.gogi.proj.orders.coupang.util.CoupangConnectUtil;
 import com.gogi.proj.orders.lotte.model.LotteService;
 import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.AdminOrderRecordVO;
@@ -113,6 +114,9 @@ public class OrdersController {
 	@Autowired
 	private EpostSendingUtil esu;
 	
+	@Autowired
+	private CoupangConnectUtil coupangConnectUtil;
+	
 	private final int PROCESS_ORDER_INSERT = 1;
 	private final int PROCESS_PRODUCT_MATCHING = 2;
 	private final int PROCESS_OPTION_MATCHING = 3;
@@ -157,7 +161,7 @@ public class OrdersController {
 		
 		String fileName = "";
 		
-		if(sedsVO.getSsFk() != 14) {
+		if(sedsVO.getSsFk() != 14 && sedsVO.getSsFk() != 5) {
 			
 			try {
 				
@@ -192,6 +196,9 @@ public class OrdersController {
 				
 			}else if(sedsVO.getSsFk() == 14) {
 				orderList = gm.getGodomallOrders(sedsVO.getSsFk());
+
+			}else if(sedsVO.getSsFk() == 5) {
+				orderList = coupangConnectUtil.getCoupangOrderList();
 
 			}else {
 				orderList = readOrderExcel.readOrderExcelData(fileName, sedsVO.getSsFk(), sedsData, sendingDeadlineFlag);

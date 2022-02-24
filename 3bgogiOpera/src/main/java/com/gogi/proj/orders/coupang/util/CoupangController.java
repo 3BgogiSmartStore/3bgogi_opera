@@ -13,7 +13,7 @@ public class CoupangController {
 	@RequestMapping(value="/coupnag/test.do")
 	public String coupangTestConnect() {
 		
-		ccUtil.getCoupangAuthKey("2022-02-14", "2022-02-22");
+		ccUtil.getCoupangOrderList();
 		
 		return "test/coupang_test";
 	}
