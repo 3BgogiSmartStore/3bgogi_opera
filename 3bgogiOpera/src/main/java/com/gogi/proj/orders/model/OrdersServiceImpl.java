@@ -138,7 +138,7 @@ public class OrdersServiceImpl implements OrdersService {
 				vo.setOrAbsDelivType(ssVO.getSsDelivCompType());
 			}
 			
-			if(vo.getSsFk() == 18) {
+			if(vo.getSsFk() == 19) {
 				vo.setOrProductOrderNumber(vo.getOrProductOrderNumber()+"-"+orderNumCount);
 			}
 
