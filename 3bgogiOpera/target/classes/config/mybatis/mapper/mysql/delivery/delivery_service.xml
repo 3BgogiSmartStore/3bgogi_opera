@@ -296,7 +296,8 @@
 			or_delivery_number,
 		    or_order_number,
 		    or_product_order_number,
-		    or_delivery_invoice_number
+		    or_delivery_invoice_number,
+		    or_delivery_company
 		FROM 
 			orders 
 		WHERE 
@@ -314,7 +315,8 @@
 			or_delivery_number,
 		    or_order_number,
 		    or_product_order_number,
-		    or_delivery_invoice_number
+		    or_delivery_invoice_number,
+		    or_delivery_company
 	</select>
 	
 	
