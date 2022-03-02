@@ -282,4 +282,10 @@ public class DeliveryServiceImpl implements DeliveryService{
 		// TODO Auto-generated method stub
 		return deliDao.selectCjDeliveryInvoiceNum(osVO);
 	}
+
+	@Override
+	public List<OrdersVO> coupangAutoSendingTarget(StoreSectionVO ssVO) {
+		// TODO Auto-generated method stub
+		return deliDao.coupangAutoSendingTarget(ssVO);
+	}
 }

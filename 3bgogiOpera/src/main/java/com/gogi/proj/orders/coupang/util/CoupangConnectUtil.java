@@ -144,11 +144,10 @@ public class CoupangConnectUtil {
                 		
 						Calendar cals = Calendar.getInstance();
         				cals.setTime(new Date(yMd.parse(coupangItem.getEstimatedShippingDate()).getTime()));
-        				cals.add(Calendar.DATE, -1);
         				java.sql.Date d = new java.sql.Date(cals.getTimeInMillis());
         				
         				order.setOrSendingDeadline(d);
-        				
+        				order.setOrRegdate(new Timestamp(todays.getTime()));
         				boolean reqResult = changeOrderStatus(order);
         				
         				if(reqResult) {
@@ -287,5 +286,143 @@ public class CoupangConnectUtil {
 		
 		
 		return false;
+	}
+	
+	
+	public CoupangResponseDTO coupangOrderSending(List<OrdersVO> orderList) {
+		// params
+		String method = "POST";
+		
+		CoupangResponseDTO coupangResDTO = null;
+		
+		secretKey = apiKeyProperties.getProperty("api_key.coupang.secret_key");
+		accessKey = apiKeyProperties.getProperty("api_key.coupang.access_key");
+		userId = apiKeyProperties.getProperty("api_key.coupang.user_id");
+
+		String path = "/v2/providers/openapi/apis/api/v4/vendors/"+userId+"/orders/invoices";
+		
+		String authorization = "";
+		
+		CloseableHttpClient client = null;
+		
+		
+		/**
+		 * json 타입으로 쿠팡 주문서 가공
+		 * 
+		 */
+		
+		JSONObject json = new JSONObject();
+		
+		json.put("vendorId", userId);
+		
+		JSONArray jsonList = new JSONArray();
+		
+		JSONObject orders;
+		
+		for(OrdersVO orVO : orderList) {
+			
+			orders = new JSONObject();
+			
+			orders.put("shipmentBoxId", orVO.getOrDeliveryNumber());
+			orders.put("orderId", orVO.getOrOrderNumber());
+			orders.put("deliveryCompanyCode", getCoupangDelivCode(orVO.getOrDeliveryCompany()));
+			orders.put("invoiceNumber", orVO.getOrDeliveryInvoiceNumber());
+			orders.put("vendorItemId", orVO.getOrProductOrderNumber());
+			orders.put("splitShipping", "false");
+			orders.put("preSplitShipped", "false");
+			orders.put("estimatedShippingDate", "");
+			
+			jsonList.add(orders);
+			
+		}
+		
+		
+		json.put("orderSheetInvoiceApplyDtos", jsonList);
+		
+		
+		try {
+			// create client
+			client = HttpClients.createDefault();
+			// build uri
+			URIBuilder uriBuilder = new URIBuilder().setPath(path).addParameter("vendorId", userId);
+
+			/********************************************************/
+			// authorize, demonstrate how to generate hmac signature here
+			authorization = Hmac.generate(method, uriBuilder.build().toString(), secretKey, accessKey);
+
+            uriBuilder.setScheme(SCHEMA).setHost(HOST).setPort(PORT);
+            HttpPut put = new HttpPut(uriBuilder.build().toString());
+            /********************************************************/
+            
+            StringEntity requestEntity = new StringEntity(json.toJSONString() , "utf-8");
+            
+            // set header, demonstarte how to use hmac signature here
+            put.addHeader("Authorization", authorization);
+            
+            /********************************************************/
+            put.addHeader("content-type", "application/json");
+            put.setEntity(requestEntity);
+            
+            CloseableHttpResponse response = null;
+            
+            try {
+                //execute get request
+                response = client.execute(put);
+                //print result
+                HttpEntity entity = response.getEntity();
+                String result = EntityUtils.toString(entity);
+
+                coupangResDTO = coupangDataAccess.stringToCoupangResponseDTO(result);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (response != null) {
+                    try {
+                        response.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+            
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			
+			if (client != null) {
+				
+				try {
+					client.close();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+					
+				}
+			}
+		}
+		
+		return coupangResDTO;
+	}
+	
+	
+	public String getCoupangDelivCode(String delivComp) {
+		
+		if(delivComp.equals("우체국택배")) {
+			return "EPOST";
+		}else if(delivComp.equals("롯데택배")) {
+			return "HYUNDAI";
+		}else if(delivComp.equals("CJ대한통운")) {
+			return "CJGLS";
+		}else if(delivComp.equals("대신택배")) {
+			return "DAESIN";
+		}else if(delivComp.equals("팀프레시")) {
+			return "TEAMFRESH";
+		}else {
+			return "DIRECT";
+		}
 	}
 }

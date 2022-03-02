@@ -47,16 +47,28 @@
     		}
     	}
     	
-    	function storeAutoSending(sendingTime, store_num){
+    	function godomallAutoSending(sendingTime, store_num){
     		ssSendingDay = $("#dateStart").val();
     		
-    		if(confirm("자동 발송처리를 하시겠습니까?")){
+    		if(confirm("고도몰 자동 발송처리를 하시겠습니까?")){
     			location.href="<c:url value='/delivery/godomall_sending.do?ssRegdate="+sendingTime+"&ssPk="+store_num+"&ssSendingDay="+ssSendingDay+"'/>";
     			
     		}else{
     			
     		}
     	}
+    	
+    	function coupangAutoSending(sendingTime, store_num){
+    		ssSendingDay = $("#dateStart").val();
+    		
+    		if(confirm("쿠팡 자동 발송처리를 하시겠습니까?")){
+    			location.href="<c:url value='/delivery/coupang_sending.do?ssRegdate="+sendingTime+"&ssPk="+store_num+"&ssSendingDay="+ssSendingDay+"'/>";
+    			
+    		}else{
+    			
+    		}
+    	}
+    	
     	//outpuDateNow
     	
     	function outpuDateNow(sendingTime, store_num){
@@ -304,18 +316,7 @@
 			                                                		<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>
 			                                                		발송취소
 			                                                		</button>
-			                                                	</c:if>
-			                                                	<c:if test="${sendinglist.orOutputDate == '2021-06-24 11:11:11.0'}">
-			                                                			24일 배송 예약건(지현기, 박소연)
-			                                                		</c:if>
-			                                                		
-			                                                		<c:if test="${sendinglist.orOutputDate == '2021-06-23 11:11:11.0' && sendinglist.orUserColumn3 == 0}">
-			                                                			23일 배송 예약건(하동혁)
-			                                                		</c:if>
-			                                                		
-			                                                		
-			                                                		
-			                                                		
+			                                                	</c:if>	
 			                                                </td>
 			                                                <td>
 			                                                	<c:if test="${!empty sendinglist.orOutputDate}">
@@ -323,25 +324,19 @@
 				                                                		<button class="btn btn-outline-success" onclick="storeExcelDownload('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
 				                                                		다운로드
 				                                                		</button>
-				                                                		<button class="btn btn-outline-dark" onclick="outpuDateNow('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
-				                                                		마감기한 변경
-				                                                		</button>
-<%-- 				                                                		<button class="btn btn-outline-success" onclick="storeExcelDownload('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '22')"> --%>
-<!-- 				                                                		다운로드 -->
-<!-- 				                                                		</button> -->
 			                                                		</c:if>
-			                                                		
 			                                                		<c:if test="${sendinglist.orUserColumn3 == 1}">
-<!-- 				                                                		<button class="btn btn-outline-success" onclick="storeExcelDownload('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')"> --!>
-<!-- 				                                                		다운로드 -->
-<!-- 				                                                		</button> -->
-			                                                			<button class="btn btn-outline-danger" onclick="storeAutoSending('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
-				                                                			자동발송 
-<!-- 				                                                			storeAutoSending -->
-				                                                		</button>
-				                                                			<button class="btn btn-outline-dark" onclick="outpuDateNow('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
-				                                                		마감기한 변경
-				                                                		</button>
+			                                                			<c:if test="${sendinglist.ssFk == 5}">
+			                                                				<button class="btn btn-outline-danger" onclick="godomallAutoSending('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
+					                                                			자동발송 
+					                                                		</button>
+			                                                			</c:if>
+			                                                			<c:if test="${sendinglist.ssFk == 14}">
+			                                                				<button class="btn btn-outline-danger" onclick="coupangAutoSending('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
+					                                                			자동발송 
+					                                                		</button>
+			                                                			</c:if>
+			                                                			
 			                                                		</c:if>
 			                                                	</c:if>
 			                                                </td>

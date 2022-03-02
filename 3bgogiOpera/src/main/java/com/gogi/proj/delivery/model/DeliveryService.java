@@ -155,4 +155,18 @@ public interface DeliveryService {
 	 * @메소드설명 : 송장 생성일을 기준으로 cj 송장 정보 가져오기
 	 */
 	public List<OrdersVO> selectCjDeliveryInvoiceNum(OrderSearchVO osVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : coupangAutoSendingTarget
+	 * @date : 2022. 3. 2.
+	 * @author : Jeon KiChan
+	 * @param ssVO
+	 * @return
+	 * @메소드설명 : 쿠팡 자동 발송 대상 주문서
+	 */
+	public List<OrdersVO> coupangAutoSendingTarget(StoreSectionVO ssVO);
+	
+	
 }

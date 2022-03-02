@@ -62,6 +62,8 @@ import com.gogi.proj.delivery.vo.SendingRequestVO;
 import com.gogi.proj.excel.CellsStyle;
 import com.gogi.proj.excel.xlsxWriter;
 import com.gogi.proj.orders.autocomplete.Godomall;
+import com.gogi.proj.orders.coupang.util.CoupangConnectUtil;
+import com.gogi.proj.orders.coupang.vo.CoupangResponseDTO;
 import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.paging.OrderSearchVO;
@@ -84,6 +86,9 @@ public class DeliveryController{
 	private OrdersService ordersService;
 	
 	private CellsStyle cs = new CellsStyle();
+	
+	@Autowired
+	private CoupangConnectUtil coupangConnectUtil;
 	
 	@Autowired
 	private Godomall gm;
@@ -250,6 +255,29 @@ public class DeliveryController{
 		logger.info(result);
 		return "redirect: /delivery/store_order_sending.do";
 	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : coupangAutoSending
+	 * @date : 2022. 3. 2.
+	 * @author : Jeon KiChan
+	 * @param ssVO
+	 * @return
+	 * @메소드설명 : 쿠팡 자동 발송처리하기
+	 */
+	@RequestMapping(value="/coupang_sending.do", method=RequestMethod.GET)
+	public String coupangAutoSending(@ModelAttribute StoreSectionVO ssVO) {
+
+		List<OrdersVO> orList = deliService.coupangAutoSendingTarget(ssVO);
+		
+		CoupangResponseDTO coupangResDTO = coupangConnectUtil.coupangOrderSending(orList);
+		
+		logger.info(coupangResDTO.toString());
+		
+		return "redirect: /delivery/store_order_sending.do";
+	}
+	
 	
 	
 	/**

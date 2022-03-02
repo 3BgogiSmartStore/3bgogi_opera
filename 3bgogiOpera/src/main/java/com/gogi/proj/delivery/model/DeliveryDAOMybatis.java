@@ -182,4 +182,10 @@ public class DeliveryDAOMybatis extends SqlSessionDaoSupport implements Delivery
 		// TODO Auto-generated method stub
 		return getSqlSession().selectList(namespace+".selectCjDeliveryInvoiceNum", osVO);
 	}
+
+	@Override
+	public List<OrdersVO> coupangAutoSendingTarget(StoreSectionVO ssVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(namespace+".coupangAutoSendingTarget", ssVO);
+	}
 }
