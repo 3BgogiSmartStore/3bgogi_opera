@@ -327,12 +327,12 @@
 			                                                		</c:if>
 			                                                		<c:if test="${sendinglist.orUserColumn3 == 1}">
 			                                                			<c:if test="${sendinglist.ssFk == 5}">
-			                                                				<button class="btn btn-outline-danger" onclick="godomallAutoSending('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
+			                                                				<button class="btn btn-outline-danger" onclick="coupangAutoSending'<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
 					                                                			자동발송 
 					                                                		</button>
 			                                                			</c:if>
 			                                                			<c:if test="${sendinglist.ssFk == 14}">
-			                                                				<button class="btn btn-outline-danger" onclick="coupangAutoSending('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
+			                                                				<button class="btn btn-outline-danger" onclick="godomallAutoSending(('<fmt:formatDate value='${sendinglist.orOutputDate }' pattern='yyyy-MM-dd HH:mm:ss'/>', '${sendinglist.ssFk }')">
 					                                                			자동발송 
 					                                                		</button>
 			                                                			</c:if>
