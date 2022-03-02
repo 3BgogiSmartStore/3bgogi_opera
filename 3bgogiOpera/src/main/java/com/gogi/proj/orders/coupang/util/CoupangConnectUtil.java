@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
@@ -351,23 +352,23 @@ public class CoupangConnectUtil {
 			authorization = Hmac.generate(method, uriBuilder.build().toString(), secretKey, accessKey);
 
             uriBuilder.setScheme(SCHEMA).setHost(HOST).setPort(PORT);
-            HttpPut put = new HttpPut(uriBuilder.build().toString());
+            HttpPost post = new HttpPost(uriBuilder.build().toString());
             /********************************************************/
             
             StringEntity requestEntity = new StringEntity(json.toJSONString() , "utf-8");
             
             // set header, demonstarte how to use hmac signature here
-            put.addHeader("Authorization", authorization);
+            post.addHeader("Authorization", authorization);
             
             /********************************************************/
-            put.addHeader("content-type", "application/json");
-            put.setEntity(requestEntity);
+            post.addHeader("content-type", "application/json");
+            post.setEntity(requestEntity);
             
             CloseableHttpResponse response = null;
             
             try {
                 //execute get request
-                response = client.execute(put);
+                response = client.execute(post);
                 //print result
                 HttpEntity entity = response.getEntity();
                 String result = EntityUtils.toString(entity);
