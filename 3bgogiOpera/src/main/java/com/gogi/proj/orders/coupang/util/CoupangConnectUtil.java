@@ -409,7 +409,7 @@ public class CoupangConnectUtil {
 	}
 	
 	
-	public String getCoupangDelivCode(String delivComp) {
+	private String getCoupangDelivCode(String delivComp) {
 		
 		if(delivComp.equals("우체국택배")) {
 			return "EPOST";

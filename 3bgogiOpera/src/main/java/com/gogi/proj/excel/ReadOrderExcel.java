@@ -2344,7 +2344,25 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		//주문번호
 					            	}if(columnindex==sortingVO.getSedsOrderNumber()) {
 					            		
-					            		String value = cell.getStringCellValue()+"";
+					            		String value = "";
+					            		
+					            		 switch (cell.getCellType()){
+				                            case HSSFCell.CELL_TYPE_FORMULA:
+				                                value=cell.getCellFormula();
+				                                break;
+				                            case HSSFCell.CELL_TYPE_NUMERIC:
+				                                value=(cell.getNumericCellValue())+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_STRING:
+				                                value=cell.getStringCellValue()+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_BLANK:
+				                                value=cell.getBooleanCellValue()+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_ERROR:
+				                                value=cell.getErrorCellValue()+"";
+				                                break;
+				                            }
 					            		 
 					            		orderVO.setOrOrderNumber(value);
 					            		//발송일 : 다운로드 받은 시간이 나옴 보류해야됌
