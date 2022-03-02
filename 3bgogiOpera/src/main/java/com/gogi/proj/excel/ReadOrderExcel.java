@@ -2338,7 +2338,25 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		
 					            		//상품주문번호
 					            	}if(columnindex==sortingVO.getSedsProductOrderNumber()) {
-					            		String value = cell.getStringCellValue()+"";
+					            		String value = "";
+					            		
+					            		 switch (cell.getCellType()){
+				                            case HSSFCell.CELL_TYPE_FORMULA:
+				                                value=cell.getCellFormula();
+				                                break;
+				                            case HSSFCell.CELL_TYPE_NUMERIC:
+				                                value=(cell.getNumericCellValue())+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_STRING:
+				                                value=cell.getStringCellValue()+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_BLANK:
+				                                value=cell.getBooleanCellValue()+"";
+				                                break;
+				                            case HSSFCell.CELL_TYPE_ERROR:
+				                                value=cell.getErrorCellValue()+"";
+				                                break;
+				                            }
 					            		
 					            		orderVO.setOrProductOrderNumber(value);
 					            		//주문번호
