@@ -58,7 +58,7 @@
 		    INNER JOIN orders od ON ss.ss_pk = od.ss_fk
 		WHERE
 			<![CDATA[
-				od.or_regdate >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 MONTH), '%Y-%m-%d')
+				od.or_regdate >= DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 MONTH), '%Y-%m-%d')
 			]]>
 		GROUP BY
 			ss.ss_pk,

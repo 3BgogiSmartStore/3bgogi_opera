@@ -1,5 +1,6 @@
 package com.gogi.proj.orders.config.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,21 @@ public class StoreExcelDataSortingServiceImpl implements StoreExcelDataSortingSe
 		}
 		
 		return updateResult;
+	}
+
+	@Override
+	public List<OrdersVO> coupangCanceledOrderSearch(List<OrdersVO> orderList) {
+		// TODO Auto-generated method stub
+		List<OrdersVO> canceledOrderList = new ArrayList<OrdersVO>();
+		
+		for(OrdersVO orVO : orderList) {
+			
+			OrdersVO canceledOrder = sedsDao.coupangCanceledOrderSearch(orVO);
+			
+			canceledOrderList.add(canceledOrder);
+		}
+		
+		return canceledOrderList;
 	}
 	
 }

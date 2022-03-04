@@ -1438,7 +1438,7 @@ public class OrdersController {
 		
 		boolean cancleCheckFlag = true;
 		
-		if(ssVO.getSsPk() != 14) {
+		if(ssVO.getSsPk() != 14 && ssVO.getSsPk() != 5) {
 			
 			try {
 				
@@ -1465,12 +1465,7 @@ public class OrdersController {
 		orVO.setSsName(ssVO.getSsPk()+"");
 		
 		List<OrdersVO> cancledOrderList = null;
-		if(ssVO.getSsPk() != 14) {
-			List<OrdersVO> orList = readOrderExcel.cancledExcelFile(fileName, scedsVO);
-			orVO.setOrVoList(orList);
-			cancledOrderList = sedsService.cancledOrderSearch(orVO);
-			
-		}else {
+		if(ssVO.getSsPk() == 14) {
 			OrdersVOList orList = gm.getGodomallCancledOrders(ssVO.getSsPk());
 			
 			if(orList.getOrVoList().size() != 0) {				
@@ -1478,6 +1473,18 @@ public class OrdersController {
 				orList.setSsName(ssVO.getSsPk()+"");
 				cancledOrderList = sedsService.cancledOrderSearch(orList);
 			}
+			
+		}else if(ssVO.getSsPk() == 5){
+			
+			List<OrdersVO> coupangCanceledOrder =  coupangConnectUtil.getCoupangCanceledOrderList();
+			
+			cancledOrderList = sedsService.coupangCanceledOrderSearch(coupangCanceledOrder);
+			
+		}else {
+			List<OrdersVO> orList = readOrderExcel.cancledExcelFile(fileName, scedsVO);
+			orVO.setOrVoList(orList);
+			cancledOrderList = sedsService.cancledOrderSearch(orVO);
+			
 		}
 		
 

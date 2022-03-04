@@ -47,7 +47,7 @@
 			orders
 		WHERE
 			<![CDATA[
-				or_regdate >=  DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -50 DAY), '%Y-%m-%d')
+				or_regdate >=  DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -30 DAY), '%Y-%m-%d')
 			]]>
 			AND or_cancled_flag = 0
 			AND ss_fk = #{ssName}
@@ -65,6 +65,31 @@
 		WHERE
 			or_pk = #{orPk}
 	</update>
+	
+	<select id="coupangCanceledOrderSearch" parameterType="OrdersVO" resultType="OrdersVO">
+		SELECT
+			or_pk,
+			or_serial_special_number,
+			or_buyer_name,
+			or_buyer_contract_number1,
+			or_receiver_name,
+			or_receiver_contract_number1,
+			or_shipping_address,
+			or_shipping_address_detail,
+			or_product,
+			or_product_option,
+			or_amount
+		FROM
+			orders
+		WHERE
+			<![CDATA[
+				or_regdate >=  DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -30 DAY), '%Y-%m-%d')
+			]]>
+			AND or_cancled_flag = 0
+			AND ss_fk = 5
+			AND or_product_order_number = #{orProductOrderNumber}
+			AND or_order_number = #{orOrderNumber}
+	</select>
 </mapper>
 
 

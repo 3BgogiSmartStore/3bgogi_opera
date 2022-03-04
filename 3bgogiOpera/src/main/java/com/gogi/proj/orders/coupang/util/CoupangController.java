@@ -13,7 +13,7 @@ public class CoupangController {
 	@RequestMapping(value="/coupnag/test.do")
 	public String coupangTestConnect() {
 		
-		ccUtil.getCoupangOrderList();
+		ccUtil.getCoupangCanceledOrderList();
 		
 		return "test/coupang_test";
 	}

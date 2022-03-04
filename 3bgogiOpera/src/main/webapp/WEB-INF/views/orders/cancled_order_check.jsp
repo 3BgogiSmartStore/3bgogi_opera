@@ -18,7 +18,7 @@
     		});
     		
     		$("#ssPk").change(function(){
-    			if($(this).val() == 14){
+    			if($(this).val() == 14 || $(this).val() == 5){
     				$("#smartstore").hide();
     				$("#autoStore").show();
     				

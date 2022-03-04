@@ -64,4 +64,10 @@ public class StoreExcelDataSortingDAOMybatis extends SqlSessionDaoSupport implem
 		// TODO Auto-generated method stub
 		return getSqlSession().update(cancleNamespace+".updateCancledOrder", orVO);
 	}
+
+	@Override
+	public OrdersVO coupangCanceledOrderSearch(OrdersVO orVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectOne(cancleNamespace+".coupangCanceledOrderSearch", orVO);
+	}
 }

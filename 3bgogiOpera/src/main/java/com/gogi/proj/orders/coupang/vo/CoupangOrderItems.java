@@ -62,20 +62,25 @@ public class CoupangOrderItems {
 	private String confirmDate;
 	private String deliveryChargeTypeName;
 	private boolean canceled;
+	private String releaseStatus;
+	private String cancelCompleteUser;
+	private int purchaseCount;
+	private String shipmentBoxId;
 	
 	public CoupangOrderItems() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public CoupangOrderItems(String vendorItemPackageId, String vendorItemPackageName, String productId, String vendorItemId,
-			String vendorItemName, int shippingCount, int salesPrice, int orderPrice, int discountPrice,
-			int instantCouponDiscount, int downloadableCouponDiscount, int coupangDiscount,
+	public CoupangOrderItems(String vendorItemPackageId, String vendorItemPackageName, String productId,
+			String vendorItemId, String vendorItemName, int shippingCount, int salesPrice, int orderPrice,
+			int discountPrice, int instantCouponDiscount, int downloadableCouponDiscount, int coupangDiscount,
 			String externalVendorSkuCode, String etcInfoHeader, String etcInfoValue, String[] etcInfoValues,
 			String sellerProductId, String sellerProductName, String sellerProductItemName,
 			String firstSellerProductItemName, int cancelCount, int holdCountForCancel, String estimatedShippingDate,
 			String plannedShippingDate, String invoiceNumberUploadDate, boolean pricingBadge, boolean usedProduct,
-			String confirmDate, String deliveryChargeTypeName, boolean canceled) {
+			String confirmDate, String deliveryChargeTypeName, boolean canceled, String releaseStatus,
+			String cancelCompleteUser, int purchaseCount, String shipmentBoxId) {
 		super();
 		this.vendorItemPackageId = vendorItemPackageId;
 		this.vendorItemPackageName = vendorItemPackageName;
@@ -107,6 +112,10 @@ public class CoupangOrderItems {
 		this.confirmDate = confirmDate;
 		this.deliveryChargeTypeName = deliveryChargeTypeName;
 		this.canceled = canceled;
+		this.releaseStatus = releaseStatus;
+		this.cancelCompleteUser = cancelCompleteUser;
+		this.purchaseCount = purchaseCount;
+		this.shipmentBoxId = shipmentBoxId;
 	}
 
 	public String getVendorItemPackageId() {
@@ -349,6 +358,38 @@ public class CoupangOrderItems {
 		this.canceled = canceled;
 	}
 
+	public String getReleaseStatus() {
+		return releaseStatus;
+	}
+
+	public void setReleaseStatus(String releaseStatus) {
+		this.releaseStatus = releaseStatus;
+	}
+
+	public String getCancelCompleteUser() {
+		return cancelCompleteUser;
+	}
+
+	public void setCancelCompleteUser(String cancelCompleteUser) {
+		this.cancelCompleteUser = cancelCompleteUser;
+	}
+
+	public int getPurchaseCount() {
+		return purchaseCount;
+	}
+
+	public void setPurchaseCount(int purchaseCount) {
+		this.purchaseCount = purchaseCount;
+	}
+
+	public String getShipmentBoxId() {
+		return shipmentBoxId;
+	}
+
+	public void setShipmentBoxId(String shipmentBoxId) {
+		this.shipmentBoxId = shipmentBoxId;
+	}
+
 	@Override
 	public String toString() {
 		return "CoupangOrderItems [vendorItemPackageId=" + vendorItemPackageId + ", vendorItemPackageName="
@@ -365,7 +406,8 @@ public class CoupangOrderItems {
 				+ ", plannedShippingDate=" + plannedShippingDate + ", invoiceNumberUploadDate="
 				+ invoiceNumberUploadDate + ", pricingBadge=" + pricingBadge + ", usedProduct=" + usedProduct
 				+ ", confirmDate=" + confirmDate + ", deliveryChargeTypeName=" + deliveryChargeTypeName + ", canceled="
-				+ canceled + "]";
+				+ canceled + ", releaseStatus=" + releaseStatus + ", cancelCompleteUser=" + cancelCompleteUser
+				+ ", purchaseCount=" + purchaseCount + ", shipmentBoxId=" + shipmentBoxId + "]";
 	}
 	
 }

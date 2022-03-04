@@ -75,4 +75,16 @@ public interface StoreExcelDataSortingDAO {
 	 * @메소드설명 : 취소 주문으로 수정 하기
 	 */
 	public int updateCancledOrder(OrdersVO orVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : coupangCanceledOrderSearch
+	 * @date : 2022. 3. 3.
+	 * @author : Jeon KiChan
+	 * @param orVO
+	 * @return
+	 * @메소드설명 : 쿠팡 취소 주문 건 가져오기
+	 */
+	public OrdersVO coupangCanceledOrderSearch(OrdersVO orVO);
 }
