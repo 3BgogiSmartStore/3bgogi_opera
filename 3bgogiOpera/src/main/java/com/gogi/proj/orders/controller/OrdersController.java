@@ -198,7 +198,7 @@ public class OrdersController {
 				orderList = gm.getGodomallOrders(sedsVO.getSsFk());
 
 			}else if(sedsVO.getSsFk() == 5) {
-				orderList = coupangConnectUtil.getCoupangOrderList();
+				orderList = coupangConnectUtil.getCoupangOrderList(sendingDeadlineFlag);
 
 			}else {
 				orderList = readOrderExcel.readOrderExcelData(fileName, sedsVO.getSsFk(), sedsData, sendingDeadlineFlag);

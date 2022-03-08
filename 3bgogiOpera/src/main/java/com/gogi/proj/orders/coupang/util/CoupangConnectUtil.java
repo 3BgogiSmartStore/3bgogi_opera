@@ -63,7 +63,7 @@ public class CoupangConnectUtil {
 	 * @return
 	 * @메소드설명 : 쿠팡 결제완료 조회 후 상품준비중으로 변경하여 주문서 긁어오기
 	 */
-	public List<OrdersVO> getCoupangOrderList() {
+	public List<OrdersVO> getCoupangOrderList(boolean sendingDeadlineFlag) {
 		// params
 		String method = "GET";
 		
@@ -158,21 +158,21 @@ public class CoupangConnectUtil {
         				cals.setTime(new Date(yMd.parse(coupangItem.getEstimatedShippingDate()).getTime()));
         				java.sql.Date d = new java.sql.Date(cals.getTimeInMillis());
         				
-        				order.setOrSendingDeadline(d);
+        				if(sendingDeadlineFlag) {
+        					order.setOrSendingDeadline(d);
+        				}else {
+        					order.setOrSendingDeadline(new java.sql.Date(todays.getTime()));
+        				}
+        				
+        				
         				order.setOrRegdate(new Timestamp(todays.getTime()));
         				boolean reqResult = changeOrderStatus(order);
-        				
-        				if(reqResult) {
-        					orderList.add(order);
-        					
-        				}
         				
                 	}
 
                 }
                 
-                if(coupangResDTO.getNextToken() != null && !coupangResDTO.getNextToken().equals(""))
-                	orderList = getCoupangOrderOverList(orderList, coupangResDTO.getNextToken());
+                
                 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -203,6 +203,8 @@ public class CoupangConnectUtil {
 				}
 			}
 		}
+		
+		orderList = getCoupangOrderOverList(orderList, sendingDeadlineFlag, "");
 		
 		return orderList;
 	}
@@ -556,7 +558,7 @@ public class CoupangConnectUtil {
 	}
 	
 	
-	public List<OrdersVO> getCoupangOrderOverList(List<OrdersVO> orderList, String nextToken) {
+	public List<OrdersVO> getCoupangOrderOverList(List<OrdersVO> orderList, boolean sendingDeadlineFlag ,String nextToken) {
 		// params
 		String method = "GET";
 
@@ -587,8 +589,15 @@ public class CoupangConnectUtil {
 			// create client
 			client = HttpClients.createDefault();
 			// build uri
-			URIBuilder uriBuilder = new URIBuilder().setPath(path).addParameter("createdAtFrom", startDate)
-					.addParameter("createdAtTo", endDate).addParameter("status", "ACCEPT").addParameter("nextToken", nextToken);
+			URIBuilder uriBuilder = null;
+			
+			if(nextToken != null && !nextToken.equals("")) {
+				uriBuilder = new URIBuilder().setPath(path).addParameter("createdAtFrom", startDate)
+						.addParameter("createdAtTo", endDate).addParameter("status", "INSTRUCT").addParameter("nextToken", nextToken);
+			}else {
+				uriBuilder = new URIBuilder().setPath(path).addParameter("createdAtFrom", startDate)
+						.addParameter("createdAtTo", endDate).addParameter("status", "INSTRUCT");
+			}
 
 			/********************************************************/
 			// authorize, demonstrate how to generate hmac signature here
@@ -649,21 +658,22 @@ public class CoupangConnectUtil {
         				cals.setTime(new Date(yMd.parse(coupangItem.getEstimatedShippingDate()).getTime()));
         				java.sql.Date d = new java.sql.Date(cals.getTimeInMillis());
         				
-        				order.setOrSendingDeadline(d);
-        				order.setOrRegdate(new Timestamp(todays.getTime()));
-        				boolean reqResult = changeOrderStatus(order);
-        				
-        				if(reqResult) {
-        					orderList.add(order);
-        					
+        				if(sendingDeadlineFlag) {
+        					order.setOrSendingDeadline(d);
+        				}else {
+        					order.setOrSendingDeadline(new java.sql.Date(todays.getTime()));
         				}
+        				
+        				order.setOrRegdate(new Timestamp(todays.getTime()));
+        				
+        				orderList.add(order);
         				
                 	}
 
                 }
                 
                 if(coupangResDTO.getNextToken() != null && !coupangResDTO.getNextToken().equals(""))
-                	orderList = getCoupangOrderOverList(orderList, coupangResDTO.getNextToken());
+                	orderList = getCoupangOrderOverList(orderList, sendingDeadlineFlag, coupangResDTO.getNextToken());
                 
             } catch (Exception e) {
                 e.printStackTrace();

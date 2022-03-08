@@ -102,6 +102,15 @@ public class CjdeliveryServiceImpl implements CjdeliveryService{
     		}else if(addr.contains("수지구")) {
     			return true;
     			
+    		}else if(addr.contains("부천시")) {
+    			return true;
+    			
+    		}else if(addr.contains("분당구")) {
+    			return true;
+    			
+    		}else if(addr.contains("의왕시")) {
+    			return true;
+    			
     		}else {        		
     			//전국 단위별 배송 가능 지역 확인
     			if( CjDeliveryArea.findDelivPosivArea(addr) == CjDeliveryArea.POSIV) {
