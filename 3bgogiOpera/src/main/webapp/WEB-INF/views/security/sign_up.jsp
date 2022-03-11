@@ -22,7 +22,6 @@
     		
     		$("#signUp").click(function(event){
     			
-    			//정규화 공식
     			var regNumber = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/;
     			
 		    	var adminId	= $("input[name=adminId]").val();
