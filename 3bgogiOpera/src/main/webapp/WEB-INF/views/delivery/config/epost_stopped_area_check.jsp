@@ -134,10 +134,13 @@
 				        
 		            </form>
 		        </div>
-			</div>
-			<c:if test="${!empty epostResultList }">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-					<div class="card">
+		        <c:if test="${!empty epostResultList }">
+		        	<div class="card">
+		        		<div class="card-header">
+		        			<h4>
+		        				발송 불가능 ${fn:length(epostResultList)} 개
+							</h4>		        	
+		        		</div>
 						<div class="card-body">   	
 				            		<table class="table table-hover">
 		                            	<thead>
@@ -166,13 +169,14 @@
 											</c:forEach>       	
 		                               </tbody>
 		                           </table>
+		                           <button class="btn btn-danger btn-block"> 발송 불가능  (${fn:length(epostResultList)} 개 ) </button>
 		                           
-		                           <button class="bnt btn-primary btn-block" name="addrCheckBtn"> 발송 체크 </button>
+		                           <button class="btn btn-primary btn-block" name="addrCheckBtn"> 발송 체크 </button>
 			            	</div>
 			            	
 					</div>
-				</div>
-			</c:if>
+		        </c:if>
+			</div>
 		</div>
 	</div>
 </body>
