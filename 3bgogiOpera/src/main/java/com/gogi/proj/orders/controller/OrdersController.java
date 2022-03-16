@@ -40,6 +40,7 @@ import com.gogi.proj.epost.api.EpostSendingUtil;
 import com.gogi.proj.epost.vo.Xsync;
 import com.gogi.proj.excel.ReadOrderExcel;
 import com.gogi.proj.excel.xlsxWriter;
+import com.gogi.proj.freshsolutions.model.FreshSolutionsService;
 import com.gogi.proj.matching.model.MatchingService;
 import com.gogi.proj.orders.autocomplete.Godomall;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
@@ -104,6 +105,9 @@ public class OrdersController {
 	
 	@Autowired
 	private LotteService lotteService;
+	
+	@Autowired
+	private FreshSolutionsService freshSolutionsService;
 	
 	@Autowired
 	private AligoSendingForm asf;
@@ -365,12 +369,17 @@ public class OrdersController {
 		List<OrdersVO> orderList= null;
 		
 		try {
-
+			// cj임
 			if(edtPk == 5) {
 				orderList = readOrderExcel.readOrderExcelDataToXLSForSmartStoreSendingData(fileName);
 				
+			// 롯데
 			}else if(edtPk == 4) {
 				orderList = readOrderExcel.readOrderExcelDataToLotteDeliv(fileName);
+				
+			//프레시솔루션
+			}else if(edtPk == 3) {
+				orderList = readOrderExcel.readOrderExcelDataToFreshSolutionsDeliv(fileName);
 				
 			}
 			
@@ -416,11 +425,22 @@ public class OrdersController {
 				
 			}
 			
-		}
-		
-		
+		}else if(edtPk == 3){
+			updateResult = freshSolutionsService.grantFreshSolutionsDeliveryInvoiceNumBySerialSpecialNumber(orderList, request.getRemoteAddr(), adminVo.getUsername());
 
-		
+			if( updateResult > 0 ) {
+				
+				int logResult = freshSolutionsService.insertOrderHistory(orderList, request.getRemoteAddr(), adminVo.getUsername()); 
+				msg = "프레시솔루션 송장 "+logResult+"장 기입 완료";
+				url = "/order/config/search_except_addr_order.do";
+				
+			}else {
+				msg = "프레시솔루션 엑셀파일로 입력된 값이 존재하지 않습니다";
+				url = "/orders/grant_deliv_invoice.do";
+				
+			}
+			
+		}
 		
 		model.addAttribute("msg", msg);
 		model.addAttribute("url", url);

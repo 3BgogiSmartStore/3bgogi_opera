@@ -41,7 +41,7 @@ public interface FreshSolutionsDAO {
 	 * @return
 	 * @메소드설명 : 프레시솔루션 송장 부여 가능 여부 체크
 	 */
-	public List<OrdersVO> selectFreshSolutionsDeliveryTargetChecking();
+	public List<OrdersVO> selectFreshSolutionsDeliveryTargetChecking(OrderSearchVO osVO);
 	
 	
 	/**

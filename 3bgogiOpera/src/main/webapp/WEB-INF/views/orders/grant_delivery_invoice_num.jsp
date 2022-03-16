@@ -56,8 +56,10 @@
                                     	<div class="form-group row">
                                             <div class="col-12 col-lg-12">
                                                 <select class="form-control" name="edtPk">
-                                                	<option value="4">롯데택배</option>
                                                 	<option value="5">cj새벽배송</option>
+                                                	<option value="3">프레시솔루션</option>
+                                                	<option value="4">롯데택배</option>
+                                                	
                                                 </select>
                                             </div>
                                         </div>

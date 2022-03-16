@@ -48,6 +48,7 @@ import com.gogi.proj.epost.model.EpostService;
 import com.gogi.proj.epost.vo.RegDataVO;
 import com.gogi.proj.epost.vo.Xsync;
 import com.gogi.proj.excel.xlsxWriter;
+import com.gogi.proj.freshsolutions.model.FreshSolutionsService;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.config.model.OrderConfigService;
 import com.gogi.proj.orders.lotte.model.LotteService;
@@ -119,6 +120,9 @@ public class EpostController {
 	
 	@Autowired
 	private LotteService lotteService;
+	
+	@Autowired
+	private FreshSolutionsService freshSolutionsService;
 
 	/*
 	 * @RequestMapping(value="/epost.do", method=RequestMethod.GET) public String
@@ -360,6 +364,76 @@ public class EpostController {
 			
 			return "delivery/not_sending_list";
 			
+			
+		}else if(orderSearchVO.getEdtFk() == 3) {
+			
+			orderSearchVO.setOrSerialSpecialNumberList(freshSolutionsService.selectFreshSolutionsDeliveryTargetChecking(orderSearchVO).getOrSerialSpecialNumberList());
+			
+			int packingIrreOrderCounting = orderConfigService.selectPackingIrreTargetOrderCounting();
+			
+			int checkingCount = 0;
+			
+			List<OrdersVOList> checkingResultList = null;
+			
+			if(orderSearchVO.getOrSerialSpecialNumberList() == null) {
+				orderSearchVO.setTotalRecord(checkingCount);
+				
+			}else {
+				checkingCount = freshSolutionsService.selectDontGrantFreshSolutionsDelivOrderListInMonthCounting(orderSearchVO);
+				
+				orderSearchVO.setTotalRecord(checkingCount);
+				
+				checkingResultList = freshSolutionsService.selectDontGrantFreshSolutionsDelivOrderListInMonth(orderSearchVO);
+			}
+			
+			List<DoorPassKeywordVO> doorList = dcService.selectAllDoorPassKeyword();
+			
+			if(checkingResultList != null ) {				
+				for( OrdersVOList buyerInfo :  checkingResultList) {
+					
+					if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+						buyerInfo.setOrDelivEnterFlag(true);
+						
+					}else {					
+						buyerInfo = dcService.doorPassCheck(buyerInfo);
+						
+						if(buyerInfo.getOrDelivEnter() != null && !buyerInfo.getOrDelivEnter().equals("")) {
+							buyerInfo.setOrDelivEnterFlag(true);
+							
+						}else {
+							
+							for( OrdersVO orderInfo : buyerInfo.getOrVoList()) {
+								
+								if(orderInfo.getOrDeliveryMessage() != null && !orderInfo.getOrDeliveryMessage().equals("")) {
+									
+									for(DoorPassKeywordVO dpk : doorList) {
+										
+										if(orderInfo.getOrDeliveryMessage().contains(dpk.getDpkWord())) {
+											buyerInfo.setOrDelivEnterFlag(true);
+											break;
+											
+										}
+										
+									}
+									
+									
+								}
+								
+							}
+						}
+						
+					}
+				}
+			}
+			
+			model.addAttribute("storeSectionList",storeSectionList);
+			model.addAttribute("insertStoreOrderList", insertStoreOrderList);
+			model.addAttribute("packingIrreOrderCounting", packingIrreOrderCounting);
+			model.addAttribute("OrderSearchVO", orderSearchVO);
+			model.addAttribute("orderList",checkingResultList);
+			model.addAttribute("edtList", edtList);
+			
+			return "delivery/not_sending_list";
 			
 		}else {			
 			int recordCounting = epostService.selectDontGrantDelivOrderListInMonthCounting(orderSearchVO);
@@ -795,8 +869,9 @@ public class EpostController {
 		return "delivery/deliv_sending_result";
 	}
 	
-	
-	@RequestMapping(value="/fresh_solution.do", method=RequestMethod.POST)
+	/*
+	 * 현재 사용하지 않는 구형 프레시솔루션 엑셀 다운로드 기능
+	 * @RequestMapping(value="/fresh_solution.do", method=RequestMethod.POST)
 	public ModelAndView freshSolutionExcelDelivFile(@ModelAttribute OrderSearchVO osVO) {
 		
 		File file = epostService.freshSolutionInfo(osVO);
@@ -806,7 +881,7 @@ public class EpostController {
 		ModelAndView mav = new ModelAndView("downloadView", fileMap);
 		
 		return mav;
-	}
+	}*/
 	
 	@RequestMapping(value="/cj_delivery.do", method=RequestMethod.POST)
 	public ModelAndView cjDeliveryExcelDelivFile(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request) {
@@ -824,6 +899,31 @@ public class EpostController {
 		return mav;
 	}
 	
+	/**
+	 * 
+	 * @MethodName : freshSolutionsDeliveryExcelDelivFile
+	 * @date : 2022. 3. 16.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param request
+	 * @return
+	 * @메소드설명 : 프레시솔루션 엑셀업로드용 파일 생성
+	 */
+	@RequestMapping(value="/fresh_solutions_delivery.do", method=RequestMethod.POST)
+	public ModelAndView freshSolutionsDeliveryExcelDelivFile(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		AdminVO adminVo = (AdminVO)auth.getPrincipal();
+
+		File file = freshSolutionsService.fFreshSolutionsDeliveryExcelInfo(osVO, request.getRemoteAddr(), adminVo.getUsername());
+
+		Map<String, Object> fileMap = new HashMap<String, Object>();
+		fileMap.put("myfile", file);
+		ModelAndView mav = new ModelAndView("downloadView", fileMap);
+		
+		return mav;
+	}
 	
 	/**
 	 * 

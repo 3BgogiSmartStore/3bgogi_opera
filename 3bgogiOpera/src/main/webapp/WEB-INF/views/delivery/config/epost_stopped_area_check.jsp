@@ -136,11 +136,6 @@
 		        </div>
 		        <c:if test="${!empty epostResultList }">
 		        	<div class="card">
-		        		<div class="card-header">
-		        			<h4>
-		        				발송 불가능 ${fn:length(epostResultList)} 개
-							</h4>		        	
-		        		</div>
 						<div class="card-body">   	
 				            		<table class="table table-hover">
 		                            	<thead>
@@ -152,6 +147,7 @@
 											</tr>
 		                                </thead>
 		                                <tbody>
+		                                	<c:set var="errorResult" value="0" />
 		                                	<c:forEach var="epostList" items="${epostResultList }">	
 		                                	<c:if test="${empty epostList.error_code }">
 		                                    	<tr>
@@ -165,11 +161,12 @@
 			                                        
 			                                        <td>${epostList.stopReason }</td>
 												</tr>  
+												<c:set var="errorResult" value="${errorResult + 1 }" />
 		                                    </c:if>
 											</c:forEach>       	
 		                               </tbody>
 		                           </table>
-		                           <button class="btn btn-danger btn-block"> 발송 불가능  (${fn:length(epostResultList)} 개 ) </button>
+		                           <button class="btn btn-danger btn-block"> 발송 불가능  (${fn:length(errorResult)} 개 ) </button>
 		                           
 		                           <button class="btn btn-primary btn-block" name="addrCheckBtn"> 발송 체크 </button>
 			            	</div>

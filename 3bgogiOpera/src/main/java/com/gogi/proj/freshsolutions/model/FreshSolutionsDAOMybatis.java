@@ -37,9 +37,9 @@ public class FreshSolutionsDAOMybatis extends SqlSessionDaoSupport implements Fr
 	}
 
 	@Override
-	public List<OrdersVO> selectFreshSolutionsDeliveryTargetChecking() {
+	public List<OrdersVO> selectFreshSolutionsDeliveryTargetChecking(OrderSearchVO osVO) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectList(namespace+".selectFreshSolutionsDeliveryTargetChecking");
+		return getSqlSession().selectList(namespace+".selectFreshSolutionsDeliveryTargetChecking", osVO);
 	}
 
 	@Override

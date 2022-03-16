@@ -63,7 +63,7 @@
 				
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="row">
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style="display: none;">
 								<c:forEach var="threeList" items="${threeMonthTotalSales }">
 									<div class="card">
 			                            <h1 class="card-header">
@@ -96,7 +96,14 @@
 		                            </div>
 		                       </div>
 							</div>
-						
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+								<div class="card">
+									<h1 class="card-header"> 클레임 개수 </h1>
+					                <div class="card-body" style="text-align: center;">
+					                	<h1 style="font-size: 170px;"> ${fn:length(reviewList) } </h1>
+					                </div>
+				                </div>
+							</div>
 						</div>
 					</div>
 					<!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -123,15 +130,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
-						<div class="card">
-							<h1 class="card-header"> 클레임 개수 </h1>
-			                <div class="card-body" style="text-align: center;">
-			                	<h1 style="font-size: 170px;"> ${fn:length(reviewList) } </h1>
-			                </div>
-		                </div>
-					</div>
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 								<div class="card">
 		                            <h5 class="card-header"> 등록된 리뷰 </h5>
 		                            <div class="card-body">
