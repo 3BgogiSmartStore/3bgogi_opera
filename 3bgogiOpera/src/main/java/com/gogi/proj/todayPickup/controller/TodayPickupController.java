@@ -16,8 +16,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -45,10 +47,16 @@ public class TodayPickupController {
 	@Autowired
 	private TodayPickupService todayPickupService;
 	
-	private String userName= "parksh";
-	private String password= "1234";
+	@Resource(name="apiKeyProperties")
+	private Properties apiKeyProperties;
+	
+	
 	
 	public String getTodayPickupAuthorizations()  throws MalformedURLException, IOException {
+		
+		String userName= apiKeyProperties.getProperty("api_key.todaypickup.user_name");
+		String password= apiKeyProperties.getProperty("api_key.todaypickup.password");
+		
 		String login = "https://mall.todaypickup.com/mall/login?username="+userName+"&password="+password;
 
 		URL obj = new URL(login);

@@ -7,7 +7,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.Resource;
@@ -51,9 +53,9 @@ public class ReadOrderExcel {
 	@Autowired
 	private StringUtil stringUtil;
 	
-	public List<OrdersVO> readOrderExcelDataToXLS(String fileName, int ssFk, boolean sendingDeadlineFlag) throws POIXMLException{
+	public Map<String, Object> readOrderExcelDataToXLS(String fileName, int ssFk, boolean sendingDeadlineFlag) throws POIXMLException, RuntimeException{
 		
-			
+		Map<String, Object> returnResult = new HashMap<>();
 		
 		List<OrdersVO> orderList = new ArrayList<OrdersVO>();
 		
@@ -318,8 +320,14 @@ public class ReadOrderExcel {
 		                                value=cell.getErrorCellValue()+"";
 		                                break;
 		                            }
-			            		 
-			            		orderVO.setOrProductOptionPrice((int)Integer.parseInt(value));
+			            		 try {
+			            			 orderVO.setOrProductOptionPrice((int)Integer.parseInt(value));
+			            			 
+			            		 }catch(NumberFormatException e) {
+			            			 // throw new RuntimeException("옵션 가격을 숫자로 수정해주세요", e);
+			            			 returnResult.put("error", "옵션 가격을 숫자로 수정해주세요");
+			            		 }
+			            		
 			            		//상품 가격
 			            	}else if(columnindex==20) {
 			            		
@@ -574,7 +582,9 @@ public class ReadOrderExcel {
 			
 		}
 		
-		return orderList;
+		returnResult.put("orderList", orderList);
+		
+		return returnResult;
 	}
 	
 	public List<OrdersVO> readOrderExcelDatatoXLSX(String fileName){
@@ -811,7 +821,7 @@ public List<OrdersVO> readOrderExcelDataToFreshSolutionsDeliv(String fileName) t
 
 			int rows=sheet.getPhysicalNumberOfRows();
 			
-			for(rowindex=2;rowindex<rows;rowindex++){
+			for(rowindex=1;rowindex<rows;rowindex++){
 
 			    XSSFRow row=sheet.getRow(rowindex);
 			    
@@ -892,7 +902,7 @@ public List<OrdersVO> readOrderExcelDataToFreshSolutionsDeliv(String fileName) t
 
 
 	
-public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelDataSortingVO sortingVO, boolean sendingDeadlineFlag) throws POIXMLException{
+public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelDataSortingVO sortingVO, boolean sendingDeadlineFlag){
 	
 	List<OrdersVO> orderList = new ArrayList<OrdersVO>();
 	
@@ -2281,13 +2291,25 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 	}
 	
 	
-public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDataSortingVO sortingVO, boolean sendingDeadlineFlag) throws POIXMLException{
+	/**
+	 * 
+	 * @MethodName : readOrderExcelData
+	 * @date : 2022. 3. 16.
+	 * @author : Jeon KiChan
+	 * @param fileName
+	 * @param ssFk
+	 * @param sortingVO
+	 * @param sendingDeadlineFlag
+	 * @return
+	 * @메소드설명 : 스토어별 엑셀 열에 맞춰 데이터 가져오기 (네이버스마트 스토어를 제외하고 현재 이것만 사용)
+	 */
+	public Map<String, Object> readOrderExcelData(String fileName, int ssFk, StoreExcelDataSortingVO sortingVO, boolean sendingDeadlineFlag){
 		
 		List<OrdersVO> orderList = new ArrayList<OrdersVO>();
 		
 		SmartstoreCommission sc = new SmartstoreCommission();
 		
-		
+		Map<String, Object> returnResult = new HashMap<>();
 		
 		Calendar cal = Calendar.getInstance();
 		
@@ -2408,7 +2430,12 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				                                break;
 				                            }
 					            		
-					            		orderVO.setOrAmount((int)Integer.parseInt(value));
+					            		 try {
+					            			 orderVO.setOrAmount((int)Integer.parseInt(value));
+					            		 }catch(NumberFormatException num) {
+					            			 returnResult.put("error", "수량에 대한 숫자 변환이 불가능합니다 셀에 숫자가 들어가 있는지 확인해주세요");
+					            		 }
+					            		
 					            		//옵션정보 : 옵션명
 					            	}if(columnindex==sortingVO.getSedsProductOption()) {
 					            		
@@ -2508,8 +2535,14 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            			if(value.length() == 16) {
 					            				value=value+":00";
 					            			}
-
-					            			orderVO.setOrSettlementDay(new Timestamp(sdf.parse(value).getTime())); 
+					            			
+					            			try {
+					            				orderVO.setOrSettlementDay(new Timestamp(sdf.parse(value).getTime())); 
+						            		 }catch(Exception e) {
+						            			 returnResult.put("error", "결제일 형식에 대한 오류가 있습니다");
+						            		 }
+					            			
+					            			
 					            		}
 					            		//상품번호 : 스마트스토어 내에서의 상품번호 ( 필요없을 것 같음 )
 					            	}if(columnindex==sortingVO.getSedsProductNumber()) {
@@ -2538,7 +2571,14 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				                            }
 					            				
 					            		 
-					            		orderVO.setOrProductOptionPrice((int)Integer.parseInt(value));
+					            		 try {
+					            			 orderVO.setOrProductOptionPrice((int)Integer.parseInt(value));
+						            		 }catch(NumberFormatException num) {
+						            			 
+						            			 returnResult.put("error", "옵션 가격을 일반 숫자로 변환해주세요");
+						            		 }
+					            		 
+					            		
 					            		//상품 가격
 					            	}if(columnindex==sortingVO.getSedsProductPrice()) {
 					            		String value = "";
@@ -2561,7 +2601,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				                                break;
 				                            }
 					            		
-					            		orderVO.setOrProductPrice((int)Integer.parseInt(value));
+					            		 try {
+					            			 orderVO.setOrProductPrice((int)Integer.parseInt(value));
+						            		 }catch(Exception e) {
+						            			 returnResult.put("error", "상품 가격을 일반 숫자로 변환해주세요");
+						            			 
+						            		 }
+					            		
 					            		//상품별 할인액
 					            	}if(columnindex==sortingVO.getSedsDiscountPrice()) {
 					            		
@@ -2589,7 +2635,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            			orderVO.setOrDiscountPrice(0);
 					            		}else {
 					            			
-					            			orderVO.setOrDiscountPrice((int)Integer.parseInt(value));
+					            			 try {
+					            				 orderVO.setOrDiscountPrice((int)Integer.parseInt(value));
+							            		 }catch(Exception e) {
+							            			 returnResult.put("error", "상품별 할인액가격을 일반 숫자로 변환해주세요");
+							            		 }
+					            			
+					            			
 					            		}
 					            		//판매자 부담 할인액
 					            	}if(columnindex==22) {
@@ -2619,7 +2671,12 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				                                break;
 				                            }
 					            		 
-					            		orderVO.setOrTotalPrice((int)Integer.parseInt(value));
+					            		 try {
+					            			 orderVO.setOrTotalPrice((int)Integer.parseInt(value));
+						            		 }catch(Exception e) {
+						            			 returnResult.put("error", "상품 총 금액을 일반 숫자로 변환해주세요");
+						            		 }
+					            		
 					            		//발주확인일 : 공백임
 					            	}if(columnindex==sortingVO.getSedsOrderCheckDay()) {
 					            		
@@ -2643,13 +2700,24 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		if(sendingDeadlineFlag == true) {
 					            			String value = cellTypeReturn(cell);
 						            		 
+					            			
 					            			if(ssFk == 14) {
-					            				Calendar cals = Calendar.getInstance();
-					            				cals.setTime(new Date(sdfWithoutTime.parse(value).getTime()));
-					            				cals.add(Calendar.DATE, -1);
-					            				orderVO.setOrSendingDeadline(new Date(cals.getTimeInMillis()));
-					            			}else {				            				
-					            				orderVO.setOrSendingDeadline(new Date(sdfWithoutTime.parse(value).getTime()));
+					            				try {
+					            					Calendar cals = Calendar.getInstance();
+						            				cals.setTime(new Date(sdfWithoutTime.parse(value).getTime()));
+						            				cals.add(Calendar.DATE, -1);
+						            				orderVO.setOrSendingDeadline(new Date(cals.getTimeInMillis()));
+						            			}catch(Exception e) {
+						            				returnResult.put("error", "상품 총 금액을 일반 숫자로 변환해주세요");
+						            			}
+					            				
+					            			}else {			
+					            				try {
+					            					orderVO.setOrSendingDeadline(new Date(sdfWithoutTime.parse(value).getTime()));
+						            			}catch(Exception e) {
+						            				returnResult.put("error", "상품 총 금액을 일반 숫자로 변환해주세요");
+						            			}
+					            				
 					            				
 					            			}
 						            		
@@ -2700,7 +2768,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				                                break;
 				                            }
 					            		 
-					            		orderVO.setOrDeliveryPrice((int)Integer.parseInt(value));
+					            		 try {
+					            			 orderVO.setOrDeliveryPrice((int)Integer.parseInt(value));
+						            		 }catch(Exception e) {
+						            			 returnResult.put("error", "배송 금액을 일반 숫자로 변환해주세요");
+
+						            		 }
+					            		
 					            		
 					            		//제주/도서 추가배송비 아직 제대로 정해지지 않음
 					            	}if(columnindex==sortingVO.getSedsDeliveryPrice()) {
@@ -2748,7 +2822,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				                                break;
 				                            }
 					            		
-					            		orderVO.setOrDeliveryDiscountPrice((int)Integer.parseInt(value));
+					            		 try {
+					            			 orderVO.setOrDeliveryDiscountPrice((int)Integer.parseInt(value));
+						            		 }catch(Exception e) {
+						            			 returnResult.put("error", "배송할인액을 일반 숫자로 변환해주세요");
+
+						            		 }
+					            		
 					            		//판매자 상품코드 : 현재 필요없어 보임
 					            	}if(columnindex== -1) {
 					            		
@@ -2759,11 +2839,14 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 					            		
 					            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
 					            		
+					            		value = stringUtil.mysqlSafe(value);
+					            		
 					            		orderVO.setOrReceiverContractNumber1(value);
 					            		//수취인 연락처 2
 					            	}if(columnindex==sortingVO.getSedsReceiverContractNumber2()) {
 					            		String value = cellTypeReturn(cell);
 					            		
+					            		value = stringUtil.mysqlSafe(value);
 					            		
 					            		orderVO.setOrReceiverContractNumber2(value);
 					            		//배송지
@@ -2801,7 +2884,13 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				                                break;
 				                            }
 					            		 
-					            		orderVO.setOrShippingAddressNumber(value);
+					            		 value = stringUtil.mysqlSafe(value);
+					            		 
+					            		 if(value.length() < 5) {
+												value = "0"+value;
+											}
+											
+											orderVO.setOrShippingAddressNumber(value);
 					            		
 					            	}if(columnindex==sortingVO.getSedsPaymentType()) {
 					            		orderVO.setOrPaymentType(cell.getStringCellValue());
@@ -2959,10 +3048,7 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            		
 				            		String value = cellTypeReturnHSS(cell) + "";
 				            		
-				            		
 				            		value = stringUtil.mysqlSafe(value);
-				            		
-				            		System.out.println("value = "+value);
 				            		
 				            		orderVO.setOrBuyerName(value);
 				            		
@@ -3342,12 +3428,16 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            		
 				            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
 				            		
+				            		value = stringUtil.mysqlSafe(value);
+				            		
 				            		orderVO.setOrReceiverContractNumber1(value);
 				            		//수취인 연락처 2
 				            	}if(columnindex==sortingVO.getSedsReceiverContractNumber2()) {
 				            		String value = cellTypeReturnHSS(cell);
 				            		
 				            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
+				            		
+				            		value = stringUtil.mysqlSafe(value);
 				            		
 				            		orderVO.setOrReceiverContractNumber2(value);
 				            		//배송지
@@ -3360,10 +3450,17 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 				            		
 				            		value = pnUtil.phoneNumberHyphenAdd(value, "N");
 				            		
+				            		value = stringUtil.mysqlSafe(value);
+				            		
 				            		orderVO.setOrBuyerContractNumber1(value);
 				            		
 				            		//우편번호
 				            	}if(columnindex==sortingVO.getSedsShippingAddressNumber()) {
+				            		
+				            		String value = cell.getStringCellValue()+"";
+				            		
+				            		value = stringUtil.mysqlSafe(value);
+				            		
 				            		orderVO.setOrShippingAddressNumber(cell.getStringCellValue());
 				            		
 				            	}if(columnindex==sortingVO.getSedsPaymentType()) {
@@ -3490,7 +3587,7 @@ public List<OrdersVO> readOrderExcelData(String fileName, int ssFk, StoreExcelDa
 			
 		}
 		
-		return orderList;
+		return returnResult;
 	}
 
 public List<OrdersVO> readInvoice(String fileName, int ssFk, StoreExcelDataSortingVO sortingVO, boolean sendingDeadlineFlag) throws POIXMLException{
@@ -3590,7 +3687,7 @@ public List<OrdersVO> readInvoice(String fileName, int ssFk, StoreExcelDataSorti
 			                            }
 				            		 
 				            		orderVO.setOrProductOrderNumber(value);
-				            		System.out.println("orderVO.setOrProductOrderNumber(value) = " + orderVO.getOrProductOrderNumber());
+				            		
 				            		//수취인명	
 				            	}
 				            	invoiceList.add(orderVO);

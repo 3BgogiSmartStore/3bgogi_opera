@@ -195,8 +195,18 @@ public class OrdersController {
 		
 		try {
 			
-			if(sedsVO.getSsFk() == 3) {				
-				orderList = readOrderExcel.readOrderExcelDataToXLS(fileName, sedsVO.getSsFk(), sendingDeadlineFlag);
+			if(sedsVO.getSsFk() == 3) {		
+				Map<String, Object> excelResult = readOrderExcel.readOrderExcelDataToXLS(fileName, sedsVO.getSsFk(), sendingDeadlineFlag);
+				
+				orderList = (List<OrdersVO>) excelResult.get("orderList");
+				
+				if(excelResult.get("error") != null && !excelResult.get("error").equals("")) {
+					msg = (String) excelResult.get("error");
+					
+					model.addAttribute("msg", msg);
+					model.addAttribute("url",url);
+					return "common/message";
+				}
 				
 			}else if(sedsVO.getSsFk() == 14) {
 				orderList = gm.getGodomallOrders(sedsVO.getSsFk());
@@ -205,7 +215,17 @@ public class OrdersController {
 				orderList = coupangConnectUtil.getCoupangOrderList(sendingDeadlineFlag);
 
 			}else {
-				orderList = readOrderExcel.readOrderExcelData(fileName, sedsVO.getSsFk(), sedsData, sendingDeadlineFlag);
+				Map<String, Object> excelResult = readOrderExcel.readOrderExcelData(fileName, sedsVO.getSsFk(), sedsData, sendingDeadlineFlag);
+				
+				orderList = (List<OrdersVO>) excelResult.get("orderList");
+				
+				if(excelResult.get("error") != null && !excelResult.get("error").equals("")) {
+					msg = (String) excelResult.get("error");
+					
+					model.addAttribute("msg", msg);
+					model.addAttribute("url",url);
+					return "common/message";
+				}
 				
 			}
 			

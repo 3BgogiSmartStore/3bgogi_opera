@@ -13,6 +13,8 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +25,8 @@ import com.gogi.proj.todayPickup.util.URLUtil;
 @Component
 public class FreshSolutionsDeliveryUtil {
 
+	private static final Logger logger = LoggerFactory.getLogger(FreshSolutionsDeliveryUtil.class);
+	
 	@Autowired
 	private FreshSolutionsDataAccess freshSolutionDataAccess;
 
@@ -107,9 +111,11 @@ public class FreshSolutionsDeliveryUtil {
 			HttpEntity entity = response.getEntity();
 			String result = EntityUtils.toString(entity);
 			
+			logger.info("freshsolutions res = {}", result);
+			
 			FreshSolutionsDTO freshSolutionsDTO = freshSolutionDataAccess.stringToFreshSolutionsDTO(result);
-
-			if (freshSolutionsDTO.getOperationTime().equals("DAWN")) {
+			
+			if (freshSolutionsDTO != null && freshSolutionsDTO.getOperationTime().equals("DAWN")) {
 
 				return true;
 			} else {
