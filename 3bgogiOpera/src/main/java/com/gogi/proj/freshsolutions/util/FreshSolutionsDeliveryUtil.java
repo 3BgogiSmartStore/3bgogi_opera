@@ -111,11 +111,11 @@ public class FreshSolutionsDeliveryUtil {
 			HttpEntity entity = response.getEntity();
 			String result = EntityUtils.toString(entity);
 			
-			logger.info("freshsolutions res = {}", result);
+			logger.info("add = {}, freshsolutions res = {}",addr, result);
 			
 			FreshSolutionsDTO freshSolutionsDTO = freshSolutionDataAccess.stringToFreshSolutionsDTO(result);
 			
-			if (freshSolutionsDTO != null && freshSolutionsDTO.getOperationTime().equals("DAWN")) {
+			if (freshSolutionsDTO.getOperationTime() != null && freshSolutionsDTO.getOperationTime().equals("DAWN")) {
 
 				return true;
 			} else {
