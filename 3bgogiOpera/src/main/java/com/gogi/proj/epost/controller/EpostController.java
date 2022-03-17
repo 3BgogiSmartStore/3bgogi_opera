@@ -916,6 +916,11 @@ public class EpostController {
 		
 		AdminVO adminVo = (AdminVO)auth.getPrincipal();
 
+		/**
+		 *  프레시솔루션 api가 완성되면 풀릴 예정
+		 */
+		//int result = freshSolutionsService.fFreshSolutionsDeliveryAutoUpload(osVO, request.getRemoteAddr(), adminVo.getUsername());
+		
 		File file = freshSolutionsService.fFreshSolutionsDeliveryExcelInfo(osVO, request.getRemoteAddr(), adminVo.getUsername());
 
 		Map<String, Object> fileMap = new HashMap<String, Object>();

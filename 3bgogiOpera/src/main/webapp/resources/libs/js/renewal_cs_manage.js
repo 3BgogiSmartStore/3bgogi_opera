@@ -938,7 +938,7 @@ jQuery(document).ready(function($) {
 	
 	$("#reprintingDelivInvoiceBtn").click(function(){
 		
-		var orSize = $("input[data-deliv='1'][data-deliv-company='우체국택배']:checked, input[data-deliv='1'][data-deliv-company='방문수령']:checked, input[data-deliv='1'][data-deliv-company='퀵서비스']:checked, input[data-output='1'][data-deliv-company='우체국택배']:checked, input[data-output='1'][data-deliv-company='퀵서비스']:checked, input[data-output='1'][data-deliv-company='방문수령']:checked").length;
+		var orSize = $("input[data-deliv='1'][data-deliv-company='우체국택배']:checked, input[data-deliv='1'][data-deliv-company='방문수령']:checked, input[data-deliv='1'][data-deliv-company='퀵서비스'], input[data-deliv='1'][data-deliv-company='대신택배']:checked, input[data-output='1'][data-deliv-company='우체국택배']:checked, input[data-output='1'][data-deliv-company='퀵서비스']:checked, input[data-output='1'][data-deliv-company='방문수령'], input[data-output='1'][data-deliv-company='대신택배']:checked").length;
 		var todayOrSize = $("input[data-deliv='1'][data-deliv-company='오늘의픽업']:checked, input[data-output='1'][data-deliv-company='오늘의픽업']:checked").length;
 		
 		if(orSize == 0 && todayOrSize == 0){
@@ -978,7 +978,7 @@ jQuery(document).ready(function($) {
 				orSerialSpecialNumberInput.type="hidden";
 				
 				if(orSize >= 1){
-					orSerialSpecialNumberInput.value=$("input[data-deliv='1'][data-deliv-company='우체국택배']:checked, input[data-deliv='1'][data-deliv-company='방문수령']:checked, input[data-deliv='1'][data-deliv-company='퀵서비스']:checked, input[data-output='1'][data-deliv-company='우체국택배']:checked, input[data-output='1'][data-deliv-company='퀵서비스']:checked, input[data-output='1'][data-deliv-company='방문수령']:checked")[i].value;
+					orSerialSpecialNumberInput.value=$("input[data-deliv='1'][data-deliv-company='우체국택배']:checked, input[data-deliv='1'][data-deliv-company='방문수령']:checked,input[data-deliv='1'][data-deliv-company='대신택배']:checked, input[data-deliv='1'][data-deliv-company='퀵서비스']:checked, input[data-output='1'][data-deliv-company='우체국택배']:checked, input[data-output='1'][data-deliv-company='퀵서비스']:checked, input[data-output='1'][data-deliv-company='방문수령']:checked, input[data-output='1'][data-deliv-company='대신택배']:checked")[i].value;
 					
 				}else if(todayOrSize >= 1){				
 					orSerialSpecialNumberInput.value=$("input[data-deliv='1'][data-deliv-company='오늘의픽업']:checked, input[data-output='1'][data-deliv-company='오늘의픽업']:checked")[i].value;

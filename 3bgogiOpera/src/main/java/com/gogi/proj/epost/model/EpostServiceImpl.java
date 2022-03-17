@@ -419,6 +419,10 @@ public class EpostServiceImpl implements EpostService {
 					ohVO.setOhEndPoint("송장 재출력");
 					ohVO.setOhDetail("송장 재출력 완료 => 우체국 ( "+orVO.getRegiNo()+" )");
 					
+				}else if( orVO.getOrRecType() == 4) {
+					ohVO.setOhEndPoint("송장 재출력");
+					ohVO.setOhDetail("송장 재출력 완료 => 대신택배 ( "+orVO.getRegiNo()+" )");
+					
 				}
 				
 				logService.insertOrderHistory(ohVO);

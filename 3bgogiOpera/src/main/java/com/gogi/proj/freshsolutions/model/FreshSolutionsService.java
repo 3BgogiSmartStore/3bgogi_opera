@@ -21,4 +21,6 @@ public interface FreshSolutionsService {
 	
 	public int insertOrderHistory(List<OrdersVO> orderList, String ip, String adminId);
 	
+	public int fFreshSolutionsDeliveryAutoUpload(OrderSearchVO osVO, String ip, String adminId);
+	
 }

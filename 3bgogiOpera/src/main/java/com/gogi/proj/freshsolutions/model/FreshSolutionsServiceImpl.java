@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gogi.proj.delivery.config.model.DeliveryConfigService;
 import com.gogi.proj.freshsolutions.util.FreshSolutionsDeliveryUtil;
@@ -497,5 +498,117 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService{
 		}
 		
 		return result;
+	}
+
+
+	@Override
+	@Transactional
+	public int fFreshSolutionsDeliveryAutoUpload(OrderSearchVO osVO, String ip, String adminId) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat yMd = new SimpleDateFormat("yyyy-MM-dd");
+				
+				Date today = new Date();
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.add(Calendar.DAY_OF_MONTH, 1);
+				
+				String dates = dateFormat.format(today);
+				Date tomorrow = calendar.getTime();
+				
+				// cnplus프로그램에 넣을 주문서 목록 조회
+				List<OrdersVO> delivTarget = freshSolutionsDao.selectFreshSolutionsDeliveryExcelTarget(osVO);
+				
+				int result = freshSolutionsDao.updateFreshSolutionsDeliveryTargetBeforeGrantInvoiceNum(delivTarget);
+
+				OrderHistoryVO ohVO = null;
+				
+				int temp = 0;
+				
+				List<OrdersVO> orList = null; 
+				
+				for( OrdersVO orVO : delivTarget) {
+					
+					orList = freshSolutionsDao.selectOrdersPkByOrSerialSpecialNumberForGrantFreshSolutionsInvoiceNum(orVO.getOrSerialSpecialNumber());
+					
+					if(orList != null) {				
+						for(int i = 0; i < orList.size(); i++) {
+							
+							if( temp == orList.get(i).getOrPk()) {
+								continue;
+								
+							}else {
+								ohVO = new OrderHistoryVO();
+								ohVO.setOrFk(orList.get(i).getOrPk());
+								ohVO.setOhIp(ip);
+								ohVO.setOhAdmin(adminId);
+								ohVO.setOhRegdate(dates);
+								ohVO.setOhEndPoint("프레시솔루션 새벽배송 생성");
+								ohVO.setOhDetail("프레시솔루션 새벽배송 가송장 생성 완료");
+								
+								int results = logService.insertOrderHistory(ohVO);
+								temp = orList.get(i).getOrPk();
+								
+							}
+						}
+					}
+					
+				}
+
+
+				for( OrdersVO sortingOrder : delivTarget) {
+					if(sortingOrder.getProductOptionList().get(0).getProdSorting() == 0 && sortingOrder.getProductOptionList().size() > 1) {				
+						for( int delivCount = 1; delivCount < sortingOrder.getProductOptionList().size(); delivCount++) {
+							if( sortingOrder.getProductOptionList().get(delivCount).getProdSorting() == 0 ) {
+								sortingOrder.getProductOptionList().get(0).setProdSorting(1);
+								break;
+							}
+						}
+					}
+				}
+				
+				Collections.sort(delivTarget);
+				
+				for (int i = 0; i < delivTarget.size(); i++) {
+					String delivMsg = "";
+					String delivMsgTemp = "";
+					String doorPass = "";
+					String doorPassTemp = "";
+					
+					for(ProductOptionVO poVO : delivTarget.get(i).getProductOptionList()) {
+
+						if(poVO.getOptionMemo2() != null && !poVO.getOptionMemo2().equals("")) {					
+							if(delivMsgTemp.indexOf(poVO.getOptionMemo2()) != -1 ) {
+								
+							}else {
+								delivMsg+= poVO.getOptionMemo2();
+								delivMsgTemp = poVO.getOptionMemo2();
+							}
+						}
+						
+						if(poVO.getOptionMemo1() != null && !poVO.getOptionMemo1().equals("")) {						
+							if(doorPassTemp.indexOf(poVO.getOptionMemo1()) != -1) {
+
+								
+							}else {
+
+								doorPass+= poVO.getOptionMemo1();
+								doorPassTemp = poVO.getOptionMemo1();
+							}
+						}else {
+
+						}
+
+					}
+					
+					freshSolutionsDeliveryUtil.uploadOrderDataForFreshSolutions(delivTarget.get(i), delivMsg, doorPass );
+					
+				}
+				
+				int uploadResult = 0;
+				
+				
+				return uploadResult;
 	}
 }

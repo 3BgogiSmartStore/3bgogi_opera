@@ -60,8 +60,8 @@
 				<div id="html_deliv_test" style="position: absolute; width:1090px; height:429px; top:${topValue}px;" >
 				
 					<c:if test="${orlist.orRecType > 0 and orlist.orRecType <= 4 }">
-						<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:17px; left:700px; font-size:12px;"> 수령인 : ${orlist.orReceiverName }, </h3>
-						<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:35px; left:700px; font-size:12px;"> 수령시간 : ${orlist.orRecMemo }, 보관장소 :  ${orlist.orRecStoragePlace }</h3>
+						<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:15px; left:690px; font-size:12px;"> 수령인 : ${orlist.orReceiverName }, </h3>
+						<h3 class='deliv-styles deliv-dont-deliv-msg-top' style="top:30px; left:720px; font-size:12px;"> 수령시간 : ${orlist.orRecMemo }, 보관장소 :  ${orlist.orRecStoragePlace }</h3>
 						<h1 class='deliv-styles deliv-dont-deliv-msg-top' style="top:170px; left:670px; font-size:90px; opacity: 0.5;"> 보 관 증 </h1>
 						
 						<c:if test="${orlist.orRecType == 1 }">
@@ -198,7 +198,7 @@
 							<h3 class="deliv-styles product-qty" style='top:${prodTop}px;'>${orlist.productOptionList[i].anotherOptionQty }</h3>
 							<h3 class="deliv-styles product-name" style='top:${prodTop-32}px; '>
 								
-								<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[i].productName } [ ${orlist.productOptionList[i].optionName } ]  <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별 요청 : ${orlist.productOptionList[i].optionMemo1 }</c:if>
+								<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[i].productName } [ ${orlist.productOptionList[i].optionName } ]  <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별:${orlist.productOptionList[i].optionMemo1 }</c:if>
 							</h3>
 							
 							<c:set var="qty" value="${qty + products.anotherOptionQty  }"/>
@@ -209,7 +209,7 @@
 						<c:forEach var="i" begin="0" step="1" end="${11 - 1  }">				
 							<h3 class="deliv-styles product-qty" style='top:${prodTop}px;'>${orlist.productOptionList[i].anotherOptionQty }</h3>
 							<h3 class="deliv-styles product-name" style='top:${prodTop-12}px;'>
-								<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[i].productName } [ ${orlist.productOptionList[i].optionName } ] <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별 요청 : ${orlist.productOptionList[i].optionMemo1 }</c:if>
+								<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[i].productName } [ ${orlist.productOptionList[i].optionName } ] <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별:${orlist.productOptionList[i].optionMemo1 }</c:if>
 							</h3>
 							
 							<c:set var="qty" value="${qty + products.anotherOptionQty  }"/>
@@ -220,7 +220,7 @@
 						<c:forEach var="i" begin="0" step="1" end="${11 - 1 }">				
 							<h3 class="deliv-styles product-qty" style='top:${prodTop}px;'>${orlist.productOptionList[i].anotherOptionQty }</h3>
 							<h3 class="deliv-styles product-name" style='top:${prodTop-12}px;'>
-								<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[i].productName } [ ${orlist.productOptionList[i].optionName } ]  <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별 요청 : ${orlist.productOptionList[i].optionMemo1 }</c:if>
+								<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[i].productName } [ ${orlist.productOptionList[i].optionName } ]  <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별:${orlist.productOptionList[i].optionMemo1 }</c:if>
 							</h3>
 							
 							<c:set var="qty" value="${qty + products.anotherOptionQty  }"/>
@@ -250,7 +250,7 @@
 						 			<c:forEach var="j" begin="${(i + 1) *11 }" step="1" end="${(((i + 1) * 11) + divMod - 1) }">
 										<h3 class="deliv-styles product-qty" style='top:${prodTop}px;'>${orlist.productOptionList[j].anotherOptionQty }</h3>
 										<h3 class="deliv-styles product-name" style='top:${prodTop-12}px;'>
-										<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[j].productName } [ ${orlist.productOptionList[j].optionName } ] <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별 요청 : ${orlist.productOptionList[i].optionMemo1 }</c:if>
+										<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[j].productName } [ ${orlist.productOptionList[j].optionName } ] <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별:${orlist.productOptionList[i].optionMemo1 }</c:if>
 											
 										</h3>
 										<c:set var="prodTop" value="${prodTop + 35 }"/>	
@@ -261,7 +261,7 @@
 						 			<c:forEach var="j" begin="${(i + 1)*11 }" step="1" end="${(((i + 1) * 11) + 11 ) - 1 }">
 										<h3 class="deliv-styles product-qty" style='top:${prodTop}px;'>${orlist.productOptionList[j].anotherOptionQty }</h3>
 										<h3 class="deliv-styles product-name" style='top:${prodTop-12}px;'>
-											<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[j].productName } [ ${orlist.productOptionList[j].optionName } ] <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별 요청 : ${orlist.productOptionList[i].optionMemo1 }</c:if>
+											<c:if test="${fn:contains(orlist.productOptionList[i].productMemo1, '사은품' )}">( 사은품 ) </c:if>${orlist.productOptionList[j].productName } [ ${orlist.productOptionList[j].optionName } ] <c:if test="${!empty orlist.productOptionList[i].optionMemo1 }">* 특별:${orlist.productOptionList[i].optionMemo1 }</c:if>
 										</h3>
 										<c:set var="prodTop" value="${prodTop + 35 }"/>	
 									</c:forEach>

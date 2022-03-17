@@ -2,6 +2,9 @@ package com.gogi.proj.freshsolutions.util;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,10 +12,14 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import com.gogi.proj.freshsolutions.vo.FreshSolutionsDTO;
 import com.gogi.proj.orders.vo.OrdersVO;
+import com.gogi.proj.product.products.vo.ProductOptionVO;
 import com.gogi.proj.todayPickup.util.URLUtil;
 
 @Component
@@ -138,5 +146,114 @@ public class FreshSolutionsDeliveryUtil {
 		}
 
 		return false;
+	}
+	
+	public boolean uploadOrderDataForFreshSolutions(OrdersVO orVO, String delivMsg, String doorPass) {
+		
+		SimpleDateFormat yMd = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		Date tomorrow = calendar.getTime();
+		
+		String host = "toms.open-api-dev.kurly.com";
+		String path = "/v1/api/tcorders";
+		String schema = "https";
+
+		CloseableHttpClient client = null;
+
+		JSONObject json = new JSONObject();
+		
+		json.put("vendorCode", "TD112");
+		json.put("requestDate", yMd.format(tomorrow));
+		
+		JSONArray orderList = new JSONArray();
+		
+		
+		JSONObject ordererDetail = new JSONObject();
+		
+		ordererDetail.put("vendorOrderId", orVO.getOrSerialSpecialNumber());
+		ordererDetail.put("orderUserName", orVO.getOrBuyerAnotherName() != null ? orVO.getOrBuyerAnotherName() : orVO.getOrBuyerName());
+		ordererDetail.put("receiverName", orVO.getOrReceiverName());
+		ordererDetail.put("receiverAddress", orVO.getOrShippingAddress());
+		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail());
+		ordererDetail.put("receiverTel", orVO.getOrBuyerContractNumber1());
+		ordererDetail.put("receiverHp", orVO.getOrBuyerContractNumber1());
+		ordererDetail.put("deliveryManagerMessage", !doorPass.equals("") ? "(현관:"+doorPass+") "+delivMsg : delivMsg);
+		ordererDetail.put("operationTime", "DAWN");
+		ordererDetail.put("smsTransType", "IMMEDIATELY");
+		
+		
+		JSONArray prodList = new JSONArray();
+		for( ProductOptionVO products : orVO.getProductOptionList()) {
+			JSONObject prodDetail = new JSONObject();
+			
+			prodDetail.put("productCode", products.getAnotherOptionPk());
+			prodDetail.put("productType", "REFRIGERATED");
+			prodDetail.put("productName", products.getProductName());
+			prodDetail.put("productCount”", products.getAnotherOptionQty());
+			
+			prodList.add(prodDetail);
+			
+		}
+		
+		ordererDetail.put("products", prodList);
+		orderList.add(ordererDetail);
+		json.put("orders", orderList);
+		
+		
+		
+		try {
+			client = HttpClients.createDefault();
+
+			URIBuilder uriBuilder = new URIBuilder().setPath(path);
+
+			uriBuilder.setScheme(schema).setHost(host);
+
+			HttpPost post = new HttpPost(uriBuilder.build().toString());
+
+			StringEntity requestEntity = new StringEntity(json.toJSONString() , "utf-8");
+			
+			post.addHeader("content-type", "application/json");
+
+			post.setEntity(requestEntity);
+			
+			CloseableHttpResponse response = null;
+
+			response = client.execute(post);
+			// print result
+			HttpEntity entity = response.getEntity();
+			String result = EntityUtils.toString(entity);
+			
+			logger.info("freshsolutions res = {}", result);
+			
+			/**
+			 * 넘어오는 데이터 값을 확인 후 받을 수 있는 타입으로 변경
+			 */
+			// FreshSolutionsDTO freshSolutionsDTO = freshSolutionDataAccess.stringToFreshSolutionsDTO(result);
+			
+			/*if (freshSolutionsDTO.getOperationTime() != null && freshSolutionsDTO.getOperationTime().equals("DAWN")) {
+
+				return true;
+			} else {
+
+				return false;
+			}*/
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+
+		return true;
+		
 	}
 }

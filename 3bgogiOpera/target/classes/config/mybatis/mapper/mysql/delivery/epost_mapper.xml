@@ -270,6 +270,7 @@
 					<result property="productPk" column="or_pk" javaType="int"/>  
 				 -->
 				<result property="optionName" column="option_name" javaType="String"/>
+				<result property="optionMemo1" column="option_memo1" javaType="String"/>
 				<!-- another_option_qty 로 수량 가져옴  -->
 				<result property="anotherOptionQty" column="another_option_qty" javaType="int"/>
 				
@@ -804,7 +805,8 @@
                 INNE.om_pk,
                 INNE.option_pk,
                 SUM(INNE.totalQuantity) AS another_option_qty,
-                INNE.or_product_order_number AS product_memo1
+                INNE.or_product_order_number AS product_memo1,
+                INNE.or_request AS option_memo1
 			FROM(
                 
                 SELECT
@@ -833,6 +835,7 @@
                     od.or_rec_type,
                     od.or_rec_memo,
                     od.or_rec_storage_place,
+                    od.or_request,
 		            pm.pm_pk,
 					pro.product_pk,
                     pro.product_name,
@@ -886,6 +889,7 @@
 		            od.or_rec_type,
                     od.or_rec_memo,
                     od.or_rec_storage_place,
+                    od.or_request,
 		            pm.pm_pk,
 		            om.om_pk,
 					pro.product_pk,
@@ -917,7 +921,8 @@
             INNE.option_pk,
             INNE.om_pk,
 			INNE.option_name,
-			product_memo1
+			product_memo1,
+			option_memo1
 		ORDER BY
 			eos_deliv_seq ASC,
             INNE.product_name DESC,
@@ -1008,7 +1013,8 @@
                 INNE.or_rec_memo,
                 INNE.or_rec_storage_place,
                 SUM(INNE.totalQuantity) AS another_option_qty,
-                INNE.or_product_order_number AS product_memo1
+                INNE.or_product_order_number AS product_memo1,
+                INNE.or_request AS option_memo1
 			FROM(
                 
                 SELECT
@@ -1158,7 +1164,8 @@
 			INNE.product_name,
             INNE.option_pk,
 			INNE.option_name,
-			product_memo1
+			product_memo1,
+            option_memo1
 		ORDER BY
 			eos_deliv_seq ASC,
             INNE.product_name DESC,

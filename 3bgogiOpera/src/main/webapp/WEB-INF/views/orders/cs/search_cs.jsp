@@ -560,7 +560,11 @@
 				                            				selected="selected"
 				                            			</c:if>
 							                        >우체국택배</option>
-													<!-- <option value="3">새벽배송(프레시솔루션)</option> -->
+													<option value="3"
+							                        	<c:if test="${osVO.edtFk == 3 }">
+				                            				selected="selected"
+				                            			</c:if>
+							                        >새벽배송(프레시솔루션)</option>
 													<option value="5"
 							                        	<c:if test="${osVO.edtFk == 5 }">
 				                            				selected="selected"
