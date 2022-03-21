@@ -3135,7 +3135,11 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 			                                break;
 			                            }
 				            		
-				            		orderVO.setOrAmount((int)Integer.parseInt(value));
+				            		 try {
+				            			 orderVO.setOrAmount((int)Integer.parseInt(value));
+				            		 }catch(Exception num) {
+				            			 returnResult.put("error", "수량에 대한 숫자 변환이 불가능합니다 셀에 숫자가 들어가 있는지 확인해주세요");
+				            		 }
 				            		//옵션정보 : 옵션명
 				            	}if(columnindex==sortingVO.getSedsProductOption()) {
 				            		
@@ -3609,6 +3613,8 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 			e.printStackTrace();
 			
 		}
+		
+		returnResult.put("orderList", orderList);
 		
 		return returnResult;
 	}
