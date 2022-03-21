@@ -313,6 +313,54 @@
     			
     		}); 
     		
+    		$("#freshSolutionsDelivAutoButton").click(function(){
+    			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
+    			
+    			if(orSize == 0){
+    				alert("부여할 수 있는 송장이 존재하지 않습니다");
+    				return false;
+    			}
+    			
+    			if(confirm(orSize+" 개의 주문서를 프레시솔루션에 업로드 하시겠습니까?")){
+        			
+        			$("#freshSolutionsDelivButton").removeClass("btn btn-warning");
+        			
+            		$("#freshSolutionsDelivButton").text("");
+            		
+        			$("#freshSolutionsDelivButton").addClass("dashboard-spinner spinner-xs");
+        			
+    				if($("select[name=edtFk]").val() == '3'){
+    					alert("프레시솔루션에 업로드합니다");
+    					
+    				}
+    				
+					var divs = document.createElement("div");
+	    			
+	    			var excelDownloadForm =  document.createElement("form");
+	    			excelDownloadForm.action="/security/fresh_solutions_delivery_auto.do";
+	    			excelDownloadForm.method="POST";
+    					
+	    			var orSerialSpecialNumberList = new Array(orSize);
+	    			
+	    			
+	    			for(var i=0; i<orSize; i++){
+	    				var orSerialSpecialNumberInput = document.createElement("input");
+	    				orSerialSpecialNumberInput.name="orSerialSpecialNumberList";
+	    				orSerialSpecialNumberInput.value=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
+	    				excelDownloadForm.append(orSerialSpecialNumberInput);
+	    				
+	    			}
+	    			
+	    			$("#excelDownloadIframe").append(excelDownloadForm);
+	    			
+	    			excelDownloadForm.submit();
+	    			
+	    			$("#excelDownloadIframe").html("");
+    			}
+    			
+    			
+    		}); 
+    		
     		$("#lotteDelivButton").click(function(){
     			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
     			
@@ -956,6 +1004,7 @@
 												</c:if>	
 												<c:if test="${OrderSearchVO.edtFk == 3 }">
 													<button class="btn btn-warning" id="freshSolutionsDelivButton"> 프레시솔루션 새벽배송 임시송장 부여 </button>
+													<button class="btn btn-danger" id="freshSolutionsDelivAutoButton"> 프레시솔루션 자동등록 </button>
 												</c:if>	
 												<c:if test="${OrderSearchVO.edtFk == 7 }">
 													<button class="btn btn-warning" id="teamFreshDelivButton"> 팀프레시 송장 부여 </button>

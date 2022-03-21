@@ -323,7 +323,7 @@ public class ReadOrderExcel {
 			            		 try {
 			            			 orderVO.setOrProductOptionPrice((int)Integer.parseInt(value));
 			            			 
-			            		 }catch(NumberFormatException e) {
+			            		 }catch(Exception e) {
 			            			 // throw new RuntimeException("옵션 가격을 숫자로 수정해주세요", e);
 			            			 returnResult.put("error", "옵션 가격을 숫자로 수정해주세요");
 			            		 }
@@ -350,7 +350,14 @@ public class ReadOrderExcel {
 		                                break;
 		                            }
 			            		 
-			            		orderVO.setOrProductPrice((int)Integer.parseInt(value));
+			            		 try {
+			            			 orderVO.setOrProductPrice((int)Integer.parseInt(value));
+			            			 
+			            		 }catch(Exception e) {
+			            			 // throw new RuntimeException("옵션 가격을 숫자로 수정해주세요", e);
+			            			 returnResult.put("error", "상품 가격을 숫자로 수정해주세요");
+			            		 }
+			            		
 			            		//상품별 할인액
 			            	}else if(columnindex==21) {
 			            		String value = "";
@@ -372,13 +379,29 @@ public class ReadOrderExcel {
 		                                break;
 		                            }
 			            		
-			            		orderVO.setOrDiscountPrice((int)Integer.parseInt(value));
+			            		 try {
+			            			 orderVO.setOrDiscountPrice((int)Integer.parseInt(value));
+			            			 
+			            		 }catch(Exception e) {
+			            			 // throw new RuntimeException("옵션 가격을 숫자로 수정해주세요", e);
+			            			 returnResult.put("error", "상품별 할인액을 숫자로 수정해주세요");
+			            		 }
+			            		
 			            		//판매자 부담 할인액
 			            	}else if(columnindex==22) {
 			            		//필요없을거 같음 상품별 할인액이 판매자 부담 할인액으로 되는 것으로 판단
 			            		//상품별 총 주문금액
 			            	}else if(columnindex==23) {
-			            		orderVO.setOrTotalPrice((int)cell.getNumericCellValue());
+			            		
+			            		try {
+			            			orderVO.setOrTotalPrice((int)cell.getNumericCellValue());
+			            			 
+			            		 }catch(Exception e) {
+			            			 // throw new RuntimeException("옵션 가격을 숫자로 수정해주세요", e);
+			            			 returnResult.put("error", "총 주문금액을 숫자로 수정해주세요");
+			            		 }
+			            		
+			            		
 			            		//발주확인일 : 공백임
 			            	}else if(columnindex==24) {
 			            		
@@ -2432,7 +2455,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 					            		
 					            		 try {
 					            			 orderVO.setOrAmount((int)Integer.parseInt(value));
-					            		 }catch(NumberFormatException num) {
+					            		 }catch(Exception num) {
 					            			 returnResult.put("error", "수량에 대한 숫자 변환이 불가능합니다 셀에 숫자가 들어가 있는지 확인해주세요");
 					            		 }
 					            		
@@ -2573,7 +2596,7 @@ public List<OrdersVO> readOrderExcelDatas(String fileName, int ssFk, StoreExcelD
 					            		 
 					            		 try {
 					            			 orderVO.setOrProductOptionPrice((int)Integer.parseInt(value));
-						            		 }catch(NumberFormatException num) {
+						            		 }catch(Exception num) {
 						            			 
 						            			 returnResult.put("error", "옵션 가격을 일반 숫자로 변환해주세요");
 						            		 }

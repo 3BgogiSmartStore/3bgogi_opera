@@ -916,11 +916,6 @@ public class EpostController {
 		
 		AdminVO adminVo = (AdminVO)auth.getPrincipal();
 
-		/**
-		 *  프레시솔루션 api가 완성되면 풀릴 예정
-		 */
-		//int result = freshSolutionsService.fFreshSolutionsDeliveryAutoUpload(osVO, request.getRemoteAddr(), adminVo.getUsername());
-		
 		File file = freshSolutionsService.fFreshSolutionsDeliveryExcelInfo(osVO, request.getRemoteAddr(), adminVo.getUsername());
 
 		Map<String, Object> fileMap = new HashMap<String, Object>();
@@ -928,6 +923,35 @@ public class EpostController {
 		ModelAndView mav = new ModelAndView("downloadView", fileMap);
 		
 		return mav;
+	}
+	
+	
+	/**
+	 * 
+	 * @MethodName : freshSolutionsDeliveryAutoUpload
+	 * @date : 2022. 3. 21.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param request
+	 * @param model
+	 * @return
+	 * @메소드설명 : 프레시솔루션 자동 업로드
+	 */
+	@RequestMapping(value="/fresh_solutions_delivery_auto.do", method=RequestMethod.POST)
+	public String freshSolutionsDeliveryAutoUpload(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request, Model model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		AdminVO adminVo = (AdminVO)auth.getPrincipal();
+
+		String result = freshSolutionsService.fFreshSolutionsDeliveryAutoUpload(osVO, request.getRemoteAddr(), adminVo.getUsername());
+		
+		String url = "/security/epost.do";
+		
+		model.addAttribute("msg", result);
+		model.addAttribute("url",url);
+		
+		return "common/message";
 	}
 	
 	/**
