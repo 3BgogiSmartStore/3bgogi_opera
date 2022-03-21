@@ -9,6 +9,8 @@ import com.gogi.proj.paging.OrderSearchVO;
 
 public interface FreshSolutionsService {
 
+	public boolean isFreshSolutionsDeliveryArea(String addr, String addrDetail);
+	
 	public OrderSearchVO selectFreshSolutionsDeliveryTargetChecking(OrderSearchVO osVO);
 	
 	public int selectDontGrantFreshSolutionsDelivOrderListInMonthCounting(OrderSearchVO osVO);

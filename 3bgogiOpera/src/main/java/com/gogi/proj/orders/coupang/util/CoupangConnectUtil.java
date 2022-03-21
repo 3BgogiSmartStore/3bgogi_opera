@@ -724,6 +724,8 @@ public class CoupangConnectUtil {
 			return "EPOST";
 		}else if(delivComp.equals("롯데택배")) {
 			return "HYUNDAI";
+		}else if(delivComp.equals("프레시솔루션")) {
+			return "FRESHSOLUTIONS";
 		}else if(delivComp.equals("CJ대한통운")) {
 			return "CJGLS";
 		}else if(delivComp.equals("대신택배")) {

@@ -116,18 +116,18 @@
 				        </div>
 				        <div class="btn-group">
 			                <label class="custom-control custom-radio custom-control-inline  mb-2">
-			                    <input type="radio" id="" name="cjFlag" value="0" 
-			                    	<c:if test="${cjFlag == 0 }">
+			                    <input type="radio" id="" name="dawnFlag" value="0" 
+			                    	<c:if test="${dawnFlag == 0 }">
 										checked="checked"
 									</c:if>
-			                    class="custom-control-input"><span class="custom-control-label"> cj 무시 </span>
+			                    class="custom-control-input"><span class="custom-control-label"> 새벽배송 무시 </span>
 			                </label>
 			                <label class="custom-control custom-radio custom-control-inline  mb-2">
-			                	<input type="radio" id="" name="cjFlag" value="1"
-			                    	<c:if test="${cjFlag == 1 }">
+			                	<input type="radio" id="" name="dawnFlag" value="1"
+			                    	<c:if test="${dawnFlag == 1 }">
 										checked="checked"
 									</c:if>
-			                    class="custom-control-input"><span class="custom-control-label"> cj 적용 </span>
+			                    class="custom-control-input"><span class="custom-control-label"> 새벽배송 적용 </span>
 			                </label>
 				        </div>
 				        

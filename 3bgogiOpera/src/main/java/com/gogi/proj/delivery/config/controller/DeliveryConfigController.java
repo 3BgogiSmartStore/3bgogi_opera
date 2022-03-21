@@ -25,6 +25,7 @@ import com.gogi.proj.delivery.config.vo.DoorPassKeywordVO;
 import com.gogi.proj.delivery.config.vo.DoorPassVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivAreaVO;
 import com.gogi.proj.delivery.config.vo.EarlyDelivTypeVO;
+import com.gogi.proj.freshsolutions.model.FreshSolutionsService;
 import com.gogi.proj.orders.cj.model.CjdeliveryService;
 import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.teamfresh.model.TeamFreshService;
@@ -57,6 +58,9 @@ public class DeliveryConfigController {
 	
 	@Autowired
 	private TeamFreshService teamFreshService;
+	
+	@Autowired
+	private FreshSolutionsService freshSolutionsService;
 	
 	/**
 	 * 
@@ -429,13 +433,13 @@ public class DeliveryConfigController {
 	 * @author : Jeon KiChan
 	 * @param orVO
 	 * @return
-	 * @메소드설명 : cj 새벽배송 가능 지역 체크
+	 * @메소드설명 : 새벽배송 가능 지역 체크
 	 */
-	@RequestMapping(value="/cj_delivery_area_check.do", method=RequestMethod.GET)
+	@RequestMapping(value="/dawn_delivery_area_check.do", method=RequestMethod.GET)
 	@ResponseBody
-	public boolean cjDeliveryAreaCheck(@ModelAttribute OrdersVO orVO) {
+	public boolean dawnDeliveryAreaCheck(@ModelAttribute OrdersVO orVO) {
 		
-		return cjDeliveryService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail());
+		return freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail());
 		
 	}
 	

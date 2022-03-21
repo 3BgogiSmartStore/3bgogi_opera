@@ -187,6 +187,8 @@
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_delivery_invoice_number IS NULL
 					AND od.or_refunds = 0
+					AND od.or_abs_deliv_type = 0
+					AND od.or_rec_type = 0
 					<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
 						AND od.or_serial_special_number IN 
 						<foreach collection="orSerialSpecialNumberList" item="item" open="(" close=")"  separator=",">
@@ -215,7 +217,6 @@
 						 AND od.or_cancled_flag = 0
 						 AND od.or_excel_div_flag = 0
 					]]>
-					AND od.or_shipping_address LIKE '서울%'
 	                AND od.or_serial_special_number IN (
 						SELECT
 							od.or_serial_special_number
@@ -229,7 +230,6 @@
 							]]>
 							AND od.or_cancled_flag = 0
 							AND od.or_excel_div_flag = 0
-							AND (or_product NOT LIKE '%선물%' AND NOT or_product LIKE '%업소%')
 						GROUP BY
 							od.or_serial_special_number
 						)
@@ -301,10 +301,12 @@
 					od.or_sending_deadline >= #{dateStart}
 					AND od.or_sending_deadline <= #{dateEnd}
 				]]>
+				AND od.or_delivery_invoice_number IS  NULL
+				AND od.or_abs_deliv_type = 0
+				AND od.or_rec_type = 0
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
-				AND od.or_shipping_address LIKE '서울%'
 			GROUP BY
 				od.or_user_column1,
 				od.or_serial_special_number,
@@ -347,6 +349,9 @@
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_delivery_invoice_number IS NULL
 					AND od.or_refunds = 0
+					AND od.or_abs_deliv_type = 0
+					AND od.or_delivery_invoice_number IS NULL
+					AND od.or_rec_type = 0
 					<if test="orSerialSpecialNumberList != null and orSerialSpecialNumberList.size() != 0">
 						AND od.or_serial_special_number IN 
 						<foreach collection="orSerialSpecialNumberList" item="item" open="(" close=")"  separator=",">
@@ -376,7 +381,6 @@
 		            <![CDATA[
 						AND od.or_cancled_flag = 0
 						AND od.or_excel_div_flag = 0
-						AND od.or_shipping_address LIKE '서울%'
 					 ]]>
 				</trim>
 				GROUP BY
@@ -403,7 +407,6 @@
 					 	]]>
 						AND od.or_cancled_flag = 0
 						AND od.or_excel_div_flag = 0
-	                    AND (or_product NOT LIKE '%선물%' AND NOT or_product LIKE '%업소%')
 					GROUP BY
 						od.or_serial_special_number
 	            )
@@ -463,6 +466,8 @@
 				AND od.or_excel_div_flag = 0
 				AND od.or_cancled_flag = 0
 				AND od.or_refunds = 0
+				AND od.or_abs_deliv_type = 0
+				AND od.or_rec_type = 0
 			GROUP BY
 				od.or_serial_special_number,
 				od.or_user_column1,
@@ -485,6 +490,8 @@
 				<trim prefix="WHERE" prefixOverrides="AND |OR ">
 					od.or_delivery_invoice_number IS NULL
 					AND od.or_refunds = 0
+					AND od.or_abs_deliv_type = 0
+					AND od.or_rec_type = 0
 					<![CDATA[
 						AND od.or_sending_deadline >= #{dateStart} AND od.or_sending_deadline <= #{dateEnd}
 					]]>	
@@ -666,4 +673,24 @@
 			INNE.option_name DESC
 	</select>
 
+	<!-- 송장 가입력 상태로 둠 -->
+	<update id="updateTodayPickupDeliveryTargetBeforeGrantInvoiceNum" parameterType="OrdersVO">
+		UPDATE
+			orders
+		SET
+			or_delivery_company = '오늘의픽업',
+			or_delivery_invoice_number = '입력전',
+			regi_no = '입력전',
+			or_invoice_num_date = #{orUserColumn7},
+			edt_fk = 3
+		WHERE
+			or_delivery_invoice_number IS NULL
+			AND or_cancled_flag = 0
+			AND or_refunds = 0
+			AND	or_pk IN 
+			<foreach collection="productOptionList" item="items"  open="(" close=")"  separator=",">
+					#{items.anotherOptionPk}
+			</foreach>
+	</update>
+	
 </mapper>

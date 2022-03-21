@@ -75,4 +75,16 @@ public interface TodayPickupDAO {
 	 * @메소드설명 : 오늘의 픽업 송장 재출력하기
 	 */
 	public OrdersVO todayPickupDeliveryInvoiceNumberReprinting(OrderSearchVO osVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : updateTodayPickupDeliveryTargetBeforeGrantInvoiceNum
+	 * @date : 2022. 3. 21.
+	 * @author : Jeon KiChan
+	 * @param orderList
+	 * @return
+	 * @메소드설명 : 오늘의 픽업 송장 출력 전 가입력 상태로 두기
+	 */
+	public int updateTodayPickupDeliveryTargetBeforeGrantInvoiceNum(List<OrdersVO> orderList);
 }

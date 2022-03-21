@@ -91,7 +91,7 @@
 						"orShippingAddressDetail":orShippingAddressDetail,
 						"orShippingAddressNumber":orShippingAddressNumber,
 					},
-					url        : '/delivery/config/cj_delivery_area_check.do',
+					url        : '/delivery/config/dawn_delivery_area_check.do',
 					success    : function(data){
 						if(data == true){		
 							alert("새벽배송 가능지역입니다");

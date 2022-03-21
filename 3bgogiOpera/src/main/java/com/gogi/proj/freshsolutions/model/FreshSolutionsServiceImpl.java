@@ -190,7 +190,7 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 		header.add("수령인 전화번호");
 		header.add("수령인 핸드폰");
 		header.add("비고");
-		header.add("비고2(배송메세지)");
+		header.add("비고2(배송메시지)");
 		header.add("요청유형");
 		header.add("배송문자유형");
 		header.add("상품코드");

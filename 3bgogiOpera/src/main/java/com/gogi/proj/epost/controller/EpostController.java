@@ -274,7 +274,7 @@ public class EpostController {
 			
 			return "delivery/not_sending_list";
 			
-		}else if(orderSearchVO.getEdtFk() == 0 || orderSearchVO.getEdtFk() == 5){	
+		}else if(orderSearchVO.getEdtFk() == 5){	
 			orderSearchVO.setEdtFk(5);
 			
 			orderSearchVO.setOrSerialSpecialNumberList(cjService.selectCjDeliveryTargetChecking(orderSearchVO).getOrSerialSpecialNumberList());
@@ -365,7 +365,9 @@ public class EpostController {
 			return "delivery/not_sending_list";
 			
 			
-		}else if(orderSearchVO.getEdtFk() == 3) {
+		}else if(orderSearchVO.getEdtFk() == 0 || orderSearchVO.getEdtFk() == 3) {
+			
+			orderSearchVO.setEdtFk(3);
 			
 			orderSearchVO.setOrSerialSpecialNumberList(freshSolutionsService.selectFreshSolutionsDeliveryTargetChecking(orderSearchVO).getOrSerialSpecialNumberList());
 			
@@ -1050,7 +1052,7 @@ public class EpostController {
 	 * @메소드설명 : 배송 불가 지역 체크
 	 */
 	@RequestMapping(value="/epost/epost_stopped_area_check.do", method=RequestMethod.POST)
-	public String epostStoppedAreaCheckPost(@ModelAttribute OrderSearchVO osVO,@RequestParam int cjFlag, Model model) throws Exception {
+	public String epostStoppedAreaCheckPost(@ModelAttribute OrderSearchVO osVO,@RequestParam int dawnFlag, Model model) throws Exception {
 		
 		List<OrdersVO> orderList = dcService.selectOrdersBySendingDeadline(osVO);
 		
@@ -1062,10 +1064,10 @@ public class EpostController {
 		
 		for(OrdersVO orVO : orderList) {
 			
-			if(cjFlag == 1) {
+			if(dawnFlag == 1) {
 				
 				
-				if( orVO.getOrAbsDelivType() == 0 && cjService.isCjDeliveryArea(orVO.getOrShippingAddressNumber(), orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
+				if( orVO.getOrAbsDelivType() == 0 && freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
 					//새벽배송으로 가능한 지역
 					
 				}else {				
@@ -1091,6 +1093,7 @@ public class EpostController {
 		
 		
 		model.addAttribute("osVO", osVO);
+		model.addAttribute("dawnFlag",dawnFlag);
 		model.addAttribute("epostResultList", epostResultList);
 		
 		return "delivery/config/epost_stopped_area_check";

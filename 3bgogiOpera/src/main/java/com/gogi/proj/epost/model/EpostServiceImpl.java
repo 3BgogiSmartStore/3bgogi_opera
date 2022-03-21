@@ -167,11 +167,15 @@ public class EpostServiceImpl implements EpostService {
 			        
 					result += todayPickupService.deleteTodayPickupDelivInvoice(regVO.getRegiNo(), requestHeaders);
 					epostDao.deleteDelivInfo(orSerialSpecialNumberList.get(i));
-					results.append(""+orSerialSpecialNumberList.get(i)+" => 오늘의 픽업 삭제 <br>");
+					results.append(""+orSerialSpecialNumberList.get(i)+" => 오늘의 픽업 송장 삭제 <br>");
+					
+				}else if(regVO.getEdtFk() == 3){
+					epostDao.deleteDelivInfo(orSerialSpecialNumberList.get(i));
+					results.append(""+orSerialSpecialNumberList.get(i)+" => 프레시솔루션 송장 삭제 <br>");
 					
 				}else if(regVO.getEdtFk() == 5){
 					epostDao.deleteDelivInfo(orSerialSpecialNumberList.get(i));
-					results.append(""+orSerialSpecialNumberList.get(i)+" => cj새벽 배송 삭제 <br>");
+					results.append(""+orSerialSpecialNumberList.get(i)+" => cj새벽배송 송장 삭제 <br>");
 					
 				}else if(regVO.getEdtFk() == 7){
 					teamFreshService.deleteTeamFreshDelivInvoice(regVO.getResNo(), ip, adminId);
