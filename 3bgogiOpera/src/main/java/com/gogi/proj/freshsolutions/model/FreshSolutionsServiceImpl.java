@@ -280,12 +280,10 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 				cell = (SXSSFCell) row.createCell(0);
 				cell.setCellValue(delivTarget.get(i).getOrSerialSpecialNumber());
 				sheet.autoSizeColumn(0);
-				sheet.setColumnWidth(0, (sheet.getColumnWidth(0) + 512));
 
 				cell = (SXSSFCell) row.createCell(1);
 				cell.setCellValue(yMd.format(tomorrow));
 				cell.setCellStyle(cs);
-				sheet.setColumnWidth(1, (sheet.getColumnWidth(1) + 512));
 
 				cell = (SXSSFCell) row.createCell(2);
 				if (delivTarget.get(i).getOrBuyerAnotherName() != null
@@ -296,14 +294,12 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 				}
 
 				sheet.autoSizeColumn(2);
-				sheet.setColumnWidth(2, (sheet.getColumnWidth(2) + 512));
 
 				cell = (SXSSFCell) row.createCell(3);
 				cell.setCellValue(delivTarget.get(i).getOrReceiverName());
 
 				cell = (SXSSFCell) row.createCell(4);
 				cell.setCellValue(delivTarget.get(i).getOrShippingAddressNumber());
-				sheet.setColumnWidth(4, (sheet.getColumnWidth(4) + 512));
 
 				/*
 				 * cell = (SXSSFCell) row.createCell(5); if(!doorPass.equals("")) {
@@ -317,12 +313,10 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 				cell = (SXSSFCell) row.createCell(5);
 				cell.setCellValue(delivTarget.get(i).getOrShippingAddress());
 				sheet.autoSizeColumn(5);
-				sheet.setColumnWidth(5, (sheet.getColumnWidth(5) + 512));
 
 				cell = (SXSSFCell) row.createCell(6);
 				cell.setCellValue(delivTarget.get(i).getOrShippingAddressDetail());
-				sheet.setColumnWidth(6, (sheet.getColumnWidth(6) + 512));
-
+				
 				cell = (SXSSFCell) row.createCell(7);
 				cell.setCellValue(delivTarget.get(i).getOrReceiverContractNumber2());
 
