@@ -186,8 +186,8 @@ public class FreshSolutionsDeliveryUtil {
 		ordererDetail.put("receiverName", orVO.getOrReceiverName());
 		ordererDetail.put("receiverAddress", orVO.getOrShippingAddress());
 		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail() == null ? "" : orVO.getOrShippingAddressDetail()+"");
-		ordererDetail.put("receiverTel", orVO.getOrBuyerContractNumber1());
-		ordererDetail.put("receiverHp", orVO.getOrBuyerContractNumber1());
+		ordererDetail.put("receiverTel", orVO.getOrReceiverContractNumber1());
+		ordererDetail.put("receiverHp", orVO.getOrReceiverContractNumber1());
 		ordererDetail.put("deliveryManagerMessage", !doorPass.equals("") ? "(현관:"+doorPass+") "+delivMsg : delivMsg);
 		ordererDetail.put("operationTime", "DAWN");
 		ordererDetail.put("smsTransType", "IMMEDIATELY");
