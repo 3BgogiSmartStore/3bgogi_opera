@@ -1306,6 +1306,7 @@
 									<h3 class="font-16">주문 정보</h3>
 									<div class="">
 										<ul class="list-unstyled mb-0" style="font-size: 12px;">
+											<li class="mb-2" id="customerOrderNumber"></li>
 											<li class="mb-2" id="orderDetailSettlementDay"></li>
 											<li class="mb-2" id="orderDetailInflowRoute"></li>
 											<li class="mb-2" id="orderDetailDeliveryPrice"></li>

@@ -135,8 +135,8 @@ jQuery(document).ready(function($) {
 	
 	$(document).on("submit", "#sendingForm",(function(){
 		
-		orDeliveryInvoiceNumber = $("#orDeliveryInvoiceNumber").val();
-		orDeliveryInvoiceNumber = orDeliveryInvoiceNumber.replace(" ","");
+		orDeliveryInvoiceNumber = $("#orDeliveryInvoiceNumber").val().replace(" ","").replace("-","");
+		
 		
 		if(orDeliveryInvoiceNumber == null || orDeliveryInvoiceNumber == ""){
 			alert("값이 없습니다");

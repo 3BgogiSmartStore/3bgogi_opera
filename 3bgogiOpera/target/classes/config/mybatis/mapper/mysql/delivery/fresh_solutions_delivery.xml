@@ -556,10 +556,8 @@
 			od.or_buyer_contract_number1,
 			od.or_receiver_name,
 			od.or_receiver_contract_number1,
-			IF(od.or_shipping_address_detail IS NULL OR od.or_shipping_address_detail = '',
-				or_shipping_address,
-                CONCAT(od.or_shipping_address, ' ', od.or_shipping_address_detail)
-            ) AS or_shipping_address,
+			od.or_shipping_address,
+            od.or_shipping_address_detail,
             IF(
 				or_request IS NOT NULL AND or_request != '',
                 CONCAT('[ 요청사항 : ',od.or_request, ' ] ', pro.product_name, ' [ ', op.option_name, ' ] '),

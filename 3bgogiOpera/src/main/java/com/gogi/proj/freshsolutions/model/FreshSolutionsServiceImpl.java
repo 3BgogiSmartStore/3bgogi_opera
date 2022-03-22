@@ -279,7 +279,6 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 				cell = (SXSSFCell) row.createCell(0);
 				cell.setCellValue(delivTarget.get(i).getOrSerialSpecialNumber());
-				sheet.autoSizeColumn(0);
 
 				cell = (SXSSFCell) row.createCell(1);
 				cell.setCellValue(yMd.format(tomorrow));
@@ -292,8 +291,6 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 				} else {
 					cell.setCellValue(delivTarget.get(i).getOrBuyerName());
 				}
-
-				sheet.autoSizeColumn(2);
 
 				cell = (SXSSFCell) row.createCell(3);
 				cell.setCellValue(delivTarget.get(i).getOrReceiverName());
@@ -312,7 +309,6 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 				cell = (SXSSFCell) row.createCell(5);
 				cell.setCellValue(delivTarget.get(i).getOrShippingAddress());
-				sheet.autoSizeColumn(5);
 
 				cell = (SXSSFCell) row.createCell(6);
 				cell.setCellValue(delivTarget.get(i).getOrShippingAddressDetail());

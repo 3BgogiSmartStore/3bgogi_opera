@@ -187,7 +187,7 @@ public class FreshSolutionsDeliveryUtil {
 		ordererDetail.put("orderUserName", orVO.getOrBuyerAnotherName() != null ? orVO.getOrBuyerAnotherName() : orVO.getOrBuyerName());
 		ordererDetail.put("receiverName", orVO.getOrReceiverName());
 		ordererDetail.put("receiverAddress", orVO.getOrShippingAddress());
-		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail()+" ");
+		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail() == null ? "" : orVO.getOrShippingAddressDetail()+"");
 		ordererDetail.put("receiverTel", orVO.getOrBuyerContractNumber1());
 		ordererDetail.put("receiverHp", orVO.getOrBuyerContractNumber1());
 		ordererDetail.put("deliveryManagerMessage", !doorPass.equals("") ? "(현관:"+doorPass+") "+delivMsg : delivMsg);

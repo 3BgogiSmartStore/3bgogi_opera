@@ -53,7 +53,7 @@ jQuery(document).ready(function($) {
 		    		
 		    		if(data[0].orDeliveryInvoiceNumber != null && data[0].orDeliveryInvoiceNumber != ''){
 		    			$("#orderDetailRecMemo").show();
-			    		$("#orderDetailRecMemo").text('배송방법 : '+data[0].orDeliveryCompany+', 송장번호 : '+ (data[0].orDeliveryInvoiceNumber == '입력전' ? 'cj택배 송장 입력 대기중'  : data[0].orDeliveryInvoiceNumber ));
+			    		$("#orderDetailRecMemo").text('배송방법 : '+data[0].orDeliveryCompany+', 송장번호 : '+ (data[0].orDeliveryInvoiceNumber == '입력전' ? data[0].orDeliveryCompany+' 송장 입력 대기중'  : data[0].orDeliveryInvoiceNumber ));
 			    		
 		    		}else {
 		    			$("#orderDetailRecType, #orderDetailRecMemo, #orderDetailRecStoragePlace").hide();
@@ -89,12 +89,11 @@ jQuery(document).ready(function($) {
 		    	
 		    	$("#orderDetailShippingAddress").html('<i class="fas fa-home mr-2"></i>'+orAddress);
 		    	
+		    	$("#customerOrderNumber").text(' 주문번호 : '+ data[0].orOrderNumber);
+		    	
 		    	$("#orderDetailSettlementDay").text(' 결제일 : '+ allFormatDate(data[0].orSettlementDay));
 		    	
-		    	
-		    	
 		    	$("#orderDetailInflowRoute").text(' 유입경로 : '+(data[0].orInflowRoute == null ? " - " : data[0].orInflowRoute));
-		    	
 		    	
 		    	if(data[0].orDeliveryPrice > 0){
 		    		

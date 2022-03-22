@@ -137,8 +137,36 @@ public class DeliveryController{
 	@RequestMapping(value="/result.do", method=RequestMethod.POST)
 	@ResponseBody
 	public List<OrdersVO> selectDelivTargetByOrDeliveryInvoiceNumber(@ModelAttribute OrdersVO orVO){
-		logger.info("orDeliveryInvoiceNumber = {}",orVO.getOrDeliveryInvoiceNumber());
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("-", ""));
 
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅃ", "Q"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅉ", "W"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㄸ", "E"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㄲ", "R"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅆ", "T"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅛ", "Y"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅕ", "U"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅑ", "I"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅒ", "O"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅖ", "P"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅁ", "A"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㄴ", "S"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅇ", "D"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㄹ", "F"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅎ", "G"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅗ", "H"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅓ", "J"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅏ", "K"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅣ", "L"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅋ", "Z"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅌ", "X"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅊ", "C"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅍ", "V"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅠ", "B"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅜ", "N"));
+		orVO.setOrDeliveryInvoiceNumber(orVO.getOrDeliveryInvoiceNumber().replaceAll("ㅡ", "M"));
+		
+		logger.info("orDeliveryInvoiceNumber = {}",orVO.getOrDeliveryInvoiceNumber());		
 		return deliService.selectDelivTargetByOrDeliveryInvoiceNumber(orVO);
 	}
 	
