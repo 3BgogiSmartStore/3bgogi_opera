@@ -164,18 +164,16 @@ public class FreshSolutionsDeliveryUtil {
 		calendar.add(Calendar.DAY_OF_MONTH, 1);
 		Date tomorrow = calendar.getTime();
 		
-		String host = "toms.open-api-dev.kurly.com";
+		String host = "toms.open-api.kurly.com";
 		String path = "/v1/api/tcorders";
 		String schema = "https";
-		
-		String fullHost = "https://toms.open-api.kurly.com/v1/api/tcorders";
-		
+
 		String JWT = apiKeyProperties.getProperty("api_key.fresh_solutions.JWT");
 		CloseableHttpClient client = null;
 
 		JSONObject json = new JSONObject();
 		
-		json.put("vendorCode", "TD1024");
+		json.put("vendorCode", "TD112");
 		json.put("requestDate", yMd.format(tomorrow));
 		
 		JSONArray orderList = new JSONArray();
