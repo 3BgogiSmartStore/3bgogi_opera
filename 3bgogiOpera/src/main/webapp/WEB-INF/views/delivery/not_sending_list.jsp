@@ -1042,7 +1042,13 @@
 													롯데택배 송장 가공중입니다
 												</c:if>
 												<c:if test="${OrderSearchVO.edtFk == 3 }">
-													프레시솔루션 새벽배송 송장 가공중입니다
+													프레시솔루션 
+													<c:if test="${OrderSearchVO.searchAddType == 0 }">
+														새벽배송 가공중입니다
+													</c:if>
+													<c:if test="${OrderSearchVO.searchAddType == 1 }">
+														일반배송(CJ) 가공중입니다
+													</c:if>
 												</c:if>
 	                        					<c:if test="${OrderSearchVO.edtFk == 5 }">
 													cj 새벽배송 송장 가공중입니다

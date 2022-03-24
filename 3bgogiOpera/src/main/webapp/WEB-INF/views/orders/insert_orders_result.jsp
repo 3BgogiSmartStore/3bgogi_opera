@@ -69,7 +69,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="mb-0">CJ, 우체국택배 배송 불가 주문</h4>
+							<h4 class="mb-0">프레시솔루션 새벽, 우체국택배 배송 불가 주문</h4>
 						</div>
 						<div class="card-body">
 							<table class="table table-hover">
