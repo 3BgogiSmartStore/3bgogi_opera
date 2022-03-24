@@ -1001,7 +1001,7 @@
 			                                        class="custom-control-input"><span class="custom-control-label"> 새벽배송 </span>
 			                                    </label>
 			                                    <label class="custom-control custom-radio custom-control-inline  mb-2">
-			                                    	<input type="radio name="searchAddType" value="1" 
+			                                    	<input type="radio" name="searchAddType" value="1" 
 			                                        	<c:if test="${OrderSearchVO.searchAddType == 1 }">
 															checked="checked"
 														</c:if>
