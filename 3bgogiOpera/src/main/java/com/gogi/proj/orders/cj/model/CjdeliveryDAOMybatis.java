@@ -95,6 +95,7 @@ public class CjdeliveryDAOMybatis extends SqlSessionDaoSupport implements Cjdeli
 		+"SET "
 			+"or_delivery_invoice_number = ?, "
 			+"regi_no = ?, "
+			+"or_delivery_company = 'CJ대한통운', "
 			+"edt_fk = 5 "
 		+"WHERE "
 			+"or_serial_special_number = ? "

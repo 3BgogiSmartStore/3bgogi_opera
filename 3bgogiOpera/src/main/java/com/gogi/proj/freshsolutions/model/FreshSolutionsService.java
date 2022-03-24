@@ -21,7 +21,7 @@ public interface FreshSolutionsService {
 	
 	public int grantFreshSolutionsDeliveryInvoiceNumBySerialSpecialNumber(List<OrdersVO> orderList, String ip, String adminId);
 	
-	public int insertOrderHistory(List<OrdersVO> orderList, String ip, String adminId);
+	public int insertOrderHistory(List<OrdersVO> orderList, String ip, String adminId, int delivType);
 	
 	public String fFreshSolutionsDeliveryAutoUpload(OrderSearchVO osVO, String ip, String adminId, int delivType);
 	

@@ -412,7 +412,7 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 			logger.info("cjDao grant invoiceNum result[{}], result = {}", i, result[i]);
 		}
 
-		int logResult = insertOrderHistory(orderList, ip, adminId);
+		int logResult = insertOrderHistory(orderList, ip, adminId, 0);
 
 		if (logResult == 0)
 			return 0;
@@ -421,7 +421,7 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 	}
 
 	@Override
-	public int insertOrderHistory(List<OrdersVO> orderList, String ip, String adminId) {
+	public int insertOrderHistory(List<OrdersVO> orderList, String ip, String adminId, int delivType) {
 		// TODO Auto-generated method stub
 		int result = 0;
 
@@ -467,8 +467,15 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 					ohVO.setOhIp(ip);
 					ohVO.setOhAdmin(adminId);
 					ohVO.setOhRegdate(dates);
-					ohVO.setOhEndPoint("프레시솔루션 새벽배송 송장 생성");
-					ohVO.setOhDetail("프레시솔루션 새벽배송 택배 송장  ( " + orVO.getOrDeliveryInvoiceNumber() + " ) 입력 완료");
+					
+					if(delivType == 1) {
+						ohVO.setOhEndPoint("프레시솔루션 => cj 송장 생성");
+						ohVO.setOhDetail("cj 송장 택배 송장  ( " + orVO.getOrDeliveryInvoiceNumber() + " ) 입력 완료");
+					}else {
+						ohVO.setOhEndPoint("프레시솔루션  송장 생성");
+						ohVO.setOhDetail("프레시솔루션 택배 송장  ( " + orVO.getOrDeliveryInvoiceNumber() + " ) 입력 완료");
+					}
+					
 
 					result += logService.insertOrderHistory(ohVO);
 					temp = orList.get(i).getOrPk();
@@ -525,8 +532,8 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 						ohVO.setOhIp(ip);
 						ohVO.setOhAdmin(adminId);
 						ohVO.setOhRegdate(dates);
-						ohVO.setOhEndPoint("프레시솔루션 새벽배송 생성");
-						ohVO.setOhDetail("프레시솔루션 새벽배송 가송장 생성 완료");
+						ohVO.setOhEndPoint("프레시솔루션 송장 생성");
+						ohVO.setOhDetail("프레시솔루션 가송장 생성 완료");
 
 						int results = logService.insertOrderHistory(ohVO);
 						temp = orList.get(i).getOrPk();

@@ -446,17 +446,37 @@ public class OrdersController {
 			}
 			
 		}else if(edtPk == 3){
-			updateResult = freshSolutionsService.grantFreshSolutionsDeliveryInvoiceNumBySerialSpecialNumber(orderList, request.getRemoteAddr(), adminVo.getUsername());
+			
 
-			if( updateResult > 0 ) {
+			if(orderList.get(0).getOrDeliveryInvoiceNumber().length() > 13) {
+				updateResult = cjService.grantCjDeliveryInvoiceNumBySerialSpecialNumber(orderList, request.getRemoteAddr(), adminVo.getUsername());
 				
-				int logResult = freshSolutionsService.insertOrderHistory(orderList, request.getRemoteAddr(), adminVo.getUsername()); 
-				msg = "프레시솔루션 송장 "+logResult+"장 기입 완료";
-				url = "/order/config/search_except_addr_order.do";
+				if( updateResult > 0 ) {
+					
+					int logResult = freshSolutionsService.insertOrderHistory(orderList, request.getRemoteAddr(), adminVo.getUsername(), 1); 
+					msg = "프레시솔루션 송장 => cj일반 배송"+logResult+"장 기입 완료";
+					url = "/order/config/search_except_addr_order.do";
+					
+				}else {
+					msg = "프레시솔루션 엑셀파일로 입력된 값이 존재하지 않습니다";
+					url = "/orders/grant_deliv_invoice.do";
+					
+				}
 				
 			}else {
-				msg = "프레시솔루션 엑셀파일로 입력된 값이 존재하지 않습니다";
-				url = "/orders/grant_deliv_invoice.do";
+				updateResult = freshSolutionsService.grantFreshSolutionsDeliveryInvoiceNumBySerialSpecialNumber(orderList, request.getRemoteAddr(), adminVo.getUsername());
+				
+				if( updateResult > 0 ) {
+					
+					int logResult = freshSolutionsService.insertOrderHistory(orderList, request.getRemoteAddr(), adminVo.getUsername(), 0); 
+					msg = "프레시솔루션 송장 "+logResult+"장 기입 완료";
+					url = "/order/config/search_except_addr_order.do";
+					
+				}else {
+					msg = "프레시솔루션 엑셀파일로 입력된 값이 존재하지 않습니다";
+					url = "/orders/grant_deliv_invoice.do";
+					
+				}
 				
 			}
 			
