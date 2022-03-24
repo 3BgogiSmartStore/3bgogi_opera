@@ -151,10 +151,10 @@ public class AdminLoginSuccessHandler implements AuthenticationSuccessHandler {
 			
 			SimpleGrantedAuthority simpleAuth = iter.next();
 			
-			if(simpleAuth.getAuthority().equals("ROLE_SELLER")) {
+			/*if(simpleAuth.getAuthority().equals("ROLE_SELLER")) {
 				defaultUrl = "/seller/exchange.do";
 				targetUrlParameter = "/seller/exchange.do";
-			}
+			}*/
 		}
 		
 		logger.info("Login Success !");

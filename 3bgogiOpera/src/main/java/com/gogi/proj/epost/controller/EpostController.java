@@ -946,7 +946,35 @@ public class EpostController {
 		
 		AdminVO adminVo = (AdminVO)auth.getPrincipal();
 
-		String result = freshSolutionsService.fFreshSolutionsDeliveryAutoUpload(osVO, request.getRemoteAddr(), adminVo.getUsername());
+		String result = freshSolutionsService.fFreshSolutionsDeliveryAutoUpload(osVO, request.getRemoteAddr(), adminVo.getUsername(), 0);
+		
+		String url = "/security/epost.do";
+		
+		model.addAttribute("msg", result);
+		model.addAttribute("url",url);
+		
+		return "common/message";
+	}
+	
+	/**
+	 * 
+	 * @MethodName : freshSolutionsDeliveryAutoUpload
+	 * @date : 2022. 3. 21.
+	 * @author : Jeon KiChan
+	 * @param osVO
+	 * @param request
+	 * @param model
+	 * @return
+	 * @메소드설명 : 프레시솔루션 자동 업로드
+	 */
+	@RequestMapping(value="/fresh_solutions_delivery_auto_day.do", method=RequestMethod.POST)
+	public String freshSolutionsDeliveryAutoUploadForDay(@ModelAttribute OrderSearchVO osVO,HttpServletRequest request, Model model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		AdminVO adminVo = (AdminVO)auth.getPrincipal();
+
+		String result = freshSolutionsService.fFreshSolutionsDeliveryAutoUpload(osVO, request.getRemoteAddr(), adminVo.getUsername(), 1);
 		
 		String url = "/security/epost.do";
 		
@@ -1067,7 +1095,7 @@ public class EpostController {
 			if(dawnFlag == 1) {
 				
 				
-				if( orVO.getOrAbsDelivType() == 0 && freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
+				if( orVO.getOrAbsDelivType() == 0 && freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail(), 0)) {
 					//새벽배송으로 가능한 지역
 					
 				}else {				

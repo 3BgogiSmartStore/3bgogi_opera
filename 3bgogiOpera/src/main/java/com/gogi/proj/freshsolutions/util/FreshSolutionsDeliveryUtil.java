@@ -89,6 +89,39 @@ public class FreshSolutionsDeliveryUtil {
 		}
 
 	}
+	
+	public boolean isFreshSolutionsDeliveryAreaForDay(String addr, String addrDetail) {
+
+		String parsingString = "";
+
+		URLUtil uUtil = new URLUtil();
+
+		Map<String, String> requestHeaders = new HashMap<>();
+
+		requestHeaders.put("Content-type", "application/json;charset=UTF-8");
+
+		try {
+
+			parsingString = uUtil.getCoordiante("https://toms.open-api.kurly.com/v1/api/address/refine?primaryAddress="
+					+ addr + "&secondaryAddress=" + addrDetail + "&isRoadAddress=true", requestHeaders, "GET", null);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("입출력 에러", e);
+
+		}
+
+		FreshSolutionsDTO freshSolutionsDTO = freshSolutionDataAccess.stringToFreshSolutionsDTO(parsingString);
+
+		if (freshSolutionsDTO.getOperationTime().equals("DAY")) {
+
+			return true;
+		} else {
+
+			return false;
+		}
+
+	}
 
 	
 	/**
@@ -101,7 +134,7 @@ public class FreshSolutionsDeliveryUtil {
 	 * @return
 	 * @메소드설명 : 프레시솔루션 rest api로 배송가능 주소 획득하기
 	 */
-	public boolean isFreshSolutionsDeliveryAreaByRestAPI(String addr, String addrDetail) {
+	public boolean isFreshSolutionsDeliveryAreaByRestAPI(String addr, String addrDetail, int delivType) {
 
 		String host = "toms.open-api.kurly.com";
 		String path = "/v1/api/address/refine";
@@ -127,18 +160,27 @@ public class FreshSolutionsDeliveryUtil {
 			// print result
 			HttpEntity entity = response.getEntity();
 			String result = EntityUtils.toString(entity);
-			
-			logger.info("add = {}, freshsolutions res = {}",addr, result);
-			
+
 			FreshSolutionsDTO freshSolutionsDTO = freshSolutionDataAccess.stringToFreshSolutionsDTO(result);
 			
-			if (freshSolutionsDTO.getOperationTime() != null && freshSolutionsDTO.getOperationTime().equals("DAWN")) {
+			if(delivType == 0) {
+				if (freshSolutionsDTO.getOperationTime() != null && freshSolutionsDTO.getOperationTime().equals("DAWN")) {
 
-				return true;
-			} else {
+					return true;
+				} else {
 
-				return false;
+					return false;
+				}
+			}else {
+				if (freshSolutionsDTO.getOperationTime() != null && freshSolutionsDTO.getOperationTime().equals("DAY")) {
+
+					return true;
+				} else {
+
+					return false;
+				}
 			}
+			
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -237,6 +279,103 @@ public class FreshSolutionsDeliveryUtil {
 			result = EntityUtils.toString(entity);
 			
 			logger.info("test freshsolutions res = {}", result);
+			
+		}catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+
+		return result;
+		
+	}
+	
+	public String uploadOrderDataForFreshSolutionsForDay(OrdersVO orVO, String delivMsg, String doorPass) {
+		
+		SimpleDateFormat yMd = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		Date tomorrow = calendar.getTime();
+		
+		String host = "toms.open-api.kurly.com";
+		String path = "/v1/api/tcorders";
+		String schema = "https";
+
+		String JWT = apiKeyProperties.getProperty("api_key.fresh_solutions.JWT");
+		CloseableHttpClient client = null;
+
+		JSONObject json = new JSONObject();
+		
+		json.put("vendorCode", "TD112");
+		json.put("requestDate", yMd.format(tomorrow));
+		
+		JSONArray orderList = new JSONArray();
+		
+		
+		JSONObject ordererDetail = new JSONObject();
+		
+		ordererDetail.put("vendorOrderId", orVO.getOrSerialSpecialNumber());
+		ordererDetail.put("orderUserName", orVO.getOrBuyerAnotherName() != null ? orVO.getOrBuyerAnotherName() : orVO.getOrBuyerName());
+		ordererDetail.put("receiverName", orVO.getOrReceiverName());
+		ordererDetail.put("receiverAddress", orVO.getOrShippingAddress());
+		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail() == null ? "" : orVO.getOrShippingAddressDetail()+"");
+		ordererDetail.put("receiverTel", orVO.getOrReceiverContractNumber1());
+		ordererDetail.put("receiverHp", orVO.getOrReceiverContractNumber1());
+		ordererDetail.put("deliveryManagerMessage", !doorPass.equals("") ? "(현관:"+doorPass+") "+delivMsg : delivMsg);
+		ordererDetail.put("operationTime", "DAY");
+		ordererDetail.put("smsTransType", "IMMEDIATELY");
+		
+		
+		JSONArray prodList = new JSONArray();
+		for( ProductOptionVO products : orVO.getProductOptionList()) {
+			JSONObject prodDetail = new JSONObject();
+			
+			prodDetail.put("productCode", products.getAnotherOptionPk());
+			prodDetail.put("productType", "REFRIGERATED");
+			prodDetail.put("productName", products.getProductName());
+			prodDetail.put("productCount", products.getAnotherOptionQty());
+			
+			prodList.add(prodDetail);
+			
+		}
+		
+		ordererDetail.put("products", prodList);
+		orderList.add(ordererDetail);
+		json.put("orders", orderList);
+		
+		String result = "";
+		
+		try {
+			client = HttpClients.createDefault();
+
+			URIBuilder uriBuilder = new URIBuilder().setPath(path);
+
+			uriBuilder.setScheme(schema).setHost(host);
+
+			HttpPost post = new HttpPost(uriBuilder.build().toString());
+
+			StringEntity requestEntity = new StringEntity(json.toJSONString() , "utf-8");
+
+			post.addHeader("content-type", "application/json");
+			post.addHeader("authorization", "Bearer "+JWT);
+
+			post.setEntity(requestEntity);
+			
+			CloseableHttpResponse response = null;
+
+			response = client.execute(post);
+			
+			// print result
+			HttpEntity entity = response.getEntity();
+			result = EntityUtils.toString(entity);
 			
 		}catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

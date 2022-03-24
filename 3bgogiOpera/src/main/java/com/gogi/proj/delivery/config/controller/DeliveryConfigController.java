@@ -439,7 +439,7 @@ public class DeliveryConfigController {
 	@ResponseBody
 	public boolean dawnDeliveryAreaCheck(@ModelAttribute OrdersVO orVO) {
 		
-		return freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail());
+		return freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail(), 0);
 		
 	}
 	

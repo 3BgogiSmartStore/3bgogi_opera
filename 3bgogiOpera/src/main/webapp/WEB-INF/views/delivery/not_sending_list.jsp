@@ -361,6 +361,54 @@
     			
     		}); 
     		
+    		$("#freshSolutionsDelivAutoButtonForDay").click(function(){
+    			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
+    			
+    			if(orSize == 0){
+    				alert("부여할 수 있는 송장이 존재하지 않습니다");
+    				return false;
+    			}
+    			
+    			if(confirm(orSize+" 개의 주문서를 프레시솔루션에 업로드 하시겠습니까?")){
+        			
+        			$("#freshSolutionsDelivButton").removeClass("btn btn-warning");
+        			
+            		$("#freshSolutionsDelivButton").text("");
+            		
+        			$("#freshSolutionsDelivButton").addClass("dashboard-spinner spinner-xs");
+        			
+    				if($("select[name=edtFk]").val() == '3'){
+    					alert("프레시솔루션에 업로드합니다");
+    					
+    				}
+    				
+					var divs = document.createElement("div");
+	    			
+	    			var excelDownloadForm =  document.createElement("form");
+	    			excelDownloadForm.action="/security/fresh_solutions_delivery_auto_day.do";
+	    			excelDownloadForm.method="POST";
+    					
+	    			var orSerialSpecialNumberList = new Array(orSize);
+	    			
+	    			
+	    			for(var i=0; i<orSize; i++){
+	    				var orSerialSpecialNumberInput = document.createElement("input");
+	    				orSerialSpecialNumberInput.name="orSerialSpecialNumberList";
+	    				orSerialSpecialNumberInput.value=$("input[name=orSerialSpecialNumberList]:checked")[i].value;
+	    				excelDownloadForm.append(orSerialSpecialNumberInput);
+	    				
+	    			}
+	    			
+	    			$("#excelDownloadIframe").append(excelDownloadForm);
+	    			
+	    			excelDownloadForm.submit();
+	    			
+	    			$("#excelDownloadIframe").html("");
+    			}
+    			
+    			
+    		}); 
+    		
     		$("#lotteDelivButton").click(function(){
     			var orSize = $("input[name=orSerialSpecialNumberList]:checked").length;
     			
@@ -908,7 +956,7 @@
 											</c:if>
 				                            <div class="btn-group">
 				                            	<select class="form-control" name="edtFk">
-				                            		<option value="4"
+				                            		<%-- <option value="4"
 				                            			<c:if test="${OrderSearchVO.edtFk == 4 }">
 															selected="selected"
 														</c:if>
@@ -918,12 +966,12 @@
 				                            			<c:if test="${OrderSearchVO.edtFk == 5 }">
 															selected="selected"
 														</c:if>
-				                            		>cj 새벽배송 송장 부여</option>
+				                            		>cj 새벽배송 송장 부여</option> --%>
 				                            		<option value="3"
 				                            			<c:if test="${OrderSearchVO.edtFk == 3 }">
 															selected="selected"
 														</c:if>
-				                            		>프레시솔루션 새벽배송 송장 부여</option>
+				                            		>프레시솔루션 송장 부여</option>
 				                            		<%-- <option value="6"
 				                            			<c:if test="${OrderSearchVO.edtFk == 6 }">
 															selected="selected"
@@ -943,6 +991,24 @@
 				                            	<input type="text" class="btn btn-light" id="dateStart" name="dateStart" style="width: 8em;" value="${OrderSearchVO.dateStart }"/> &nbsp; 
 				                                <input type="text" class="btn btn-light" id="dateEnd" name="dateEnd" style="width: 8em;" value="${OrderSearchVO.dateEnd }"/>
 				                            </div>
+				                            
+				                            <c:if test="${OrderSearchVO.edtFk == 3 }">
+												<label class="custom-control custom-radio custom-control-inline  mb-2">
+			                                    	<input type="radio" id="todays" name="datePeriod" value="0"
+			                                        	<c:if test="${OrderSearchVO.searchAddType == 0 }">
+															checked="checked"
+														</c:if>
+			                                        class="custom-control-input"><span class="custom-control-label"> 새벽배송 </span>
+			                                    </label>
+			                                    <label class="custom-control custom-radio custom-control-inline  mb-2">
+			                                    	<input type="radio" id="weeksAgo" name="datePeriod" value="1" 
+			                                        	<c:if test="${OrderSearchVO.searchAddType == 1 }">
+															checked="checked"
+														</c:if>
+			                                        class="custom-control-input"><span class="custom-control-label"> 일반배송 </span>
+			                                   </label>
+											</c:if>
+														
 				                            <div class="btn-group">
 				                            	<c:set var="insertingCountNum" value="1"/>
 						                        <select class="form-control" name="insertingCount">
@@ -1004,7 +1070,14 @@
 												</c:if>	
 												<c:if test="${OrderSearchVO.edtFk == 3 }">
 													<button class="btn btn-warning" id="freshSolutionsDelivButton"> 프레시솔루션 새벽배송 임시송장 부여 </button>
-													<button class="btn btn-danger" id="freshSolutionsDelivAutoButton"> 프레시솔루션 자동등록 </button>
+													
+													<c:if test="${OrderSearchVO.getSearchAddType == 0 }">
+														<button class="btn btn-danger" id="freshSolutionsDelivAutoButton"> 프레시솔루션 새벽배송 등록 </button>
+													</c:if>
+													<c:if test="${OrderSearchVO.getSearchAddType != 0 }">
+														<button class="btn btn-danger" id="freshSolutionsDelivAutoButtonForDay"> 프레시솔루션 일반배송 등록 </button>
+													</c:if>
+													
 												</c:if>	
 												<c:if test="${OrderSearchVO.edtFk == 7 }">
 													<button class="btn btn-warning" id="teamFreshDelivButton"> 팀프레시 송장 부여 </button>

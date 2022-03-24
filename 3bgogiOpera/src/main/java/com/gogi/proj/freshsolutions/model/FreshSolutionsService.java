@@ -9,7 +9,7 @@ import com.gogi.proj.paging.OrderSearchVO;
 
 public interface FreshSolutionsService {
 
-	public boolean isFreshSolutionsDeliveryArea(String addr, String addrDetail);
+	public boolean isFreshSolutionsDeliveryArea(String addr, String addrDetail, int delivType);
 	
 	public OrderSearchVO selectFreshSolutionsDeliveryTargetChecking(OrderSearchVO osVO);
 	
@@ -23,6 +23,6 @@ public interface FreshSolutionsService {
 	
 	public int insertOrderHistory(List<OrdersVO> orderList, String ip, String adminId);
 	
-	public String fFreshSolutionsDeliveryAutoUpload(OrderSearchVO osVO, String ip, String adminId);
+	public String fFreshSolutionsDeliveryAutoUpload(OrderSearchVO osVO, String ip, String adminId, int delivType);
 	
 }

@@ -54,11 +54,11 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 	@Autowired
 	private DeliveryConfigService dcService;
 
-	public boolean isFreshSolutionsDeliveryArea(String addr, String addrDetail) {
+	public boolean isFreshSolutionsDeliveryArea(String addr, String addrDetail, int delivType) {
 
 		String fullAddr = addr + " " + addrDetail;
 
-		boolean result = freshSolutionsDeliveryUtil.isFreshSolutionsDeliveryAreaByRestAPI(addr, addrDetail);
+		boolean result = freshSolutionsDeliveryUtil.isFreshSolutionsDeliveryAreaByRestAPI(addr, addrDetail, delivType);
 
 		if (result) {
 
@@ -87,8 +87,7 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 		for (int i = 0; i < checkingListSize; i++) {
 
-			if (isFreshSolutionsDeliveryArea(checkingList.get(i).getOrShippingAddress(),
-					checkingList.get(i).getOrShippingAddressDetail())) {
+			if (isFreshSolutionsDeliveryArea(checkingList.get(i).getOrShippingAddress(), checkingList.get(i).getOrShippingAddressDetail(), osVO.getSearchAddType())) {
 				targetList.add(checkingList.get(i).getOrSerialSpecialNumber());
 			}
 
@@ -483,7 +482,7 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 	@Override
 	@Transactional
-	public String fFreshSolutionsDeliveryAutoUpload(OrderSearchVO osVO, String ip, String adminId) {
+	public String fFreshSolutionsDeliveryAutoUpload(OrderSearchVO osVO, String ip, String adminId, int delivType) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -499,7 +498,6 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 		String dates = dateFormat.format(today);
 		Date tomorrow = calendar.getTime();
 
-		// cnplus프로그램에 넣을 주문서 목록 조회
 		List<OrdersVO> delivTarget = freshSolutionsDao.selectFreshSolutionsDeliveryExcelTarget(osVO);
 
 		int result = freshSolutionsDao.updateFreshSolutionsDeliveryTargetBeforeGrantInvoiceNum(delivTarget);
@@ -584,7 +582,12 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 			}
 
-			resResult = freshSolutionsDeliveryUtil.uploadOrderDataForFreshSolutions(delivTarget.get(i), delivMsg, doorPass);
+			if(delivType == 0) {
+				resResult = freshSolutionsDeliveryUtil.uploadOrderDataForFreshSolutions(delivTarget.get(i), delivMsg, doorPass);
+			}else {
+				resResult = freshSolutionsDeliveryUtil.uploadOrderDataForFreshSolutionsForDay(delivTarget.get(i), delivMsg, doorPass);
+			}
+			
 
 		}
 

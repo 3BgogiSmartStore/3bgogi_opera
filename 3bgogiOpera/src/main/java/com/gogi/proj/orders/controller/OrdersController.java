@@ -296,7 +296,7 @@ public class OrdersController {
 			if(!tempAddr.equals(orVO.getOrShippingAddress())) {
 				
 				
-				if( orVO.getOrAbsDelivType() == 0 && freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail())) {
+				if( orVO.getOrAbsDelivType() == 0 && freshSolutionsService.isFreshSolutionsDeliveryArea(orVO.getOrShippingAddress(), orVO.getOrShippingAddressDetail(), 0)) {
 					//새벽배송으로 가능한 지역
 					
 				}else {				
