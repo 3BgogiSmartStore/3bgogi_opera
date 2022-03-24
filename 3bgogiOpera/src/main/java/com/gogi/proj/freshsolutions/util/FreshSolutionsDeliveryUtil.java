@@ -206,16 +206,23 @@ public class FreshSolutionsDeliveryUtil {
 		calendar.add(Calendar.DAY_OF_MONTH, 1);
 		Date tomorrow = calendar.getTime();
 		
-		String host = "toms.open-api.kurly.com";
+		//운영 서버 
+		//String host = "toms.open-api.kurly.com";
+				
+		//테스트서버
+		String host = "toms.open-api-dev.kurly.com";
 		String path = "/v1/api/tcorders";
 		String schema = "https";
 
-		String JWT = apiKeyProperties.getProperty("api_key.fresh_solutions.JWT");
-		CloseableHttpClient client = null;
+		String JWT = apiKeyProperties.getProperty("api_key.fresh_solutions.JWT");	
 
 		JSONObject json = new JSONObject();
 		
-		json.put("vendorCode", "TD112");
+		//운영 서버
+		//json.put("vendorCode", "TD112");
+		
+		//테스트 서버
+		json.put("vendorCode", "TD1024");
 		json.put("requestDate", yMd.format(tomorrow));
 		
 		JSONArray orderList = new JSONArray();
@@ -227,7 +234,7 @@ public class FreshSolutionsDeliveryUtil {
 		ordererDetail.put("orderUserName", orVO.getOrBuyerAnotherName() != null ? orVO.getOrBuyerAnotherName() : orVO.getOrBuyerName());
 		ordererDetail.put("receiverName", orVO.getOrReceiverName());
 		ordererDetail.put("receiverAddress", orVO.getOrShippingAddress());
-		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail() == null ? "" : orVO.getOrShippingAddressDetail()+"");
+		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail() == null ? " " : orVO.getOrShippingAddressDetail()+" ");
 		ordererDetail.put("receiverTel", orVO.getOrReceiverContractNumber1());
 		ordererDetail.put("receiverHp", orVO.getOrReceiverContractNumber1());
 		ordererDetail.put("deliveryManagerMessage", !doorPass.equals("") ? "(현관:"+doorPass+") "+delivMsg : delivMsg);
@@ -254,6 +261,10 @@ public class FreshSolutionsDeliveryUtil {
 		
 		String result = "";
 		
+		CloseableHttpClient client = null;
+		
+		CloseableHttpResponse response = null;
+		
 		try {
 			client = HttpClients.createDefault();
 
@@ -269,8 +280,7 @@ public class FreshSolutionsDeliveryUtil {
 			post.addHeader("authorization", "Bearer "+JWT);
 
 			post.setEntity(requestEntity);
-			
-			CloseableHttpResponse response = null;
+
 
 			response = client.execute(post);
 			
@@ -292,6 +302,16 @@ public class FreshSolutionsDeliveryUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
+		}finally {
+			try {
+				client.close();
+				response.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
 		return result;
@@ -305,16 +325,24 @@ public class FreshSolutionsDeliveryUtil {
 		calendar.add(Calendar.DAY_OF_MONTH, 1);
 		Date tomorrow = calendar.getTime();
 		
-		String host = "toms.open-api.kurly.com";
+		//운영 서버 
+		//String host = "toms.open-api.kurly.com";
+		
+		//테스트서버
+		String host = "toms.open-api-dev.kurly.com";
+		
 		String path = "/v1/api/tcorders";
 		String schema = "https";
 
-		String JWT = apiKeyProperties.getProperty("api_key.fresh_solutions.JWT");
-		CloseableHttpClient client = null;
+		String JWT = apiKeyProperties.getProperty("api_key.fresh_solutions.JWT");	
 
 		JSONObject json = new JSONObject();
 		
-		json.put("vendorCode", "TD112");
+		//운영 서버
+		//json.put("vendorCode", "TD112");
+				
+		//테스트 서버
+		json.put("vendorCode", "TD1024");
 		json.put("requestDate", yMd.format(tomorrow));
 		
 		JSONArray orderList = new JSONArray();
@@ -326,7 +354,7 @@ public class FreshSolutionsDeliveryUtil {
 		ordererDetail.put("orderUserName", orVO.getOrBuyerAnotherName() != null ? orVO.getOrBuyerAnotherName() : orVO.getOrBuyerName());
 		ordererDetail.put("receiverName", orVO.getOrReceiverName());
 		ordererDetail.put("receiverAddress", orVO.getOrShippingAddress());
-		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail() == null ? "" : orVO.getOrShippingAddressDetail()+"");
+		ordererDetail.put("receiverDetailAddress", orVO.getOrShippingAddressDetail() == null ? " " : orVO.getOrShippingAddressDetail()+" ");
 		ordererDetail.put("receiverTel", orVO.getOrReceiverContractNumber1());
 		ordererDetail.put("receiverHp", orVO.getOrReceiverContractNumber1());
 		ordererDetail.put("deliveryManagerMessage", !doorPass.equals("") ? "(현관:"+doorPass+") "+delivMsg : delivMsg);
@@ -353,14 +381,19 @@ public class FreshSolutionsDeliveryUtil {
 		
 		String result = "";
 		
+		CloseableHttpClient client = null;
+		URIBuilder uriBuilder = null;
+		HttpPost post = null;
+		CloseableHttpResponse response = null;
+		HttpEntity entity = null;
 		try {
 			client = HttpClients.createDefault();
 
-			URIBuilder uriBuilder = new URIBuilder().setPath(path);
+			uriBuilder = new URIBuilder().setPath(path);
 
 			uriBuilder.setScheme(schema).setHost(host);
 
-			HttpPost post = new HttpPost(uriBuilder.build().toString());
+			post = new HttpPost(uriBuilder.build().toString());
 
 			StringEntity requestEntity = new StringEntity(json.toJSONString() , "utf-8");
 
@@ -368,14 +401,14 @@ public class FreshSolutionsDeliveryUtil {
 			post.addHeader("authorization", "Bearer "+JWT);
 
 			post.setEntity(requestEntity);
-			
-			CloseableHttpResponse response = null;
 
 			response = client.execute(post);
 			
 			// print result
-			HttpEntity entity = response.getEntity();
+			entity = response.getEntity();
 			result = EntityUtils.toString(entity);
+			
+			logger.info("test freshsolutions res = {}", result);
 			
 		}catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -389,6 +422,15 @@ public class FreshSolutionsDeliveryUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
+		}finally {
+			try {
+				client.close();
+				response.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		return result;

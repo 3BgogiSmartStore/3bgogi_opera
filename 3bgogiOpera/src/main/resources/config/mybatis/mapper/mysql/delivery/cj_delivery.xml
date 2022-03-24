@@ -537,6 +537,7 @@
 		SET
 			or_delivery_invoice_number = #{orDeliveryInvoiceNumber},
 			regi_no = #{orDeliveryInvoiceNumber},
+			or_delivery_company = 'CJ대한통운',
 			edt_fk = 5
 		WHERE
 			or_serial_special_number = #{orSerialSpecialNumber}

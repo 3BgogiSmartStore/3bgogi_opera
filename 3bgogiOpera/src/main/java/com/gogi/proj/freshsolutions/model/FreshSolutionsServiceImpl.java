@@ -29,6 +29,7 @@ import com.gogi.proj.delivery.config.model.DeliveryConfigService;
 import com.gogi.proj.freshsolutions.util.FreshSolutionsDeliveryUtil;
 import com.gogi.proj.log.model.LogService;
 import com.gogi.proj.log.vo.OrderHistoryVO;
+import com.gogi.proj.orders.cj.model.CjdeliveryDAO;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.orders.vo.OrdersVOList;
 import com.gogi.proj.paging.OrderSearchVO;
@@ -53,6 +54,9 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 	@Autowired
 	private DeliveryConfigService dcService;
+	
+	@Autowired
+	private CjdeliveryDAO cjDeliveryDao;
 
 	public boolean isFreshSolutionsDeliveryArea(String addr, String addrDetail, int delivType) {
 
@@ -403,13 +407,18 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 		 * cjDao.grantCjDeliveryInvoiceNumBySerialSpecialNumber(orVO); }
 		 */
 
-		int[] result = freshSolutionsDao.grantFreshSolutionsDeliveryInvoiceNumByBatchUpdate(orderList);
+		//int[] result = freshSolutionsDao.grantFreshSolutionsDeliveryInvoiceNumByBatchUpdate(orderList);
 
-		if (result == null)
-			return 0;
+		int result = 0;
 
-		for (int i = 0; i < result.length; i++) {
-			logger.info("cjDao grant invoiceNum result[{}], result = {}", i, result[i]);
+		for (int i = 0; i < orderList.size(); i++) {
+			
+			// 프레시솔루션 새벽배송일 경우
+			if(orderList.get(i).getOrDeliveryInvoiceNumber().length() > 14) {
+				result += freshSolutionsDao.grantFreshSolutionsDeliveryInvoiceNumBySerialSpecialNumber(orderList.get(i));
+			}else {
+				result += cjDeliveryDao.grantCjDeliveryInvoiceNumBySerialSpecialNumber(orderList.get(i));
+			}
 		}
 
 		int logResult = insertOrderHistory(orderList, ip, adminId, 0);
@@ -417,9 +426,10 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 		if (logResult == 0)
 			return 0;
 
-		return result[0];
+		return result;
 	}
 
+	@Transactional
 	@Override
 	public int insertOrderHistory(List<OrdersVO> orderList, String ip, String adminId, int delivType) {
 		// TODO Auto-generated method stub
@@ -468,12 +478,14 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 					ohVO.setOhAdmin(adminId);
 					ohVO.setOhRegdate(dates);
 					
-					if(delivType == 1) {
-						ohVO.setOhEndPoint("프레시솔루션 => cj 송장 생성");
-						ohVO.setOhDetail("cj 송장 택배 송장  ( " + orVO.getOrDeliveryInvoiceNumber() + " ) 입력 완료");
-					}else {
+					if(orVO.getOrDeliveryInvoiceNumber().length() > 14) {
 						ohVO.setOhEndPoint("프레시솔루션  송장 생성");
 						ohVO.setOhDetail("프레시솔루션 택배 송장  ( " + orVO.getOrDeliveryInvoiceNumber() + " ) 입력 완료");
+						
+					}else {
+						ohVO.setOhEndPoint("프레시솔루션 => cj 송장 생성");
+						ohVO.setOhDetail("cj 송장 택배 송장  ( " + orVO.getOrDeliveryInvoiceNumber() + " ) 입력 완료");
+						
 					}
 					
 
@@ -507,42 +519,9 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 		List<OrdersVO> delivTarget = freshSolutionsDao.selectFreshSolutionsDeliveryExcelTarget(osVO);
 
-		int result = freshSolutionsDao.updateFreshSolutionsDeliveryTargetBeforeGrantInvoiceNum(delivTarget);
-
 		OrderHistoryVO ohVO = null;
 
 		int temp = 0;
-
-		List<OrdersVO> orList = null;
-
-		for (OrdersVO orVO : delivTarget) {
-
-			orList = freshSolutionsDao.selectOrdersPkByOrSerialSpecialNumberForGrantFreshSolutionsInvoiceNum(
-					orVO.getOrSerialSpecialNumber());
-
-			if (orList != null) {
-				for (int i = 0; i < orList.size(); i++) {
-
-					if (temp == orList.get(i).getOrPk()) {
-						continue;
-
-					} else {
-						ohVO = new OrderHistoryVO();
-						ohVO.setOrFk(orList.get(i).getOrPk());
-						ohVO.setOhIp(ip);
-						ohVO.setOhAdmin(adminId);
-						ohVO.setOhRegdate(dates);
-						ohVO.setOhEndPoint("프레시솔루션 송장 생성");
-						ohVO.setOhDetail("프레시솔루션 가송장 생성 완료");
-
-						int results = logService.insertOrderHistory(ohVO);
-						temp = orList.get(i).getOrPk();
-
-					}
-				}
-			}
-
-		}
 
 		for (OrdersVO sortingOrder : delivTarget) {
 			if (sortingOrder.getProductOptionList().get(0).getProdSorting() == 0
@@ -559,6 +538,9 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 		Collections.sort(delivTarget);
 
 		for (int i = 0; i < delivTarget.size(); i++) {
+			
+			resResult = "";
+			
 			String delivMsg = "";
 			String delivMsgTemp = "";
 			String doorPass = "";
@@ -589,12 +571,61 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 			}
 
+			int uploadResult = 0;
+			
 			if(delivType == 0) {
 				resResult = freshSolutionsDeliveryUtil.uploadOrderDataForFreshSolutions(delivTarget.get(i), delivMsg, doorPass);
+				
+				if(resResult.contains("등록되었습니다")) uploadResult++;
+				
 			}else {
 				resResult = freshSolutionsDeliveryUtil.uploadOrderDataForFreshSolutionsForDay(delivTarget.get(i), delivMsg, doorPass);
+				
+				if(resResult.contains("등록되었습니다")) uploadResult++;
+				
+			}
+
+			if(uploadResult == 0) {
+				delivTarget.remove(i);
+			}
+				
+			if(uploadResult != 0) {
+				
+				List<OrdersVO> orList = null;
+				int result = freshSolutionsDao.updateFreshSolutionsDeliveryTargetBeforeGrantInvoiceNum(delivTarget);
+				
+				for (OrdersVO orVO : delivTarget) {
+
+					orList = freshSolutionsDao.selectOrdersPkByOrSerialSpecialNumberForGrantFreshSolutionsInvoiceNum(
+							orVO.getOrSerialSpecialNumber());
+
+					if (orList != null) {
+						for (int orderCount = 0; orderCount < orList.size(); orderCount++) {
+
+							if (temp == orList.get(orderCount).getOrPk()) {
+								continue;
+
+							} else {
+								ohVO = new OrderHistoryVO();
+								ohVO.setOrFk(orList.get(orderCount).getOrPk());
+								ohVO.setOhIp(ip);
+								ohVO.setOhAdmin(adminId);
+								ohVO.setOhRegdate(dates);
+								ohVO.setOhEndPoint("프레시솔루션 송장 생성");
+								ohVO.setOhDetail("프레시솔루션 가송장 생성 완료");
+
+								int results = logService.insertOrderHistory(ohVO);
+								temp = orList.get(orderCount).getOrPk();
+
+							}
+						}
+					}
+
+				}
+				
 			}
 			
+			//
 
 		}
 
