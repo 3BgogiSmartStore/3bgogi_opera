@@ -1071,13 +1071,12 @@
 												<c:if test="${OrderSearchVO.edtFk == 3 }">
 													<button class="btn btn-warning" id="freshSolutionsDelivButton"> 프레시솔루션 새벽배송 임시송장 부여 </button>
 													
-													<c:if test="${OrderSearchVO.getSearchAddType == 0 }">
+													<c:if test="${OrderSearchVO.searchAddType == 0 }">
 														<button class="btn btn-danger" id="freshSolutionsDelivAutoButton"> 프레시솔루션 새벽배송 등록 </button>
 													</c:if>
-													<c:if test="${OrderSearchVO.getSearchAddType != 0 }">
+													<c:if test="${OrderSearchVO.searchAddType != 0 }">
 														<button class="btn btn-danger" id="freshSolutionsDelivAutoButtonForDay"> 프레시솔루션 일반배송 등록 </button>
 													</c:if>
-													
 												</c:if>	
 												<c:if test="${OrderSearchVO.edtFk == 7 }">
 													<button class="btn btn-warning" id="teamFreshDelivButton"> 팀프레시 송장 부여 </button>
