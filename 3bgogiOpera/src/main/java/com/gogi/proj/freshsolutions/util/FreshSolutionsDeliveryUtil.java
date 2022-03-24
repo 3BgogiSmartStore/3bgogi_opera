@@ -207,10 +207,10 @@ public class FreshSolutionsDeliveryUtil {
 		Date tomorrow = calendar.getTime();
 		
 		//운영 서버 
-		//String host = "toms.open-api.kurly.com";
+		String host = "toms.open-api.kurly.com";
 				
 		//테스트서버
-		String host = "toms.open-api-dev.kurly.com";
+		//String host = "toms.open-api-dev.kurly.com";
 		String path = "/v1/api/tcorders";
 		String schema = "https";
 
@@ -219,10 +219,10 @@ public class FreshSolutionsDeliveryUtil {
 		JSONObject json = new JSONObject();
 		
 		//운영 서버
-		//json.put("vendorCode", "TD112");
+		json.put("vendorCode", "TD112");
 		
 		//테스트 서버
-		json.put("vendorCode", "TD1024");
+		//json.put("vendorCode", "TD1024");
 		json.put("requestDate", yMd.format(tomorrow));
 		
 		JSONArray orderList = new JSONArray();
@@ -326,10 +326,10 @@ public class FreshSolutionsDeliveryUtil {
 		Date tomorrow = calendar.getTime();
 		
 		//운영 서버 
-		//String host = "toms.open-api.kurly.com";
+		String host = "toms.open-api.kurly.com";
 		
 		//테스트서버
-		String host = "toms.open-api-dev.kurly.com";
+		//String host = "toms.open-api-dev.kurly.com";
 		
 		String path = "/v1/api/tcorders";
 		String schema = "https";
@@ -339,10 +339,10 @@ public class FreshSolutionsDeliveryUtil {
 		JSONObject json = new JSONObject();
 		
 		//운영 서버
-		//json.put("vendorCode", "TD112");
+		json.put("vendorCode", "TD112");
 				
 		//테스트 서버
-		json.put("vendorCode", "TD1024");
+		//json.put("vendorCode", "TD1024");
 		json.put("requestDate", yMd.format(tomorrow));
 		
 		JSONArray orderList = new JSONArray();
