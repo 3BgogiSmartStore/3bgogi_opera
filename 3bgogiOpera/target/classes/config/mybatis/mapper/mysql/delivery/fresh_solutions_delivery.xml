@@ -609,7 +609,9 @@
 			orders
 		WHERE
 			or_serial_special_number = #{orSerialSpecialNumber}
-			AND edt_fk = 3
+			AND (
+				edt_fk = 3 OR edt_fk = 5
+			)
 			<![CDATA[
 				AND or_sending_deadline >= DATE_FORMAT(DATE_ADD(NOW() , INTERVAL -15 DAY), '%Y-%m-%d')
 			]]>

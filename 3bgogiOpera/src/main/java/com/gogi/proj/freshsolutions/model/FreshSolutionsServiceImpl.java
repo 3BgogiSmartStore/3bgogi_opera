@@ -462,9 +462,7 @@ public class FreshSolutionsServiceImpl implements FreshSolutionsService {
 
 		for (OrdersVO orVO : orderList) {
 
-			List<OrdersVO> orList = freshSolutionsDao
-					.selectOrdersPkByOrSerialSpecialNumberForGrantFreshSolutionsInvoiceNum(
-							orVO.getOrSerialSpecialNumber());
+			List<OrdersVO> orList = freshSolutionsDao.selectOrdersPkByOrSerialSpecialNumberForGrantFreshSolutionsInvoiceNum(orVO.getOrSerialSpecialNumber());
 
 			for (int i = 0; i < orList.size(); i++) {
 

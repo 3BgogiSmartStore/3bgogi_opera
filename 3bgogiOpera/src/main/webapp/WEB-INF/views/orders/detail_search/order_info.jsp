@@ -492,7 +492,7 @@
 						                        " name="edtFk"  >
 							                        <option value="0"> 택배사 </option>
 													<option value="1">우체국택배</option>
-													<!-- <option value="3">새벽배송(프레시솔루션)</option> -->
+													<option value="3">새벽배송(프레시솔루션)</option>
 													<option value="5">CJ새벽배송</option>
 												</select>&nbsp;
 												<select class="form-control form-control-sm mb-2 
@@ -867,7 +867,7 @@
 										                                	</c:if>
 										                                	<c:if test="${!empty orlist.orDeliveryInvoiceNumber and !empty orlist.orSendingDay }">
 										                                		data-output="1" data-deliv-company="${orlist.orDeliveryCompany }"
-										                                	</c:if>										                          
+										                                	</c:if>										                              		      	
 										                                	      	
 										                                	data-buyer-name="${orlist.orBuyerName }"
 										                                	data-buyer-contract-number="${orlist.orBuyerContractNumber1 }"
@@ -908,7 +908,14 @@
 												                	<label class="custom-control custom-checkbox be-select-all">
 																    <input class="custom-control-input chk_all" value="${stocklist.orPk }" 
 																    	type="checkbox" name="orPks"
-																    	data-cancled="${stocklist.orCancledFlag }"
+																    	
+																    	<c:if test="${stocklist.orCancledFlag == false }">
+																    		data-cancled='false'
+																    	</c:if>
+																    	<c:if test="${stocklist.orCancledFlag == true }">
+																    		data-cancled='true'
+																    	</c:if>
+																    	
 																    	data-sending-day="${stocklist.orSendingDay }"
 																    	data-invoice-num="${sotcklist.orDeliveryInvoiceNumber }"
 																    	
@@ -1057,7 +1064,52 @@
 	<iframe id="excelDownloadIframe" width="0" height="0">
 	</iframe>  
 	<script src="${pageContext.request.contextPath}/resources/libs/js/renewal_order_detail_search_manage.js"></script>
-	<script>
+
+	<script type="text/javascript">
+	
+	$(document).ready(function(e){
+        genRowspan("totalProductQty");
+		
+        
+    });
+    
+ 	function goTop(){		 		
+ 		$('html').scrollTop(0);
+ 	}
+ 	
+    function genRowspan(className){
+    	
+        $("." + className).each(function( i , selector) {
+        	var alarmQty = $("select[name=totalQtyAlarm]").val();
+        	
+        	var values = $(selector).data("table-info");
+            var rows = $("." + className+"[data-table-info='"+values+"']");
+            
+            if (rows.length > 1) {
+                rows.eq(0).attr("rowspan", rows.length);
+                
+                if(rows.eq( (rows.length - 1)).data("total-qty") >= alarmQty && alarmQty != -1){
+                	rows.eq(0).css("color", "red");
+                	rows.eq(0).css("font-weight", "bolder");
+                }
+                
+                rows.eq(0).text( rows.eq( (rows.length - 1) ).text() );
+                rows.not(":eq(0)").prop("background-color","");
+                
+                rows.not(":eq(0)").remove();
+                
+                
+            }else{
+            	
+            	if(rows.eq( (rows.length - 1)).data("total-qty") >= alarmQty && alarmQty != -1){
+                	rows.eq(0).css("color", "red");
+                	rows.eq(0).css("font-weight", "bolder");
+                }
+                
+            	
+            }
+        });
+    }
 	</script>
 	<%@ include file="../../inc/bottom.jsp" %>
         
