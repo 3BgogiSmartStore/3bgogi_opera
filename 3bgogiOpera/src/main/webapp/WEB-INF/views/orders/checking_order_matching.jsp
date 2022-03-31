@@ -103,10 +103,26 @@
 			                            <div class="email-filters-left">
 				                            <div class="btn-group">
 				                                <select class="form-control form-control-sm" name="dateType">
-								                    <option value="or_regdate">주문 등록일</option>
-								                    <option value="or_settlement_day">주문 결제일</option>
-								                    <option value="or_sending_day">주문 발송일</option>
-								                    <option value="or_sending_deadline">주문 발송기한</option>
+								                    <option value="or_regdate"
+								                   		<c:if test="${OrderSearchVO.dateType == 'or_regdate' }">
+															 checked="checked"
+														</c:if>
+								                    >주문 등록일</option>
+								                    <option value="or_settlement_day"
+								                    	<c:if test="${OrderSearchVO.dateType == 'or_settlement_day' }">
+															 checked="checked"
+														</c:if>
+								                    >주문 결제일</option>
+								                    <option value="or_sending_day"
+								                    	<c:if test="${OrderSearchVO.dateType == 'or_sending_day' }">
+															 checked="checked"
+														</c:if>
+								                    >주문 발송일</option>
+								                    <option value="or_sending_deadline"
+								                    	<c:if test="${OrderSearchVO.dateType == 'or_sending_deadline' }">
+															 checked="checked"
+														</c:if>
+								                    >주문 발송기한</option>
 							                    </select>
 				                            </div>
 				                            &nbsp;

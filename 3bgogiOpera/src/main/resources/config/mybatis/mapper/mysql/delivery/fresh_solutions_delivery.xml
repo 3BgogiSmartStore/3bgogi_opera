@@ -547,7 +547,7 @@
 	</update>
 	
 	
-	<!-- cj 엑셀 파일로 만들기 위한 정보 나열 -->
+	<!-- 프레시솔루션 엑셀 파일로 만들기 위한 정보 나열 -->
 	<select id="selectFreshSolutionsDeliveryExcelTarget" parameterType="OrderSearchVO" resultMap="renewalDeliveryInfoResultMap">
 		SELECT
 			eos.eos_deliv_seq,
