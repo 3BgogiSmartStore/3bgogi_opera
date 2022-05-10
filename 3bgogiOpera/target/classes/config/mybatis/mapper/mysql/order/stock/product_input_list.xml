@@ -196,7 +196,7 @@
 		limit 0, 10
 	</select>
 	
-	<select id="productInputDontPerm" parameterType="int">
+	<select id="productInputDontPerm" resultType="int">
 		SELECT
 			COUNT(pil_pk)
 		FROM
