@@ -592,6 +592,18 @@ public class OrdersDAOMybatis extends SqlSessionDaoSupport implements OrdersDAO{
 		// TODO Auto-generated method stub
 		return getSqlSession().update(orderCsNameSpace+".absDelivCompany", orVO);
 	}
+
+	@Override
+	public List<OrdersVO> selectOrderFbFkByDate(OrdersVO orVO) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(orderExcelNameSpace+".selectOrderFbFkByDate", orVO);
+	}
+
+	@Override
+	public List<OrdersVO> selectOrderFbFkByOrPk(int orPk) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList(orderExcelNameSpace+".selectOrderFbFkByOrPk", orPk);
+	}
 	
 }
  

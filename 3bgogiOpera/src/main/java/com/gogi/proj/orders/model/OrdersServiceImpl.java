@@ -19,6 +19,7 @@ import com.gogi.proj.configurations.vo.StoreSectionVO;
 import com.gogi.proj.delivery.model.DeliveryDAO;
 import com.gogi.proj.delivery.model.DeliveryService;
 import com.gogi.proj.excel.ReadOrderExcel;
+import com.gogi.proj.freebie.model.FreebieDAO;
 import com.gogi.proj.log.model.LogDAO;
 import com.gogi.proj.log.model.LogService;
 import com.gogi.proj.log.util.LogUtil;
@@ -66,6 +67,9 @@ public class OrdersServiceImpl implements OrdersService {
 
 	@Autowired
 	private OrderConfigDAO ocDao;
+	
+	@Autowired
+	private FreebieDAO freebieDao;
 
 	@Transactional
 	public int[] insertOrderData(List<OrdersVO> orderList, int ssPk) {
@@ -195,6 +199,13 @@ public class OrdersServiceImpl implements OrdersService {
 		for (int i = 0; i < orPk.length; i++) {
 			if (ordersDAO.deleteOrders(orPk[i]) > 0) {
 				orVO.setOrPk(orPk[i]);
+				
+				List<OrdersVO> orList = ordersDAO.selectOrderFbFkByOrPk(orPk[i]);
+				
+				for(OrdersVO ordersVO : orList) {
+					freebieDao.deleteFreebieCheck(ordersVO.getFbFk());
+				}
+				
 				result++;
 
 				boolean stockResult = stockService.updateProductChangeValues(orVO);
@@ -300,6 +311,7 @@ public class OrdersServiceImpl implements OrdersService {
 
 				if (result > 0) {
 					deleteResult++;
+					freebieDao.deleteFreebieCheck(orPkList.get(j).getFbFk());
 					orPkList.get(j).setAdminId(adminId);
 					orPkList.get(j).setIp(ip);
 					ocDao.insertDeleteOrders(orPkList.get(j));
@@ -561,6 +573,12 @@ public class OrdersServiceImpl implements OrdersService {
 
 		stockService.updateProductChangeValues(orVO);
 
+		List<OrdersVO> orList = ordersDAO.selectOrderFbFkByOrPk(orVO.getOrPk());
+		
+		for(OrdersVO ordersVO : orList) {
+			freebieDao.deleteFreebieCheck(ordersVO.getFbFk());
+		}
+		
 		int result = ordersDAO.deleteOrdersByOrPk(orVO);
 
 		if (result > 0) {
@@ -584,9 +602,17 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDAO.selectOrdersCountingByInputDate();
 	}
 
+	@Transactional
 	@Override
 	public int deleteOrdersByDate(OrdersVO ordersVO) {
 		// TODO Auto-generated method stub
+		
+		List<OrdersVO> orList = ordersDAO.selectOrderFbFkByDate(ordersVO);
+		
+		for(OrdersVO orVO : orList) {
+			freebieDao.deleteFreebieCheck(orVO.getFbFk());
+		}
+		
 		return ordersDAO.deleteOrdersByDate(ordersVO);
 	}
 

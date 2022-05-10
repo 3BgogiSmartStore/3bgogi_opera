@@ -208,7 +208,7 @@
 			
 	</select>
 	
-	<insert id="insertFreebieCheck" parameterType="FreebieCheckVO">
+	<insert id="insertFreebieCheck" useGeneratedKeys="true" keyProperty="fcPk" parameterType="FreebieCheckVO">
 		INSERT INTO
 			freebie_check(
 				fb_fk,
@@ -221,6 +221,11 @@
 			#{fcType}
 		)
 	</insert>
+	
+	<delete id="deleteFreebieCheck" parameterType="int">
+		DELETE FROM freebie_check
+		WHERE fc_pk = #{fcPk}
+	</delete>
 	
 	<delete id="deleteFreebie" parameterType="FreebieVO">
 		DELETE FROM	

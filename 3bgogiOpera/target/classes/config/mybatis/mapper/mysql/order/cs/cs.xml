@@ -1082,7 +1082,8 @@
 			or_product,
 			or_product_option,
 			or_amount,
-			or_sending_deadline
+			or_sending_deadline,
+			fb_fk
 		FROM
 			orders
 		WHERE

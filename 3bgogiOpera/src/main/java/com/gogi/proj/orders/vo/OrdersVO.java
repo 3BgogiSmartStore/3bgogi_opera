@@ -167,6 +167,8 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 	// 우체국 발송용
 	private List<ProductOptionVO> productOptionList;
 	
+	private int fbFk;
+	
 	public OrdersVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -335,6 +337,14 @@ public class OrdersVO implements Cloneable, Comparable<OrdersVO>{
 		this.adminId = adminId;
 		this.orAbsDelivType = orAbsDelivType;
 		this.productOptionList = productOptionList;
+	}
+
+	public int getFbFk() {
+		return fbFk;
+	}
+
+	public void setFbFk(int fbFk) {
+		this.fbFk = fbFk;
 	}
 
 	public String getOrTempSendingDeadline() {

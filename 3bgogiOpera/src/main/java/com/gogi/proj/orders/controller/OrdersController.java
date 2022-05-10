@@ -62,7 +62,7 @@ import com.gogi.proj.security.AdminVO;
 import com.gogi.proj.stock.model.StockService;
 import com.gogi.proj.util.FileuploadUtil;
 import com.gogi.proj.util.PageUtility;
-import com.gogi.proj.util.naverMapApiUtil;
+import com.gogi.proj.util.NaverMapApiUtil;
 
 @Controller
 @RequestMapping(value="/orders")
@@ -120,6 +120,9 @@ public class OrdersController {
 	
 	@Autowired
 	private CoupangConnectUtil coupangConnectUtil;
+	
+	@Autowired
+	private NaverMapApiUtil naverMapApiUtil;
 	
 	private final int PROCESS_ORDER_INSERT = 1;
 	private final int PROCESS_PRODUCT_MATCHING = 2;
@@ -1146,11 +1149,9 @@ public class OrdersController {
 	@RequestMapping(value="/search/search_address.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> searchAddressWithMap(@RequestParam String address, Model model) {
-		
-		naverMapApiUtil nma = new naverMapApiUtil();
 		String result = "";
 		try {
-			result = nma.getCoordiante(address);
+			result = naverMapApiUtil.getCoordiante(address);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -1160,7 +1161,7 @@ public class OrdersController {
 		Map<String, Object> resultMap =  null; 
 		
 		try {
-			resultMap = nma.returnJson(result);
+			resultMap = naverMapApiUtil.returnJson(result);
 			model.addAttribute("resultMap",resultMap);
 			
 		} catch (ParseException e) {

@@ -129,11 +129,14 @@ public class FreebieServiceImple implements FreebieService{
 				
 				int dupliResult = fbDao.selectFreebieDupliCheck(fcVO);
 				
-				if( dupliResult == 0) {					
-					int orInputResult = orDao.insertAddOrderData(orList.get(i));
+				if( dupliResult == 0) {			
 					
-					if(orInputResult != 0) {
-						addResult+= fbDao.insertFreebieCheck(fcVO);
+					int fbCheck = fbDao.insertFreebieCheck(fcVO);
+					
+					if(fbCheck != 0) {
+						
+						orList.get(i).setFbFk(fcVO.getFcPk());
+						addResult+= orDao.insertAddOrderData(orList.get(i));
 						
 					}
 				}

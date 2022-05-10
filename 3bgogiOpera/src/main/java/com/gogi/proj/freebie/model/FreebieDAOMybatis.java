@@ -74,5 +74,11 @@ public class FreebieDAOMybatis extends SqlSessionDaoSupport implements FreebieDA
 		// TODO Auto-generated method stub
 		return getSqlSession().delete(namespace+".deleteFreebie", fbVO);
 	}
+
+	@Override
+	public int deleteFreebieCheck(int fcPk) {
+		// TODO Auto-generated method stub
+		return getSqlSession().delete(namespace+".deleteFreebieCheck", fcPk);
+	}
 	
 }

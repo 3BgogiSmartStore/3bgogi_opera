@@ -341,14 +341,14 @@
 							or_delivery_price, or_delivery_discount_price, or_receiver_contract_number1, or_receiver_contract_number2, or_shipping_address_number, or_shipping_province, or_shipping_address,
 							or_shipping_address_detail, or_sending_address, or_payment_type, or_payment_commision, or_another_payment_commision, or_inflow_route, or_tax_flag, or_regdate, or_settlement_day, ss_fk,
 							or_delivery_invoice_number, or_delivery_charge_payment_type, or_delivery_special_price, or_user_column1, or_user_column4,or_devide_flag, or_special_region_flag, or_special_region_check_flag, or_output_flag, or_output_date,
-							or_rec_type, or_rec_memo, or_rec_storage_place, edt_fk, or_deposit_flag, or_abs_deliv_type, or_temp_sending_deadline)
+							or_rec_type, or_rec_memo, or_rec_storage_place, edt_fk, or_deposit_flag, or_abs_deliv_type, or_temp_sending_deadline, fb_fk)
 		VALUES( #{orSerialSpecialNumber}, #{orBuyerId}, #{orBuyerName}, #{orBuyerAnotherName}, #{orBuyerContractNumber1}, #{orBuyerContractNumber2}, #{orReceiverName}, #{orProduct}, #{orProductType}, #{orProductOption},
 				#{orAmount}, #{orDeliveryMessage}, #{orDeliveryType}, #{orDeliveryCompany}, #{orOrderNumber}, #{orProductOrderNumber}, #{orProductNumber}, #{orPaymentPositionType}, 
 				#{orProductPrice}, #{orProductOptionPrice}, #{orDiscountPrice}, #{orTotalPrice}, #{orTotalCost}, #{orCheckDay}, #{orSendingDeadline}, #{orDeliveryChargeType}, #{orDeliveryNumber},
 				#{orDeliveryPrice}, #{orDeliveryDiscountPrice}, #{orReceiverContractNumber1}, #{orReceiverContractNumber2}, #{orShippingAddressNumber}, #{orShippingProvince}, #{orShippingAddress},
 				#{orShippingAddressDetail}, #{orSendingAddress}, #{orPaymentType}, #{orPaymentCommision}, #{orAnotherPaymentCommision}, #{orInflowRoute}, #{orTaxFlag}, #{orRegdate}, #{orSettlementDay}, #{ssFk},
 				#{orDeliveryInvoiceNumber}, #{orDeliveryChargePaymentType}, #{orDeliverySpecialPrice}, #{orUserColumn1},#{orUserColumn4},  #{orDevideFlag},#{orSpecialRegionFlag}, #{orSpecialRegionCheckFlag}, #{orOutputFlag}, #{orOutputDate},
-				#{orRecType}, #{orRecMemo}, #{orRecStoragePlace}, #{edtFk}, #{orDepositFlag}, #{orAbsDelivType}, #{orTempSendingDeadline})
+				#{orRecType}, #{orRecMemo}, #{orRecStoragePlace}, #{edtFk}, #{orDepositFlag}, #{orAbsDelivType}, #{orTempSendingDeadline}, #{fbFk})
 	</insert>
 	
 	<update id="updateDevideOrderData" parameterType="com.gogi.proj.orders.vo.OrdersVO">
@@ -424,6 +424,26 @@
 	</select>
 	
 	<!-- 입력일로 주문서를 조회하여 일괄 삭제하기 -->
+	<select id="selectOrderFbFkByDate" parameterType="OrdersVO" resultType="OrdersVO">
+		SELECT
+			fb_fk
+		FROM 
+			orders
+		WHERE 
+			ss_fk = #{ssFk}
+			AND or_regdate = #{orRegdate}
+			AND fb_fk != 0
+	</select>
+	
+	<select id="selectOrderFbFkByOrPk" parameterType="int" resultType="OrdersVO">
+		SELECT
+			fb_fk
+		FROM 
+			orders
+		WHERE 
+			or_pk = #{orPk}
+	</select>
+	
 	<delete id="deleteOrdersByDate" parameterType="OrdersVO">
 		DELETE FROM 
 			orders

@@ -126,4 +126,15 @@ public interface FreebieDAO {
 	 * @메소드설명 : 사은품 정책 삭제하기
 	 */
 	public int deleteFreebie(FreebieVO fbVO);
+	
+	/**
+	 * 
+	 * @MethodName : deleteFreebieCheck
+	 * @date : 2022. 5. 10.
+	 * @author : Jeon KiChan
+	 * @param fcPk
+	 * @return
+	 * @메소드설명 : 사은품 중복 체크 삭제
+	 */
+	public int deleteFreebieCheck(int fcPk);
 }

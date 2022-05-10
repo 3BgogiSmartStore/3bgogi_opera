@@ -470,4 +470,28 @@ public interface OrdersDAO {
 	 */
 	public int absDelivCompany(OrdersVO orVO);
 	
+	
+	/**
+	 * 
+	 * @MethodName : selectOrderFbFkByDate
+	 * @date : 2022. 5. 10.
+	 * @author : Jeon KiChan
+	 * @param orVO
+	 * @return
+	 * @메소드설명 : 등록일 기준으로 fbfk값 전부 가져오기
+	 */
+	public List<OrdersVO> selectOrderFbFkByDate(OrdersVO orVO);
+	
+	
+	/**
+	 * 
+	 * @MethodName : selectOrderFbFkByOrPk
+	 * @date : 2022. 5. 10.
+	 * @author : Jeon KiChan
+	 * @param orPk
+	 * @return
+	 * @메소드설명 : orPk로 fbFk값 가져오기
+	 */
+	public List<OrdersVO> selectOrderFbFkByOrPk(int orPk);
+	
 }
