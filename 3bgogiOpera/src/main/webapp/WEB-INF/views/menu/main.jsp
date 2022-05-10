@@ -91,7 +91,7 @@
 	                    
                         <div class="row">
                         	 <!--  일반 통계 -->
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                 <div class="card border-3 border-top border-top-primary">
                                     <div class="card-body">
                                         <h5 class="text-muted" id="notInvenedOrder" style="cursor: pointer;"> 재고 미할당 (상품 미매칭 ) </h5>
@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                 <div class="card border-3 border-top border-top-primary">
                                     <div class="card-body">
                                         <h5 class="text-muted"> 미입금 주문서 </h5>
@@ -111,12 +111,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                 <div class="card border-3 border-top border-top-primary">
                                     <div class="card-body">
                                         <h5 class="text-muted" id="delivWeiting" style="cursor: pointer;"> 송장 대기중 (예약 포함) </h5>
                                         <div class="metric-value d-inline-block">
                                             <h1 class="mb-1">${dont_grant_invoice_num }</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <h5 class="text-muted" > 상품 입고 승인 대기 </h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">${productInputDontPerm }</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -183,40 +193,7 @@
                             </div>
                         </div>
                         <div class="row">
-                        	<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                        	
-                        		<div class="card">
-                                    <h5 class="card-header"> 주문서 발송 개수</h5>
-                                    <div class="card-body p-0">
-                                    	<div id="sendingList"></div>
-	                                    <div class="text-center">
-	                                        <span class="legend-item mr-3">
-	                                                <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-	                                        <span class="legend-text"> 발송기한 별 주문서 개수</span>
-	                                        </span>
-	                                        <p></p>
-	                                    </div>
-	                                    
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                        		<div class="card">
-                                    <h5 class="card-header"> 예약된 주문서 개수</h5>
-                                    <div class="card-body p-0">
-                                    	<div id="sendingReservList"></div>
-	                                    <div class="text-center">
-	                                        <span class="legend-item mr-3">
-	                                                <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-	                                        <span class="legend-text"> 발송기한 별 예약 주문서 개수</span>
-	                                        </span>
-	                                        <p></p>
-	                                    </div>
-	                                    
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">
                                     <h5 class="card-header"> 최소 보유치 이하로 내려간 상품 재고 목록 </h5>
                                     <div class="card-body">
@@ -259,6 +236,40 @@
                                     </div>
                                 </div>
                             </div>
+                        	<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        	
+                        		<div class="card">
+                                    <h5 class="card-header"> 주문서 발송 개수</h5>
+                                    <div class="card-body p-0">
+                                    	<div id="sendingList"></div>
+	                                    <div class="text-center">
+	                                        <span class="legend-item mr-3">
+	                                                <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
+	                                        <span class="legend-text"> 발송기한 별 주문서 개수</span>
+	                                        </span>
+	                                        <p></p>
+	                                    </div>
+	                                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        		<div class="card">
+                                    <h5 class="card-header"> 예약된 주문서 개수</h5>
+                                    <div class="card-body p-0">
+                                    	<div id="sendingReservList"></div>
+	                                    <div class="text-center">
+	                                        <span class="legend-item mr-3">
+	                                                <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
+	                                        <span class="legend-text"> 발송기한 별 예약 주문서 개수</span>
+	                                        </span>
+	                                        <p></p>
+	                                    </div>
+	                                    
+                                    </div>
+                                </div>
+                            </div>
+                            
                             
                         	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="card">

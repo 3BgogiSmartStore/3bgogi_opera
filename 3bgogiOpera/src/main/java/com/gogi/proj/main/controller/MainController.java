@@ -62,7 +62,7 @@ public class MainController {
 		int output_weiting_order  = analyService.sendingWeitOrder();
 		int output_order  = analyService.sendingFinishOrder();
 		int deposit_order  = analyService.depositOrder();
-		
+		int productInputDontPerm = stockService.productInputDontPerm();
 		
 		model.addAttribute("deliveryTypeResult", deliveryTypeResult);
 		model.addAttribute("deliveryList", deliveryList);
@@ -76,6 +76,7 @@ public class MainController {
 		model.addAttribute("output_weiting_order", output_weiting_order);
 		model.addAttribute("output_order", output_order);
 		model.addAttribute("deposit_order", deposit_order);
+		model.addAttribute("productInputDontPerm", productInputDontPerm);
 		
 		return "menu/main";
 		

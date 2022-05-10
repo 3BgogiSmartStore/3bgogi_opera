@@ -93,7 +93,7 @@ public class AligoKakaoAPI {
 		
 		for(AligoKaKaoTempletList akList : dto.getList()) {		
 			count++;
-			if(count == 8) akDto = akList;
+			if(count == 9) akDto = akList;
 			
 		}
 		
